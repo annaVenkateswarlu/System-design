@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caching - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>💾 Caching: Speed Through Strategic Storage</h2>
+                <p>Caching stores frequently accessed data in fast-access memory, dramatically reducing latency and database load. A well-implemented caching strategy can improve response times by 10-100x while reducing backend infrastructure costs.</p>
+                
+                <h3>Caching Layers:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Browser Cache:</strong> Client-side storage for static assets like images, CSS, and JavaScript. Controlled via HTTP cache headers.</li>
+                    <li><strong>CDN Cache:</strong> Geographically distributed edge servers that cache static and dynamic content closer to users.</li>
+                    <li><strong>Application Cache:</strong> In-memory stores like Redis and Memcached for frequently accessed data, session storage, and API responses.</li>
+                    <li><strong>Database Cache:</strong> Query result caching and buffer pools within the database system itself.</li>
+                </ul>
+                
+                <h3>Cache Invalidation Strategies:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>TTL (Time To Live):</strong> Automatically expire cached data after a specified duration. Simple but may serve stale data.</li>
+                    <li><strong>Write-through:</strong> Update cache and database simultaneously. Ensures consistency but slower writes.</li>
+                    <li><strong>Write-behind (Write-back):</strong> Update cache immediately, database asynchronously. Fast writes but risk of data loss.</li>
+                    <li><strong>Cache-aside (Lazy Loading):</strong> Application manages cache explicitly. Load from database on cache miss, then populate cache.</li>
+                    <li><strong>Event-driven Invalidation:</strong> Invalidate cache entries when related data changes using pub/sub patterns.</li>
+                </ul>
+                
+                <h3>Cache Eviction Policies:</h3>
+                <p style="margin-bottom: 2rem;">When cache is full, you need to remove entries. Common policies include LRU (Least Recently Used), LFU (Least Frequently Used), FIFO (First In First Out), and Random eviction. LRU is most commonly used as it balances recency with efficiency.</p>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>There are only two hard things in Computer Science: cache invalidation and naming things. Start with simple TTL-based caching, and only add complexity when needed. Monitor cache hit rates - aim for 80%+ for optimal performance gains.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Caching 💾', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Balancing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>⚖️ Load Balancing: Distributing Traffic Intelligently</h2>
+                <p>Load balancing ensures no single server bears too much demand, optimizing resource use, maximizing throughput, and minimizing response time. It's a critical component in building highly available and scalable systems.</p>
+                
+                <h3>Load Balancing Algorithms:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Round Robin:</strong> Distributes requests sequentially across servers. Simple and effective for servers with similar capabilities.</li>
+                    <li><strong>Least Connections:</strong> Routes to server with fewest active connections. Ideal when requests have varying processing times.</li>
+                    <li><strong>IP Hash:</strong> Routes based on client IP for session persistence. Ensures users consistently hit the same server.</li>
+                    <li><strong>Weighted Round Robin:</strong> Distributes based on server capacity. Assign higher weights to more powerful servers.</li>
+                    <li><strong>Least Response Time:</strong> Sends traffic to the server with the fastest response time and fewest connections.</li>
+                </ul>
+                
+                <h3>Types of Load Balancers:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Layer 4 (Transport Layer):</strong> Makes routing decisions based on IP and TCP/UDP ports. Fast but limited visibility into application data.</li>
+                    <li><strong>Layer 7 (Application Layer):</strong> Can inspect HTTP headers, cookies, and content. Enables advanced routing based on URL paths, hostnames, and more.</li>
+                    <li><strong>Global Server Load Balancing (GSLB):</strong> Distributes traffic across geographically dispersed data centers.</li>
+                </ul>
+                
+                <h3>Popular Tools:</h3>
+                <p style="margin-bottom: 2rem;">NGINX and HAProxy are open-source software load balancers widely used in production. Cloud providers offer managed solutions: AWS Elastic Load Balancer (ALB, NLB), Google Cloud Load Balancer, and Azure Load Balancer provide enterprise-grade traffic distribution.</p>
+                
+                <h3>Health Checks:</h3>
+                <p style="margin-bottom: 2rem;">Load balancers continuously monitor backend servers using health checks (HTTP pings, TCP connections). Unhealthy servers are automatically removed from the pool, and traffic is redirected to healthy instances, ensuring high availability.</p>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Always use multiple load balancers in active-active or active-passive configuration to avoid a single point of failure. Consider using DNS-based load balancing as a first layer, then application load balancers for fine-grained control.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Load Balancing ⚖️', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Master system design concepts with our premium learning platform. Learn scalability, load balancing, caching, databases, microservices, and API design.">
+    <meta name="keywords" content="system design, scalability, distributed systems, microservices, load balancing, caching, databases, API design">
+    <meta name="author" content="System Design Mastery">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="System Design Mastery - Premium Learning Platform">
+    <meta property="og:description" content="Master scalable systems with premium insights on system design concepts">
+    <meta property="og:url" content="https://yourwebsite.com">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="System Design Mastery">
+    <meta name="twitter:description" content="Master scalable systems with premium insights">
+    
+    <title>System Design Mastery - Premium Learning Platform</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+    
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+    
+    <!-- Aurora Background Orbs -->
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Header -->
+        <header role="banner">
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" role="region" aria-label="Hero section">
+            <h1>Welcome to Premium<br/>System Design Insights</h1>
+            <p>Unlock the secrets of building scalable, resilient systems. Learn from industry best practices and master the art of distributed architecture.</p>
+            <button class="btn-primary" onclick="showToast('Welcome! Start exploring topics from the sidebar.', 'success')">
+                Start Learning
+            </button>
+        </section>
+
+        <!-- Topics Grid -->
+        <section class="topics-grid">
+            <div class="container">
+                <h2>Core Concepts</h2>
+                <div class="grid">
+                    <a href="scalability.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">🚀</div>
+                        <h3>Scalability</h3>
+                        <p>Master horizontal and vertical scaling strategies to handle millions of users effortlessly.</p>
+                    </a>
+                    <a href="load-balancing.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">⚖️</div>
+                        <h3>Load Balancing</h3>
+                        <p>Distribute traffic intelligently across servers for optimal performance and reliability.</p>
+                    </a>
+                    <a href="caching.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">💾</div>
+                        <h3>Caching</h3>
+                        <p>Speed up your applications with strategic caching layers and CDN integration.</p>
+                    </a>
+                    <a href="databases.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">🗄️</div>
+                        <h3>Databases</h3>
+                        <p>Choose between SQL and NoSQL, understand sharding, replication, and ACID properties.</p>
+                    </a>
+                    <a href="microservices.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">🔧</div>
+                        <h3>Microservices</h3>
+                        <p>Break monoliths into independent, scalable services with clear boundaries.</p>
+                    </a>
+                    <a href="api-design.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <div class="topic-icon">🔌</div>
+                        <h3>API Design</h3>
+                        <p>Build RESTful and GraphQL APIs that are clean, versioned, and developer-friendly.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="scroll-reveal">Why Choose Our Platform</h2>
+                <div class="section-divider scroll-reveal"></div>
+                <div class="features-grid">
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">📚</div>
+                        <div class="feature-content">
+                            <h3>Comprehensive Learning Path</h3>
+                            <p>Master system design from fundamentals to advanced concepts with our structured curriculum.</p>
+                            <ul class="feature-list">
+                                <li>Step-by-step tutorials</li>
+                                <li>Real-world examples</li>
+                                <li>Interactive diagrams</li>
+                                <li>Self-paced learning</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">💼</div>
+                        <div class="feature-content">
+                            <h3>Interview Preparation</h3>
+                            <p>Get ready for technical interviews at top tech companies with proven strategies.</p>
+                            <ul class="feature-list">
+                                <li>Common interview questions</li>
+                                <li>System design case studies</li>
+                                <li>Best practices & patterns</li>
+                                <li>Mock interview scenarios</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">🎯</div>
+                        <div class="feature-content">
+                            <h3>Hands-On Practice</h3>
+                            <p>Apply what you learn with practical examples and real-world system architecture designs.</p>
+                            <ul class="feature-list">
+                                <li>Industry case studies</li>
+                                <li>Architecture diagrams</li>
+                                <li>Performance optimization tips</li>
+                                <li>Trade-off analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">⚡</div>
+                        <div class="feature-content">
+                            <h3>Up-to-Date Content</h3>
+                            <p>Stay current with the latest technologies and industry best practices in system design.</p>
+                            <ul class="feature-list">
+                                <li>Modern tech stacks</li>
+                                <li>Cloud-native patterns</li>
+                                <li>Scalability strategies</li>
+                                <li>Security considerations</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">🌐</div>
+                        <div class="feature-content">
+                            <h3>Free & Accessible</h3>
+                            <p>Learn at your own pace with our completely free, high-quality educational resources.</p>
+                            <ul class="feature-list">
+                                <li>No registration required</li>
+                                <li>100% free forever</li>
+                                <li>Mobile-friendly design</li>
+                                <li>Bookmark & revisit anytime</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item scroll-reveal">
+                        <div class="feature-icon-wrapper">🚀</div>
+                        <div class="feature-content">
+                            <h3>Career Advancement</h3>
+                            <p>Build the skills needed to design systems that handle millions of users and requests.</p>
+                            <ul class="feature-list">
+                                <li>Senior engineer skills</li>
+                                <li>Architecture decision-making</li>
+                                <li>Scalability expertise</li>
+                                <li>Leadership capabilities</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-grid scroll-reveal" style="margin-top: var(--space-4xl);">
+                    <div class="stat-card">
+                        <span class="stat-number">8+</span>
+                        <span class="stat-label">Core Topics</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Free Content</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Always Available</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">No Limits</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CTA Section -->
+        <section class="contact">
+            <div class="container">
+                <div class="cta-section scroll-reveal">
+                    <h2>Ready to Master System Design?</h2>
+                    <p>Join thousands of engineers building scalable systems. Start your journey to becoming a system design expert today.</p>
+                    <button class="btn-secondary" onclick="showToast('Let\'s start learning! 🎓', 'success')">
+                        Start Learning Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer role="contentinfo">
+            <p>&copy; 2025 System Design Mastery. All rights reserved. Built with passion for engineering excellence.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="topics.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>

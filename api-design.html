@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Design - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>🔌 API Design: Building Developer-Friendly Interfaces</h2>
+                <p>Well-designed APIs are the contract between services, enabling seamless integration and developer productivity. A great API is intuitive, consistent, well-documented, and designed for long-term evolution.</p>
+                
+                <h3>API Design Paradigms:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>REST (Representational State Transfer):</strong> Resource-oriented, uses HTTP methods (GET, POST, PUT, DELETE), stateless. Most common for public APIs.</li>
+                    <li><strong>GraphQL:</strong> Query exactly what you need, single endpoint, strongly typed schema. Great for mobile apps and reducing over-fetching.</li>
+                    <li><strong>gRPC:</strong> High-performance, uses Protocol Buffers, supports streaming. Ideal for internal microservice communication.</li>
+                    <li><strong>WebSocket:</strong> Real-time bidirectional communication. Perfect for chat, live updates, gaming.</li>
+                </ul>
+                
+                <h3>RESTful Best Practices:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Use Nouns for Resources:</strong> /users, /products, /orders (not /getUsers, /createProduct)</li>
+                    <li><strong>HTTP Methods Correctly:</strong> GET for retrieval, POST for creation, PUT/PATCH for updates, DELETE for removal</li>
+                    <li><strong>Proper Status Codes:</strong> 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Server Error</li>
+                    <li><strong>Versioning:</strong> Use URL versioning (/v1/users) or header versioning for backward compatibility</li>
+                    <li><strong>Pagination:</strong> Limit response size with cursor-based or offset-based pagination</li>
+                    <li><strong>Filtering & Sorting:</strong> Support query parameters like ?status=active&sort=created_at</li>
+                </ul>
+                
+                <h3>Security Essentials:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Authentication:</strong> OAuth 2.0, JWT tokens, API keys for service-to-service</li>
+                    <li><strong>Rate Limiting:</strong> Protect against abuse with request quotas (e.g., 1000 req/hour)</li>
+                    <li><strong>HTTPS Only:</strong> Always encrypt data in transit with TLS/SSL</li>
+                    <li><strong>Input Validation:</strong> Never trust client input, validate and sanitize everything</li>
+                </ul>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Design your API as if it's a product. Invest in comprehensive documentation (try Swagger/OpenAPI), provide SDKs in popular languages, offer sandbox environments, and actively collect feedback from developers. A great API drives adoption and reduces support burden.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: API Design 🔌', 'success');
+        });
+    </script>
+</body>
+
+</html>

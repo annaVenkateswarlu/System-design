@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Databases - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>🗄️ Databases: The Foundation of Data Management</h2>
+                <p>Choosing the right database architecture is critical for system performance, consistency, and scalability. Your database choice impacts everything from query performance to operational complexity.</p>
+                
+                <h3>Database Types:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>SQL (Relational):</strong> PostgreSQL, MySQL, Oracle - ACID compliance, structured schemas, complex joins, strong consistency. Best for financial systems, e-commerce transactions.</li>
+                    <li><strong>NoSQL Document:</strong> MongoDB, CouchDB - Flexible schemas, JSON-like documents, horizontal scaling. Ideal for content management, user profiles, catalogs.</li>
+                    <li><strong>Key-Value Stores:</strong> Redis, DynamoDB, Riak - High-speed lookups, simple data model. Perfect for caching, session storage, real-time analytics.</li>
+                    <li><strong>Column-Family:</strong> Cassandra, HBase - Optimized for write-heavy workloads and time-series data. Great for IoT data, logging, metrics.</li>
+                    <li><strong>Graph Databases:</strong> Neo4j, Amazon Neptune - Relationship-heavy data, complex queries across connections. Social networks, recommendation engines, fraud detection.</li>
+                </ul>
+                
+                <h3>Scaling Techniques:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Sharding:</strong> Horizontally partition data across multiple database instances based on shard keys.</li>
+                    <li><strong>Replication:</strong> Create copies of data for redundancy and read scalability (master-slave, master-master).</li>
+                    <li><strong>Partitioning:</strong> Divide large tables into smaller, more manageable pieces.</li>
+                    <li><strong>Indexing:</strong> Create data structures to speed up query performance at the cost of storage and write speed.</li>
+                </ul>
+                
+                <h3>CAP Theorem:</h3>
+                <p style="margin-bottom: 2rem;">In distributed databases, you can only guarantee two of three properties: Consistency (all nodes see same data), Availability (system remains operational), Partition Tolerance (system works despite network issues). Most modern systems choose AP (Availability + Partition Tolerance) with eventual consistency.</p>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Don't fall into the trap of using one database for everything. Use polyglot persistence - combine SQL for transactional data, Redis for caching, and Elasticsearch for full-text search. Each database excels at different workloads.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Databases 🗄️', 'success');
+        });
+    </script>
+</body>
+
+</html>

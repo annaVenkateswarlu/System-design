@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about scalability in system design - horizontal scaling, vertical scaling, auto-scaling, and load distribution strategies.">
+    <meta name="keywords" content="scalability, system design, horizontal scaling, vertical scaling, auto-scaling">
+    <title>Scalability - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+    
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+    
+    <!-- Aurora Background Orbs -->
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <!-- Topic Content -->
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Scalability</span>
+                </nav>
+                
+                <h2 class="scroll-reveal">🚀 Scalability: Building for Growth</h2>
+                <p class="scroll-reveal">Scalability is the cornerstone of modern system design. It's the ability of a system to handle increased workload by adding resources without compromising performance. As your user base grows from hundreds to millions, your system must gracefully scale to meet demand.</p>
+                
+                <h3 class="scroll-reveal">Key Strategies:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Horizontal Scaling (Scale Out):</strong> Add more servers to distribute the load across multiple machines. This approach provides better fault tolerance and is often more cost-effective for large-scale applications.</li>
+                    <li><strong>Vertical Scaling (Scale Up):</strong> Increase resources (CPU, RAM, storage) of existing servers. While simpler to implement, it has physical limitations and single points of failure.</li>
+                    <li><strong>Auto-Scaling:</strong> Dynamically adjust resources based on demand using cloud services like AWS Auto Scaling, Azure Scale Sets, or Kubernetes HPA. This optimizes costs while maintaining performance.</li>
+                    <li><strong>Load Distribution:</strong> Intelligently route traffic across infrastructure using load balancers, DNS-based routing, and geographic distribution strategies.</li>
+                </ul>
+                
+                <h3>Real-World Examples:</h3>
+                <p style="margin-bottom: 2rem;">Companies like Netflix handle billions of requests daily using horizontal scaling with thousands of microservices deployed across AWS regions. Amazon uses sophisticated auto-scaling to handle massive traffic spikes during events like Black Friday and Prime Day, automatically spinning up resources to handle 10x normal traffic.</p>
+                
+                <h3>Scalability Patterns:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Database Sharding:</strong> Split your database into smaller chunks distributed across multiple servers</li>
+                    <li><strong>Read Replicas:</strong> Create read-only copies of your database to distribute read traffic</li>
+                    <li><strong>Caching Layers:</strong> Use Redis, Memcached, or CDNs to reduce database load</li>
+                    <li><strong>Asynchronous Processing:</strong> Use message queues to handle time-consuming tasks without blocking requests</li>
+                    <li><strong>Content Delivery Networks:</strong> Distribute static assets globally to reduce latency</li>
+                </ul>
+                
+                <h3>Measuring Scalability:</h3>
+                <p style="margin-bottom: 2rem;">Track key metrics like response time, throughput (requests per second), resource utilization, and error rates. Use load testing tools like Apache JMeter, k6, or Gatling to simulate traffic and identify bottlenecks before they impact users.</p>
+                
+                <h3>Common Challenges:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Database Bottlenecks:</strong> As traffic grows, databases often become the first bottleneck</li>
+                    <li><strong>Session Management:</strong> Maintaining user sessions across multiple servers requires careful planning</li>
+                    <li><strong>Data Consistency:</strong> Ensuring data remains consistent across distributed systems</li>
+                    <li><strong>Network Latency:</strong> Communication overhead increases with distributed architectures</li>
+                </ul>
+
+                <div class="pro-tip scroll-reveal">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Design for scalability from day one, even if you don't need it immediately. It's much harder to refactor a monolithic application than to start with scalable patterns. Choose technologies and architectures that support horizontal scaling, and always keep stateless design principles in mind.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer role="contentinfo">
+            <p>&copy; 2025 System Design Mastery. All rights reserved. Built with passion for engineering excellence.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                showToast('Loaded: Scalability 🚀', 'success');
+            }, 600);
+        });
+    </script>
+</body>
+
+</html>

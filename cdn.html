@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN & Edge Computing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>🌐 CDN & Edge Computing: Global Performance</h2>
+                <p>Content Delivery Networks (CDNs) distribute content across geographically dispersed servers, reducing latency for global users. Edge computing takes this further by processing data closer to users, enabling real-time applications.</p>
+                
+                <h3>Key Benefits:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Reduced Latency:</strong> Serve content from the nearest edge location, reducing round-trip time from 200ms to 20ms.</li>
+                    <li><strong>Bandwidth Optimization:</strong> Offload traffic from origin servers, reducing bandwidth costs by 60-90%.</li>
+                    <li><strong>DDoS Protection:</strong> Distribute and absorb malicious traffic across the CDN network.</li>
+                    <li><strong>Improved Availability:</strong> If origin server fails, CDN can serve cached content, ensuring uptime.</li>
+                    <li><strong>Edge Computing:</strong> Execute code at edge locations for personalization, A/B testing, and real-time processing.</li>
+                </ul>
+                
+                <h3>Popular CDN Providers:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Cloudflare:</strong> Global network with 275+ edge locations, includes DDoS protection and edge workers.</li>
+                    <li><strong>AWS CloudFront:</strong> Integrates with AWS ecosystem, supports Lambda@Edge for edge computing.</li>
+                    <li><strong>Fastly:</strong> Real-time cache purging, powerful edge computing with Compute@Edge.</li>
+                    <li><strong>Akamai:</strong> One of the oldest and largest CDNs, excellent for media delivery.</li>
+                </ul>
+                
+                <h3>Best Practices:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Cache Static Assets:</strong> Images, CSS, JavaScript, fonts should have long cache times (1 year).</li>
+                    <li><strong>Cache-Control Headers:</strong> Use proper HTTP headers to control caching behavior.</li>
+                    <li><strong>Version Your Assets:</strong> Use filename hashing or query strings to bust cache when needed.</li>
+                    <li><strong>Compress Content:</strong> Enable Gzip or Brotli compression to reduce file sizes by 70-90%.</li>
+                    <li><strong>HTTP/2 or HTTP/3:</strong> Use modern protocols for multiplexing and faster connections.</li>
+                </ul>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Don't cache everything - dynamic, user-specific data shouldn't be cached at the edge. Use smart caching strategies: cache HTML at edge for anonymous users, bypass for logged-in users. Monitor cache hit rates and optimize based on real traffic patterns.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: CDN & Edge Computing 🌐', 'success');
+        });
+    </script>
+</body>
+
+</html>

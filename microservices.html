@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="index.html">🏠 Home</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <h1>System Design Mastery</h1>
+            <p>Master scalable systems with premium insights</p>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <h2>🔧 Microservices: Modular Architecture for Scale</h2>
+                <p>Microservices decompose monolithic applications into small, independent services that can be developed, deployed, and scaled independently. Each service focuses on a specific business capability and communicates via well-defined APIs.</p>
+                
+                <h3>Key Benefits:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Independent Deployment:</strong> Update individual services without affecting the entire system. Deploy multiple times per day.</li>
+                    <li><strong>Technology Diversity:</strong> Use the best tools for each service - Python for ML, Go for high-performance APIs, Node.js for real-time features.</li>
+                    <li><strong>Fault Isolation:</strong> Failures in one service don't cascade across the entire system. Implement circuit breakers and fallbacks.</li>
+                    <li><strong>Team Autonomy:</strong> Small teams can own specific services end-to-end, increasing velocity and ownership.</li>
+                    <li><strong>Scalability:</strong> Scale only the services that need it, optimizing resource usage and costs.</li>
+                </ul>
+                
+                <h3>Challenges:</h3>
+                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Service Orchestration:</strong> Managing inter-service communication and dependencies becomes complex. Use service meshes like Istio or Linkerd.</li>
+                    <li><strong>Distributed Transactions:</strong> ACID transactions across services are difficult. Use Saga pattern or eventual consistency.</li>
+                    <li><strong>Network Latency:</strong> More network calls mean more latency. Design for asynchronous communication where possible.</li>
+                    <li><strong>Monitoring & Debugging:</strong> Tracing requests across multiple services requires distributed tracing tools like Jaeger or Zipkin.</li>
+                    <li><strong>Data Management:</strong> Each service should own its data, but maintaining consistency is challenging.</li>
+                </ul>
+                
+                <h3>Best Practices:</h3>
+                <p style="margin-bottom: 2rem;">Start with a well-designed monolith and extract services as needed. Use API gateways for external access, implement health checks and circuit breakers, containerize services with Docker, orchestrate with Kubernetes, and maintain comprehensive observability.</p>
+
+                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3>💡 Pro Tip</h3>
+                    <p>Don't start with microservices unless you have a clear need and the team capability to manage distributed systems. Microservices add operational complexity - ensure you have proper CI/CD, monitoring, and DevOps practices in place first.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Microservices 🔧', 'success');
+        });
+    </script>
+</body>
+
+</html>
