@@ -46,7 +46,7 @@ const topics = {
             <h2>Caching: Speed Through Strategic Storage</h2>
             <p>Caching stores frequently accessed data in fast-access memory, dramatically reducing latency and database load.</p>
             
-            <h3>Caching Layers:</h3>
+            <h3>Caching Layers</h3>
             <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem;">
                 <li><strong>Browser Cache:</strong> Client-side storage for static assets</li>
                 <li><strong>CDN Cache:</strong> Geographically distributed edge servers</li>
@@ -54,7 +54,7 @@ const topics = {
                 <li><strong>Database Cache:</strong> Query result caching</li>
             </ul>
             
-            <h3>Cache Invalidation Strategies:</h3>
+            <h3>Cache Invalidation Strategies</h3>
             <p>TTL (Time To Live), Write-through, Write-behind, and Cache-aside patterns help maintain data consistency while maximizing performance.</p>
         `,
         icon: '💾'
@@ -156,7 +156,7 @@ const topics = {
 function loadTopic(topicKey) {
     const contentArea = document.getElementById('topic-content');
     const topic = topics[topicKey];
-    
+
     if (topic) {
         // Fade out current content
         gsap.to(contentArea, {
@@ -170,7 +170,7 @@ function loadTopic(topicKey) {
                         ${topic.content}
                     </div>
                 `;
-                
+
                 // Fade in new content
                 gsap.to(contentArea, {
                     duration: 0.5,
@@ -178,7 +178,7 @@ function loadTopic(topicKey) {
                     y: 0,
                     ease: 'power2.out'
                 });
-                
+
                 // Scroll to content
                 gsap.to(window, {
                     duration: 0.8,
@@ -187,10 +187,10 @@ function loadTopic(topicKey) {
                 });
             }
         });
-        
+
         // Show notification
         showToast(`Loaded: ${topic.title}`, 'success');
-        
+
         // Close sidebar on mobile after selection
         if (window.innerWidth <= 768) {
             toggleSidebar();
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         loadTopic('scalability');
     }, 500);
-    
+
     // Show random welcome message
     setTimeout(() => {
         const randomMsg = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];

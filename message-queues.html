@@ -23,6 +23,7 @@
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <h2>Topics</h2>
         <ul>
+            <li><a href="index.html">🏠 Home</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
@@ -31,52 +32,91 @@
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
-            <li><a href="index.html">🏠 Home</a></li>
         </ul>
     </div>
 
     <div class="main-content" id="main-content">
         <header>
             <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <h1>System Design Mastery</h1>
-            <p>Master scalable systems with premium insights</p>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
         </header>
 
         <section class="topic-content">
             <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Message Queues</span>
+                </nav>
+
                 <h2>📬 Message Queues: Asynchronous Communication</h2>
-                <p>Message queues enable asynchronous communication between services, improving system resilience, scalability, and decoupling. They act as buffers that allow services to process tasks at their own pace without blocking the caller.</p>
-                
+                <p>Message queues enable asynchronous communication between services, improving system resilience,
+                    scalability, and decoupling. They act as buffers that allow services to process tasks at their own
+                    pace without blocking the caller.</p>
+
                 <h3>Popular Message Queue Solutions:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>RabbitMQ:</strong> Reliable message broker with flexible routing, supports multiple messaging protocols. Great for task queues and RPC patterns.</li>
-                    <li><strong>Apache Kafka:</strong> High-throughput distributed streaming platform. Perfect for event sourcing, log aggregation, and real-time analytics at massive scale.</li>
-                    <li><strong>AWS SQS:</strong> Fully managed message queuing service. Simple to use, scales automatically, integrates with AWS ecosystem.</li>
-                    <li><strong>Redis Pub/Sub:</strong> Lightweight publish-subscribe messaging. Fast but doesn't persist messages - messages are lost if no subscribers.</li>
-                    <li><strong>Google Cloud Pub/Sub:</strong> Fully managed real-time messaging service with global delivery and auto-scaling.</li>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>RabbitMQ:</strong> Reliable message broker with flexible routing, supports multiple
+                        messaging protocols. Great for task queues and RPC patterns.</li>
+                    <li><strong>Apache Kafka:</strong> High-throughput distributed streaming platform. Perfect for event
+                        sourcing, log aggregation, and real-time analytics at massive scale.</li>
+                    <li><strong>AWS SQS:</strong> Fully managed message queuing service. Simple to use, scales
+                        automatically, integrates with AWS ecosystem.</li>
+                    <li><strong>Redis Pub/Sub:</strong> Lightweight publish-subscribe messaging. Fast but doesn't
+                        persist messages - messages are lost if no subscribers.</li>
+                    <li><strong>Google Cloud Pub/Sub:</strong> Fully managed real-time messaging service with global
+                        delivery and auto-scaling.</li>
                 </ul>
-                
+
                 <h3>Common Use Cases:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Task Queues:</strong> Process background jobs like sending emails, generating reports, image processing</li>
-                    <li><strong>Event-Driven Architecture:</strong> Services emit events that others consume asynchronously</li>
-                    <li><strong>Load Leveling:</strong> Smooth out traffic spikes by queuing requests for later processing</li>
-                    <li><strong>Microservice Communication:</strong> Decouple services to improve resilience and scalability</li>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Task Queues:</strong> Process background jobs like sending emails, generating reports,
+                        image processing</li>
+                    <li><strong>Event-Driven Architecture:</strong> Services emit events that others consume
+                        asynchronously</li>
+                    <li><strong>Load Leveling:</strong> Smooth out traffic spikes by queuing requests for later
+                        processing</li>
+                    <li><strong>Microservice Communication:</strong> Decouple services to improve resilience and
+                        scalability</li>
                     <li><strong>Data Pipeline:</strong> Stream data between systems for ETL processes</li>
                 </ul>
-                
+
                 <h3>Key Patterns:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Point-to-Point:</strong> One producer, one consumer. Message consumed once and removed from queue.</li>
-                    <li><strong>Publish-Subscribe:</strong> One producer, multiple consumers. Each subscriber receives a copy of the message.</li>
-                    <li><strong>Dead Letter Queue:</strong> Failed messages moved to special queue for debugging and retry.</li>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Point-to-Point:</strong> One producer, one consumer. Message consumed once and removed
+                        from queue.</li>
+                    <li><strong>Publish-Subscribe:</strong> One producer, multiple consumers. Each subscriber receives a
+                        copy of the message.</li>
+                    <li><strong>Dead Letter Queue:</strong> Failed messages moved to special queue for debugging and
+                        retry.</li>
                     <li><strong>Priority Queue:</strong> Process high-priority messages before low-priority ones.</li>
                 </ul>
 
-                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
                     <h3>💡 Pro Tip</h3>
-                    <p>Always design for message idempotency - your consumers should handle duplicate messages gracefully. Use message acknowledgments to ensure at-least-once delivery, and implement retry logic with exponential backoff for transient failures.</p>
+                    <p>Always design for message idempotency - your consumers should handle duplicate messages
+                        gracefully. Use message acknowledgments to ensure at-least-once delivery, and implement retry
+                        logic with exponential backoff for transient failures.</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="cdn.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🌐 CDN & Edge Computing</span>
+                </a>
             </div>
         </section>
 

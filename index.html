@@ -4,21 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master system design concepts with our premium learning platform. Learn scalability, load balancing, caching, databases, microservices, and API design.">
-    <meta name="keywords" content="system design, scalability, distributed systems, microservices, load balancing, caching, databases, API design">
+    <meta name="description"
+        content="Master system design concepts with our premium learning platform. Learn scalability, load balancing, caching, databases, microservices, and API design.">
+    <meta name="keywords"
+        content="system design, scalability, distributed systems, microservices, load balancing, caching, databases, API design">
     <meta name="author" content="System Design Mastery">
-    
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="System Design Mastery - Premium Learning Platform">
     <meta property="og:description" content="Master scalable systems with premium insights on system design concepts">
     <meta property="og:url" content="https://yourwebsite.com">
-    
+    <meta property="og:image" content="https://yourwebsite.com/og-image.jpg">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="System Design Mastery">
     <meta name="twitter:description" content="Master scalable systems with premium insights">
-    
+    <meta name="twitter:image" content="https://yourwebsite.com/twitter-image.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "System Design Mastery",
+        "description": "Premium learning platform for system design concepts",
+        "url": "https://yourwebsite.com",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://yourwebsite.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
     <title>System Design Mastery - Premium Learning Platform</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -28,7 +50,7 @@
 <body>
     <!-- Skip to Content Link -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
-    
+
     <!-- Page Loader -->
     <div id="page-loader" class="page-loader">
         <div class="loader-content">
@@ -36,10 +58,10 @@
             <div class="loader-text">Loading...</div>
         </div>
     </div>
-    
+
     <!-- Reading Progress Bar -->
     <div id="progress-bar" class="progress-bar"></div>
-    
+
     <!-- Aurora Background Orbs -->
     <div class="aurora-bg">
         <div class="orb orb-1"></div>
@@ -55,6 +77,7 @@
         <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
         <h2>Topics</h2>
         <ul>
+            <li><a href="index.html">🏠 Home</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
@@ -79,9 +102,16 @@
 
         <!-- Hero Section -->
         <section class="hero" role="region" aria-label="Hero section">
-            <h1>Welcome to Premium<br/>System Design Insights</h1>
-            <p>Unlock the secrets of building scalable, resilient systems. Learn from industry best practices and master the art of distributed architecture.</p>
-            <button class="btn-primary" onclick="showToast('Welcome! Start exploring topics from the sidebar.', 'success')">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <h1>Welcome to Premium<br />System Design Insights</h1>
+            <p>Unlock the secrets of building scalable, resilient systems. Learn from industry best practices and master
+                the art of distributed architecture.</p>
+            <button class="btn-primary"
+                onclick="showToast('Welcome! Start exploring topics from the sidebar.', 'success')">
                 Start Learning
             </button>
         </section>
@@ -92,31 +122,38 @@
                 <h2>Core Concepts</h2>
                 <div class="grid">
                     <a href="scalability.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="scalability">
                         <div class="topic-icon">🚀</div>
                         <h3>Scalability</h3>
-                        <p>Master horizontal and vertical scaling strategies to handle millions of users effortlessly.</p>
+                        <p>Master horizontal and vertical scaling strategies to handle millions of users effortlessly.
+                        </p>
                     </a>
                     <a href="load-balancing.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="load-balancing">
                         <div class="topic-icon">⚖️</div>
                         <h3>Load Balancing</h3>
                         <p>Distribute traffic intelligently across servers for optimal performance and reliability.</p>
                     </a>
                     <a href="caching.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="caching">
                         <div class="topic-icon">💾</div>
                         <h3>Caching</h3>
                         <p>Speed up your applications with strategic caching layers and CDN integration.</p>
                     </a>
                     <a href="databases.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="databases">
                         <div class="topic-icon">🗄️</div>
                         <h3>Databases</h3>
                         <p>Choose between SQL and NoSQL, understand sharding, replication, and ACID properties.</p>
                     </a>
                     <a href="microservices.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="microservices">
                         <div class="topic-icon">🔧</div>
                         <h3>Microservices</h3>
                         <p>Break monoliths into independent, scalable services with clear boundaries.</p>
                     </a>
                     <a href="api-design.html" class="topic-card" style="text-decoration: none; color: inherit;">
+                        <input type="checkbox" class="topic-checkbox" data-topic="api-design">
                         <div class="topic-icon">🔌</div>
                         <h3>API Design</h3>
                         <p>Build RESTful and GraphQL APIs that are clean, versioned, and developer-friendly.</p>
@@ -135,7 +172,8 @@
                         <div class="feature-icon-wrapper">📚</div>
                         <div class="feature-content">
                             <h3>Comprehensive Learning Path</h3>
-                            <p>Master system design from fundamentals to advanced concepts with our structured curriculum.</p>
+                            <p>Master system design from fundamentals to advanced concepts with our structured
+                                curriculum.</p>
                             <ul class="feature-list">
                                 <li>Step-by-step tutorials</li>
                                 <li>Real-world examples</li>
@@ -144,7 +182,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="feature-item scroll-reveal">
                         <div class="feature-icon-wrapper">💼</div>
                         <div class="feature-content">
@@ -158,12 +196,13 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="feature-item scroll-reveal">
                         <div class="feature-icon-wrapper">🎯</div>
                         <div class="feature-content">
                             <h3>Hands-On Practice</h3>
-                            <p>Apply what you learn with practical examples and real-world system architecture designs.</p>
+                            <p>Apply what you learn with practical examples and real-world system architecture designs.
+                            </p>
                             <ul class="feature-list">
                                 <li>Industry case studies</li>
                                 <li>Architecture diagrams</li>
@@ -172,12 +211,13 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="feature-item scroll-reveal">
                         <div class="feature-icon-wrapper">⚡</div>
                         <div class="feature-content">
                             <h3>Up-to-Date Content</h3>
-                            <p>Stay current with the latest technologies and industry best practices in system design.</p>
+                            <p>Stay current with the latest technologies and industry best practices in system design.
+                            </p>
                             <ul class="feature-list">
                                 <li>Modern tech stacks</li>
                                 <li>Cloud-native patterns</li>
@@ -186,7 +226,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="feature-item scroll-reveal">
                         <div class="feature-icon-wrapper">🌐</div>
                         <div class="feature-content">
@@ -200,7 +240,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <div class="feature-item scroll-reveal">
                         <div class="feature-icon-wrapper">🚀</div>
                         <div class="feature-content">
@@ -215,7 +255,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Stats -->
                 <div class="stats-grid scroll-reveal" style="margin-top: var(--space-4xl);">
                     <div class="stat-card">
@@ -244,17 +284,44 @@
             <div class="container">
                 <div class="cta-section scroll-reveal">
                     <h2>Ready to Master System Design?</h2>
-                    <p>Join thousands of engineers building scalable systems. Start your journey to becoming a system design expert today.</p>
+                    <p>Join thousands of engineers building scalable systems. Start your journey to becoming a system
+                        design expert today.</p>
                     <button class="btn-secondary" onclick="showToast('Let\'s start learning! 🎓', 'success')">
                         Start Learning Now
                     </button>
+                </div>
+
+                <div class="contact-form scroll-reveal">
+                    <h3>Get in Touch</h3>
+                    <form action="mailto:contact@systemdesignmastery.com" method="post" enctype="text/plain">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Send Message</button>
+                    </form>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
         <footer role="contentinfo">
-            <p>&copy; 2025 System Design Mastery. All rights reserved. Built with passion for engineering excellence.</p>
+            <div class="footer-content">
+                <p>&copy; 2025 System Design Mastery. All rights reserved. Built with passion for engineering
+                    excellence.</p>
+                <div class="footer-links">
+                    <a href="https://reddit.com/r/systems" target="_blank" rel="noopener">Join Discussion on Reddit</a>
+                    <a href="https://github.com" target="_blank" rel="noopener">Contribute on GitHub</a>
+                </div>
+            </div>
         </footer>
     </div>
 

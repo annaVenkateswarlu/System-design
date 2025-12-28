@@ -23,6 +23,7 @@
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <h2>Topics</h2>
         <ul>
+            <li><a href="index.html">🏠 Home</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
@@ -31,46 +32,84 @@
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
-            <li><a href="index.html">🏠 Home</a></li>
         </ul>
     </div>
 
     <div class="main-content" id="main-content">
         <header>
             <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <h1>System Design Mastery</h1>
-            <p>Master scalable systems with premium insights</p>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
         </header>
 
         <section class="topic-content">
             <div class="container">
-                <h2>🗄️ Databases: The Foundation of Data Management</h2>
-                <p>Choosing the right database architecture is critical for system performance, consistency, and scalability. Your database choice impacts everything from query performance to operational complexity.</p>
-                
-                <h3>Database Types:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>SQL (Relational):</strong> PostgreSQL, MySQL, Oracle - ACID compliance, structured schemas, complex joins, strong consistency. Best for financial systems, e-commerce transactions.</li>
-                    <li><strong>NoSQL Document:</strong> MongoDB, CouchDB - Flexible schemas, JSON-like documents, horizontal scaling. Ideal for content management, user profiles, catalogs.</li>
-                    <li><strong>Key-Value Stores:</strong> Redis, DynamoDB, Riak - High-speed lookups, simple data model. Perfect for caching, session storage, real-time analytics.</li>
-                    <li><strong>Column-Family:</strong> Cassandra, HBase - Optimized for write-heavy workloads and time-series data. Great for IoT data, logging, metrics.</li>
-                    <li><strong>Graph Databases:</strong> Neo4j, Amazon Neptune - Relationship-heavy data, complex queries across connections. Social networks, recommendation engines, fraud detection.</li>
-                </ul>
-                
-                <h3>Scaling Techniques:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Sharding:</strong> Horizontally partition data across multiple database instances based on shard keys.</li>
-                    <li><strong>Replication:</strong> Create copies of data for redundancy and read scalability (master-slave, master-master).</li>
-                    <li><strong>Partitioning:</strong> Divide large tables into smaller, more manageable pieces.</li>
-                    <li><strong>Indexing:</strong> Create data structures to speed up query performance at the cost of storage and write speed.</li>
-                </ul>
-                
-                <h3>CAP Theorem:</h3>
-                <p style="margin-bottom: 2rem;">In distributed databases, you can only guarantee two of three properties: Consistency (all nodes see same data), Availability (system remains operational), Partition Tolerance (system works despite network issues). Most modern systems choose AP (Availability + Partition Tolerance) with eventual consistency.</p>
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Databases</span>
+                </nav>
 
-                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                <h2>🗄️ Databases: The Foundation of Data Management</h2>
+                <p>Choosing the right database architecture is critical for system performance, consistency, and
+                    scalability. Your database choice impacts everything from query performance to operational
+                    complexity.</p>
+
+                <h3>Database Types:</h3>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>SQL (Relational):</strong> PostgreSQL, MySQL, Oracle - ACID compliance, structured
+                        schemas, complex joins, strong consistency. Best for financial systems, e-commerce transactions.
+                    </li>
+                    <li><strong>NoSQL Document:</strong> MongoDB, CouchDB - Flexible schemas, JSON-like documents,
+                        horizontal scaling. Ideal for content management, user profiles, catalogs.</li>
+                    <li><strong>Key-Value Stores:</strong> Redis, DynamoDB, Riak - High-speed lookups, simple data
+                        model. Perfect for caching, session storage, real-time analytics.</li>
+                    <li><strong>Column-Family:</strong> Cassandra, HBase - Optimized for write-heavy workloads and
+                        time-series data. Great for IoT data, logging, metrics.</li>
+                    <li><strong>Graph Databases:</strong> Neo4j, Amazon Neptune - Relationship-heavy data, complex
+                        queries across connections. Social networks, recommendation engines, fraud detection.</li>
+                </ul>
+
+                <h3>Scaling Techniques:</h3>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Sharding:</strong> Horizontally partition data across multiple database instances based
+                        on shard keys.</li>
+                    <li><strong>Replication:</strong> Create copies of data for redundancy and read scalability
+                        (master-slave, master-master).</li>
+                    <li><strong>Partitioning:</strong> Divide large tables into smaller, more manageable pieces.</li>
+                    <li><strong>Indexing:</strong> Create data structures to speed up query performance at the cost of
+                        storage and write speed.</li>
+                </ul>
+
+                <h3>CAP Theorem:</h3>
+                <p style="margin-bottom: 2rem;">In distributed databases, you can only guarantee two of three
+                    properties: Consistency (all nodes see same data), Availability (system remains operational),
+                    Partition Tolerance (system works despite network issues). Most modern systems choose AP
+                    (Availability + Partition Tolerance) with eventual consistency.</p>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
                     <h3>💡 Pro Tip</h3>
-                    <p>Don't fall into the trap of using one database for everything. Use polyglot persistence - combine SQL for transactional data, Redis for caching, and Elasticsearch for full-text search. Each database excels at different workloads.</p>
+                    <p>Don't fall into the trap of using one database for everything. Use polyglot persistence - combine
+                        SQL for transactional data, Redis for caching, and Elasticsearch for full-text search. Each
+                        database excels at different workloads.</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="microservices.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔧 Microservices</span>
+                </a>
             </div>
         </section>
 

@@ -23,6 +23,7 @@
         <button class="close-btn" onclick="toggleSidebar()">&times;</button>
         <h2>Topics</h2>
         <ul>
+            <li><a href="index.html">🏠 Home</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
@@ -31,48 +32,86 @@
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
-            <li><a href="index.html">🏠 Home</a></li>
         </ul>
     </div>
 
     <div class="main-content" id="main-content">
         <header>
             <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <h1>System Design Mastery</h1>
-            <p>Master scalable systems with premium insights</p>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
         </header>
 
         <section class="topic-content">
             <div class="container">
-                <h2>⚖️ Load Balancing: Distributing Traffic Intelligently</h2>
-                <p>Load balancing ensures no single server bears too much demand, optimizing resource use, maximizing throughput, and minimizing response time. It's a critical component in building highly available and scalable systems.</p>
-                
-                <h3>Load Balancing Algorithms:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Round Robin:</strong> Distributes requests sequentially across servers. Simple and effective for servers with similar capabilities.</li>
-                    <li><strong>Least Connections:</strong> Routes to server with fewest active connections. Ideal when requests have varying processing times.</li>
-                    <li><strong>IP Hash:</strong> Routes based on client IP for session persistence. Ensures users consistently hit the same server.</li>
-                    <li><strong>Weighted Round Robin:</strong> Distributes based on server capacity. Assign higher weights to more powerful servers.</li>
-                    <li><strong>Least Response Time:</strong> Sends traffic to the server with the fastest response time and fewest connections.</li>
-                </ul>
-                
-                <h3>Types of Load Balancers:</h3>
-                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Layer 4 (Transport Layer):</strong> Makes routing decisions based on IP and TCP/UDP ports. Fast but limited visibility into application data.</li>
-                    <li><strong>Layer 7 (Application Layer):</strong> Can inspect HTTP headers, cookies, and content. Enables advanced routing based on URL paths, hostnames, and more.</li>
-                    <li><strong>Global Server Load Balancing (GSLB):</strong> Distributes traffic across geographically dispersed data centers.</li>
-                </ul>
-                
-                <h3>Popular Tools:</h3>
-                <p style="margin-bottom: 2rem;">NGINX and HAProxy are open-source software load balancers widely used in production. Cloud providers offer managed solutions: AWS Elastic Load Balancer (ALB, NLB), Google Cloud Load Balancer, and Azure Load Balancer provide enterprise-grade traffic distribution.</p>
-                
-                <h3>Health Checks:</h3>
-                <p style="margin-bottom: 2rem;">Load balancers continuously monitor backend servers using health checks (HTTP pings, TCP connections). Unhealthy servers are automatically removed from the pool, and traffic is redirected to healthy instances, ensuring high availability.</p>
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-current">Load Balancing</span>
+                </nav>
 
-                <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                <h2>⚖️ Load Balancing: Distributing Traffic Intelligently</h2>
+                <p>Load balancing ensures no single server bears too much demand, optimizing resource use, maximizing
+                    throughput, and minimizing response time. It's a critical component in building highly available and
+                    scalable systems.</p>
+
+                <h3>Load Balancing Algorithms:</h3>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Round Robin:</strong> Distributes requests sequentially across servers. Simple and
+                        effective for servers with similar capabilities.</li>
+                    <li><strong>Least Connections:</strong> Routes to server with fewest active connections. Ideal when
+                        requests have varying processing times.</li>
+                    <li><strong>IP Hash:</strong> Routes based on client IP for session persistence. Ensures users
+                        consistently hit the same server.</li>
+                    <li><strong>Weighted Round Robin:</strong> Distributes based on server capacity. Assign higher
+                        weights to more powerful servers.</li>
+                    <li><strong>Least Response Time:</strong> Sends traffic to the server with the fastest response time
+                        and fewest connections.</li>
+                </ul>
+
+                <h3>Types of Load Balancers:</h3>
+                <ul
+                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
+                    <li><strong>Layer 4 (Transport Layer):</strong> Makes routing decisions based on IP and TCP/UDP
+                        ports. Fast but limited visibility into application data.</li>
+                    <li><strong>Layer 7 (Application Layer):</strong> Can inspect HTTP headers, cookies, and content.
+                        Enables advanced routing based on URL paths, hostnames, and more.</li>
+                    <li><strong>Global Server Load Balancing (GSLB):</strong> Distributes traffic across geographically
+                        dispersed data centers.</li>
+                </ul>
+
+                <h3>Popular Tools:</h3>
+                <p style="margin-bottom: 2rem;">NGINX and HAProxy are open-source software load balancers widely used in
+                    production. Cloud providers offer managed solutions: AWS Elastic Load Balancer (ALB, NLB), Google
+                    Cloud Load Balancer, and Azure Load Balancer provide enterprise-grade traffic distribution.</p>
+
+                <h3>Health Checks:</h3>
+                <p style="margin-bottom: 2rem;">Load balancers continuously monitor backend servers using health checks
+                    (HTTP pings, TCP connections). Unhealthy servers are automatically removed from the pool, and
+                    traffic is redirected to healthy instances, ensuring high availability.</p>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
                     <h3>💡 Pro Tip</h3>
-                    <p>Always use multiple load balancers in active-active or active-passive configuration to avoid a single point of failure. Consider using DNS-based load balancing as a first layer, then application load balancers for fine-grained control.</p>
+                    <p>Always use multiple load balancers in active-active or active-passive configuration to avoid a
+                        single point of failure. Consider using DNS-based load balancing as a first layer, then
+                        application load balancers for fine-grained control.</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="caching.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">💾 Caching</span>
+                </a>
             </div>
         </section>
 
