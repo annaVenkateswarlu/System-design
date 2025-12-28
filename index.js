@@ -34,8 +34,15 @@ function showToast(message, type = 'info') {
     const messageSpan = document.createElement('span');
     messageSpan.textContent = message;
 
+    // Create close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'toast-close';
+    closeBtn.textContent = '×';
+    closeBtn.setAttribute('aria-label', 'Close notification');
+
     toast.appendChild(iconSpan);
     toast.appendChild(messageSpan);
+    toast.appendChild(closeBtn);
 
     // Show toast with animation
     setTimeout(() => {
@@ -43,9 +50,15 @@ function showToast(message, type = 'info') {
     }, 100);
 
     // Hide after 3.5 seconds
-    setTimeout(() => {
+    const hideTimeout = setTimeout(() => {
         toast.classList.remove('show');
     }, 3500);
+
+    // Close button functionality
+    closeBtn.addEventListener('click', () => {
+        clearTimeout(hideTimeout);
+        toast.classList.remove('show');
+    });
 }
 
 // ===================================
@@ -440,14 +453,21 @@ function initScrollReveal() {
             const elementBottom = element.getBoundingClientRect().bottom;
             const windowHeight = window.innerHeight;
 
-            if (elementTop < windowHeight - 100 && elementBottom > 0) {
+            if (elementTop < windowHeight - 50 && elementBottom > 0) {
                 element.classList.add('revealed');
             }
         });
     };
 
-    // Initial check
-    revealOnScroll();
+    // Initial check with slight delay to ensure DOM is fully loaded
+    setTimeout(() => {
+        revealOnScroll();
+    }, 100);
+
+    // Trigger again after animations
+    setTimeout(() => {
+        revealOnScroll();
+    }, 1500);
 
     // On scroll
     let scrollTimeout;
