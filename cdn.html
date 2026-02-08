@@ -24,10 +24,17 @@
         <h2>Topics</h2>
         <ul>
             <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
             <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
             <li><a href="microservices.html">🔧 Microservices</a></li>
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
@@ -48,64 +55,366 @@
             <div class="container">
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html">Home</a>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current">CDN & Edge Computing</span>
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">CDN & Edge Computing</span>
                 </nav>
 
-                <h2>🌐 CDN & Edge Computing: Global Performance</h2>
-                <p>Content Delivery Networks (CDNs) distribute content across geographically dispersed servers, reducing
-                    latency for global users. Edge computing takes this further by processing data closer to users,
-                    enabling real-time applications.</p>
+                <h2>🌐 CDN: Content Delivery Network</h2>
 
-                <h3>Key Benefits:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Reduced Latency:</strong> Serve content from the nearest edge location, reducing
-                        round-trip time from 200ms to 20ms.</li>
-                    <li><strong>Bandwidth Optimization:</strong> Offload traffic from origin servers, reducing bandwidth
-                        costs by 60-90%.</li>
-                    <li><strong>DDoS Protection:</strong> Distribute and absorb malicious traffic across the CDN
-                        network.</li>
-                    <li><strong>Improved Availability:</strong> If origin server fails, CDN can serve cached content,
-                        ensuring uptime.</li>
-                    <li><strong>Edge Computing:</strong> Execute code at edge locations for personalization, A/B
-                        testing, and real-time processing.</li>
-                </ul>
+                <!-- What is CDN Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is <span
+                            class="tooltip-trigger"
+                            data-tooltip="Content Delivery Network - distributed servers worldwide for faster content delivery">CDN</span>?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Content Delivery Network
+                        is a network of geographically distributed servers that deliver content to users from the
+                        nearest location instead of a single central server.</p>
 
-                <h3>Popular CDN Providers:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Cloudflare:</strong> Global network with 275+ edge locations, includes DDoS protection
-                        and edge workers.</li>
-                    <li><strong>AWS CloudFront:</strong> Integrates with AWS ecosystem, supports Lambda@Edge for edge
-                        computing.</li>
-                    <li><strong>Fastly:</strong> Real-time cache purging, powerful edge computing with Compute@Edge.
-                    </li>
-                    <li><strong>Akamai:</strong> One of the oldest and largest CDNs, excellent for media delivery.</li>
-                </ul>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">CDNs mainly
+                                serve:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>🖼️ Images</li>
+                            <li>🎬 Videos</li>
+                            <li>📄 CSS / JS files</li>
+                            <li>📦 Static assets</li>
+                            <li>⚡ Sometimes cached API responses</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CDNImg2.webp" alt="CDN Distribution Map"
+                            style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
 
-                <h3>Best Practices:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Cache Static Assets:</strong> Images, CSS, JavaScript, fonts should have long cache
-                        times (1 year).</li>
-                    <li><strong>Cache-Control Headers:</strong> Use proper HTTP headers to control caching behavior.
-                    </li>
-                    <li><strong>Version Your Assets:</strong> Use filename hashing or query strings to bust cache when
-                        needed.</li>
-                    <li><strong>Compress Content:</strong> Enable Gzip or Brotli compression to reduce file sizes by
-                        70-90%.</li>
-                    <li><strong>HTTP/2 or HTTP/3:</strong> Use modern protocols for multiplexing and faster connections.
-                    </li>
-                </ul>
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does CDN
+                        Exist?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">CDN exists to solve:</p>
 
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>🌍 <strong>High latency for distant users</strong></li>
+                            <li>⚖️ <strong>Heavy load on origin servers</strong></li>
+                            <li>🐌 <strong>Slow content delivery</strong></li>
+                        </ul>
+
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 0;">
+                            <strong style="color: var(--color-primary);">By serving content from nearby servers,
+                                CDN:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>⚡ <strong>Reduces response time</strong></li>
+                            <li>😊 <strong>Improves user experience</strong></li>
+                            <li>🛡️ <strong>Reduces origin server load</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CDNImg1.png" alt="CDN Architecture Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without CDN?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without a CDN:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>🐌 Users far from server experience slow load times</li>
+                        <li>⚖️ Origin server handles all traffic</li>
+                        <li>💥 Server overload during traffic spikes</li>
+                        <li>📹 Poor performance for images and videos</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-World Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Users in India accessing a US server →
+                            <strong>slow website → users leave ❌</strong>. This results in poor conversion rates and
+                            lost revenue.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When to Use Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ When to Use
+                        CDN / When NOT to Use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use CDN:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                <li>🌐 Global user base</li>
+                                <li>📦 Static content (images, videos)</li>
+                                <li>📈 High traffic applications</li>
+                                <li>🎬 Media delivery</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                <li>⚡ Highly dynamic data</li>
+                                <li>🔄 Real-time updates</li>
+                                <li>🔐 Sensitive or personalized data</li>
+                                <li>💳 Payment processing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 Real Examples:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li><strong>✅ E-commerce images:</strong> Product photos, static pages</li>
+                            <li><strong>✅ Video streaming:</strong> Movie and music content</li>
+                            <li><strong>✅ Landing pages:</strong> Marketing websites</li>
+                            <li><strong>❌ Bank balances:</strong> Real-time account data</li>
+                            <li><strong>❌ Live chat messages:</strong> Dynamic conversations</li>
+                            <li><strong>❌ Payment processing:</strong> Security sensitive</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Common Mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ One Common
+                        Mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Using CDN for Dynamic or Personalized
+                            Content</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>📊 CDN serves cached content</li>
+                            <li>😢 Users receive incorrect or stale data</li>
+                            <li>🔄 Personalization doesn't work</li>
+                        </ul>
+
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 0;">
+                            👉 Always configure caching rules properly. Only cache truly static, public content.</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Connections</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>✅ Product images → CDN</li>
+                                <li>✅ CSS/JS → CDN</li>
+                                <li>❌ APIs → Backend servers</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎬 Streaming App</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>✅ Videos → CDN</li>
+                                <li>✅ Thumbnails → CDN</li>
+                                <li>⚡ Metadata → Cache + DB</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📰 News Website</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>✅ Articles → CDN</li>
+                                <li>✅ Images → CDN</li>
+                                <li>⚡ Comments → API</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Not Everywhere Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Why Not Use
+                        CDN Everywhere?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"><strong
+                                style="color: var(--color-primary);">CDN adds overhead:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>💰 <strong>Adds cost</strong> per GB transferred</li>
+                            <li>⚙️ <strong>Requires configuration</strong> and setup</li>
+                            <li>🔐 <strong>Not suitable for real-time or sensitive data</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 0;">
+                            👉 Use CDN only for content that can be cached safely and is not user-specific.</p>
+                    </div>
+                </div>
+
+                <!-- CDN vs Cache Comparison Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ CDN vs
+                        Application Cache: Key Differences</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; color: var(--color-text-secondary); font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--color-primary);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Aspect</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        CDN Cache</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Application Cache</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Location</strong></td>
+                                    <td style="padding: 1rem;">Edge (near user)</td>
+                                    <td style="padding: 1rem;">Backend (near DB)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Purpose</strong></td>
+                                    <td style="padding: 1rem;">Reduce network latency</td>
+                                    <td style="padding: 1rem;">Reduce database load</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Data Type</strong></td>
+                                    <td style="padding: 1rem;">Static / public</td>
+                                    <td style="padding: 1rem;">Dynamic / app data</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Personalization</strong></td>
+                                    <td style="padding: 1rem;">❌ No</td>
+                                    <td style="padding: 1rem;">✅ Yes</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Auth Required</strong></td>
+                                    <td style="padding: 1rem;">❌ No</td>
+                                    <td style="padding: 1rem;">✅ Yes</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem;"><strong>Who Controls</strong></td>
+                                    <td style="padding: 1rem;">CDN provider</td>
+                                    <td style="padding: 1rem;">Application</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong style="color: var(--color-primary);">Key Insight:</strong> CDN and Cache solve
+                            different problems at different layers. CDN is for static, global content, while caching is
+                            for dynamic, frequently accessed data inside the system.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>CDN reduces latency</strong> by serving static content from edge locations, while
+                            <strong>caching reduces backend load</strong> by storing frequently accessed dynamic data.
+                            <strong>Both are required</strong> for a scalable system.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>CDN does cache data internally</strong>, but it only caches static, public content
+                            at the edge; application caching is still required to handle dynamic, personalized, and
+                            database-heavy workloads.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
                 <div
-                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
-                    <h3>💡 Pro Tip</h3>
-                    <p>Don't cache everything - dynamic, user-specific data shouldn't be cached at the edge. Use smart
-                        caching strategies: cache HTML at edge for anonymous users, bypass for logged-in users. Monitor
-                        cache hit rates and optimize based on real traffic patterns.</p>
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>A CDN delivers static content from geographically distributed servers, reducing latency
+                            and load on origin servers.</strong>
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>It improves performance for global users</strong> but should <strong>not be used for
+                            dynamic or sensitive data.</strong> For a complete solution, use CDN for static assets and
+                        application caching for dynamic data.
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip: Popular CDN Providers</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>Major CDN
+                            Services:</strong></p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">☁️
+                                Cloudflare</p>
+                            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">275+ edge
+                                locations, DDoS protection, workers.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">📦 AWS
+                                CloudFront</p>
+                            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">AWS ecosystem
+                                integration, Lambda@Edge.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">⚡ Fastly
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Real-time cache
+                                purging, Compute@Edge.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🎬 Akamai
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Largest CDN,
+                                excellent media delivery.</p>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Best Practice:</strong> Cache
+                        static assets with long TTLs (1 year), enable compression (Gzip/Brotli), version assets, and
+                        always monitor cache hit rates to optimize performance.</p>
                 </div>
             </div>
         </section>
@@ -126,7 +435,15 @@
         </footer>
     </div>
 
-    <div id="toast" class="toast"></div>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
     <script src="index.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latency vs Throughput - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Latency vs Throughput</span>
+                </nav>
+
+                <h2>⚡ Latency vs Throughput: Understanding Performance Metrics</h2>
+
+                <!-- What is Latency Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is
+                        Latency?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;"><strong><span
+                                class="tooltip-trigger"
+                                data-tooltip="Time delay between sending a request and receiving a response">Latency</span>
+                            = how fast
+                            one request gets a response</strong></p>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Latency is the time taken to
+                        process a single request.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">👉 Time taken from
+                                request → response</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Click button → page loads in 200 ms <strong style="color: var(--color-primary);">(good
+                                    ✅)</strong></li>
+                            <li>Click button → loads in 5 seconds <strong style="color: #ef4444;">(bad ❌)</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong
+                                style="color: var(--color-primary);">Key Takeaway:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0;">
+                            <li>🎯 <strong>Lower latency = better user experience</strong></li>
+                            <li>💨 <strong>Latency is about speed, not capacity</strong></li>
+                            <li>📌 <strong>One line:</strong> Latency is the delay for a single request</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What is Throughput Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ What is
+                        Throughput?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;"><strong>Throughput = number
+                            of requests a system can handle per unit time</strong></p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">👉 Throughput is
+                                measured in Requests per second (RPS)</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Can handle 1,000 requests/second <strong style="color: var(--color-primary);">(high
+                                    throughput ✅)</strong></li>
+                            <li>Can handle 10 requests/second <strong style="color: #ef4444;">(low throughput
+                                    ❌)</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong
+                                style="color: var(--color-primary);">Key Takeaway:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0;">
+                            <li>📦 <strong>Throughput is about Capacity</strong></li>
+                            <li>🎯 <strong>One line:</strong> Throughput is how much work the system can do</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Latency vs Throughput Comparison -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ Latency vs
+                        Throughput (Must Know)</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.1rem;">⏱️ Latency
+                            </h4>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; font-size: 1.2rem; margin-bottom: 0.5rem;">
+                                Speed</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                How fast one request is processed
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.1rem;">📦
+                                Throughput</h4>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; font-size: 1.2rem; margin-bottom: 0.5rem;">
+                                Capacity</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                How many requests can be handled
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Do These Concepts Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Why Do These
+                        Concepts Exist?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">These concepts exist to
+                        measure system performance.</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-top: 0;">
+                            <li>😊 <strong>Latency tells you user experience</strong></li>
+                            <li>⚖️ <strong>Throughput tells you system capacity</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without Understanding Them Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ What Breaks
+                        Without Understanding Them?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ If you ignore latency:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0;">
+                                <li>🐌 App feels slow</li>
+                                <li>😢 Users leave</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ If you ignore throughput:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0;">
+                                <li>💥 System crashes under load</li>
+                                <li>⚠️ Can't handle traffic</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ One Common
+                        Mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Optimizing One While Ignoring the Other</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>⚡ Making APIs fast but unable to handle traffic</li>
+                            <li>🚚 Handling huge traffic but responses are slow</li>
+                        </ul>
+
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 0;">
+                            👉 Always balance both.</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real App
+                        Connections</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- E-commerce Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; font-size: 0.95rem;">
+                                <li>⚡ <strong>Latency:</strong> Fast product search</li>
+                                <li>📦 <strong>Throughput:</strong> Handle sale traffic</li>
+                            </ul>
+                        </div>
+
+                        <!-- Chat App Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 Chat App</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; font-size: 0.95rem;">
+                                <li>⚡ <strong>Latency:</strong> Instant message delivery</li>
+                                <li>📦 <strong>Throughput:</strong> Many messages per second</li>
+                            </ul>
+                        </div>
+
+                        <!-- Streaming App Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎬 Streaming App</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; font-size: 0.95rem;">
+                                <li>⚡ <strong>Latency:</strong> Fast video start</li>
+                                <li>📦 <strong>Throughput:</strong> Many users streaming</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Latency measures how fast a single request is processed, while throughput measures how
+                            many requests a system can handle over time.</strong> A good system balances both: fast
+                        responses AND high capacity. Ignoring either one will hurt your application — whether through
+                        slow user experience or inability to scale.
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>You can't optimize for one without considering the other.</strong> Reducing latency
+                        might require caching (which could reduce throughput if not configured right). Increasing
+                        throughput might require load balancers and multiple servers (which can increase latency if not
+                        optimized).
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Measure both metrics in production.</strong> Use tools like APM (Application Performance
+                        Monitoring), load testing, and real user monitoring (RUM) to understand your actual latency and
+                        throughput. Design your system to handle your expected peak load while maintaining acceptable
+                        latency levels.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="traffic.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">📊 Traffic</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Latency vs Throughput ⚡', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">System Design Basics</span>
+                </nav>
+
+                <h2>📐 System Design: Building Great Software</h2>
+
+                <!-- What is System Design Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is System
+                        Design?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">System Design is the process
+                        of planning how a software system is built so that it meets multiple critical requirements.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">A good system design
+                                ensures:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>✅ <strong>Works correctly</strong> - No bugs, proper functionality</li>
+                            <li>📈 <strong>Scales to many users</strong> - Handles growth</li>
+                            <li>⚡ <strong>Stays fast</strong> - Low latency, quick response</li>
+                            <li>🛡️ <strong>Reliable</strong> - Always available, fault-tolerant</li>
+                            <li>🔒 <strong>Secure</strong> - Protects data and users</li>
+                            <li>🔧 <strong>Easy to maintain & improve</strong> - Clean architecture</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What Problems Does System Design Solve Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ What Problems
+                        Does System Design Solve?</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Scalability Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ Scalability</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Problem:</strong> System crashes as users grow
+                            </p>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 0.5rem; margin-bottom: 0;">
+                                💡 Solution: Handle more users</p>
+                        </div>
+
+                        <!-- Performance Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">2️⃣ Performance</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Problem:</strong> Slow loading times
+                            </p>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 0.5rem; margin-bottom: 0;">
+                                💡 Solution: Faster response time</p>
+                        </div>
+
+                        <!-- Reliability Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">3️⃣ Reliability</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Problem:</strong> System goes down
+                            </p>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 0.5rem; margin-bottom: 0;">
+                                💡 Solution: System doesn't fail</p>
+                        </div>
+
+                        <!-- Maintainability Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">4️⃣ Maintainability</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Problem:</strong> Hard to add features
+                            </p>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 0.5rem; margin-bottom: 0;">
+                                💡 Solution: Easy to change & improve</p>
+                        </div>
+
+                        <!-- Security Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">5️⃣ Security</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Problem:</strong> Data breaches
+                            </p>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 0.5rem; margin-bottom: 0;">
+                                💡 Solution: Protect data & users</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Types of System Design Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ Types of
+                        System Design (Big Picture)</h3>
+
+                    <!-- High-Level Design Card -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔵 High-Level Design</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Focus on
+                            overall architecture and how components interact.</p>
+
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Components &
+                            Data Flow:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 0;">
+                            <li>🗃️ Database - Where data lives</li>
+                            <li>💾 Cache - Fast temporary storage</li>
+                            <li>🔌 API - Communication layer</li>
+                            <li>⚖️ Load Balancer - Distribute traffic</li>
+                            <li>🌐 CDN - Content delivery</li>
+                            <li>🔧 Microservices - Independent services</li>
+                        </ul>
+                    </div>
+
+                    <!-- Low-Level Design Card -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🟢 Low-Level Design</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Focus on
+                            implementation details and code structure.</p>
+
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Implementation
+                            Details:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 0;">
+                            <li>📊 Class Diagrams - Object relationships</li>
+                            <li>📈 Activity Diagrams - Process flows</li>
+                            <li>🗄️ Database Schema - Table structures</li>
+                            <li>🎯 Edge Cases - Error handling</li>
+                            <li>📝 Algorithm Design - Efficient solutions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Comparison Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">High-Level vs
+                        Low-Level Design</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; color: var(--color-text-secondary); font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--color-primary);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Aspect</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        High-Level Design</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Low-Level Design</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Scope</strong></td>
+                                    <td style="padding: 1rem;">Entire system architecture</td>
+                                    <td style="padding: 1rem;">Individual components & modules</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Focus</strong></td>
+                                    <td style="padding: 1rem;">Components & interactions</td>
+                                    <td style="padding: 1rem;">Code structure & algorithms</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Who Creates</strong></td>
+                                    <td style="padding: 1rem;">Architects & senior engineers</td>
+                                    <td style="padding: 1rem;">Developers & engineers</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem;"><strong>Tools</strong></td>
+                                    <td style="padding: 1rem;">Diagrams, flowcharts, sketches</td>
+                                    <td style="padding: 1rem;">UML, code, pseudocode</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem;"><strong>Output</strong></td>
+                                    <td style="padding: 1rem;">Architecture blueprint</td>
+                                    <td style="padding: 1rem;">Implementation guide</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Key Insight Section -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong style="color: var(--color-primary);">Key Insight:</strong> Good system design requires
+                        understanding both big-picture architecture (how components work together) and low-level details
+                        (how each component is implemented). Both are essential for building scalable, maintainable
+                        systems.
+                    </p>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>System Design is the art and science of planning software systems to handle real-world
+                            challenges.</strong> It addresses five core problems: scalability, performance, reliability,
+                        maintainability, and security.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Mastering system design means understanding both high-level architecture (components and
+                            interactions) and low-level implementation (code and algorithms).</strong> This knowledge
+                        helps you build systems that work, scale, and last.
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Start with the problem, not the solution.</strong> Before diving into technology
+                        choices, understand the requirements: How many users? How fast must it respond? What data needs
+                        protection? Your answers to these questions will guide your system design decisions.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Design iteratively.</strong> System design is not a one-time activity. Start simple,
+                        measure performance, identify bottlenecks, and improve. The best systems evolve over time based
+                        on real-world usage patterns.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="scalability.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🚀 Scalability</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: System Design Basics 📐', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -24,10 +24,17 @@
         <h2>Topics</h2>
         <ul>
             <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
             <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
             <li><a href="microservices.html">🔧 Microservices</a></li>
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
@@ -48,7 +55,7 @@
             <div class="container">
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html" aria-label="Go to Home page">Home</a>
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
                     <span class="breadcrumb-separator" aria-hidden="true">/</span>
                     <span class="breadcrumb-current" aria-current="page">Caching</span>
                 </nav>
@@ -74,8 +81,8 @@
                             <li>💾 <strong>Temporary data storage</strong> (automatically expires)</li>
                         </ul>
                     </div>
-                </div>
-
+        style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; z-index: 999; box-shadow: var(--shadow-lg); transition: opacity 0.3s;"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="tooltip-trigger" data-tooltip="Click here to move to top">↑ Top</button>
                 <!-- Why Does It Exist Section -->
                 <div style="margin-top: 3rem;">
                     <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
@@ -181,7 +188,9 @@
 
                     <ul
                         style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 2rem;">
-                        <li><strong style="color: var(--color-primary);">TTL (Time To Live):</strong> Automatically
+                        <li><strong style="color: var(--color-primary);"><span class="tooltip-trigger"
+                                    data-tooltip="Time To Live - how long cached data remains valid">TTL (Time To
+                                    Live)</span>:</strong> Automatically
                             expire cached data after a specified duration. Simple but may serve stale data.</li>
                         <li><strong style="color: var(--color-primary);">Write-through:</strong> Update cache and
                             database simultaneously. Ensures consistency but slower writes.</li>
@@ -382,10 +391,21 @@
     </div>
 
     <div id="toast" class="toast"></div>
+    <button id="backToTop"
+        style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; z-index: 999; box-shadow: var(--shadow-lg); transition: opacity 0.3s;"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Top</button>
     <script src="index.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             showToast('Loaded: Caching 💾', 'success');
+        });
+        window.addEventListener('scroll', () => {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
         });
     </script>
 </body>

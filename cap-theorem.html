@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAP Theorem - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">CAP Theorem</span>
+                </nav>
+
+                <h2>⚖️ CAP Theorem: The Fundamental Trade-off in Distributed Systems</h2>
+
+                <!-- What is CAP Theorem Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is CAP
+                        Theorem?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">CAP Theorem states that in a
+                        distributed system, you can guarantee only <strong>two out of these three properties</strong> at
+                        the same time.</p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Consistency Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">C — <span
+                                    class="tooltip-trigger"
+                                    data-tooltip="All nodes see the same data at the same time">Consistency</span></h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">All users see
+                                the same data at the same time.</p>
+                        </div>
+
+                        <!-- Availability Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">A — <span
+                                    class="tooltip-trigger"
+                                    data-tooltip="System remains operational and responsive at all times">Availability</span>
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">System always
+                                responds to requests (success or failure).</p>
+                        </div>
+
+                        <!-- Partition Tolerance Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">P — <span
+                                    class="tooltip-trigger"
+                                    data-tooltip="System continues despite network failures separating nodes">Partition
+                                    Tolerance</span></h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">System continues
+                                working even if network failures occur.</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); font-weight: 600; font-size: 1.1rem;">
+                            👉 Critical Rule: You cannot have all three simultaneously.</p>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CAPImg1.png" alt="CAP Theorem Venn Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            CAP Theorem Venn Diagram</p>
+                    </div>
+
+                </div>
+
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does CAP
+                        Theorem Exist?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">CAP exists to explain
+                        trade-offs in distributed systems. When systems are spread across multiple servers, regions, and
+                        networks, network failures are unavoidable.</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Problems in
+                            Distributed Systems:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 1.5rem; margin-top: 0;">
+                            <li>🌐 Multiple servers across regions</li>
+                            <li>📡 Different networks with different speeds</li>
+                            <li>⚠️ Network failures are inevitable</li>
+                            <li>❓ How to choose what to sacrifice?</li>
+                        </ul>
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 0;">
+                            CAP helps engineers make the right trade-off decision.</p>
+                    </div>
+                </div>
+
+                <!-- Three Properties Explained Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Explain the
+                        Three Properties (Very Important)</h3>
+
+                    <!-- Consistency Detail -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Consistency (C)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>All users see the same data at the same time.</strong>
+                        </p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Example:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>✏️ You update your phone number</li>
+                                <li>📱 Everyone sees the updated number immediately</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Availability Detail -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Availability (A)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>System always responds to requests (success or failure).</strong>
+                        </p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Example:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>⚡ App replies to every request</li>
+                                <li>📦 Even if data is slightly old</li>
+                                <li>👉 No errors, no downtime</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Partition Tolerance Detail -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Partition Tolerance (P)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>System continues working even if network failures occur.</strong>
+                        </p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Example:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>🔌 Network issue between servers</li>
+                                <li>🚫 Servers can't talk to each other</li>
+                                <li>✅ System still continues</li>
+                                <li>👉 Network failure does NOT crash system</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid #ef4444;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;">📌 In real distributed systems, P is
+                                mandatory.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Choices Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ What Choices
+                        Do Systems Make?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Since <strong>P is
+                            unavoidable</strong>, systems must choose between CP or AP.</p>
+
+                    <!-- CP Choice -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 CP (Consistency + Partition)
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>Give correct data or error.</strong>
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">What
+                                    Happens:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>⏸️ Block some requests</li>
+                                    <li>⏳ Wait until data is consistent</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">Result:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>❌ Some users get errors</li>
+                                    <li>✅ Data is always correct</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>💳 Banking systems</li>
+                                <li>💰 Payment systems</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- AP Choice -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 AP (Availability + Partition)
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>Always respond (available), but data might be temporarily incorrect.</strong>
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">What
+                                    Happens:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>⚡ Always respond</li>
+                                    <li>📦 Even if data is slightly outdated</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Result:
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>✅ App is always up</li>
+                                    <li>❌ Temporary inconsistency</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>💬 Social media</li>
+                                <li>👍 Likes/comments</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CA Explanation -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Why NOT CA (Consistency + Availability)?</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">CA assumes
+                            <strong>no network failure</strong>, which is impossible in real distributed systems.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;"><strong>CA
+                                works only in:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 0;">
+                            <li>🖥️ Single machine</li>
+                            <li>🚫 Non-distributed systems</li>
+                        </ul>
+                        <p style="color: #dc2626; font-weight: 600; margin-top: 1rem; margin-bottom: 0;">👉 That's why
+                            CA is not practical at scale.</p>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CAPImg2.png" alt="CAP Theorem Systems Comparison"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            CAP Theorem Systems Comparison</p>
+                    </div>
+
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real App
+                        Connections</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Payments Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💳 Payments (CP)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">Better to fail
+                                than show wrong balance. Accuracy over availability.</p>
+                        </div>
+
+                        <!-- E-commerce Cart Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce Cart (AP)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">Slight
+                                inconsistency is acceptable. User experience matters.</p>
+                        </div>
+
+                        <!-- Social Media Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 Social Media Feed (AP)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">Likes count can
+                                be eventually consistent. Availability is key.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consistency Models Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ If NOT Strict
+                        Consistency, What Else?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Eventual Consistency -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔁 Eventual Consistency</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Data becomes consistent over time.</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used in AP
+                                systems.</p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                    Examples:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>👍 Like counts</li>
+                                    <li>👀 View counters</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Strong Consistency -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔁 Strong Consistency</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Data is always correct immediately.</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used in CP
+                                systems.</p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                    Examples:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>💳 Payments</li>
+                                    <li>🔄 Transactions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interview Table -->
+                    <h4 style="color: var(--color-primary); margin: 2rem 0 1.5rem 0;">🧠 Key Interview Table</h4>
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Choice</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Meaning</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">CP</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Correct data, may go
+                                        down</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Banking</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">AP</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Always up, may be
+                                        inconsistent</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">WhatsApp</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">CA</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">No network failure
+                                        assumed</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Single DB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Real-World Example: WhatsApp Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📱 CAP Theorem in
+                        WhatsApp (Real-World Example)</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Why P (Partition Tolerance) Exists
+                            in WhatsApp:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>🌍 WhatsApp servers are distributed globally</li>
+                            <li>🔗 Internet cables can fail</li>
+                            <li>🔌 Data centers can lose connection</li>
+                            <li>👉 Network failure WILL happen</li>
+                        </ul>
+                    </div>
+
+                    <!-- Option 1: AP (What WhatsApp Actually Does) -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ WhatsApp Chooses Availability
+                            (AP System)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;"><strong
+                                style="color: var(--color-primary);">This is what WhatsApp actually does.</strong></p>
+
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">What Happens
+                            During Network Failure?</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>✉️ You send a message</li>
+                            <li>⚡ WhatsApp accepts it immediately</li>
+                            <li>✔️ Message shows single tick</li>
+                            <li>⏳ Server will deliver it later</li>
+                        </ul>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">✅
+                                    Benefits:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>App never feels down</li>
+                                    <li>User experience is smooth</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">❌ Trade-off:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>Message delivery is delayed</li>
+                                    <li>Temporary inconsistency</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Why
+                                WhatsApp Chooses This:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">User experience is critical. Users
+                                prefer delay over app not working.</p>
+                        </div>
+                    </div>
+
+                    <!-- Option 2: CP (Hypothetical) -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">2️⃣ If WhatsApp Chose Consistency (CP System) —
+                            Hypothetical</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>What Would Happen?</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>🔌 Network problem occurs</li>
+                            <li>❌ You try to send a message</li>
+                            <li>🚫 WhatsApp says "Service unavailable"</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;"><strong
+                                style="color: #dc2626;">Result:</strong> App feels broken, but no inconsistent message
+                            state.</p>
+                        <p style="color: #dc2626; font-weight: 600; margin: 0;">👉 Bad user experience.</p>
+                    </div>
+                </div>
+
+                <!-- Simple Analogy Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💡 Very Simple
+                        Analogy</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">AP (WhatsApp)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>Message
+                                    sent now, delivered later</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">CP (Bank)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>Either
+                                    correct or don't allow transaction</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Interview-Ready
+                        One-Liner</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0;">
+                        <strong style="color: var(--color-primary);">CAP Theorem states that a distributed system can
+                            guarantee only two out of Consistency, Availability, and Partition Tolerance during network
+                            failures.</strong>
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In system
+                            design interviews, always remember:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0; list-style-type:none;">
+                            <li>🔹 <strong>Partition Tolerance is mandatory</strong> in distributed systems</li>
+                            <li>🔹 Choose between <strong>CP or AP</strong> based on business needs</li>
+                            <li>🔹 <strong>CA is unrealistic</strong> for distributed systems</li>
+                            <li>🔹 <strong>Eventual Consistency</strong> is the bridge in AP systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="microservices.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔧 Microservices</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: CAP Theorem ⚖️', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -44,10 +44,17 @@
         <h2>Topics</h2>
         <ul>
             <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
             <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
             <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
             <li><a href="microservices.html">🔧 Microservices</a></li>
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
@@ -71,76 +78,421 @@
             <div class="container">
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html">Home</a>
+                    <a href="index.html" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
                     <span class="breadcrumb-separator">/</span>
                     <span class="breadcrumb-current">Scalability</span>
                 </nav>
 
-                <h2 class="scroll-reveal">🚀 Scalability: Building for Growth</h2>
-                <p class="scroll-reveal">Scalability is the cornerstone of modern system design. It's the ability of a
-                    system to handle increased workload by adding resources without compromising performance. As your
-                    user base grows from hundreds to millions, your system must gracefully scale to meet demand.</p>
+                <h2>🚀 Scalability: Handling Growth</h2>
 
-                <h3 class="scroll-reveal">Key Strategies:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Horizontal Scaling (Scale Out):</strong> Add more servers to distribute the load across
-                        multiple machines. This approach provides better fault tolerance and is often more
-                        cost-effective for large-scale applications.</li>
-                    <li><strong>Vertical Scaling (Scale Up):</strong> Increase resources (CPU, RAM, storage) of existing
-                        servers. While simpler to implement, it has physical limitations and single points of failure.
-                    </li>
-                    <li><strong>Auto-Scaling:</strong> Dynamically adjust resources based on demand using cloud services
-                        like AWS Auto Scaling, Azure Scale Sets, or Kubernetes HPA. This optimizes costs while
-                        maintaining performance.</li>
-                    <li><strong>Load Distribution:</strong> Intelligently route traffic across infrastructure using load
-                        balancers, DNS-based routing, and geographic distribution strategies.</li>
-                </ul>
+                <!-- What is Scalability Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is
+                        Scalability?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Scalability is the ability
+                        of a system to handle increasing load by adding resources without performance degradation.</p>
 
-                <h3>Real-World Examples:</h3>
-                <p style="margin-bottom: 2rem;">Companies like Netflix handle billions of requests daily using
-                    horizontal scaling with thousands of microservices deployed across AWS regions. Amazon uses
-                    sophisticated auto-scaling to handle massive traffic spikes during events like Black Friday and
-                    Prime Day, automatically spinning up resources to handle 10x normal traffic.</p>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">In simple words:
+                        </p>
+                        <p style="font-size: 1.15rem; color: var(--color-primary); font-weight: 600; margin: 0;">
+                            <strong>Scalability = Can your system grow when users grow?</strong>
+                        </p>
+                    </div>
 
-                <h3>Scalability Patterns:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Database Sharding:</strong> Split your database into smaller chunks distributed across
-                        multiple servers</li>
-                    <li><strong>Read Replicas:</strong> Create read-only copies of your database to distribute read
-                        traffic</li>
-                    <li><strong>Caching Layers:</strong> Use Redis, Memcached, or CDNs to reduce database load</li>
-                    <li><strong>Asynchronous Processing:</strong> Use message queues to handle time-consuming tasks
-                        without blocking requests</li>
-                    <li><strong>Content Delivery Networks:</strong> Distribute static assets globally to reduce latency
-                    </li>
-                </ul>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ScalabulityImg2.png" alt="Types of Scalability Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
 
-                <h3>Measuring Scalability:</h3>
-                <p style="margin-bottom: 2rem;">Track key metrics like response time, throughput (requests per second),
-                    resource utilization, and error rates. Use load testing tools like Apache JMeter, k6, or Gatling to
-                    simulate traffic and identify bottlenecks before they impact users.</p>
+                <!-- Why Does Scalability Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does
+                        Scalability Exist?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Because users grow.</p>
 
-                <h3>Common Challenges:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Database Bottlenecks:</strong> As traffic grows, databases often become the first
-                        bottleneck</li>
-                    <li><strong>Session Management:</strong> Maintaining user sessions across multiple servers requires
-                        careful planning</li>
-                    <li><strong>Data Consistency:</strong> Ensuring data remains consistent across distributed systems
-                    </li>
-                    <li><strong>Network Latency:</strong> Communication overhead increases with distributed
-                        architectures</li>
-                </ul>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; text-align: center;">
+                            <div>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                    <strong>Today:</strong>
+                                </p>
+                                <p style="color: var(--color-primary); font-size: 1.3rem; font-weight: 600; margin: 0;">
+                                    1,000 users</p>
+                            </div>
+                            <div>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                    <strong>Tomorrow:</strong>
+                                </p>
+                                <p style="color: var(--color-primary); font-size: 1.3rem; font-weight: 600; margin: 0;">
+                                    1 million users</p>
+                            </div>
+                        </div>
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 0;">
+                            <strong style="color: var(--color-primary);">Without scalability, systems that work today
+                                will fail tomorrow.</strong>
+                        </p>
+                    </div>
+                </div>
 
-                <div class="pro-tip scroll-reveal">
-                    <h3>💡 Pro Tip</h3>
-                    <p>Design for scalability from day one, even if you don't need it immediately. It's much harder to
-                        refactor a monolithic application than to start with scalable patterns. Choose technologies and
-                        architectures that support horizontal scaling, and always keep stateless design principles in
-                        mind.</p>
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">If a system is not scalable:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>⚙️ Servers get overloaded</li>
+                        <li>⏱️ Response time increases</li>
+                        <li>💥 Frequent crashes</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-World Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">A college app works fine for 100 users
+                            → <strong>crashes when 10,000 students log in together.</strong></p>
+                    </div>
+                </div>
+
+                <!-- When to Use Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ When to Use
+                        Scalability / When NOT to Use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When Scalability is Needed:
+                            </h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                <li>🌐 Public-facing applications</li>
+                                <li>📈 Products expecting growth</li>
+                                <li>📅 Seasonal traffic (sales, exams)</li>
+                                <li>🚀 Startups aiming to scale</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When Heavy Scalability is NOT Needed:
+                            </h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                <li>🔒 Small personal projects</li>
+                                <li>👥 Fixed-user systems</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 Real Examples:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li><strong>✅ E-commerce:</strong> High-traffic product sites</li>
+                            <li><strong>✅ Payment apps:</strong> Growth expected</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Common Mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ One Common
+                        Mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Scaling Without Fixing Bottlenecks</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>➕ Adding more servers</li>
+                            <li>🐌 But database is still slow</li>
+                            <li>❌ System doesn't improve</li>
+                        </ul>
+
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 0;">
+                            👉 Always find the real bottleneck before scaling.</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Connection</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📱 WhatsApp</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0;">
+                            <li>💬 Millions of users send messages at the same time</li>
+                            <li>📊 Uses horizontal scaling + distributed databases</li>
+                            <li>➕ If users double, they add more servers</li>
+                            <li>✅ That's scalability.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Types of Scalability Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Types of
+                        Scalability</h3>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ScalabulityImg1.jpg" alt="Types of Scalability Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Vertical Scaling Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ Vertical Scaling (Scale
+                                Up)</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem;">
+                                Add more power to one machine.</p>
+
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin-left: 1rem; margin-bottom: 1.5rem;">
+                                <li>💾 More RAM</li>
+                                <li>⚡ Better CPU</li>
+                                <li>📦 Bigger disk</li>
+                            </ul>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                    ✅ Pros:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    <li>Easy to do</li>
+                                    <li>No big architecture changes</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: #dc2626; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">❌
+                                    Cons:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    <li>Hardware limit</li>
+                                    <li>Expensive</li>
+                                    <li>Single point of failure</li>
+                                </ul>
+                            </div>
+
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; font-style: italic; margin: 0;">
+                                👉 Like upgrading from a bike to a superbike — still one rider.</p>
+                        </div>
+
+                        <!-- Horizontal Scaling Card -->
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">2️⃣ Horizontal Scaling (Scale
+                                Out)</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem;">
+                                Add more machines instead of upgrading one.</p>
+
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin-left: 1rem; margin-bottom: 1.5rem;">
+                                <li>🖥️ 10 servers instead of 1</li>
+                                <li>⚖️ Load balancer distributes traffic</li>
+                            </ul>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                                    ✅ Pros:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    <li>No hard limit</li>
+                                    <li>Fault tolerant</li>
+                                    <li>Used by big systems</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: #dc2626; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">❌
+                                    Cons:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    <li>More complex</li>
+                                    <li>Needs good design</li>
+                                </ul>
+                            </div>
+
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; font-style: italic; margin: 0;">
+                                👉 Like having many riders on different bikes.</p>
+                        </div>
+                    </div>
+
+                    <!-- When to Use Vertical Scaling -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⬆️ Vertical Scaling - Use it when:
+                        </h4>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0;">
+                                <li>📱 App is small</li>
+                                <li>👥 Few users</li>
+                                <li>🎓 College project / early stage</li>
+                                <li>⚡ Need quick fix</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- When to Use Horizontal Scaling -->
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">➡️ Horizontal Scaling - Use it
+                            when:</h4>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0;">
+                                <li>📈 Many users</li>
+                                <li>🚀 Traffic is high</li>
+                                <li>🔒 App must not go down</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Quick Decision Grid -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Quick Decision:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                    📱 Small App</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">↓</p>
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-top: 0.5rem;">
+                                    Vertical Scaling</p>
+                            </div>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                    🌐 Big App</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">↓</p>
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-top: 0.5rem;">
+                                    Horizontal Scaling</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Real-World Flow Section -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔄 Real-World Flow (How Companies
+                            Do It)</h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    1</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Start with vertical scaling</strong> (Add more RAM/CPU)
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    2</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Reach server limits</strong> (Can't upgrade anymore)
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    3</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Introduce load balancer</strong> (Distribute traffic)
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    4</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Move to horizontal scaling</strong> (Add more servers)
+                                </p>
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    5</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Add caching, sharding, CDN</strong> (Optimize the system)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Comparison -->
+                    <div style="margin-top: 2rem;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong style="color: var(--color-primary);">Vertical scaling →</strong> "Add more power
+                                to one server"
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong style="color: var(--color-primary);">Horizontal scaling →</strong> "Add more
+                                servers to share the load"
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Scalability is critical for systems expecting growth.</strong> You can scale vertically
+                        (upgrade existing servers) or horizontally (add more servers).
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Horizontal scaling is preferred for large systems</strong> because it's fault-tolerant
+                        and has no hard limits. Always identify bottlenecks before scaling to ensure your effort pays
+                        off.
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8;">Design for scalability from day
+                        one, even if you don't need it immediately. It's much harder to refactor a monolithic
+                        application than to start with scalable patterns. Choose technologies and architectures that
+                        support horizontal scaling, and always keep stateless design principles in mind. Use load
+                        balancers, caching, and distributed databases to ensure your system can handle 10x growth
+                        without breaking.</p>
                 </div>
             </div>
         </section>
