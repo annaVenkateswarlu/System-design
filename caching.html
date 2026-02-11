@@ -40,6 +40,10 @@
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
             <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
         </ul>
     </div>
 
@@ -414,22 +418,19 @@
         </footer>
     </div>
 
-    <div id="toast" class="toast"></div>
-    <button id="backToTop"
-        style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; z-index: 999; box-shadow: var(--shadow-lg); transition: opacity 0.3s;"
-        onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Top</button>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
     <script src="index.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             showToast('Loaded: Caching 💾', 'success');
-        });
-        window.addEventListener('scroll', () => {
-            const backToTopBtn = document.getElementById('backToTop');
-            if (window.scrollY > 300) {
-                backToTopBtn.style.display = 'block';
-            } else {
-                backToTopBtn.style.display = 'none';
-            }
         });
     </script>
 </body>

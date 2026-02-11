@@ -43,6 +43,7 @@
 
     <title>System Design Mastery - Premium Learning Platform</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
@@ -94,6 +95,10 @@
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
             <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
         </ul>
     </div>
 
@@ -174,6 +179,207 @@
                         <h3>API Design</h3>
                         <p>Build RESTful and GraphQL APIs that are clean, versioned, and developer-friendly.</p>
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-World Examples Section -->
+        <section class="real-world-examples"
+            style="padding: var(--space-4xl) 0; background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(52, 211, 153, 0.02) 100%);">
+            <div class="container">
+                <div style="margin-bottom: 3rem; text-align: center;">
+                    <h2 style="color: var(--color-primary); font-size: 2rem; margin-bottom: 0.5rem;">🏢 Real-World
+                        Examples</h2>
+                    <p style="color: var(--color-text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                        Learn how world-class companies design their systems. Apply concepts to real challenges.</p>
+                </div>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <!-- WhatsApp Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer; hover: transform translateY(-5px);"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #25d366;"><i
+                                class="fab fa-whatsapp"></i></div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">WhatsApp
+                        </h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Design a messaging app that handles billions of messages daily with real-time delivery,
+                            offline storage, and group messaging.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Real-time message delivery</li>
+                            <li>✓ Offline message storage</li>
+                            <li>✓ Group messaging at scale</li>
+                            <li>✓ End-to-end encryption</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('WhatsApp design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+
+                    <!-- Instagram Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer;"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div
+                            style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">Instagram
+                        </h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Build a photo sharing platform with feed algorithms, real-time notifications, and massive
+                            media storage.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Photo storage & CDN</li>
+                            <li>✓ Feed generation algorithm</li>
+                            <li>✓ Real-time notifications</li>
+                            <li>✓ User relationship graph</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('Instagram design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+
+                    <!-- Uber Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer;"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #000;"><i class="fab fa-uber"></i>
+                        </div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">Uber</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Design a ride-sharing platform with real-time location tracking, matching algorithm, and
+                            payment processing.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Real-time location tracking</li>
+                            <li>✓ Driver-rider matching</li>
+                            <li>✓ Payment & billing system</li>
+                            <li>✓ Surge pricing algorithm</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('Uber design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+
+                    <!-- YouTube Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer;"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #ff0000;"><i
+                                class="fab fa-youtube"></i></div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">YouTube</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Build a video streaming platform with transcoding, adaptive bitrate streaming, and
+                            recommendation engine.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Video transcoding</li>
+                            <li>✓ Adaptive streaming (HLS/DASH)</li>
+                            <li>✓ Recommendation algorithm</li>
+                            <li>✓ View count & metrics</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('YouTube design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+
+                    <!-- Twitter Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer;"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #2b75e4;"><i
+                                class="fab fa-twitter"></i>
+                        </div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">Twitter (X)
+                        </h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Design a social network with feed generation, real-time notifications, and handling trending
+                            topics.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Tweet feed generation</li>
+                            <li>✓ Timeline sharding</li>
+                            <li>✓ Trending topics</li>
+                            <li>✓ Real-time notifications</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('Twitter design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+
+                    <!-- Airbnb Design -->
+                    <div style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); transition: all 0.3s ease; cursor: pointer;"
+                        onmouseover="this.style.boxShadow='0 20px 40px rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-5px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; color: #ff5a5f;"><i class="fab fa-airbnb"></i>
+                        </div>
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 0.75rem;">Airbnb</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            Build a booking platform with search, filtering, pricing, and payment processing at global
+                            scale.
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem;">
+                            <li>✓ Inventory management</li>
+                            <li>✓ Search & filtering</li>
+                            <li>✓ Pricing & availability</li>
+                            <li>✓ Payment processing</li>
+                        </ul>
+                        <button
+                            style="width: 100%; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: background 0.3s;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.8)'"
+                            onmouseout="this.style.background='var(--color-primary)'"
+                            onclick="window.location.href='#'; showToast('Airbnb design case study coming soon!', 'info')">
+                            Explore Design
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 2rem; align-items: center; flex-wrap: wrap;">
+                    <div
+                        style="flex: 1; min-width: 300px; text-align: center; padding: 2rem; background: rgba(16, 185, 129, 0.05); border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">
+                            💡 <strong>Coming Soon:</strong> Detailed architecture diagrams, trade-off analysis, and
+                            step-by-step design approaches for each system.
+                        </p>
+                    </div>
+                    <button
+                        style="padding: 0.75rem 2rem; background: linear-gradient(135deg, var(--color-primary) 0%, rgba(16, 185, 129, 0.8) 100%); color: white; border: none; border-radius: var(--radius-lg); font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 1rem; white-space: nowrap;"
+                        onmouseover="this.style.boxShadow='0 10px 25px rgba(16, 185, 129, 0.3)'; this.style.transform='translateY(-2px)'"
+                        onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'"
+                        onclick="window.location.href='design-problems.html'; showToast('Exploring design problems! 🎯', 'success')">
+                        🎯 View Design Problems
+                    </button>
                 </div>
             </div>
         </section>

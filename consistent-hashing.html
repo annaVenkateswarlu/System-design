@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consistent Hashing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Consistent Hashing</span>
+                </nav>
+
+                <h2>🔄 Consistent Hashing: Efficient Distributed Data Placement</h2>
+
+                <!-- What is Consistent Hashing Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Consistent Hashing is a technique used to distribute data across multiple servers in a way that
+                        <strong>minimizes data movement when servers are added or removed</strong>.
+                    </p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; font-size: 1.05rem;"><strong style="color: var(--color-primary);">In
+                                simple words:</strong></p>
+                        <p
+                            style="margin: 1rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem;">
+                            It helps decide which server should store which data, <strong>efficiently and
+                                dynamically</strong>. This means you can add or remove servers without massive data
+                            reshuffling.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Normal vs Consistent Hashing Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Normal Hashing
+                        vs Consistent Hashing</h3>
+
+                    <!-- Step 1: Keys -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 1️⃣: What are "Keys"?</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>Key = identifier of data</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>Examples:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>user_id = 21</li>
+                            <li>username = "anna"</li>
+                            <li>session_id = "abc123"</li>
+                            <li>product_id = 9001</li>
+                        </ul>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                <strong>When we say "Key moves":</strong> The data related to that key moves to another
+                                server.
+                            </p>
+                            <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                👉 If key = 21 moves, that user's entire profile data moves to another server.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Servers -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 2️⃣: What are "Servers"?</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>Servers are machines that store data.</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem; font-size: 1.05rem;">
+                            <li>Each server stores a <strong>portion of the total data</strong></li>
+                            <li>When we add a new server → we redistribute some keys to it</li>
+                            <li>Servers work together to store the complete dataset</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 3: Why Hashing -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 3️⃣: Why Do We Need Hashing?</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>The Problem:</strong> If you have 3 servers, how do you decide which server stores
+                            which data?
+                        </p>
+                        <div
+                            style="background: rgba(59, 130, 246, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin: 1rem 0; border-left: 3px solid #3b82f6;">
+                            <p style="margin: 0.5rem 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                👉 Which server stores user 21?
+                            </p>
+                            <p style="margin: 0.5rem 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                👉 Which server stores user 99?
+                            </p>
+                            <p style="margin: 0.5rem 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                👉 Which server stores user 500?
+                            </p>
+                        </div>
+                        <p
+                            style="margin: 1rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem;">
+                            <strong>The Solution:</strong> We use a <strong>hash function</strong>
+                        </p>
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-top: 0.5rem; border-left: 3px solid #22c55e;">
+                            <p style="margin: 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                <strong>hash(user_id) → number</strong>
+                            </p>
+                            <p style="margin: 0.5rem 0 0 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                That number helps us decide which server to store data in. Same user always goes to the
+                                same server.
+                            </p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/HashingImg1.png" alt="Normal Hashing Diagram"
+                            style="width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Normal Hashing Diagram</p>
+                    </div>
+                    <!-- Step 4: The Ring -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 4️⃣: What is the "Ring"?</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            The ring is a <strong>logical circle of numbers</strong> (like a clock):
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>Numbers from 0 → 360 degrees</li>
+                            <li>We place <strong>servers on this circle</strong></li>
+                            <li>We place <strong>keys on this circle</strong></li>
+                        </ul>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                <strong>📌 Important:</strong> It is not a real ring. Just a mathematical concept to
+                                help us visualize the distribution.
+                            </p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/HashingImg2.png" alt="Consistent Hashing Diagram"
+                            style="width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Consistent Hashing Diagram</p>
+                    </div>
+
+                    <!-- Step 5: How Key Goes to Server -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 5️⃣: How Key Goes to Server (Simple Example)</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>Suppose we have:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>Server A → position 50</li>
+                            <li>Server B → position 150</li>
+                            <li>Server C → position 300</li>
+                        </ul>
+                        <p style="margin: 1rem 0 0.5rem 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                            <strong>Now for User 21:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>hash(user_id = 21) = 120</li>
+                            <li>👉 Move clockwise on the ring</li>
+                            <li>👉 First server you hit stores the data</li>
+                        </ul>
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                            <p style="margin: 0.5rem 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                Starting at 120 → next clockwise server is <strong>150 (Server B)</strong>
+                            </p>
+                            <p
+                                style="margin: 0.5rem 0 0 0; color: var(--color-primary); font-weight: 600; font-size: 1.05rem;">
+                                👉 User 21 data goes to Server B
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Key Movement -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Step 6️⃣: What Happens When We Add a Server?</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            Now suppose we add <strong>Server D → position 130</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            What happens to User 21?
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>User 21 hash = 120</li>
+                            <li>Now next clockwise server is: <strong>130 (Server D)</strong></li>
+                        </ul>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin: 1rem 0;">
+                            <p style="margin: 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                👉 User 21 data must move from <strong>Server B → Server D</strong>
+                            </p>
+                        </div>
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin: 1rem 0 0 0; border-left: 4px solid #22c55e;">
+                            <p
+                                style="margin: 0 0 1rem 0; color: var(--color-primary); font-weight: 600; font-size: 1.05rem;">
+                                ✨ But only keys between 50 → 130 move. Other keys stay the same!
+                            </p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); margin: 1rem 0 0 0; border: 1px solid var(--glass-border);">
+                            <h5
+                                style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; font-size: 1rem;">
+                                What Actually Moves?</h5>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                                <strong>Not just the key, but the actual stored data:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem; font-size: 1.05rem;">
+                                <li>👤 User profiles</li>
+                                <li>💬 Messages and conversations</li>
+                                <li>🔐 Sessions and authentication data</li>
+                                <li>📊 Any data associated with that key</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <img src="images/HashingImg3.png" alt="Consistent Hashing Diagram"
+                        style="width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        📊 Consistent Hashing Diagram</p>
+                </div>
+
+                <!-- Why Normal Hashing is Bad -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Why is Normal
+                        Hashing Bad?</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3);">
+                            <h4 style="color: #ef4444; margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">❌ Normal
+                                Hashing</h4>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                                <strong>Formula:</strong> server = hash(key) % total_servers
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                                <strong>When N (number of servers) changes:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                                <li>Almost ALL data must be re-mapped ❌</li>
+                                <li>Huge data movement</li>
+                                <li>Cache invalidation</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(34, 197, 94, 0.3);">
+                            <h4 style="color: #22c55e; margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">✅
+                                Consistent Hashing</h4>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                                Uses a <strong>hash ring</strong> concept where servers are placed on a circle.
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                                <strong>When N (number of servers) changes:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                                <li>Only small portion remap ✅</li>
+                                <li>Minimal data movement</li>
+                                <li>System continues to work</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem; margin: 0.5rem 0;">
+                            <strong>Without consistent hashing:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; font-size: 1.05rem;">
+                            <li>🔴 Adding 1 new server → data for all users moves</li>
+                            <li>🔴 Removing 1 server → entire cache breaks</li>
+                            <li>🔴 Huge performance degradation during scaling</li>
+                        </ul>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem; border-left: 3px solid #ef4444;">
+                            <p style="margin: 0; color: var(--color-text-secondary); font-size: 1.05rem;">
+                                <strong>📌 Example:</strong> Redis cluster scaling from 5 → 6 nodes causes total rehash
+                                with normal hashing ❌
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- When to Use -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">4️⃣ When to Use /
+                        When NOT to Use</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(34, 197, 94, 0.3);">
+                            <h4 style="color: #22c55e; margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">✅ When to
+                                Use</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0; font-size: 1.05rem;">
+                                <li>📦 Distributed caching (Redis cluster)</li>
+                                <li>🗄️ Distributed databases (DynamoDB, Cassandra)</li>
+                                <li>⚖️ Load balancing</li>
+                                <li>🔀 Sharded systems</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3);">
+                            <h4 style="color: #ef4444; margin-top: 0; margin-bottom: 1rem; font-size: 1.2rem;">❌ When
+                                NOT to Use</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0; font-size: 1.05rem;">
+                                <li>🖥️ Single server systems</li>
+                                <li>📱 Small applications</li>
+                                <li>⚙️ When scaling is fixed and static</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">
+                        🧠 How It Works
+                        (Simple Explanation)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li><strong>Servers are placed on a hash ring</strong> at specific positions (0-360)</li>
+                            <li><strong>Data keys are hashed to the same ring</strong> using the same hash function</li>
+                            <li><strong>A key is assigned to the next server clockwise</strong> from its position</li>
+                            <li><strong>When a server is added:</strong> Only nearby keys move (those between the new
+                                server and previous server)</li>
+                            <li><strong>When a server is removed:</strong> Only its keys move to the next server
+                                clockwise. Other keys stay on their servers</li>
+                        </ol>
+                    </div>
+                </div>
+
+
+                <!-- Summary -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.8; font-size: 1.05rem;">
+                            <strong>Consistent hashing distributes data across servers such that minimal keys are
+                                remapped when nodes are added or removed, enabling scalable and resilient distributed
+                                systems.</strong> It's a fundamental technique for building systems that can grow
+                            horizontally without massive performance degradation.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);"></div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Section</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Consistent Hashing 🔄', 'success');
+        });
+    </script>
+</body>
+
+</html>
