@@ -39,6 +39,7 @@
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
         </ul>
     </div>
 
@@ -60,55 +61,469 @@
                     <span class="breadcrumb-current">Databases</span>
                 </nav>
 
-                <h2>🗄️ Databases: The Foundation of Data Management</h2>
-                <p>Choosing the right database architecture is critical for system performance, consistency, and
-                    scalability. Your database choice impacts everything from query performance to operational
-                    complexity.</p>
+                <h2>🗄️ Database: SQL vs NoSQL</h2>
 
-                <h3>Database Types:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong><span class="tooltip-trigger"
-                                data-tooltip="Structured Query Language - relational databases with fixed schemas">SQL
-                                (Relational)</span>:</strong> PostgreSQL, MySQL, Oracle - ACID compliance, structured
-                        schemas, complex joins, strong consistency. Best for financial systems, e-commerce transactions.
-                    </li>
-                    <li><strong><span class="tooltip-trigger"
-                                data-tooltip="Non-relational database - flexible schema, unstructured data">NoSQL
-                                Document</span>:</strong> MongoDB, CouchDB - Flexible schemas, JSON-like documents,
-                        horizontal scaling. Ideal for content management, user profiles, catalogs.</li>
-                    <li><strong>Key-Value Stores:</strong> Redis, DynamoDB, Riak - High-speed lookups, simple data
-                        model. Perfect for caching, session storage, real-time analytics.</li>
-                    <li><strong>Column-Family:</strong> Cassandra, HBase - Optimized for write-heavy workloads and
-                        time-series data. Great for IoT data, logging, metrics.</li>
-                    <li><strong>Graph Databases:</strong> Neo4j, Amazon Neptune - Relationship-heavy data, complex
-                        queries across connections. Social networks, recommendation engines, fraud detection.</li>
-                </ul>
+                <!-- 1 What is it -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
 
-                <h3>Scaling Techniques:</h3>
-                <ul
-                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 2rem; margin-bottom: 2rem;">
-                    <li><strong>Sharding:</strong> Horizontally partition data across multiple database instances based
-                        on shard keys.</li>
-                    <li><strong>Replication:</strong> Create copies of data for redundancy and read scalability
-                        (master-slave, master-master).</li>
-                    <li><strong>Partitioning:</strong> Divide large tables into smaller, more manageable pieces.</li>
-                    <li><strong>Indexing:</strong> Create data structures to speed up query performance at the cost of
-                        storage and write speed.</li>
-                </ul>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 SQL Databases
+                                (Relational)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">SQL
+                                databases store data in tables with fixed schema and use SQL (Structured Query
+                                Language).</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                                <li>Data in tables (rows & columns)</li>
+                                <li>Fixed schema</li>
+                                <li>Strong consistency (ACID)</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">MySQL, PostgreSQL, Oracle</p>
+                        </div>
 
-                <h3>CAP Theorem:</h3>
-                <p style="margin-bottom: 2rem;">In distributed databases, you can only guarantee two of three
-                    properties: Consistency (all nodes see same data), Availability (system remains operational),
-                    Partition Tolerance (system works despite network issues). Most modern systems choose AP
-                    (Availability + Partition Tolerance) with eventual consistency.</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 NoSQL Databases
+                                (Non-Relational)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">NoSQL
+                                databases store data in flexible formats like documents, key-value, wide-column, or
+                                graphs.</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                                <li>Schema-less or flexible schema</li>
+                                <li>Designed for huge scale</li>
+                                <li>Eventual consistency (BASE)</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">MongoDB, Redis, Cassandra, DynamoDB</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                    <img src="images/SQLvsNoSQLImg1.png" alt="SQL vs NoSQL Diagram"
+                        style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        📊 SQL vs NoSQL Diagram </p>
+                </div>
+                <!-- 5 When to use / not use -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;"> When to use /
+                        not use</h3>
 
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">✅ Use SQL when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                                <li>Data relationships matter</li>
+                                <li>Accuracy is critical</li>
+                                <li>Transactions are critical</li>
+                                <li>Consistency is required</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">Payments, Banking</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">❌ Avoid SQL when:</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Schema changes frequently</li>
+                                <li>Massive scale required</li>
+                                <li>Very high write traffic</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">✅ Use NoSQL when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                                <li>Huge user base</li>
+                                <li>High read/write traffic</li>
+                                <li>Flexible data</li>
+                                <li>High throughput, low latency needed</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">Social media feeds, Logs & analytics,
+                                Caching, Real-time tracking</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">❌ Avoid NoSQL when:</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Strong consistency required</li>
+                                <li>Financial systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Types of SQL Databases -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Types of SQL
+                        Databases</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Relational SQL Databases
+                        </h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                            <li>Data is stored in tables (rows & columns)</li>
+                            <li>Tables are connected using relationships (joins)</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Examples:</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">MySQL, PostgreSQL, Oracle
+                            Database</p>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Why SQL (system
+                            design reason):</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>Strong ACID</li>
+                            <li>Data correctness</li>
+                            <li>Structured data</li>
+                            <li>Transactions</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">👉 SQL type summary:
+                        </p>
+                        <p style="color: var(--color-text-secondary);">One main type → relational → correctness first
+                        </p>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/SQLvsNoSQLImg2.png" alt="SQL Diagram"
+                            style="max-width:60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Relational (SQL type) Diagram </p>
+                    </div>
+                </div>
+
+                <!-- Types of NoSQL Databases -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ Types of NoSQL
+                        Databases</h3>
+                    <p
+                        style="color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        NoSQL has multiple types, because it solves different scale problems.</p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Key–Value Store</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Data =
+                                key → value</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">📌
+                                Example:</p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary); margin-bottom: 1rem; font-family: 'Courier New', monospace;">
+                                <p style="color: var(--color-primary); margin: 0.5rem 0; font-weight: 600;">Key → Value
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0;">
+                                    <strong>user123</strong> → online
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0;">
+                                    <strong>session_id</strong> → user_data
+                                </p>
+                            </div>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Databases:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Redis, DynamoDB</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used for:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">Cache, Sessions, Tokens</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">👉 Fastest NoSQL
+                                type</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Document Database</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Data
+                                stored as JSON-like documents</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">📌
+                                Example:</p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.15); padding: 1rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary); margin-bottom: 1rem; font-family: 'Courier New', monospace;">
+                                <p style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-weight: 600;">{</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.25rem 0 0.25rem 1.5rem;"><span
+                                        style="color: var(--color-primary);">"user"</span>: <span
+                                        style="color: #10b981;">"anna"</span>,</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.25rem 0 0.25rem 1.5rem;"><span
+                                        style="color: var(--color-primary);">"posts"</span>: <span
+                                        style="color: #f97316;">120</span>,</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.25rem 0 0.25rem 1.5rem;"><span
+                                        style="color: var(--color-primary);">"followers"</span>: <span
+                                        style="color: #f97316;">500</span></p>
+                                <p style="color: var(--color-primary); margin: 0.5rem 0 0 0; font-weight: 600;">}</p>
+                            </div>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Databases:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">MongoDB</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used for:
+                            </p>
+                            <p style="color: var(--color-text-secondary);">User profiles, Posts, Content systems</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">👉 Most popular
+                                NoSQL</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Wide-Column Store</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Data
+                                stored in rows with flexible columns</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Databases:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Cassandra, HBase</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used for:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Huge datasets,
+                                Time-series data, Logs</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">👉 Used by
+                                big-scale systems</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Graph Database</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Data
+                                stored as nodes & relationships</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Databases:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Neo4j</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Used for:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Social networks,
+                                Recommendations, Fraud detection</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">👉 Best for
+                                relationship-heavy data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Comparison Table -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Key
+                        Comparison Table</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; color: var(--color-text-secondary); border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--glass-border);">
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Aspect</th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        SQL</th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        NoSQL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Schema</td>
+                                    <td style="padding: 0.75rem;">Fixed</td>
+                                    <td style="padding: 0.75rem;">Flexible</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Consistency</td>
+                                    <td style="padding: 0.75rem;">Strong (ACID)</td>
+                                    <td style="padding: 0.75rem;">Eventual (BASE)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Scaling</td>
+                                    <td style="padding: 0.75rem;">Vertical mainly</td>
+                                    <td style="padding: 0.75rem;">Horizontal</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Joins</td>
+                                    <td style="padding: 0.75rem;">Easy</td>
+                                    <td style="padding: 0.75rem;">Hard / not supported</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Best for</td>
+                                    <td style="padding: 0.75rem;">Transactions</td>
+                                    <td style="padding: 0.75rem;">Massive scale</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem;">CAP</td>
+                                    <td style="padding: 0.75rem;">CP</td>
+                                    <td style="padding: 0.75rem;">AP</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Real App Connection -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Real App
+                        Connection</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🛒 E-commerce</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Orders & payments → SQL</li>
+                                <li>Product catalog → NoSQL</li>
+                                <li>Cache → Redis (NoSQL)</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">💬 Social Media</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>User posts → NoSQL</li>
+                                <li>Relationships → Graph DB</li>
+                                <li>User accounts → SQL</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.2rem;">📱 WhatsApp —
+                            SQL + NoSQL together</h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 2rem; font-size: 1.05rem;">
+                            WhatsApp does NOT use a single database. It mixes SQL + NoSQL, each where it makes sense.
+                            This is called <strong style="color: var(--color-primary);">Polyglot Persistence</strong>.
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <!-- SQL Section -->
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 1.25rem; font-size: 1.1rem;">1️⃣ Where
+                                    WhatsApp uses SQL</h5>
+
+                                <div style="margin-bottom: 1.5rem;">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">📌 Used for:</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0;">
+                                        <li>User registration & signup</li>
+                                        <li>Phone number mapping</li>
+                                        <li>Account metadata</li>
+                                        <li>Login & authentication</li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.75rem;">💾 Example
+                                        Data:</p>
+                                    <p
+                                        style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                        UserID | PhoneNumber | CreatedAt | Status
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.75rem;">❓ Why SQL here?
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                        <li>Data must be 100% correct</li>
+                                        <li>Strong consistency required</li>
+                                        <li>Transactions needed (ACID)</li>
+                                        <li>If phone mapping is wrong → account breaks ❌</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- NoSQL Section -->
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1.25rem; font-size: 1.1rem;">2️⃣
+                                    Where WhatsApp uses NoSQL</h5>
+
+                                <div style="margin-bottom: 1.5rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">📌
+                                        Used for:</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0;">
+                                        <li>Messages & chats</li>
+                                        <li>Group messages</li>
+                                        <li>Message status (✔️ ✔️✔️)</li>
+                                        <li>Media message metadata</li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">💾
+                                        Example Data:</p>
+                                    <p
+                                        style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                        {"chat_id": "A_B", "message": "Hi",<br />
+                                        "timestamp": 17000000, "status": "sent"}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">❓
+                                        Why NoSQL here?</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                        <li>Billions of messages per day</li>
+                                        <li>Very high read & write traffic</li>
+                                        <li>Horizontal scaling needed</li>
+                                        <li>Eventual consistency is OK</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(52, 211, 153, 0.02) 100%); padding: 1.5rem; border-radius: var(--radius-lg); margin-top: 2rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem; font-size: 1rem;">
+                                👉 Key Insight:</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Message can be delivered slightly later, but the app must stay up. Users tolerate
+                                eventual consistency for messages, but NOT for account data. This is why WhatsApp uses
+                                both!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
                 <div
-                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
-                    <h3>💡 Pro Tip</h3>
-                    <p>Don't fall into the trap of using one database for everything. Use polyglot persistence - combine
-                        SQL for transactional data, Redis for caching, and Elasticsearch for full-text search. Each
-                        database excels at different workloads.</p>
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        WhatsApp uses SQL for strongly consistent user data like accounts and authentication, and NoSQL
+                        for highly scalable message storage and delivery.
+                    </p>
+                </div>
+
+                <!-- Interview Ready -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip </h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8;">
+                        SQL databases provide strong consistency and transactional reliability, while NoSQL databases
+                        offer flexible schema and horizontal scalability for high-volume systems.
+                    </p>
                 </div>
             </div>
         </section>

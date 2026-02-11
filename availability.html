@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability, Reliability & Maintainability - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Availability, Reliability &
+                        Maintainability</span>
+                </nav>
+
+                <h2>📈 Availability, Reliability & Maintainability</h2>
+
+                <!-- 1 Availability -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ Availability
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 What is Availability?
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong style="color: var(--color-primary);">Availability = system is up and
+                                    usable</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">📊 Measured
+                                as:</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Percentage of time
+                                system is working</p>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                    Example:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">99.9% availability ≈ ~8 hours
+                                    downtime/year</p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">💡 Key Points</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>App is accessible when user opens it</li>
+                                <li>Even slow system can be available</li>
+                                <li>Downtime = availability problem</li>
+                            </ul>
+
+                            <div
+                                style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">One
+                                    line:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>Availability means the
+                                        system is up.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/Availability.png" alt="Availability Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Availability Diagram </p>
+                </div>
+
+                <!-- 2 Reliability -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Reliability
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 What is Reliability?
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong style="color: var(--color-primary);">Reliability = system works correctly every
+                                    time</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">📊 Key
+                                Aspect:</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">No wrong results, no
+                                lost data</p>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                    Example:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">✅ Payment deducted once →
+                                    reliable</p>
+                                <p style="color: #ef4444; margin: 0;">❌ Payment deducted twice → not reliable</p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">💡 Key Points</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>System can be available but not reliable</li>
+                                <li>Data correctness matters</li>
+                                <li>Consistency is important</li>
+                            </ul>
+
+                            <div
+                                style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">One
+                                    line:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>Reliability means
+                                        correct behavior over time.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Maintainability -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ Maintainability
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 What is Maintainability?
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong style="color: var(--color-primary);">Maintainability = easy to fix and update
+                                    system</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">📊 How easy
+                                it is to:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Fix bugs</li>
+                                <li>Add new features</li>
+                                <li>Upgrade components</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">💡 Key Points</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                                <li>Modular code → easy maintain</li>
+                                <li>Tight coupling → hard maintain</li>
+                                <li>Bad maintainability = slow development</li>
+                                <li>Impacts long-term success</li>
+                            </ul>
+
+                            <div
+                                style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">One
+                                    line:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>Maintainability means
+                                        easy to change and fix.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability vs Reliability vs Maintainability -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Availability
+                        vs Reliability vs Maintainability</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">❌ Available ❌ Reliable → Down System
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">System is offline. Users
+                                can't access it. Worst scenario.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(251, 146, 60, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f97316;">
+                            <h4 style="color: #ea580c; margin-bottom: 0.75rem;">✅ Available ❌ Reliable → Buggy System
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">System works but gives
+                                wrong results. App is up but shows bugs, errors, or incorrect data.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(100, 116, 139, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #64748b;">
+                            <h4 style="color: #475569; margin-bottom: 0.75rem;">❌ Available ✅ Reliable → Offline but
+                                Correct</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">System is down but would
+                                work correctly when it's back. Correct but offline.</p>
+                        </div>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">✅ Available ✅ Reliable →
+                                Perfect System ⭐</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">System is up AND works
+                                correctly every time. This is the goal!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Reference Table -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Quick
+                        Reference Table</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; color: var(--color-text-secondary); border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--glass-border);">
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Term</th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Means</th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                        Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Latency</td>
+                                    <td style="padding: 0.75rem;">Time for one request</td>
+                                    <td style="padding: 0.75rem;">50ms response time</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Throughput</td>
+                                    <td style="padding: 0.75rem;">Requests handled per second</td>
+                                    <td style="padding: 0.75rem;">1000 req/sec</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Availability</td>
+                                    <td style="padding: 0.75rem;">System is up</td>
+                                    <td style="padding: 0.75rem;">99.9% uptime</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 0.75rem;">Reliability</td>
+                                    <td style="padding: 0.75rem;">System works correctly</td>
+                                    <td style="padding: 0.75rem;">No data loss</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem;">Maintainability</td>
+                                    <td style="padding: 0.75rem;">Easy to modify</td>
+                                    <td style="padding: 0.75rem;">Clean code, easy updates</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        A great system design needs all three: it must be <strong>available</strong> (up and running),
+                        <strong>reliable</strong> (works correctly), and <strong>maintainable</strong> (easy to update
+                        and fix). Focus on all three to build systems that users love and teams can maintain.
+                    </p>
+                </div>
+
+                <!-- Pro Tip -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8;">
+                        In interviews, remember: <strong>availability</strong> is about operations (DevOps, monitoring),
+                        <strong>reliability</strong> is about correctness (testing, architecture), and
+                        <strong>maintainability</strong> is about code quality (design patterns, documentation). Each
+                        requires different strategies!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back to</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Availability, Reliability & Maintainability 📈', 'success');
+        });
+    </script>
+</body>
+
+</html>

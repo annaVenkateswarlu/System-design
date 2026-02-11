@@ -39,6 +39,7 @@
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
             <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
         </ul>
     </div>
 
@@ -55,7 +56,8 @@
             <div class="container">
                 <!-- Breadcrumb -->
                 <nav class="breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger" data-tooltip="Click here to move to home">Home</a>
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
                     <span class="breadcrumb-separator" aria-hidden="true">/</span>
                     <span class="breadcrumb-current" aria-current="page">Caching</span>
                 </nav>
@@ -81,297 +83,319 @@
                             <li>💾 <strong>Temporary data storage</strong> (automatically expires)</li>
                         </ul>
                     </div>
-        style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--color-primary); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; z-index: 999; box-shadow: var(--shadow-lg); transition: opacity 0.3s;"
-        onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="tooltip-trigger" data-tooltip="Click here to move to top">↑ Top</button>
-                <!-- Why Does It Exist Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
-                        Exist? (What Problem Does It Solve?)</h3>
-                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Caching exists to solve
-                        <strong>performance and scalability problems</strong>. It helps to:
-                    </p>
-
-                    <div
-                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
-                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
-                            <li>📊 <strong>Reduce response time</strong> by 10-100x</li>
-                            <li>🗄️ <strong>Reduce database load</strong> significantly</li>
-                            <li>🚀 <strong>Handle high traffic efficiently</strong></li>
-                            <li>💰 <strong>Save infrastructure costs</strong></li>
-                        </ul>
-                    </div>
-
-                    <p style="color: var(--color-text-muted); font-style: italic;">💭 <strong>Without caching:</strong>
-                        Every request must go to the database, which is slow and expensive.</p>
-                </div>
-
-                <!-- What Breaks Without It Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
-                        Without It?</h3>
-                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">If caching is not used:</p>
-
-                    <ul
-                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
-                        <li>🔴 Database gets hit for every request</li>
-                        <li>🐌 Response time becomes slow (seconds instead of milliseconds)</li>
-                        <li>💥 Database can overload during peak traffic</li>
-                        <li>❌ System may crash under high load</li>
-                    </ul>
-
-                    <div
-                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
-                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-World Example:</h4>
-                        <p style="color: var(--color-text-secondary); margin: 0;">During a sale, <strong>thousands of
-                                users open the same product page</strong> → DB overload → website goes down ❌</p>
-                    </div>
-                </div>
-
-                <!-- Caching Layers Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Caching
-                        Layers (Where to Cache)</h3>
-
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🌐 Browser Cache</h4>
-                            <p
-                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                                Client-side storage for static assets (images, CSS, JavaScript). Controlled via HTTP
-                                cache headers.</p>
-                        </div>
-
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🌍 CDN Cache</h4>
-                            <p
-                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                                Geographically distributed edge servers that cache content closer to users. Very fast
-                                for global users.</p>
-                        </div>
-
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">⚙️ Application Cache</h4>
-                            <p
-                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                                In-memory stores like Redis & Memcached. For frequently accessed data, sessions, API
-                                responses.</p>
-                        </div>
-
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🗄️ Database Cache</h4>
-                            <p
-                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
-                                Query result caching and buffer pools within the database system itself. Built-in
-                                optimization.</p>
-                        </div>
-                    </div>
-
-                    <!-- Cache Working Diagram -->
-                    <div style="margin-top: 2rem; text-align: center;">
-                        <img src="images/Cache-Working.jpg" alt="How Cache Works - Request Flow Diagram"
-                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
-                        <p
-                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
-                            📊 How caching reduces database load by serving requests from fast memory storage</p>
-                    </div>
-                </div>
-
-                <!-- Cache Invalidation Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Cache
-                        Invalidation Strategies (The Hard Part!)</h3>
-
-                    <ul
-                        style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 2rem;">
-                        <li><strong style="color: var(--color-primary);"><span class="tooltip-trigger"
-                                    data-tooltip="Time To Live - how long cached data remains valid">TTL (Time To
-                                    Live)</span>:</strong> Automatically
-                            expire cached data after a specified duration. Simple but may serve stale data.</li>
-                        <li><strong style="color: var(--color-primary);">Write-through:</strong> Update cache and
-                            database simultaneously. Ensures consistency but slower writes.</li>
-                        <li><strong style="color: var(--color-primary);">Write-behind (Write-back):</strong> Update
-                            cache immediately, database asynchronously. Fast writes but risk of data loss.</li>
-                        <li><strong style="color: var(--color-primary);">Cache-aside (Lazy Loading):</strong>
-                            Application manages cache explicitly. Load from database on cache miss, then populate cache.
-                        </li>
-                        <li><strong style="color: var(--color-primary);">Event-driven Invalidation:</strong> Invalidate
-                            cache entries when related data changes using pub/sub patterns.</li>
-                    </ul>
-
-                    <!-- Cache-Aside Pattern Diagram -->
-                    <div
-                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
-                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 Cache-Aside Pattern Visual</h4>
-                        <img src="images/cache-aside.png" alt="Cache-Aside Pattern Flow Diagram"
-                            style="max-width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 1rem;">
-                        <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">The most common
-                            pattern where your application logic decides when to read/write to cache and database.</p>
-                    </div>
-                </div>
-
-                <!-- When to Use Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ When to Use
-                        It / When NOT to Use It</h3>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use Caching:</h4>
-                            <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
-                                <li>📖 Data is read frequently</li>
-                                <li>🔄 Data does not change very often</li>
-                                <li>⚡ Low latency is required</li>
-                                <li>📈 High traffic is expected</li>
-                            </ul>
-                        </div>
-
-                        <div
-                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
-                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use Caching:</h4>
-                            <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
-                                <li>🔄 Data changes very frequently</li>
-                                <li>🎯 Strong consistency is required</li>
-                                <li>🔐 Data is highly sensitive</li>
-                                <li>⏰ Real-time accuracy is critical</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div
-                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
-                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Examples Where NOT to Cache:</h4>
-                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
-                            <li>💳 <strong>Payment transactions</strong> - must be exact</li>
-                            <li>🏦 <strong>Bank balance</strong> - must be current</li>
-                            <li>🔐 <strong>OTP validation</strong> - single use only</li>
-                            <li>📈 <strong>Real-time stock prices</strong> - must be live</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Common Mistakes Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ One Common
-                        Mistake: Cache Invalidation Problem</h3>
-
-                    <div
-                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
-                        <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 The Scenario:</p>
-                        <ol
-                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 2rem;">
-                            <li>Data is updated in database</li>
-                            <li>Cache still has old data ❌</li>
-                            <li>Users see outdated or wrong information</li>
-                        </ol>
-
-                        <p
-                            style="color: var(--color-primary); font-weight: 600; font-size: 0.95rem; text-align: center; padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-md); margin: 0;">
-                            "There are only two hard problems in computer science: cache invalidation and naming
-                            things."
+                    style="display: none; position: fixed; bottom: 2rem; right: 2rem; background: var(--color-primary);
+                    color: white; border: none; padding: 0.75rem 1.5rem; border-radius: var(--radius-lg); cursor:
+                    pointer; font-weight: 600; z-index: 999; box-shadow: var(--shadow-lg); transition: opacity 0.3s;"
+                    onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="tooltip-trigger" data-tooltip="Click
+                    here to move to top">↑ Top</button>
+                    <!-- Why Does It Exist Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
+                            Exist? (What Problem Does It Solve?)</h3>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Caching exists to solve
+                            <strong>performance and scalability problems</strong>. It helps to:
                         </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                                <li>📊 <strong>Reduce response time</strong> by 10-100x</li>
+                                <li>🗄️ <strong>Reduce database load</strong> significantly</li>
+                                <li>🚀 <strong>Handle high traffic efficiently</strong></li>
+                                <li>💰 <strong>Save infrastructure costs</strong></li>
+                            </ul>
+                        </div>
+
+                        <p style="color: var(--color-text-muted); font-style: italic;">💭 <strong>Without
+                                caching:</strong>
+                            Every request must go to the database, which is slow and expensive.</p>
                     </div>
-                </div>
 
-                <!-- Real App Connection Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Real App
-                        Connection (How They Use Caching)</h3>
+                    <!-- What Breaks Without It Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                            Without It?</h3>
+                        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">If caching is not used:</p>
 
-                    <div
-                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce App</h4>
-                            <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
-                                <li>✅ Product catalog → <strong>Cache</strong></li>
-                                <li>✅ Cart data → <strong>Cache (short time)</strong></li>
-                                <li>❌ Orders & payments → <strong>Database only</strong></li>
-                            </ul>
-                        </div>
-
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 Chat Application</h4>
-                            <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
-                                <li>✅ User profile → <strong>Cache</strong></li>
-                                <li>❌ Messages → <strong>Database</strong></li>
-                                <li>✅ Online status → <strong>Cache</strong></li>
-                            </ul>
-                        </div>
-
-                        <div
-                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎬 OTT Platform</h4>
-                            <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
-                                <li>✅ Home feed → <strong>Cache</strong></li>
-                                <li>✅ Video metadata → <strong>Cache</strong></li>
-                                <li>❌ Watch history → <strong>Database</strong></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Why Not Everywhere Section -->
-                <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ Why Not Use
-                        It Everywhere?</h3>
-
-                    <div
-                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
-                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Caching should not be used
-                            everywhere because:</p>
-                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
-                            <li>🔧 <strong>Cache adds complexity</strong> to the system</li>
-                            <li>📊 <strong>Maintaining consistency is difficult</strong></li>
-                            <li>💰 <strong>Extra infrastructure cost</strong> (Redis, Memcached servers)</li>
+                        <ul
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                            <li>🔴 Database gets hit for every request</li>
+                            <li>🐌 Response time becomes slow (seconds instead of milliseconds)</li>
+                            <li>💥 Database can overload during peak traffic</li>
+                            <li>❌ System may crash under high load</li>
                         </ul>
-                        <p
-                            style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
-                            👉 For critical data, correctness is more important than speed.</p>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-World Example:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">During a sale, <strong>thousands
+                                    of
+                                    users open the same product page</strong> → DB overload → website goes down ❌</p>
+                        </div>
+                    </div>
+
+                    <!-- Caching Layers Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Caching
+                            Layers (Where to Cache)</h3>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🌐 Browser Cache</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Client-side storage for static assets (images, CSS, JavaScript). Controlled via HTTP
+                                    cache headers.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🌍 CDN Cache</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Geographically distributed edge servers that cache content closer to users. Very
+                                    fast
+                                    for global users.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">⚙️ Application Cache
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    In-memory stores like Redis & Memcached. For frequently accessed data, sessions, API
+                                    responses.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🗄️ Database Cache</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Query result caching and buffer pools within the database system itself. Built-in
+                                    optimization.</p>
+                            </div>
+                        </div>
+
+                        <!-- Cache Working Diagram -->
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/Cache-Working.jpg" alt="How Cache Works - Request Flow Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                📊 How caching reduces database load by serving requests from fast memory storage</p>
+                        </div>
+                    </div>
+
+                    <!-- Cache Invalidation Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Cache
+                            Invalidation Strategies (The Hard Part!)</h3>
+
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin-bottom: 2rem;">
+                            <li><strong style="color: var(--color-primary);"><span class="tooltip-trigger"
+                                        data-tooltip="Time To Live - how long cached data remains valid">TTL (Time To
+                                        Live)</span>:</strong> Automatically
+                                expire cached data after a specified duration. Simple but may serve stale data.</li>
+                            <li><strong style="color: var(--color-primary);">Write-through:</strong> Update cache and
+                                database simultaneously. Ensures consistency but slower writes.</li>
+                            <li><strong style="color: var(--color-primary);">Write-behind (Write-back):</strong> Update
+                                cache immediately, database asynchronously. Fast writes but risk of data loss.</li>
+                            <li><strong style="color: var(--color-primary);">Cache-aside (Lazy Loading):</strong>
+                                Application manages cache explicitly. Load from database on cache miss, then populate
+                                cache.
+                            </li>
+                            <li><strong style="color: var(--color-primary);">Event-driven Invalidation:</strong>
+                                Invalidate
+                                cache entries when related data changes using pub/sub patterns.</li>
+                        </ul>
+
+                        <!-- Cache-Aside Pattern Diagram -->
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 Cache-Aside Pattern Visual
+                            </h4>
+                            <img src="images/cache-aside.png" alt="Cache-Aside Pattern Flow Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                            <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">The most
+                                common
+                                pattern where your application logic decides when to read/write to cache and database.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- When to Use Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ When to
+                            Use
+                            It / When NOT to Use It</h3>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use Caching:
+                                </h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                    <li>📖 Data is read frequently</li>
+                                    <li>🔄 Data does not change very often</li>
+                                    <li>⚡ Low latency is required</li>
+                                    <li>📈 High traffic is expected</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use Caching:</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                    <li>🔄 Data changes very frequently</li>
+                                    <li>🎯 Strong consistency is required</li>
+                                    <li>🔐 Data is highly sensitive</li>
+                                    <li>⏰ Real-time accuracy is critical</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Examples Where NOT to Cache:
+                            </h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>💳 <strong>Payment transactions</strong> - must be exact</li>
+                                <li>🏦 <strong>Bank balance</strong> - must be current</li>
+                                <li>🔐 <strong>OTP validation</strong> - single use only</li>
+                                <li>📈 <strong>Real-time stock prices</strong> - must be live</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Common Mistakes Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ One
+                            Common
+                            Mistake: Cache Invalidation Problem</h3>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 The Scenario:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 2rem;">
+                                <li>Data is updated in database</li>
+                                <li>Cache still has old data ❌</li>
+                                <li>Users see outdated or wrong information</li>
+                            </ol>
+
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; font-size: 0.95rem; text-align: center; padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-md); margin: 0;">
+                                "There are only two hard problems in computer science: cache invalidation and naming
+                                things."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Real App Connection Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Real App
+                            Connection (How They Use Caching)</h3>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce App</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                    <li>✅ Product catalog → <strong>Cache</strong></li>
+                                    <li>✅ Cart data → <strong>Cache (short time)</strong></li>
+                                    <li>❌ Orders & payments → <strong>Database only</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 Chat Application</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                    <li>✅ User profile → <strong>Cache</strong></li>
+                                    <li>❌ Messages → <strong>Database</strong></li>
+                                    <li>✅ Online status → <strong>Cache</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎬 OTT Platform</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                    <li>✅ Home feed → <strong>Cache</strong></li>
+                                    <li>✅ Video metadata → <strong>Cache</strong></li>
+                                    <li>❌ Watch history → <strong>Database</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why Not Everywhere Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ Why Not
+                            Use
+                            It Everywhere?</h3>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Caching should not be
+                                used
+                                everywhere because:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>🔧 <strong>Cache adds complexity</strong> to the system</li>
+                                <li>📊 <strong>Maintaining consistency is difficult</strong></li>
+                                <li>💰 <strong>Extra infrastructure cost</strong> (Redis, Memcached servers)</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                                👉 For critical data, correctness is more important than speed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Summary Section -->
+                    <div
+                        style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>Caching improves system performance</strong> by storing frequently accessed data in
+                            memory, reducing database load and response time.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>However, it should not be used</strong> for highly dynamic or sensitive data due to
+                            consistency issues.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>If caching
+                                is
+                                not suitable,</strong> alternatives like read replicas, CDNs, or query optimization can
+                            be
+                            used.</p>
+                    </div>
+
+                    <!-- Pro Tip Section -->
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                        <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Start with <strong>simple
+                                TTL-based caching</strong>, and only add complexity when needed. Monitor cache hit rates
+                            -
+                            <strong>aim for 80%+ for optimal performance gains</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Tools to consider:</strong>
+                            Redis
+                            (fast, in-memory), Memcached (distributed), Varnish (HTTP caching), or built-in caching in
+                            frameworks like Django/Spring.</p>
                     </div>
                 </div>
-
-                <!-- Summary Section -->
-                <div
-                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
-                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
-                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
-                        <strong>Caching improves system performance</strong> by storing frequently accessed data in
-                        memory, reducing database load and response time.
-                    </p>
-                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
-                        <strong>However, it should not be used</strong> for highly dynamic or sensitive data due to
-                        consistency issues.
-                    </p>
-                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>If caching is
-                            not suitable,</strong> alternatives like read replicas, CDNs, or query optimization can be
-                        used.</p>
-                </div>
-
-                <!-- Pro Tip Section -->
-                <div
-                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
-                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Start with <strong>simple
-                            TTL-based caching</strong>, and only add complexity when needed. Monitor cache hit rates -
-                        <strong>aim for 80%+ for optimal performance gains</strong>.
-                    </p>
-                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Tools to consider:</strong> Redis
-                        (fast, in-memory), Memcached (distributed), Varnish (HTTP caching), or built-in caching in
-                        frameworks like Django/Spring.</p>
-                </div>
-            </div>
         </section>
 
         <!-- Next Topic CTA -->
