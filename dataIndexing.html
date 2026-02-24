@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Indexing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Data Indexing</span>
+                </nav>
+
+                <h2>🗂️ Data Indexing: Speed Up Queries with Smart Data Structures</h2>
+
+                <!-- What is Indexing Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Indexing is a technique used
+                        in databases to speed up data retrieval. An index is a separate data structure (usually a B-Tree
+                        or Hash structure) that helps the database locate rows faster without scanning the entire table.
+                    </p>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; font-size: 1.1rem;"><strong
+                                style="color: var(--color-primary);">Simple Concept:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0; font-size: 1.05rem;"><strong>Index
+                                = Shortcut to find data quickly</strong></p>
+                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">The Index tells where data is
+                            located, so the database doesn't need to scan every row.</p>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/DataIndexingImg2.png" alt="Types of Data Indexing Diagram"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-accent);">Real-World
+                                Analogy:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 1.05rem;">📚 Finding
+                            a topic in a book:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>❌ Without index → Read all 500 pages</li>
+                            <li>✅ With index → Jump directly to page 234</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
+                        Exist? (What Problem Does It Solve?)</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EF4444; margin-bottom: 2rem;">
+                        <p style="color: #EF4444; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">❌ Without
+                            Indexing:</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Database performs
+                                Full Table Scan:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>🔍 It checks every row</li>
+                            <li>⏱️ Very slow for large datasets</li>
+                            <li>🔥 CPU intensive operation</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22C55E;">
+                            <p style="color: #22C55E; font-weight: 600; margin-bottom: 1rem;">✅ Indexing Solves:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🚀 Slow query performance</li>
+                                <li>⚡ High query latency</li>
+                                <li>🔎 Large data search inefficiency</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22C55E;">
+                            <p style="color: #22C55E; font-weight: 600; margin-bottom: 1rem;">🎯 Impact:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>📊 Queries run in milliseconds</li>
+                                <li>💪 Better system performance</li>
+                                <li>😊 Better user experience</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EF4444; margin-bottom: 2rem;">
+                        <p style="font-size: 1.05rem; line-height: 1.8; color: var(--color-text-secondary);">
+                            Without indexing, database performance degradation becomes severe:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>🐌 <strong>Queries become slow</strong></li>
+                            <li>🔥 <strong>High CPU usage</strong> (100% scanning)</li>
+                            <li>⏳ <strong>Increased latency</strong></li>
+                            <li>😞 <strong>Poor user experience</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; font-size: 1.05rem;"><strong style="color: var(--color-accent);">📌
+                                Real Example:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 1.05rem;">Searching 1
+                            user from 10 million rows without index → slow ❌</p>
+                        <p style="color: var(--color-text-muted); margin-top: 0.5rem; font-size: 0.95rem;">Database
+                            would need to check millions of rows before finding the right one.</p>
+                    </div>
+                </div>
+
+                <!-- Common Mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">4️⃣ One Common
+                        Mistake: Over-Indexing</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EF4444; margin-bottom: 2rem;">
+                        <p style="color: #EF4444; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">🚨
+                            Over-Indexing Warning:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>⚠️ Too many indexes</li>
+                            <li>🐢 Slows INSERT/UPDATE/DELETE operations</li>
+                            <li>💾 Increases storage usage</li>
+                            <li>🔧 Increases maintenance cost</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(251, 146, 60, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #FB923C; margin-bottom: 2rem;">
+                        <p style="color: #FB923C; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">💡 Key
+                            Remember:</p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                            <strong>Index improves read performance but slows write performance.</strong>
+                        </p>
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">👉 Index only frequently queried
+                            columns.</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ Real App
+                        Connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                            <p style="color: #A855F7; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">🛒
+                                E-commerce</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>📌 Index on product_id</li>
+                                <li>👤 Index on user_id</li>
+                                <li>📅 Index on order_date</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: rgba(139, 92, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8B5CF6;">
+                            <p style="color: #8B5CF6; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">💳
+                                Payments</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🔑 Index on transaction_id</li>
+                                <li>💰 Index on account_id</li>
+                                <li>⏲️ Index on timestamp</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: rgba(79, 172, 254, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #4FACFE;">
+                            <p style="color: #4FACFE; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">📱
+                                Social Media</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🔍 Index on username</li>
+                                <li>📧 Index on email</li>
+                                <li>👑 Index on user_id</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Not Index Everything Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ Why Not Index
+                        Everything?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EF4444;">
+                            <p style="color: #EF4444; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">❌
+                                Drawbacks:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>💾 Index consumes storage</li>
+                                <li>🐢 Slows write operations</li>
+                                <li>🔧 Increases maintenance cost</li>
+                                <li>📊 Not all columns benefit</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22C55E;">
+                            <p style="color: #22C55E; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">✅ Best
+                                Practice:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🎯 Index frequently queried columns</li>
+                                <li>⚖️ Balance read vs write</li>
+                                <li>📈 Monitor query patterns</li>
+                                <li>🧹 Remove unused indexes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How Indexing Works Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ How Does
+                        Indexing Work? (The Process)</h3>
+
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--color-text-secondary);">
+                        Let's say you have <strong>10 million users</strong> and run this query:</p>
+
+                    <div
+                        style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 2rem; border-left: 4px solid var(--color-primary);">
+                        <p
+                            style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.95rem; margin: 0;">
+                            SELECT * FROM users WHERE user_id = 9000000;</p>
+                    </div>
+
+                    <p
+                        style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1rem; color: var(--color-text-secondary);">
+                        ❓ How does the database find that row?</p>
+
+                    <!-- Case 1: Without Index -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EF4444; margin-bottom: 2rem;">
+                        <p style="color: #EF4444; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">❌ Case 1:
+                            Without Index</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Database
+                                will:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>🔍 Start at row 1</li>
+                            <li>✅ Check user_id → Not match → go next</li>
+                            <li>✅ Repeat until it finds 9000000</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Called: Full Table
+                                Scan</strong></p>
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">Time complexity:
+                            <strong>O(n)</strong>
+                        </p>
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">For 10 million rows → ⏱️ Very
+                            slow</p>
+                    </div>
+
+                    <!-- Case 2: With Index -->
+                    <div
+                        style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22C55E; margin-bottom: 2rem;">
+                        <p style="color: #22C55E; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">✅ Case 2:
+                            With Primary Index (Real World)</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>When you create
+                                table:</strong></p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid #22C55E;">
+                            <p
+                                style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.95rem; margin: 0;">
+                                user_id INT PRIMARY KEY</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Database automatically
+                            creates a <strong>B-Tree index</strong>.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Internally:</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary); text-align: center;">
+                            <p style="margin: 0.5rem 0;"> 5000000</p>
+                            <p style="margin: 0.5rem 0;"> / \</p>
+                            <p style="margin: 0.5rem 0;"> 2500000 7500000</p>
+                            <p style="margin: 0.5rem 0;"> ... ...</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>When searching
+                                9000000:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>🌳 Go to tree root</li>
+                            <li>⚖️ Compare & jump right branch</li>
+                            <li>↻ Repeat → Finds exact row quickly</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Time complexity:
+                                O(log n)</strong></p>
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">⚡ Very fast even for millions</p>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/DataIndexingImg3.png" alt="Types of Data Indexing Diagram"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <!-- Real-World Flow -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                        <p style="color: #A855F7; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">🌍
+                            Real-World Flow (What Actually Happens)</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>User logs into
+                                Instagram:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>👤 User enters phone number</li>
+                            <li>💻 Query runs</li>
+                        </ul>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid #A855F7;">
+                            <p
+                                style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                SELECT * FROM users<br />WHERE phone_number = '9876543210';</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>If phone_number is
+                                indexed:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>⚡ Database does NOT scan whole table</li>
+                            <li>🚀 Jumps using index</li>
+                            <li>📍 Finds row location</li>
+                            <li>📦 Fetches data</li>
+                            <li>⌚ Total time: milliseconds</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/DataIndexingImg1.png" alt="Types of Data Indexing Diagram"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <!-- How Index Works -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                        <p
+                            style="color: var(--color-accent); font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                            🔑 How Index Works:</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Index
+                                stores:</strong></p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid var(--color-accent); font-family: monospace; font-size: 0.95rem; color: var(--color-text-secondary);">
+                            column_value → pointer to row location
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>The
+                                Process:</strong></p>
+                        <ol style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>🎯 Use index to find location</li>
+                            <li>🚀 Jump to actual row in table</li>
+                            <li>📤 Return data</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Types of Indexes Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">8️⃣ Types of
+                        Indexes (Important)</h3>
+
+                    <!-- Primary Index -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                        <p
+                            style="color: var(--color-accent); font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">
+                            1️⃣ Primary Index</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>What it is:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Index created
+                            automatically on the Primary Key.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example:</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid var(--color-accent);">
+                            <p
+                                style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                user_id INT PRIMARY KEY</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                            <strong>Properties:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>🔑 Unique (no duplicates)</li>
+                            <li>1️⃣ Only one per table</li>
+                            <li>⚡ Fast lookup</li>
+                        </ul>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Real-world use -
+                                Login system:</strong></p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--color-accent); font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <p style="margin: 0;">SELECT * FROM users WHERE user_id = 1001;</p>
+                        </div>
+                        <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 0.5rem;">✅ Fast because
+                            of primary index</p>
+                    </div>
+
+                    <!-- Secondary Index -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 2rem;">
+                        <p style="color: #F97316; font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">2️⃣
+                            Secondary Index</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>What it is:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Index created manually on
+                            non-primary column.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example:</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid #F97316;">
+                            <p
+                                style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                CREATE INDEX idx_email ON users(email);</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Why?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Because users search by
+                            email.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Real-world - Login
+                                by email:</strong></p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #F97316; font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <p style="margin: 0;">SELECT * FROM users<br />WHERE email = 'anna@gmail.com';</p>
+                        </div>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>❌ Without index → slow</li>
+                            <li>✅ With index → fast</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/DataIndexingImg4.png" alt="Types of Data Indexing Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <!-- Composite Index -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                        <p style="color: #A855F7; font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">3️⃣
+                            Composite Index (Multi-column)</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>What it is:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Index on multiple columns
+                            together.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example:</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid #A855F7;">
+                            <p
+                                style="color: var(--color-text-secondary); font-family: monospace; font-size: 0.9rem; margin: 0;">
+                                CREATE INDEX idx_name_city<br />ON users(name, city);</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>When to
+                                use:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">When query uses multiple
+                            columns together.</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example
+                                Query:</strong></p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border-left: 3px solid #A855F7; font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <p style="margin: 0; line-height: 1.6;">SELECT * FROM users<br />WHERE name='Anna' AND
+                                city='Hyderabad';</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>⚠️ Important
+                                Rule:</strong></p>
+                        <p style="color: var(--color-text-muted); font-size: 0.95rem;">Composite index works best in the
+                            order defined.</p>
+                    </div>
+
+                    <!-- Clustered Index -->
+                    <div
+                        style="background: rgba(34, 197, 94, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22C55E; margin-bottom: 2rem;">
+                        <p style="color: #22C55E; font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">4️⃣
+                            Clustered Index</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>What it is:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Data stored physically in
+                            sorted order of indexed column.</p>
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/DataIndexingImg6.webp" alt="Types of Data Indexing Diagram"
+                                style="max-width:50%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Key
+                                facts:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>1️⃣ Only one per table</li>
+                            <li>🔑 Primary key usually clustered index</li>
+                        </ul>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Why
+                                important:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">⚡ Faster range queries.
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example:</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.05); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #22C55E; font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary);">
+                            <p style="margin: 0; line-height: 1.6;">SELECT * FROM orders<br />WHERE order_date
+                                BETWEEN<br />'2024-01-01' AND '2024-01-31';</p>
+                        </div>
+                    </div>
+                    <!-- Non-Clustered Index -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                        <p
+                            style="color: var(--color-accent); font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">
+                            5️⃣ Non-Clustered Index</p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>What it is:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Separate structure
+                            pointing to actual data rows.</p>
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/DataIndexingImg5.jpg" alt="Types of Data Indexing Diagram"
+                                style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Key
+                                facts:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                            <li>♾️ Multiple non-clustered indexes allowed</li>
+                            <li>🔍 Used for frequently searched columns</li>
+                            <li>🔗 Contains column value + pointer</li>
+                        </ul>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Real-world use
+                                case:</strong></p>
+                        <p style="color: var(--color-text-secondary);">E-commerce product search by category, brand,
+                            price range</p>
+                    </div>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div style="margin-top: 3rem; margin-bottom: 3rem;">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #FB923C;">
+                        <p style="color: #FB923C; font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem;">💡 Pro
+                            Tip:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>📊 <strong>Monitor query performance:</strong> Use database query analyzer to identify
+                                slow queries</li>
+                            <li>🎯 <strong>Index strategically:</strong> Focus on SELECT, WHERE, JOIN, and ORDER BY
+                                clauses</li>
+                            <li>🚀 <strong>ANALYZE queries:</strong> Use EXPLAIN statement to see if index is being used
+                            </li>
+                            <li>🔧 <strong>Regular maintenance:</strong> Remove unused indexes, rebuild fragmented ones
+                            </li>
+                            <li>⚖️ <strong>Balance act:</strong> Too many indexes hurt write performance, too few hurt
+                                read performance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div style="margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p
+                            style="font-size: 1.15rem; color: var(--color-text-secondary); line-height: 1.8; font-weight: 500; margin: 0;">
+                            <strong style="color: var(--color-primary);">Data Indexing</strong> is a database
+                            optimization technique that creates a separate data structure (B-Tree, Hash, etc.) to
+                            improve query performance by enabling faster data retrieval without full table scans.
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="microservices.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔧 Microservices</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Data Indexing 🗂️', 'success');
+        });
+    </script>
+</body>
+
+</html>

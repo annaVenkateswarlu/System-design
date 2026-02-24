@@ -35,6 +35,8 @@
             <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
             <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
             <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
             <li><a href="microservices.html">🔧 Microservices</a></li>
             <li><a href="api-design.html">🔌 API Design</a></li>
             <li><a href="message-queues.html">📬 Message Queues</a></li>
@@ -134,6 +136,50 @@
                                 <li><strong>Automatic fault detection</strong> with eventual consistency</li>
                             </ul>
                         </div>
+                    </div>
+
+                    <!-- Centralized vs Gossip Comparison Table -->
+                    <div style="margin-top: 2rem; overflow-x: auto;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead>
+                                <tr
+                                    style="background: rgba(16, 185, 129, 0.1); border-bottom: 2px solid var(--glass-border);">
+                                    <th
+                                        style="padding: 1rem 1.5rem; text-align: left; color: var(--color-primary); font-weight: 600; font-size: 1.05rem;">
+                                        Centralized (Single Master)</th>
+                                    <th
+                                        style="padding: 1rem 1.5rem; text-align: left; color: var(--color-primary); font-weight: 600; font-size: 1.05rem;">
+                                        Gossip (Decentralized P2P)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>🔴 One master node</strong>
+                                    </td>
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>🟢 No master node</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>⚠️ Single point of failure - Risky</strong>
+                                    </td>
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>✅ Fault tolerant - No single point of failure</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>📊 Hard to scale beyond few nodes</strong>
+                                    </td>
+                                    <td style="padding: 1rem 1.5rem; color: var(--color-text-secondary);">
+                                        <strong>🚀 Easy to scale to thousands of nodes</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
