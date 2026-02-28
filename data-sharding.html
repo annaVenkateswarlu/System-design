@@ -45,6 +45,10 @@
             <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
             <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
             <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
             <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
         </ul>
     </div>
@@ -120,7 +124,7 @@
                             style="color: var(--color-primary); font-weight: 600; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 1rem;">
                             Sharding helps by:</p>
                         <ul
-                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 0;">
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
                             <li>📊 Distributing data</li>
                             <li>⚖️ Distributing load</li>
                             <li>📈 Allowing horizontal scaling</li>
@@ -160,7 +164,7 @@
                             style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
                             <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use Sharding:</h4>
                             <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
                                 <li>🌍 Very large datasets</li>
                                 <li>⚖️ High write traffic</li>
                                 <li>👥 Millions of users</li>
@@ -171,7 +175,7 @@
                             style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
                             <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use:</h4>
                             <ul
-                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
                                 <li>📦 Small databases</li>
                                 <li>🔇 Low traffic apps</li>
                             </ul>
@@ -302,7 +306,7 @@
                                     style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">
                                     ✅ Pros:</p>
                                 <ul
-                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 1;">
                                     <li>Scales very well</li>
                                     <li>No size limit</li>
                                     <li>Used by big companies</li>
@@ -313,7 +317,7 @@
                                 <p style="color: #dc2626; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">❌
                                     Cons:</p>
                                 <ul
-                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 1;">
                                     <li>Complex queries</li>
                                     <li>Joins across shards are hard</li>
                                 </ul>
@@ -349,7 +353,7 @@
                                     style="color: var(--color-primary); font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">
                                     ✅ Pros:</p>
                                 <ul
-                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin:1;">
                                     <li>Faster access for common data</li>
                                     <li>Reduces table size</li>
                                 </ul>
@@ -359,7 +363,7 @@
                                 <p style="color: #dc2626; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem;">❌
                                     Cons:</p>
                                 <ul
-                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 0;">
+                                    style="color: var(--color-text-secondary); font-size: 0.9rem; line-height: 1.6; margin-left: 1rem; margin: 1;">
                                     <li>Not great for huge scale</li>
                                     <li>Needs joins across databases</li>
                                 </ul>
@@ -402,7 +406,7 @@
                     <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🌍 Real-World Usage:</h4>
                     <div
                         style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
-                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 0;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
                             <li>📱 <strong>Facebook / Instagram:</strong> Horizontal sharding for billions of users</li>
                             <li>👤 <strong>User profile systems:</strong> Vertical sharding for heavy fields (photos,
                                 videos)</li>

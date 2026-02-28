@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checksum - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Checksum</span>
+                </nav>
+
+                <h2>🔐 Checksum: Data Integrity Guardian</h2>
+
+                <!-- What is Checksum Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Checksum is a small
+                        numerical
+                        value calculated from a block of data to verify if the data has changed.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Process:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>🔢 <strong>Calculate checksum</strong> from original data</li>
+                            <li>📤 <strong>Transmit data + checksum</strong></li>
+                            <li>🔍 <strong>Recalculate checksum</strong> on received data</li>
+                            <li>✅ <strong>Compare checksums</strong> to detect corruption</li>
+                        </ul>
+                    </div>
+
+                    <!-- Checksum Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CheckSumImg1.png" alt="Checksum Process Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 How checksum detects data corruption during transmission</p>
+                    </div>
+                </div>
+
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
+                        Exist? (What Problem Does It Solve?)</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Checksum exists to solve
+                        <strong>data integrity problems</strong>. It helps answer:
+                    </p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">"Did this data
+                            change or get corrupted?"</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>🌐 <strong>Data corruption during transmission</strong></li>
+                            <li>💾 <strong>Bit flips in storage</strong></li>
+                            <li>🔄 <strong>Corruption during replication</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Parity Bit Section -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Limitation of Parity Bit:</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin-bottom: 1rem;">
+                            <li>➕ <strong>Adds 1 extra bit</strong></li>
+                            <li>🔍 <strong>Detects only single-bit errors</strong></li>
+                            <li>❌ <strong>Fails for many multi-bit (burst) errors</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-style: italic;">
+                            <strong>Example:</strong> If 2 bits flip → parity might still look correct ❌
+                        </p>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                            👉 So we needed something stronger → Checksum</p>
+                    </div>
+
+                    <!-- Parity Bit Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ParityBitImg1.png" alt="Parity Bit Limitation"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Parity bit fails to detect multi-bit errors</p>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without checksum:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>🔴 Corrupted data goes unnoticed</li>
+                        <li>📁 File downloads may be damaged</li>
+                        <li>🗄️ Database replication errors undetected</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Download a file → 1 bit changes → file
+                            becomes unusable.</p>
+                    </div>
+                </div>
+
+                <!-- When to Use Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ When to
+                        Use / When NOT to Use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use Checksum:
+                            </h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>🌐 Network data transfer</li>
+                                <li>📁 File downloads</li>
+                                <li>☁️ Distributed storage</li>
+                                <li>🗄️ Database replication</li>
+                                <li>💾 Backup verification</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>📝 Small temporary data</li>
+                                <li>📊 Non-critical logs</li>
+                                <li>💻 Internal memory operations (low risk)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Examples:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>📤 <strong>File upload/download</strong></li>
+                            <li>🌐 <strong>Distributed systems</strong></li>
+                            <li>💾 <strong>Block storage systems</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Common Mistakes Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ One Common
+                        Mistake</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 Confusing checksum with
+                            encryption</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 2rem;">
+                            <li>✅ <strong>Checksum detects accidental errors</strong></li>
+                            <li>❌ <strong>It does NOT protect against malicious tampering</strong></li>
+                        </ul>
+
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; font-size: 0.95rem; text-align: center; padding: 1rem; background: var(--glass-bg); border-radius: var(--radius-md); margin: 0;">
+                            Checksum ≠ Security
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>For security:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                            <li>🔐 Use cryptographic hash (SHA-256)</li>
+                            <li>📝 Use digital signatures</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Important Property Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">Important
+                        Property</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: var(--color-primary);">Small change in input data</strong><br>
+                            → <strong style="color: var(--color-primary);">Big change in checksum</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                            This helps detect errors easily.
+                        </p>
+                    </div>
+
+                    <!-- Checksum Property Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CheckSumImg3.webp" alt="Checksum Property - Avalanche Effect"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Small input change creates completely different checksum</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real App
+                        Connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🌐 File Downloads</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>✅ Software downloads include checksum</li>
+                                <li>✅ You verify after download</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">☁️ Distributed Storage</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>✅ Systems like HDFS use checksums</li>
+                                <li>✅ Detect corrupted blocks</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CheckSumImg4.webp" alt="Checksum Process Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 How Checksum Process works</p>
+                    </div>
+                </div>
+
+                <!-- Why Not Rely Only on Checksum Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Why Not
+                        Rely Only on Checksum?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Because:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>🔍 <strong>It only detects accidental errors</strong></li>
+                            <li>🚫 <strong>Does not prevent corruption</strong></li>
+                            <li>🔐 <strong>Does not provide authentication</strong></li>
+                            <li>⚠️ <strong>Weak checksum can have collisions</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                            👉 For security, use cryptographic hashing.</p>
+                    </div>
+                </div>
+
+                <!-- Types of Checksums Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Types of
+                        Checksums</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔹 Simple Checksum</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                Sum of bytes</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔹 CRC (Cyclic Redundancy
+                                Check)</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                Used in networking</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔹 Cryptographic Hash</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                MD5, SHA-256 (stronger integrity)</p>
+                        </div>
+                    </div>
+
+                    <!-- Checksum vs Hash Comparison -->
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">Checksum vs Hash</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Both look similar but
+                            purpose
+                            differs.</p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">Checksum</h5>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem;">
+                                    <li>🔍 Error detection</li>
+                                    <li>⚡ Simple</li>
+                                    <li>🌐 Used in networking</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">Cryptographic Hash</h5>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem;">
+                                    <li>🔐 Security</li>
+                                    <li>⚙️ Complex</li>
+                                    <li>🔑 Used in passwords</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0; font-style: italic;">
+                                <strong>Example:</strong> CRC → checksum | SHA-256 → cryptographic hash
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        A <strong>checksum is a computed value used to detect accidental data corruption</strong> during
+                        transmission or storage.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Checksum = Data integrity checker</strong>
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>Remember Checksum:</strong><br>
+                        ✅ Detects errors<br>
+                        ❌ Does NOT correct errors<br>
+                        ⚠️ Not 100% perfect (rare collisions possible)
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Use <strong>CRC32 for fast
+                            error detection</strong> in networking and file transfers. For security-critical
+                        applications,
+                        always use <strong>cryptographic hashes like SHA-256</strong> instead of simple checksums.
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Common implementations:</strong>
+                        TCP/IP (CRC), Ethernet (CRC), Git (SHA-1), Bitcoin (SHA-256).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="consistent-hashing.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔄 Consistent Hashing</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Checksum 🔐', 'success');
+        });
+    </script>
+</body>
+
+</html>

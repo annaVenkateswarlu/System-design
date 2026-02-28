@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gateway - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">API Gateway</span>
+                </nav>
+
+                <h2>🚪 API Gateway — Centralized Control for Distributed Systems </h2>
+
+                <!-- What is API Gateway Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">An API Gateway is a single
+                        entry point for all client requests in a microservices architecture.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Instead of:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>Client → Service A</li>
+                            <li>Client → Service B</li>
+                            <li>Client → Service C</li>
+                        </ul>
+                        <p style="margin: 1rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">We use:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>Client → API Gateway → Multiple Services</li>
+                        </ul>
+                    </div>
+
+                    <!-- API Gateway Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/APIGatewayImg1.png" alt="API Gateway Architecture Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 API Gateway as single entry point for microservices</p>
+                    </div>
+                </div>
+
+                <!-- How It Works Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔄 Real-World
+                        Flow (How Companies Do It)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Client sends request to API Gateway</strong>
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Gateway authenticates request</strong>
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Routes to correct backend service</strong>
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Combines response (if needed)</strong>
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                5</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Sends back to client</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
+                        Exist? (What problem does it solve?)</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">In microservices:</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>🏗️ <strong>Many services exist</strong></li>
+                            <li>🔗 <strong>Each service has its own endpoint</strong></li>
+                            <li>🌐 <strong>Clients must know all service URLs ❌</strong></li>
+                            <li>🔒 <strong>Security & logging duplicated ❌</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">API Gateway does:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>🎯 <strong>Centralized routing</strong></li>
+                            <li>🔐 <strong>Authentication & authorization</strong></li>
+                            <li>🚦 <strong>Rate limiting</strong></li>
+                            <li>📊 <strong>Logging & monitoring</strong></li>
+                            <li>🔄 <strong>Request aggregation</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without API Gateway:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>🔴 <strong>Clients directly call microservices</strong></li>
+                        <li>🔗 <strong>Tight coupling between client & backend</strong></li>
+                        <li>📌 <strong>Example:</strong><br>
+                            Mobile app must know 10 different service URLs ❌</li>
+                    </ul>
+                </div>
+
+                <!-- Real-world Analogy Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Real-world
+                        Analogy</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">API Gateway =
+                            Reception Desk in Corporate Office 🏢</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>🚪 <strong>Visitors enter through reception</strong></li>
+                            <li>🗂️ <strong>Reception routes them to right department</strong></li>
+                            <li>📝 <strong>Reception checks ID & logs entry</strong></li>
+                            <li>🛡️ <strong>Clients don't directly access departments.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- When to Use Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ When to Use /
+                        When NOT to Use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>🏗️ <strong>Microservices architecture</strong></li>
+                                <li>📈 <strong>High-traffic systems</strong></li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>🛒 <strong>E-commerce</strong></li>
+                                <li>🏦 <strong>Banking apps</strong></li>
+                                <li>☁️ <strong>SaaS platforms</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT to Use:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>📦 <strong>Monolithic application</strong></li>
+                                <li>📱 <strong>Very small system</strong></li>
+                                <li>🔧 <strong>Single backend service</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-muted); font-style: italic; margin-top: 1rem; margin-bottom: 0;">
+                                📌 API Gateway is unnecessary overhead for simple systems.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Shouldn't Clients Call Microservices Directly Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">Why Shouldn't
+                        Clients Call
+                        Microservices Directly?</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+
+                        <!-- Problem 1: Tight Coupling -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem; border-left: 4px solid #dc2626;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: #dc2626; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; flex-shrink: 0; margin-right: 1rem;">
+                                    🚫
+                                </div>
+                                <h4 style="color: #dc2626; font-weight: 600; margin: 0; font-size: 1.3rem;">1️⃣ Tight
+                                    Coupling Between Client & Services</h4>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                                    <strong>If clients call services directly:</strong>
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">📱
+                                            Mobile App → User Service</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">📦
+                                            Mobile App → Order Service</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">💳
+                                            Mobile App → Payment Service</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">📦
+                                            Mobile App → Inventory Service</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg);">
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem;">
+                                    <strong>🔥 Problems This Creates:</strong>
+                                </p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                                    <div
+                                        style="background: #dc2626; color: white; padding: 0.8rem 1.2rem; border-radius: 2rem; font-weight: 600; font-size: 0.9rem; flex: 1; min-width: 200px; text-align: center;">
+                                        🔗 Client must know every service URL
+                                    </div>
+                                    <div
+                                        style="background: #dc2626; color: white; padding: 0.8rem 1.2rem; border-radius: 2rem; font-weight: 600; font-size: 0.9rem; flex: 1; min-width: 200px; text-align: center;">
+                                        🔢 Client must know service versions
+                                    </div>
+                                    <div
+                                        style="background: #dc2626; color: white; padding: 0.8rem 1.2rem; border-radius: 2rem; font-weight: 600; font-size: 0.9rem; flex: 1; min-width: 200px; text-align: center;">
+                                        🔄 Any backend change → client must update ❌
+                                    </div>
+                                </div>
+                                <p
+                                    style="color: #dc2626; font-weight: 600; margin-top: 1.5rem; text-align: center; font-size: 1.1rem;">
+                                    👉 <strong>This creates tight coupling.</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Problem 2: Security Becomes Messy -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem; border-left: 4px solid #dc2626;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: #dc2626; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; flex-shrink: 0; margin-right: 1rem;">
+                                    🔐
+                                </div>
+                                <h4 style="color: #dc2626; font-weight: 600; margin: 0; font-size: 1.3rem;">2️⃣ Security
+                                    Becomes Messy</h4>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                                    <strong>If services are exposed directly:</strong>
+                                </p>
+                                <div
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1.2rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔐</div>
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">Each
+                                            service must handle authentication</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1.2rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">Each
+                                            service must handle authorization</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1.2rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚦</div>
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">Each
+                                            service must implement rate limiting</p>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1.2rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid rgba(239, 68, 68, 0.2);">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔑</div>
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">Each
+                                            service must validate tokens</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); text-align: center;">
+                                <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 1.2rem;">
+                                    👉 <strong>Centralizing security is safer.</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Problem 3: Versioning Becomes Difficult -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); border-left: 4px solid #dc2626;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: #dc2626; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; flex-shrink: 0; margin-right: 1rem;">
+                                    ⚠️
+                                </div>
+                                <h4 style="color: #dc2626; font-weight: 600; margin: 0; font-size: 1.3rem;">3️⃣
+                                    Versioning Becomes Difficult</h4>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg);">
+                                    <div style="text-align: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">❌</div>
+                                        <h5 style="color: #dc2626; font-weight: 600; margin: 0;">Without gateway:</h5>
+                                    </div>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                        <p style="color: #dc2626; font-weight: 600; margin: 0; font-size: 0.9rem;">
+                                            📱 Client must handle different versions per service
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg);">
+                                    <div style="text-align: center; margin-bottom: 1rem;">
+                                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                                        <h5 style="color: var(--color-primary); font-weight: 600; margin: 0;">With
+                                            gateway:</h5>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                        <div
+                                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                            <p
+                                                style="color: var(--color-primary); font-weight: 600; margin: 0; font-size: 0.9rem;">
+                                                🎯 Versioning managed centrally
+                                            </p>
+                                        </div>
+                                        <div
+                                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+                                            <p
+                                                style="color: var(--color-primary); font-weight: 600; margin: 0; font-size: 0.9rem;">
+                                                🔄 Smooth migration possible
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What Happens Inside an API Gateway Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">What Happens
+                        Inside an API
+                        Gateway?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+
+                        <!-- What Should Client Ask API Gateway -->
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">1️⃣ What
+                                Should Client Ask API Gateway?</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>The client should NOT know internal services.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Client should only call:</strong>
+                            </p>
+                            <div
+                                style=" display: inline-block; background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center; margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                    https://api.company.com/&lt;endpoint&gt;
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-top: 0.5rem; font-style: italic;">
+                                    Examples: GET /users/123
+                                </p>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Client never calls:</strong>
+                            </p>
+                            <div
+                                style=" display: inline-block; background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                <p style="color: #dc2626; font-weight: 600; margin: 0;">
+                                    user-service.company.internal<br>
+                                    order-service.company.internal
+                                </p>
+                            </div>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                                👉 <strong>Client talks only to gateway.</strong>
+                            </p>
+                        </div>
+
+                        <!-- What Happens When Client Sends Request -->
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">2️⃣ What
+                                Happens When Client Sends Request?</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <div
+                                style=" display: inline-block; background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align:left; margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                    GET /orders/456
+                                </p>
+                            </div>
+
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Step 1:
+                                        Authentication</h5>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                        <li>🔑 <strong>Validate JWT token</strong></li>
+                                        <li>🔑 <strong>Check API key</strong></li>
+                                        <li>👤 <strong>Verify user identity</strong></li>
+                                        <strong>If invalid → Reject request ❌</strong>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Step 2:
+                                        Authorization</h5>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                        <li>🔐 <strong>Check if user can access this resource</strong></li>
+
+                                    </ul>
+                                    <br>
+                                    <strong>Example:</strong>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                        <li>👑 <strong>Admin → allowed</strong></li>
+                                        <li>👤 <strong>Normal user → restricted</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Step 3: Rate
+                                        Limiting</h5>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                        <li>📊 <strong>Check request count</strong></li>
+                                        <li>🚫 <strong>If exceeded → 429 Too Many Requests</strong></li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Step 4: Routing
+                                        Logic (Very Important)</h5>
+                                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                        <strong>Gateway has a routing table like:</strong>
+                                    </p>
+                                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
+                                        <thead>
+                                            <tr
+                                                style="background: rgba(16, 185, 129, 0.1); border-bottom: 2px solid var(--color-primary);">
+                                                <th
+                                                    style="padding: 0.8rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                                    URL Pattern</th>
+                                                <th
+                                                    style="padding: 0.8rem; text-align: left; color: var(--color-primary); font-weight: 600;">
+                                                    Service</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-bottom: 1px solid var(--glass-border);">
+                                                <td style="padding: 0.8rem;">/users/*</td>
+                                                <td style="padding: 0.8rem;">User Service</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid var(--glass-border);">
+                                                <td style="padding: 0.8rem;">/orders/*</td>
+                                                <td style="padding: 0.8rem;">Order Service</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid var(--glass-border);">
+                                                <td style="padding: 0.8rem;">/payments/*</td>
+                                                <td style="padding: 0.8rem;">Payment Service</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 0.8rem;">/inventory/*</td>
+                                                <td style="padding: 0.8rem;">Inventory Service</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="color: var(--color-text-secondary); margin: 0; font-style: italic;">
+                                        When request matches /orders/*<br>
+                                        Gateway forwards request to:<br>
+                                        <strong>order-service.internal:8080</strong><br>
+                                        This is called Path-based routing.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- How Does Gateway Know Service Location -->
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">3️⃣ How Does
+                                Gateway Know Service Location?</h4>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Method 1: Service
+                                        Discovery (Dynamic)</h5>
+                                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                        <strong>Gateway talks to:</strong>
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                        <li>🗂️ <strong>Service registry (like Eureka / Consul)</strong></li>
+                                        <li>☁️ <strong>Kubernetes DNS</strong></li>
+                                    </ul>
+                                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                        <strong>Flow:</strong>
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0; font-style: italic;">
+                                        Gateway → Service Registry → Find Order Service → Route request
+                                    </p>
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                                        Used in microservices.
+                                    </p>
+                                </div>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <h5 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Method 2: Load
+                                        Balancing</h5>
+                                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                        <strong>If multiple order service instances exist:</strong>
+                                    </p>
+                                    <div
+                                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center; margin-bottom: 1rem;">
+                                        <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                            Order Service:<br>
+                                            - Instance 1<br>
+                                            - Instance 2<br>
+                                            - Instance 3
+                                        </p>
+                                    </div>
+                                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                        <strong>Gateway chooses one using:</strong>
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 0;">
+                                        <li>🔄 <strong>Round robin</strong></li>
+                                        <li>📊 <strong>Least connections</strong></li>
+                                        <li>🎲 <strong>Random</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- What Else Happens Inside Gateway -->
+                        <div>
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">🔄
+                                Real-World Flow (What Else Happens Inside Gateway)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Besides routing, it can:</strong>
+                            </p>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">🔄 Aggregate
+                                        responses</p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">🔄 Transform
+                                        request/response</p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">🗜️ Compress
+                                        data</p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">📝 Add headers
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">📊 Log request
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">📈 Monitor
+                                        metrics</p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">⚡ Circuit
+                                        breaking</p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">🔄 Retry failed
+                                        calls</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Example: Dashboard API Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Example:
+                        Dashboard API</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Client calls:</p>
+                        <div
+                            style="display: inline-block; background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); text-align: center; margin-bottom: 1rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                GET /dashboard
+                            </p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                            <strong>Dashboard requires:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1;">
+                            <li>👤 <strong>User data</strong></li>
+                            <li>📦 <strong>Orders</strong></li>
+                            <li>🔔 <strong>Notifications</strong></li>
+                        </ul>
+                        <br>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                            <strong>Gateway internally calls:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1;">
+                            <li>👤 <strong>User Service</strong></li>
+                            <li>📦 <strong>Order Service</strong></li>
+                            <li>🔔 <strong>Notification Service</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                            <strong>Then combines all responses</strong>
+                        </p>
+                        <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                            Returns single response to client.
+                        </p>
+                        <p style="color: var(--color-text-muted); font-style: italic; margin-top: 1rem;">
+                            This is API Composition.
+                        </p>
+                    </div>
+
+                    <!-- Dashboard API Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/APIGatewayImg2.png" alt="API Gateway Dashboard Example"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 API Gateway aggregating responses from multiple services</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                Client → Gateway →<br>
+                                User Service<br>
+                                Product Service<br>
+                                Order Service<br>
+                                Payment Service
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">
+                                <strong>Gateway handles:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>🔐 <strong>JWT authentication</strong></li>
+                                <li>🚦 <strong>Rate limiting</strong></li>
+                                <li>📊 <strong>Aggregated response</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📷 Real Example
+                                (Instagram-like App)</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                <strong>When you open home feed:</strong><br>
+                                Client calls:<br>
+                                GET /home
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">
+                                <strong>API Gateway:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>👤 <strong>Calls User Service</strong></li>
+                                <li>📝 <strong>Calls Post Service</strong></li>
+                                <li>🎯 <strong>Calls Recommendation Service</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">
+                                <strong>Combines data</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                Returns single response to client.
+                            </p>
+                            <p style="color: var(--color-text-muted); font-style: italic; margin-top: 1rem;">
+                                Client doesn't know internal structure.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Real App Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/APIGatewayImg3.png" alt="API Gateway Real World Example"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 API Gateway handling requests in real applications</p>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>An API Gateway is a centralized entry point in a microservices architecture</strong>
+                        that handles routing, authentication, rate limiting, and request aggregation.
+                    </p>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Popular API Gateways are:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li><strong>1. Kong</strong></li>
+                            <li><strong>2. AWS API Gateway</strong></li>
+                            <li><strong>3. Nginx</strong></li>
+                        </ul>
+                    </div>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        <strong>API Gateway simplifies client complexity</strong> while providing essential
+                        cross-cutting concerns like security, monitoring, and routing in a centralized layer.
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                        Use <strong>API Gateway when you have multiple microservices</strong> that need centralized
+                        management of cross-cutting concerns like authentication, rate limiting, and request
+                        transformation.
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin: 0;">
+                        <strong>For simple monolithic applications, a direct load balancer might be sufficient.</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: API Gateway 🚪', 'success');
+        });
+    </script>
+</body>
+
+</html>

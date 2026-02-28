@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idempotency - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Idempotency</span>
+                </nav>
+
+                <h2>🔁 Idempotency - Speed Through Strategic Storage</h2>
+
+                <!-- What is Idempotency Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">An operation is idempotent
+                        if :
+                        <br>
+                        Performing it multiple times produces the same result as performing it once.
+                    </p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);">Doing it once or 10 times →
+                            result stays same.</p>
+                        <p style="margin: 1rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Mathematically:</strong></p>
+                        <p
+                            style="margin: 0.5rem 0; text-align: center; font-size: 1.2rem; font-weight: 600; color: var(--color-primary);">
+                            f(f(x)) = f(x)
+                        </p>
+                    </div>
+
+                    <!-- Idempotency Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/IdempotentImg2.png" alt="Idempotency Concept Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 How idempotent operations produce same results</p>
+                    </div>
+                </div>
+
+                <!-- How Idempotency is Implemented -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 How
+                        Idempotency is
+                        Implemented</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <div style="margin-left: 2rem;">
+                                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                    <span
+                                        style="color: var(--color-primary); font-size: 1.2rem; font-weight: 600; margin-right: 1rem;">•</span>
+                                    <span style="color: var(--color-text-secondary); font-size: 1.05rem;">Client sends
+                                        Idempotency-Key</span>
+                                </div>
+
+                                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                    <span
+                                        style="color: var(--color-primary); font-size: 1.2rem; font-weight: 600; margin-right: 1rem;">•</span>
+                                    <span style="color: var(--color-text-secondary); font-size: 1.05rem;">Server stores
+                                        request result</span>
+                                </div>
+
+                                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                                    <span
+                                        style="color: var(--color-primary); font-size: 1.2rem; font-weight: 600; margin-right: 1rem;">•</span>
+                                    <span style="color: var(--color-text-secondary); font-size: 1.05rem;">If same key
+                                        appears again :
+                                        <strong>Return previous result</strong></span>
+                                </div>
+
+                                <div style="display: flex; align-items: center;">
+                                    <span
+                                        style="color: #dc2626; font-size: 1.2rem; font-weight: 600; margin-right: 1rem;">•</span>
+                                    <span style="color: #dc2626; font-size: 1.05rem; font-weight: 600;">Else : Don't
+                                        execute
+                                        again</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Does It Exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why Does It
+                        Exist? (What problem does it solve?)</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Idempotency solves:</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>🔄 <strong>Duplicate requests</strong></li>
+                            <li>🌐 <strong>Network retries</strong></li>
+                            <li>⏱️ <strong>Timeout replays</strong></li>
+                            <li>💳 <strong>Double payments</strong></li>
+                            <li>📦 <strong>Duplicate order creation</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                            <strong style="color: var(--color-primary);">In distributed systems:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>🔄 Clients often retry requests</li>
+                            <li>🛡️ We must prevent repeated execution</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What Breaks Without It Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What Breaks
+                        Without It?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without idempotency:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left:0; margin-bottom: 2rem;">
+                        <li>💳 Double payments</li>
+                        <li>📦 Duplicate orders</li>
+                        <li>🗄️ Duplicate database entries</li>
+                        <li>⚠️ Inconsistent system state</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">
+                            User clicks "Pay" twice → money deducted twice ❌
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When to Use Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ When to Use /
+                        When NOT to Use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to Use Idempotency:
+                            </h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>💳 Payment APIs</li>
+                                <li>📦 Order creation</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                                Especially important when:<br>
+                                🔄 Retries are possible
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT Needed:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>👁️ Pure read operations</li>
+                                <li>📝 Temporary non-critical logs</li>
+                                <li>🧮 Stateless calculations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ One Common
+                        Mistake</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 113, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 Confusing idempotent with
+                            safe.</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                            <div>
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                    Safe → No state change (GET)
+                                </p>
+                            </div>
+                            <div>
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">
+                                    Idempotent → May change state, but repeating doesn't change result further
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                <li>🗑️ <strong>DELETE is idempotent</strong> (deleting twice still deleted)</li>
+                                <li>📝 <strong>POST is usually NOT idempotent</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HTTP Methods and Idempotency Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 HTTP Methods
+                        and
+                        Idempotency</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                                <thead>
+                                    <tr style="background: var(--glass-bg);">
+                                        <th
+                                            style="padding: 1rem; text-align: left; border-bottom: 2px solid var(--glass-border); color: var(--color-primary);">
+                                            Method</th>
+                                        <th
+                                            style="padding: 1rem; text-align: left; border-bottom: 2px solid var(--glass-border); color: var(--color-primary);">
+                                            Idempotent?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); font-weight: 600;">
+                                            GET</td>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); color: #10b981;">
+                                            ✅ Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); font-weight: 600;">
+                                            PUT</td>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); color: #10b981;">
+                                            ✅ Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); font-weight: 600;">
+                                            DELETE</td>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); color: #10b981;">
+                                            ✅ Yes</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); font-weight: 600;">
+                                            POST</td>
+                                        <td
+                                            style="padding: 1rem; border-bottom: 1px solid var(--glass-border); color: #ef4444;">
+                                            ❌ No (usually)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 1rem; font-weight: 600;">PATCH</td>
+                                        <td style="padding: 1rem; color: #ef4444;">❌ Usually No</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Examples -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Example</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li><strong>GET /user/1</strong><br>
+                                Call 10 times → same result.</li>
+                            <li><strong>DELETE /user/1</strong><br>
+                                Delete once → user removed<br>
+                                Delete again → still removed<br>
+                                <strong>Same final state.</strong>
+                            </li>
+                            <li><strong>POST /create-order</strong><br>
+                                Call twice → two orders created ❌<br>
+                                <strong>Not idempotent.</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- HTTP Methods Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/IdempotentImg1.png" alt="HTTP Methods and Idempotency"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 HTTP methods and their idempotency properties</p>
+                    </div>
+                </div>
+
+                <!-- Real App Connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Connection
+                    </h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💳 Payment System</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>Client sends payment request with idempotency key</li>
+                                <li>If retried → server returns same response</li>
+                                <li>No double charge</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.95rem;">
+                                <li>Order creation with unique request ID</li>
+                                <li>Prevent duplicate orders</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Real App Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/IdempotentImg3.png" alt="Idempotency in Real Applications"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Idempotency preventing duplicate operations in real systems</p>
+                    </div>
+                </div>
+
+                <!-- Interview-ready One-liner Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯
+                        Interview-ready One-liner
+                    </h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); text-align: center;">
+                        <p
+                            style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                            Idempotency ensures that repeated execution of an operation produces the same result,
+                            preventing duplicate side effects in distributed systems.
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.2rem; font-weight: 600; margin: 0;">
+                            So, <strong>Idempotent = safe to retry.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Idempotency is a crucial concept in distributed systems</strong> that ensures operations
+                        can be safely retried without causing unintended side effects.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        It's <strong>essential for payment systems, order processing, and any operation where retries
+                            are possible</strong>.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        Remember: <strong>Idempotent operations are safe to retry, non-idempotent operations require
+                            careful handling.</strong>
+                    </p>
+                </div>
+
+                <!-- Pro Tip Section -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Always implement idempotency
+                        using <strong>unique request IDs or idempotency keys</strong> that clients generate and send
+                        with requests.</p>
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Common implementations:</strong>
+                        Database unique constraints, Redis for storing request results, or application-level idempotency
+                        tables.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Idempotency 🔁', 'success');
+        });
+    </script>
+</body>
+
+</html>
