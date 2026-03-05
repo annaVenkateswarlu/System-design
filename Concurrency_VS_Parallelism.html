@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concurrency vs Parallelism - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Concurrency vs Parallelism</span>
+                </nav>
+
+                <h2>⚡ Concurrency vs Parallelism - Handling Multiple Tasks vs Running Multiple Tasks Simultaneously</h2>
+
+                <!-- What is Concurrency Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is
+                        Concurrency?</h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Concurrency means:</p>
+                    <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                        <li>🔄 <strong>Managing multiple tasks at same time, but not necessarily executing them at exact
+                                same moment</strong></li>
+                        <li>🏗️ <strong>It is about structure and task management</strong></li>
+                    </ul>
+                    <br>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                        <strong>Example:</strong>
+                    </p>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">1</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">We have One CPU core and multiple
+                                tasks</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">2</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Task A runs a little</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">3</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">CPU Switch to Task B</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">4</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">CPU Switch back to Task A</p>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                        <strong>This is called context switching.</strong>
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                        <strong>So tasks appear simultaneous, but actually:</strong>
+                    </p>
+                    <div
+                        style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                            Task A → Task B → Task C → Task A → Task B
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Concurrency Image -->
+                <div style="margin-top: 2rem; text-align: center;">
+                    <img src="images/ConcurrencyVSParallelImg1.png" alt="Concurrency Diagram"
+                        style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        📊 Concurrency: Task switching on single core</p>
+                </div>
+
+                <!-- What is Parallelism Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ What is
+                        Parallelism?</h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Parallelism means:</p>
+                    <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                        <li>⚡ <strong>Actually executing multiple tasks at same moment of time</strong></li>
+                    </ul>
+                    <br>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                        <strong>Parallelism Requires:</strong>
+                    </p>
+                    <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                        <li>🖥️ <strong>Multiple CPU cores</strong></li>
+                        <li>🔧 <strong>Multiple processors</strong></li>
+                    </ul>
+                    <br>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                        <strong>Example:</strong>
+                    </p>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">1</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Core 1 → Task A</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">2</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Core 2 → Task B</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <span
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; margin-right: 0.5rem;">3</span>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Core 3 → Task C</p>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; text-align:left;">
+                        Tasks truly run simultaneously.
+                    </p>
+                </div>
+
+                <!-- Parallelism Image -->
+                <div style="margin-top: 2rem; text-align: center;">
+                    <img src="images/ConcurrencyVSParallelImg2.png" alt="Parallelism Diagram"
+                        style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        📊 Parallelism: Multiple tasks running on different cores simultaneously</p>
+                </div>
+
+                <!-- Why do these concepts exist Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ Why do these
+                        concepts exist?</h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        <strong>They solve performance and responsiveness problems.</strong>
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div>
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Concurrency
+                                solves:</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>⏳ <strong>Waiting problems (I/O, network calls)</strong></li>
+                                <li>💡 <strong>Efficient resource usage</strong></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Parallelism
+                                solves:</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🔥 <strong>CPU-intensive computation</strong></li>
+                                <li>⚡ <strong>Heavy processing tasks</strong></li>
+                                <li>🚀 <strong>Faster execution</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What breaks without them Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">4️⃣ What breaks
+                        without them?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div>
+                                <h4 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">Without concurrency:
+                                </h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>🥶 <strong>App freezes during long tasks</strong></li>
+                                    <li>😞 <strong>Poor user experience</strong></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">Without parallelism:
+                                </h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>⏰ <strong>CPU tasks take longer</strong></li>
+                                    <li>📉 <strong>Poor throughput</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-world analogy Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ Real-world
+                        analogy</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <h4
+                            style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.5rem; text-align:left;">
+                            🍳 Kitchen Example</h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                                    Concurrency:</h5>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                    <strong>One chef cooking 3 dishes:</strong>
+                                </p>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>🔪 <strong>Cuts vegetables</strong></li>
+                                    <li>🍝 <strong>Then boils pasta</strong></li>
+                                    <li>🥄 <strong>Then stirs sauce</strong></li>
+                                    <li>🔄 <strong>Switches between tasks</strong></li>
+                                </ul>
+                                <div
+                                    style="background: var(--glass-border); padding: 1rem; border-radius: var(--radius-lg); text-align:left; margin-top: 1rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                        One Chef handling many tasks by switching.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                                    Parallelism:</h5>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                    <strong>Three chefs cooking:</strong>
+                                </p>
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>👨‍🍳 <strong>Chef 1 → Vegetables</strong></li>
+                                    <li>👩‍🍳 <strong>Chef 2 → Pasta</strong></li>
+                                    <li>🧑‍🍳 <strong>Chef 3 → Sauce</strong></li>
+                                </ul>
+                                <div
+                                    style="background: var(--glass-border); padding: 1rem; border-radius: var(--radius-lg); text-align:left; margin-top: 1rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                        True simultaneous work.
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: var(--glass-border); padding: 1rem; border-radius: var(--radius-lg); text-align:left; margin-top: 1rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                        Many workers handling tasks at same time.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- One common mistake Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                        <h4 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 Thinking they are same.
+                        </h4>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                            <strong>Important difference:</strong>
+                        </p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <p style="color: var(--color-text-secondary); margin: 0; text-align: center;">
+                                    <strong>Concurrency = Dealing with many tasks</strong>
+                                </p>
+                            </div>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <p style="color: var(--color-text-secondary); margin: 0; text-align: center;">
+                                    <strong>Parallelism = Doing many tasks at once</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-top: 1.5rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>✅ <strong>All parallelism is concurrency</strong></li>
+                                <li>❌ <strong>But not all concurrency is parallelism</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real app connection Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.5rem;">📱 WhatsApp
+                            Example</h4>
+
+                        <!-- Concurrency in WhatsApp -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ Concurrency in WhatsApp
+                            </h5>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Imagine:</strong>
+                            </p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>👥 <strong>1 million users sending messages at same time</strong></li>
+                                <li>🖥️ <strong>One server handles thousands of connections</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>What happens?</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>The server:</strong>
+                            </p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>📨 <strong>Receives message from User A</strong></li>
+                                <li>🔄 <strong>Switches to User B</strong></li>
+                                <li>🔄 <strong>Switches to User C</strong></li>
+                                <li>🔄 <strong>Switches back</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>It handles many users by switching quickly.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>That is concurrency.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Even if one CPU core is used, it manages many chats.</strong>
+                            </p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-lg); text-align: center;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                    👉 WhatsApp uses async I/O for this.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Parallelism in WhatsApp -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem;">2️⃣ Parallelism in WhatsApp
+                            </h5>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Now imagine:</strong>
+                            </p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🖥️ <strong>Multiple CPU cores</strong></li>
+                                <li>🖥️ <strong>Multiple servers</strong></li>
+                                <li>🌍 <strong>Distributed across regions</strong></li>
+                            </ul>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>🖥️ <strong>Server 1 handles some users</strong></li>
+                                    <li>🖥️ <strong>Server 2 handles others</strong></li>
+                                    <li>⚡ <strong>Core 1 processes message A</strong></li>
+                                    <li>⚡ <strong>Core 2 processes message B</strong></li>
+                                </ul>
+                            </div>
+
+                            <p style="color: var(--color-primary); font-weight: 600; text-align: center;">
+                                This is true parallelism.
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; text-align: center;">
+                                Messages are processed simultaneously.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Comparison Table Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Quick Comparison
+                        Table</h3>
+
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Concurrency</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Parallelism</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Meaning</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Manage many tasks</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Execute many tasks</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        CPU cores</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">1 or more</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Requires multiple CPU cores</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Focus</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Structure (Efficiency)</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Execution (Speed)</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Example</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Async web server</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Multi-core Processing</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Comparison Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ConcurrencyVSParallelImg3.png" alt="Comparison Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Visual comparison of concurrency vs parallelism</p>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <strong>Concurrency is about managing multiple tasks efficiently, while parallelism is about
+                                executing multiple tasks simultaneously using multiple processors.</strong>
+                        </p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                Concurrency handles many connections using async I/O
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Concurrency vs Parallelism ⚡', 'success');
+        });
+    </script>
+
+</body>
+
+</html>

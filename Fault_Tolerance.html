@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Tolerance - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Fault Tolerance</span>
+                </nav>
+
+                <h2>🛡️ FAULT TOLERANCE - Automatic Recovery from System Failures</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is Fault
+                        Tolerance?</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Fault Tolerance is the
+                        ability
+                        of a system to continue working even when some components fail.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">In simple words:</strong><br>
+                            👉 If something breaks, system still runs.</p>
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);">Fault tolerance helps achieve
+                            high
+                            availability.</p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/FaultToleranceImg1.webp" alt="Fault Tolerance overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">In real systems, failures
+                        are
+                        normal:</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Servers crash</li>
+                            <li>Networks fail</li>
+                            <li>Databases go down</li>
+                        </ul>
+                    </div>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1rem;">Fault tolerance ensures:</p>
+                    <ul
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); color: var(--color-text-secondary); line-height: 2.2; margin-left: 0;">
+                        <li>No complete system failure</li>
+                        <li>Minimal downtime</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without fault tolerance:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>Single server failure → full outage</li>
+                        <li>Database crash → entire app down</li>
+                        <li>Payment system stops completely</li>
+                        <li>Data loss possible</li>
+                    </ul>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">📌 Example:</strong><br>
+                            If your only server crashes → website unavailable.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Fault Tolerance</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Financial services</li>
+                                <li>Healthcare systems</li>
+                                <li>E-commerce</li>
+                                <li>Cloud services</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">👉 Any
+                                system where downtime costs money.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(251, 191, 36, 0.06); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(251, 191, 36, 0.25);">
+                            <h4 style="color: var(--color-warning, #f59e0b); margin-bottom: 1rem;">❌ When NOT necessary
+                            </h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Personal projects</li>
+                                <li>Learning apps</li>
+                                <li>Small prototypes</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Because
+                                it
+                                increases cost and complexity.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary);"><strong style="color: #ef4444;">🚨
+                                Confusing High Availability with Fault Tolerance</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 0.75rem;"><strong
+                                style="color: var(--color-primary);">High Availability</strong> = System may briefly
+                            pause
+                            when failure happens, but recovers quickly by shifting to another component.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 0;"><strong
+                                style="color: var(--color-primary);">Fault Tolerance</strong> = System continues working
+                            during failure.</p>
+                    </div>
+
+                    <p style="color: var(--color-text-muted); font-style: italic; margin-bottom: 1rem;">Fault tolerance
+                        is
+                        stronger. Fault tolerance helps achieve high availability.</p>
+
+                    <div style="overflow-x: auto; margin-top: 1.5rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(99, 102, 241, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Feature</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        High Availability</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Fault Tolerance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Goal</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Reduce downtime</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">No interruption</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Failure impact</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Small delay possible
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">No delay</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Complexity</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Medium</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Cost</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Moderate</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Expensive</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Example</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Load-balanced servers
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Redundant
+                                        active-active
+                                        systems</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ How Systems
+                        Achieve Fault Tolerance</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Replication</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Keep copies of
+                                data. <br>If one database fails → Then replica takes over.</p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Redundancy</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Multiple servers
+                                instead of one. <br> No single point of failure.</p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Failover Mechanism</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Automatic
+                                switching
+                                to backup server.</p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Distributed
+                                Architecture
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Don’t rely on a
+                                single machine.</p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">5️⃣ Health Checks &
+                                Monitoring
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Detect failures
+                                quickly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">8️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">🛒 E-commerce</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>Multiple app servers</li>
+                            <li>Primary + replica DB</li>
+                            <li>Multi-region deployment</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">If one region fails: traffic
+                            routed to another.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">9️⃣ Why not build
+                        everything 100% fault tolerant?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem;">Because:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li>High cost</li>
+                            <li>High complexity</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 0;">You can have
+                            <strong>High
+                                availability</strong> without full fault tolerance. But <strong>Fault tolerance</strong>
+                            automatically gives high availability.
+                        </p>
+                    </div>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.9;"><strong>In big systems </strong>,
+                        most systems aim
+                        for :
+                        <strong style="color: var(--color-primary); text-decoration: underline;">High
+                            Availability</strong>.
+                        <br> Full Fault Tolerance is only for critical systems (banking,
+                        aviation) because <strong>Fault tolerance </strong> is expensive.
+                    </p>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Types of Fault
+                        Tolerance</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Active-Active</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">All servers are
+                                active and handling traffic at the same time. <br> No standby server sitting idle.</p>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Active-Passive</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">One server is
+                                active. One server is standby (passive). <br> Passive server does nothing until failure.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/FaultToleranceImg2.webp" alt="Active-Active vs Active-Passive"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div style="overflow-x: auto; margin-top: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Feature</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Active-Active</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Active-Passive</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Traffic handling</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">All servers</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">One server</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Failover delay</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">No</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Small delay</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Resource usage</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Fully used</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Partially unused</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Complexity</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Medium</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Used in</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Large web apps</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Banking / critical
+                                        systems</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p style="color: var(--color-text-muted); font-style: italic; margin-top: 1.5rem;">In Active-Active
+                        architecture, all servers handle traffic simultaneously, while in Active-Passive, one server is
+                        active and the other acts as a standby backup.</p>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;"><strong>High
+                            Availability</strong>
+                        ensures minimal downtime, while fault tolerance ensures continuous working even during failures.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Most systems aim for
+                        <strong>High
+                            Availability.</strong> <br>
+                        Full fault tolerance is reserved for truly critical systems because it’s
+                        expensive.
+                    </p>
+                </div>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Start by designing for
+                        <strong>high
+                            availability</strong> (redundancy + failover + monitoring). <br> Add full fault tolerance
+                        only
+                        for
+                        critical paths (payments, ordering, auth).
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Tools to
+                            consider:</strong>
+                    </p>
+
+                    <div style="overflow-x: auto;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(99, 102, 241, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Tool Area</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Examples</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Load balancers</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Nginx, ALB</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Health checks</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Kubernetes, Consul
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Failover</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Route 53, keepalived
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Replication</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Postgres replication
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Observability</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Prometheus, Grafana
+                                    </td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Incident response
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">PagerDuty</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="availability.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">📈 Availability, Reliability & Maintainability</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Fault Tolerance 🛡️', 'success');
+        });
+    </script>
+</body>
+
+</html>

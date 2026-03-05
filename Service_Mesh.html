@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Mesh - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Service Mesh</span>
+                </nav>
+
+                <h2>🕸️ SERVICE MESH — Network manager for microservices</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Service Mesh is an
+                        infrastructure layer that manages service-to-service communication in microservices
+                        architectures.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">In simple words:</strong><br>
+                            👉 It controls how each services talk to each other.</p>
+                    </div>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.25rem;">Instead of
+                        every service implementing:</p>
+
+                    <ul
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;padding-left: 2rem;">
+                        <li>security</li>
+                        <li>retries</li>
+                        <li>monitoring</li>
+                        <li>load balancing</li>
+                    </ul>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;">The service mesh handles it automatically.
+                    </p>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ServiceMeshImg1.png" alt="Service Mesh overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);">In microservices systems:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                            <li>Many services communicate</li>
+                            <li>Network logic becomes complex</li>
+                            <li>Security and monitoring duplicated</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary);">You may have:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-top: 1rem;">
+                            <li>User Service</li>
+                            <li>Order Service</li>
+                            <li>Payment Service</li>
+                            <li>Notification Service</li>
+                        </ul>
+                        <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">All services must communicate
+                            with each other.</p>
+                    </div>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1rem;">Service mesh solves:</p>
+
+                    <ul
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;padding-left: 2rem;">
+                        <li>Service discovery</li>
+                        <li>Load balancing</li>
+                        <li>Encryption (mTLS)</li>
+                        <li>Retries and circuit breaking</li>
+                        <li>Monitoring</li>
+                    </ul>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;">Without modifying application code.</p>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without service mesh, every service must
+                        implement:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem; padding-left: 2rem;">
+                        <li>authentication</li>
+                        <li>retries</li>
+                        <li>logging</li>
+                        <li>encryption</li>
+                        <li>traffic routing</li>
+                    </ul>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;">This makes services complex.</p>
+
+                    <div style="margin-top: 2.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">How Service Mesh Works</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem;">Service
+                            mesh uses something called <strong>Sidecar Proxy</strong>. <br>
+                            Each service gets a small proxy
+                            attached.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                Example:<br>
+                                Service A → Proxy A → Proxy B → Service B<br>
+                                Services never communicate directly.<br>
+                                Proxies handle communication.
+                            </p>
+                        </div>
+
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Simple Architecture</h4>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+                            <div
+                                style="background: rgba(251, 191, 36, 0.06); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(251, 191, 36, 0.25);">
+                                <h5 style="color: var(--color-warning, #f59e0b); margin-bottom: 1rem;">Without Service
+                                    Mesh</h5>
+                                <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">
+                                    Service A → Service B<br>
+                                    Service A → Service C<br>
+                                    Service B → Service C
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">Each service handles
+                                    communication logic.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">With Service Mesh</h5>
+                                <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">
+                                    Service A → Proxy A → Proxy B → Service B<br>
+                                    Service B → Proxy B → Proxy C → Service C
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">Proxies manage
+                                    networking.</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/ServiceMeshImg2.jpg" alt="Service Mesh sidecar proxies architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What Service Mesh Handles</h4>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Traffic Management
+                                </h5>
+                                <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Control how
+                                    requests flow
+                                    <br>
+                                    <strong>Example
+                                    </strong> : load balancing, routing, retries.
+                                </p>
+                            </div>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Security</h5>
+                                <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Encrypt
+                                    service-to-service communication (mTLS).</p>
+                            </div>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Observability</h5>
+                                <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Track
+                                    requests between services
+                                    <br>
+                                    <strong>Example
+                                    </strong> : metrics, logs, distributed tracing.
+                                </p>
+                            </div>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Reliability</h5>
+                                <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Automatic
+                                    retries and failure handling.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Service Mesh</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Large microservices systems</li>
+                                <li>Need strong observability and security</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">
+                                <strong>Examples:</strong>
+                                Large SaaS platforms
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(251, 191, 36, 0.06); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(251, 191, 36, 0.25);">
+                            <h4 style="color: var(--color-warning, #f59e0b); margin-bottom: 1rem;">❌ Avoid Service Mesh
+                            </h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Small applications</li>
+                                <li>Monolithic systems</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">Because it adds
+                                operational
+                                complexity.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary);"><strong style="color: #ef4444;">🚨
+                                Confusing API Gateway with Service Mesh</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">API Gateway →
+                            <strong>handles client</strong>
+                            → service communication<br>
+                            Service Mesh → <strong>handles service</strong> → service communication
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">In Kubernetes:<br>
+                            User → API Gateway → Service A<br>
+                            <span style="display: inline-block; width: 1.25rem;"></span>↓<br>
+                            <span style="display: inline-block; width: 1.25rem;"></span>Service Mesh<br>
+                            <span style="display: inline-block; width: 1.25rem;"></span>↓<br>
+                            <span style="display: inline-block; width: 1.25rem;"></span>Service B
+                        </p>
+                        <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Each service has a sidecar
+                            proxy managing communication.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;"><strong>Netflix,
+                                Uber :</strong><br>
+                            In a large system like Netflix or Uber, a user request might go through :<br>
+                            API Gateway → User Service → Recommendation Service → Payment Service<br>
+                            Service mesh manages all communication between these services.</p>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Service mesh manages
+                        communication between microservices without modifying application code. <br>
+                        It uses sidecar proxies
+                        to provide traffic routing, security (mTLS), monitoring, and reliability features.</p>
+                </div>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Start without a mesh for small
+                        systems. <br>When microservices grow, add a mesh to standardize <strong>security</strong>,
+                        <strong>traffic control</strong>, and <strong>observability</strong> across all services.
+                    </p>
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Popular tools:</strong></p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-top: 1rem;">
+                        <li>Istio</li>
+                        <li>Linkerd</li>
+                        <li>Consul Connect</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="microservices.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔧 Microservices</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Service Mesh 🕸️', 'success');
+        });
+    </script>
+</body>
+
+</html>

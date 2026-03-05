@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Discovery - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Service Discovery</span>
+                </nav>
+
+                <h2>🔎 SERVICE DISCOVERY - Dynamic Detection of Service Locations</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;"><strong>Service
+                            Discovery</strong> is a
+                        mechanism that allows services in a distributed system to automatically find and communicate
+                        with other services without hardcoding their IP addresses.</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">Services will
+                            register
+                            themselves in a <strong>Service Registry</strong>, and other services query the service
+                            registry to find
+                            them.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Simply:</strong><br>
+                            Service Discovery helps services find the location (IP/port) of other services.</p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ServiceDiscoveryImg1.png" alt="Service Discovery overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">In microservices, services
+                        run on <strong>many servers/containers</strong> and their IP addresses can change frequently.
+                        <br>
+                        So instead of
+                        hardcoding addresses, services discover each other automatically.
+                    </p>
+
+                    <div
+                        style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                        <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);">Imagine a microservices
+                            system:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                            <li>User Service</li>
+                            <li>Order Service</li>
+                            <li>Payment Service</li>
+                        </ul>
+                        <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">If <strong>Order
+                                Service</strong> needs to
+                            call
+                            <strong>Payment Service</strong>, how does it know IP address, port, and which instance to
+                            call?
+                        </p>
+                        <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary);">Because containers may
+                            restart and IPs change, service discovery solves this.</p>
+                    </div>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1rem;">Service discovery solves:</p>
+
+                    <ul
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem; padding-left: 2rem;">
+                        <li>Dynamic service location</li>
+                        <li>Auto-scaling support</li>
+                        <li>Reliable communication between services</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without service discovery:</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem; padding-left: 2rem;">
+                        <li>Services must hardcode IP addresses</li>
+                        <li>Scaling becomes difficult</li>
+                        <li>Services cannot locate each other</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ Types of
+                        Service Discovery</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Client-Side Discovery</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem;">Client
+                            asks
+                            registry for service location and calls it directly.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                Example flow:<br>
+                                Client → Service Registry → Get Service Address → Call Service
+                            </p>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example tools:</strong> Netflix Eureka</p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/ServiceDiscoveryImg2.png" alt="Client-side service discovery"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Server-Side Discovery</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem;">Client
+                            sends request to a load balancer, which queries the registry and routes traffic.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                Example flow:<br>
+                                Client → Load Balancer → Service Instance
+                            </p>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Used in: Kubernetes, AWS
+                                Elastic Load Balancer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Example microservices system:</strong></p>
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">User Service<br>
+                            Order Service<br>
+                            Payment Service</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">Suppose Payment
+                            Service
+                            has 3 instances:</p>
+                        <div style="overflow-x: auto; margin-top: 1rem;">
+                            <table
+                                style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                                <thead>
+                                    <tr style="background: rgba(99, 102, 241, 0.12);">
+                                        <th
+                                            style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                            Service</th>
+                                        <th
+                                            style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                            Instance IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-top: 1px solid var(--glass-border);">
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Payment Service
+                                        </td>
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">10.0.1.3</td>
+                                    </tr>
+                                    <tr style="border-top: 1px solid var(--glass-border);">
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Payment Service
+                                        </td>
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">10.0.1.8</td>
+                                    </tr>
+                                    <tr style="border-top: 1px solid var(--glass-border);">
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Payment Service
+                                        </td>
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">10.0.1.15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Order Service does not know
+                            which one to call. <br>
+                            Instead it asks <strong> Service Registry</strong> : "Where is Payment Service?"
+                            <br> Registry
+                            returns available instances <br> Then Order Service connects to one.
+                        </p>
+
+                        <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Flow:</strong><br>
+                            Order Service → Service Registry → Get Payment Service → Call it</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Service Discovery
+                        vs
+                        Service Mesh</h3>
+                    <div style="font-size: large;">
+                        <strong>Service Discovery :</strong> Helps services find the location (IP/port) of other
+                        services.
+                        <br><strong>Service Mesh :</strong> Manages how services communicate with each other.
+
+                    </div>
+
+                    <div style="overflow-x: auto; margin-top: 1.5rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(99, 102, 241, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Feature</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Service Discovery</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Service Mesh</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Purpose</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Find service location
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Manage service
+                                        communication</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Question it solves
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">"Where is service?"
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">"How should services
+                                        talk?"</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Focus</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Service registry</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Network layer</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Complexity</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Lower</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Higher</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top: 2.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">How They Work Together</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem;">
+                            <strong>Service Mesh</strong> uses <strong>Service Discovery</strong> internally to find
+                            service instances and manage communication between them.
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">Example flow:<br>
+                                Service A → Service Mesh Proxy → Service Registry → Service B</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Steps:</strong></p>
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Service A sends request</li>
+                                <li>Proxy asks service discovery</li>
+                                <li>Gets service instance</li>
+                                <li>Applies policies (retry, security, etc.)</li>
+                                <li>Sends request</li>
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/ServiceDiscoveryImg3.png" alt="Service discovery with service mesh"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-top: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;"><strong
+                                    style="color: var(--color-primary);">Real Example (Kubernetes)</strong><br>
+                                Service Discovery → Kubernetes DNS<br>
+                                Service Mesh → Istio<br>
+                                DNS finds service.
+                                <br>Istio manages communication.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Service discovery allows
+                        services in distributed systems to <strong>each other dynamically using a service
+                            registry</strong> instead
+                        of hardcoded network addresses. <br>
+                        It supports scalable and resilient microservice communication as
+                        service instances change frequently.</p>
+                </div>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Use a registry/DNS-based
+                        discovery system so services never depend on fixed IPs. Combine it with load balancing and
+                        health checks to avoid routing to unhealthy instances.</p>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Tools of service
+                            discovery:</strong>
+                    </p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-top: 1rem;">
+                        <li>Eureka (in Netflix microservices)</li>
+                        <li>Consul (in HashiCorp systems)</li>
+                        <li>Zookeeper (in distributed systems)</li>
+                        <li>Kubernetes DNS (used in container systems)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Service_Mesh.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🕸️ Service Mesh</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Service Discovery 🔎', 'success');
+        });
+    </script>
+</body>
+
+</html>

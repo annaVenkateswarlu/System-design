@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stateless vs Stateful Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Stateless vs Stateful Architecture</span>
+                </nav>
+
+                <h2>🧠 Stateless vs Stateful Architecture - No Memory vs Session Memory</h2>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 1.5rem;">🔹 STATELESS
+                        ARCHITECTURE</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">1️⃣ What is it?
+                        </h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Stateless system does
+                            <strong>NOT store client session data on the server</strong>. So, every request is
+                            independent and the server does not remember anything about previous requests.</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it works:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0;">Client sends all required
+                                data in every request:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.75rem;">
+                                <li>🔐 Authentication token</li>
+                                <li>🧾 Session info / request context</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Server
+                                processes the request and forgets.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/StatelessVSStatefulImg1.png" alt="Stateless Architecture Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                📊 Stateless: each request contains everything the server needs</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">2️⃣ Why does it
+                            exist? (What problem does it solve?)</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Stateless architecture
+                            solves:</p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                                <li>📈 Scalability problems</li>
+                                <li>⚖️ Load balancing challenges</li>
+                                <li>🛡️ Fault tolerance issues</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--glass-border); margin-bottom: 0;">
+                                👉 Any server can handle any request. No dependency on previous state.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">3️⃣ What breaks
+                            without it?</h4>
+                        <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">If a system is not stateless:</p>
+                        <ul
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                            <li>📉 Hard to scale horizontally</li>
+                            <li>🚦 Hard to distribute traffic</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">4️⃣ Real-world
+                            analogy</h4>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Stateless =
+                                ATM Machine 🏧</h5>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Insert card</li>
+                                <li>Enter PIN</li>
+                                <li>Complete transaction</li>
+                                <li>ATM forgets you</li>
+                                <li>Next time, you must insert card again</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">5️⃣ When to use
+                            / When NOT to use</h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Stateless:</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>REST APIs</li>
+                                </ul>
+                                <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem;">
+                                    <strong>Examples:</strong>
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>API servers</li>
+                                    <li>Payment APIs</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 1rem;">❌ Not ideal when:</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin:1;">
+                                    <li>Real-time gaming</li>
+                                    <li>Live collaborative apps</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">6️⃣ One common
+                            mistake</h4>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;">🚨 Thinking stateless means no
+                                database.</p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; line-height: 1.8;">Stateless
+                                    means the server doesn’t store session in memory. Data can still be stored in a
+                                    database or cache.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">7️⃣ Real app
+                            connection</h4>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.25rem;">🛒
+                                E-commerce</h5>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Product API is stateless</li>
+                                <li>Each request contains token</li>
+                                <li>Any server can respond</li>
+                            </ul>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem; font-weight: 600;">
+                                    🔍 Real Website Example</p>
+                                <p style="color: var(--color-text-secondary); margin: 0; line-height: 1.8;">When you
+                                    login to Instagram, PayPal, or Amazon, most modern systems use <strong>stateless
+                                        JWT-based authentication</strong>. Server does not remember you — it just
+                                    verifies the token each time.</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/StatelessVSStatefulImg2.png" alt="Stateless Authentication Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                📊 Stateless JWT-based authentication: server verifies token per request</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 1.5rem;">🔹 STATEFUL
+                        ARCHITECTURE</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">1️⃣ What is it?
+                        </h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Stateful system stores
+                            <strong>client session data on the server</strong>. The server remembers the user’s session,
+                            current state, and previous interactions.</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it works:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.75rem;">
+                                <li>1️⃣ Client logs in</li>
+                                <li>2️⃣ Server creates session</li>
+                                <li>3️⃣ Server stores session in memory</li>
+                                <li>4️⃣ Client sends session ID next time</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Server
+                                remembers the user.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/StatelessVSStatefulImg3.webp" alt="Stateful Architecture Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                📊 Stateful: session state stored on the server</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">2️⃣ Why does it
+                            exist? (What problem does it solve?)</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Stateful systems help
+                            when:</p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                                <li>🔌 Continuous connection is required</li>
+                                <li>⚡ Real-time interactions</li>
+                                <li>🧾 Maintaining session data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">5️⃣ When to use
+                            / When NOT to use</h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Stateful:</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>Online gaming</li>
+                                    <li>WebSockets</li>
+                                    <li>Chat systems</li>
+                                    <li>Real-time trading</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 1rem;">❌ Avoid Stateful:</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin:1;">
+                                    <li>Large-scale APIs</li>
+                                    <li>High-traffic public services</li>
+                                    <li>Microservices architecture</li>
+                                </ul>
+                                <p
+                                    style="color: var(--color-text-muted); font-style: italic; margin-top: 1rem; margin-bottom: 0;">
+                                    Hard to scale and hard to load balance.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">6️⃣ One common
+                            mistake</h4>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;">🚨 Storing session in server memory.
+                            </p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; line-height: 1.8;">If server
+                                    crashes: session is lost and user is logged out. Better options: store session in
+                                    Redis, or use stateless JWT.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">7️⃣ 📱 WhatsApp
+                            Example</h4>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">When you
+                                open WhatsApp:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
+                                <li>Your phone connects to WhatsApp server</li>
+                                <li>A persistent connection is created (WebSocket)</li>
+                                <li>Server knows you are online, which chat is opened, typing status, and connection
+                                    session</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">If
+                                connection breaks: session ends and you appear offline.</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem; margin-bottom: 0;">
+                                👉 This is Stateful because the server is maintaining your session state.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Direct Comparison
+                    </h3>
+
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Stateless</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Stateful</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Server stores session?</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">❌ No</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">✅ Yes</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Easy
+                                        to scale?</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">✅ Yes</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">❌ Hard</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Load
+                                        balancing</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Easy</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Sticky sessions needed
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Fault
+                                        tolerance</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Lower</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Example</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">REST API</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Gaming server</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/StatelessVSStatefulImg4.png" alt="Stateless vs Stateful Comparison Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Visual comparison: Stateless vs Stateful</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Interview-ready
+                        one-liner</h3>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>Stateless
+                                systems</strong> do not store client session data on the server, enabling easy
+                            scalability and load balancing, while <strong>stateful systems</strong> maintain session
+                            state, making them suitable for real-time and persistent interactions.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0; line-height: 1.9;">
+                                Stateless: Client → Any server → Done<br>
+                                Stateful: Client → Same server (session stored)
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0; line-height: 1.9;">
+                                If server stores your login session in memory → <strong>Stateful</strong><br>
+                                If client stores token and server just verifies it → <strong>Stateless</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Stateless vs Stateful Architecture 🧠', 'success');
+        });
+    </script>
+</body>
+
+</html>

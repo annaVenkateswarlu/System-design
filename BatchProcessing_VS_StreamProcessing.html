@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Processing vs Stream Processing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Batch Processing vs Stream Processing</span>
+                </nav>
+
+                <h2>📦 Batch Processing vs Stream Processing - Processed Periodically vs Instant Insights</h2>
+
+                <!-- BATCH PROCESSING SECTION -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 1.5rem;">📦 BATCH
+                        PROCESSING</h3>
+
+                    <!-- What is Batch Processing -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">1️⃣ What is it?
+                        </h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Batch Processing means:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>🔄 <strong>Processing large volumes of data together at scheduled intervals.</strong>
+                            </li>
+                            <li>📊 <strong>Data is collected first.</strong></li>
+                            <li>⏰ <strong>Processing happens later.</strong></li>
+                        </ul>
+                        <br>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Key
+                                    Concept:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Batch processing means
+                                collecting data first, then processing it later at scheduled intervals.</p>
+
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Example:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>📈 <strong>Daily sales report</strong></li>
+                                <li>💰 <strong>Monthly payroll</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Batch Processing Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/BatchProcessingvsStreamProcessingImg3.png" alt="Batch Processing Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Batch Processing: Periodic data processing</p>
+                    </div>
+
+                    <!-- Why does it exist -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">2️⃣ Why does it
+                            exist? (What problem does it solve?)</h4>
+
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Batch processing solves:
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                                <li>🔢 <strong>Large data computation</strong></li>
+                                <li>📚 <strong>Historical analysis</strong></li>
+                                <li>⏰ <strong>Scheduled tasks</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- When to use / When NOT to use -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">5️⃣ When to use
+                            / When NOT to use</h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Batch Processing:
+                                </h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>📊 <strong>Data analytics</strong></li>
+                                    <li>📋 <strong>Reports generation</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 1rem;">❌ Don't use Batch:
+                                </h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin:1;">
+                                    <li>🚨 <strong>Fraud detection</strong></li>
+                                    <li>📱 <strong>Live dashboards</strong></li>
+                                    <li>🔔 <strong>Real-time notifications</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common mistake -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">6️⃣ Common
+                            mistake</h4>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                            <h5 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 Trying to use batch
+                                for real-time needs.</h5>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--glass-border);">
+                                <p style="color: var(--color-text-secondary); margin: 0;">
+                                    <strong>Batch = High latency</strong>
+                                </p>
+                                <p style="color: #dc2626; font-weight: 600; margin: 0;">
+                                    Not suitable for instant decisions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STREAM PROCESSING SECTION -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.8rem; margin-bottom: 1.5rem;">🌊 STREAM
+                        PROCESSING</h3>
+
+                    <!-- What is Stream Processing -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">1️⃣ What is it?
+                        </h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Stream Processing means:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>🔄 <strong>Processing data continuously in real time as it arrives.</strong></li>
+                            <li>⚡ <strong>No waiting.</strong></li>
+                            <li>🎯 <strong>Each event processed immediately.</strong></li>
+                        </ul>
+                        <br>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Key
+                                    Concept:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Stream processing means
+                                processing data continuously in real time as it arrives.</p>
+
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">Example:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>🚨 <strong>Fraud detection</strong></li>
+                                <li>📊 <strong>Real-time analytics</strong></li>
+                                <li>🔔 <strong>Live notifications</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Stream Processing Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/BatchProcessingvsStreamProcessingImg2.png" alt="Stream Processing Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Stream Processing: Real-time continuous data processing</p>
+                    </div>
+
+                    <!-- Why does it exist -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">2️⃣ Why does it
+                            exist? (What problem does it solve?)</h4>
+
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Stream processing
+                            solves:</p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                                <li>🎯 <strong>Real-time decision making</strong></li>
+                                <li>⚡ <strong>Low-latency systems</strong></li>
+                                <li>🔄 <strong>Instant updates</strong></li>
+                                <li>👀 <strong>Continuous monitoring</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- What breaks without it -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">3️⃣ What breaks
+                            without it?</h4>
+
+                        <ul
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                            <li>🚨 <strong>Fraud detected too late</strong></li>
+                            <li>🔔 <strong>Notifications delayed</strong></li>
+                            <li>📱 <strong>Live dashboards inaccurate</strong></li>
+                            <li>😞 <strong>User experience suffers</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- When to use / When NOT to use -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">5️⃣ When to use
+                            / When NOT to use</h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Stream Processing:
+                                </h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin: 1;">
+                                    <li>🚨 <strong>Fraud detection</strong></li>
+                                    <li>💬 <strong>Real-time chat</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 1rem;">❌ Don't use Stream:
+                                </h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; margin:1;">
+                                    <li>📊 <strong>Large historical data processing</strong></li>
+                                    <li>🔍 <strong>Heavy batch analytics</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Common mistake -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">6️⃣ Common
+                            mistake</h4>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
+                            <h5 style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">🚨 Overusing streaming
+                                when batch is enough.</h5>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem; font-weight: 600;">
+                                <strong>Streaming:</strong>
+                            </p>
+                            <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                <li>🔧 <strong>More complex</strong></li>
+                                <li>💰 <strong>Higher cost</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Real app connection -->
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">7️⃣ Real app
+                            connection</h4>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.5rem;">📱
+                                WhatsApp:</h5>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>📤 <strong>You send message</strong></li>
+                                    <li>✅ <strong>It is delivered instantly</strong></li>
+                                    <li>🔵 <strong>Blue ticks update immediately</strong></li>
+                                </ul>
+
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-lg); text-align: center; margin-top: 1.5rem;">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin: 0;">
+                                        That is stream processing.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <h5 style="color: var(--color-primary); font-weight: 600; margin-bottom: 1.5rem;">📱 Social
+                                Media</h5>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                                    <li>📱 <strong>Live feed updates</strong></li>
+                                    <li>🔔 <strong>Instant notifications</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Direct Comparison Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Direct
+                        Comparison</h3>
+
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Batch Processing</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Stream Processing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Timing</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Scheduled</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Real Time</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Latency</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Low</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Use
+                                        Case</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Reports</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Real-time
+                                        Notification</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Complexity</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Simple</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Complex</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Example</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Salary processing</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Live chat</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Comparison Image -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/BatchProcessingvsStreamProcessingImg1.webp" alt="Comparison Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Visual comparison of batch vs stream processing</p>
+                    </div>
+                </div>
+
+                <!-- When Both Are Used Together Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 When Both Are
+                        Used Together?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <strong>Many systems use:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem;">
+                            <li>🌊 <strong>Stream for real-time decisions</strong></li>
+                            <li>📦 <strong>Batch for analytics</strong></li>
+                        </ul>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); text-align:left; border: 1px solid var(--glass-border); margin-top: 2rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>This is called:</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600; font-size: 1.2rem; margin: 0;">
+                                👉 Lambda Architecture
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <strong>Batch processing handles large volumes of data at scheduled intervals, while stream
+                                processing handles continuous real-time data with low latency.</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="design-problems.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Design Problems & Case Studies</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Batch Processing vs Stream Processing 📦', 'success');
+        });
+    </script>
+</body>
+
+</html>

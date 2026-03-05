@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Architecture Styles - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">API Architecture Styles</span>
+                </nav>
+
+                <h2>🌐 API Architecture Styles — Structuring APIs for Clarity and Scalability</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ REST API
+                        (Representational State Transfer)</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What is it?</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">REST is an API
+                            architecture where resources are accessed using HTTP methods like GET, POST, PUT, DELETE.
+                        </p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example:</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                    GET&nbsp;&nbsp;&nbsp;&nbsp;/users/123<br>
+                                    POST&nbsp;&nbsp;&nbsp;/orders<br>
+                                    PUT&nbsp;&nbsp;&nbsp;&nbsp;/profile<br>
+                                    DELETE&nbsp;/cart
+                                </p>
+                            </div>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">REST treats everything as
+                                a
+                                resource.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Uses resource-based endpoints with standard HTTP methods.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg1.png" alt="REST resource-based endpoints"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">HTTP Methods Used</h4>
+                            <div style="overflow-x: auto; margin-top: 1rem;">
+                                <table
+                                    style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                                    <thead>
+                                        <tr style="background: rgba(99, 102, 241, 0.12);">
+                                            <th
+                                                style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                                Method</th>
+                                            <th
+                                                style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                                Purpose</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-top: 1px solid var(--glass-border);">
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">GET</td>
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">Read data
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top: 1px solid var(--glass-border);">
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">POST</td>
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">Create data
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top: 1px solid var(--glass-border);">
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">PUT</td>
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">Update data
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top: 1px solid var(--glass-border);">
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">DELETE</td>
+                                            <td style="padding: 1rem; color: var(--color-text-secondary);">Remove data
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Real-world example</h4>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1rem;">
+                                <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;"><code
+                                        style="background: rgba(99, 102, 241, 0.1); padding: 0.2rem 0.45rem; border-radius: 0.5rem; border: 1px solid var(--glass-border);">GET
+                                        /products/10</code> returns product data.</p>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Used by:</p>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Web apps</li>
+                                    <li>Mobile apps</li>
+                                    <li>Microservices</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                        <li>✅ Simple and widely used</li>
+                                        <li>✅ Stateless → easy to scale</li>
+                                        <li>✅ Works well with HTTP caching</li>
+                                        <li>✅ Large ecosystem support</li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                        <li>❌ Over-fetching (gets more data than needed)</li>
+                                        <li>❌ Under-fetching (may need multiple requests)</li>
+                                        <li>❌ Multiple endpoints needed</li>
+                                    </ul>
+                                    <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">
+                                        <strong style="color: #ef4444;">Example:</strong><br>
+                                        To get user + posts:<br>
+                                        GET /user<br>
+                                        GET /posts
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ SOAP (Simple
+                        Object Access Protocol)</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What is it?</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">SOAP is a protocol for
+                            exchanging structured data using XML. <br>
+                            It is <strong>strict and heavier than REST.</strong>
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); margin-bottom: 1rem;">Uses:</p>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>XML</li>
+                                <li>WSDL contract</li>
+                                <li>Strong standards</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example SOAP message:</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                                <pre
+                                    style="margin: 0; color: var(--color-text-secondary); line-height: 1.6; font-size: 0.95rem;"><code>&lt;Envelope&gt;
+  &lt;Body&gt;
+     &lt;GetUser&gt;
+        &lt;id&gt;123&lt;/id&gt;
+     &lt;/GetUser&gt;
+  &lt;/Body&gt;
+&lt;/Envelope&gt;</code></pre>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg2.jpg" alt="SOAP architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>✅ Very secure (WS-Security)</li>
+                                    <li>✅ Built-in reliability</li>
+                                    <li>✅ Strong contracts (WSDL)</li>
+                                    <li>✅ Transaction support</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>❌ Heavy XML format</li>
+                                    <li>❌ Complex to implement</li>
+                                    <li>❌ Slower than REST</li>
+                                    <li>❌ Not flexible</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Strict enterprise-level security and standards.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Why choose SOAP?</h4>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Banking systems</li>
+                                    <li>Government services</li>
+                                    <li>Enterprise systems requiring strong security</li>
+                                </ul>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Example: Payment
+                                    gateway integrations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ GraphQL</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">GraphQL lets the client
+                            request exactly the data it needs from a single endpoint instead of multiple endpoints like
+                            REST.</p>
+
+                        <div
+                            style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example Query:</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                                <pre
+                                    style="margin: 0; color: var(--color-text-secondary); line-height: 1.6; font-size: 0.95rem;"><code>{
+ user(id:101){
+   name
+   posts
+  orders {
+        id
+       price
+}
+ }
+}</code></pre>
+                            </div>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Server returns only
+                                requested fields.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg3.webp"
+                                alt="GraphQL single endpoint vs REST multiple endpoints"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                Single endpoint in GraphQL vs multiple endpoints in REST</p>
+                        </div>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>✅ No over-fetching (get exactly what data is needed)</li>
+                                    <li>✅ Single endpoint</li>
+                                    <li>✅ Flexible queries</li>
+                                    <li>✅ Efficient for mobile apps</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>❌ Harder to cache</li>
+                                    <li>❌ Complex server implementation</li>
+                                    <li>❌ Can cause heavy queries if not controlled</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Client controls <strong>what data to fetch</strong>.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg4.webp" alt="GraphQL architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Why choose GraphQL?</h4>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Complex data relationships</li>
+                                    <li>Mobile apps needing optimized responses</li>
+                                    <li>Multiple related resources</li>
+                                </ul>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Example: Facebook
+                                    API.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">4️⃣ WebSockets</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">WebSockets provide
+                            real-time two-way communication between client and server. <br>
+                            After connection : Client ↔ Server
+                            communicate anytime.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);">Unlike HTTP (REST API):</p>
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Connection stays open</li>
+                                <li>Both sides can send messages anytime</li>
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg7.webp" alt="WebSockets real-time communication"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>✅ Real-time communication</li>
+                                    <li>✅ Low latency</li>
+                                    <li>✅ Efficient for frequent updates</li>
+                                    <li>✅ Bidirectional communication</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>❌ Harder to scale</li>
+                                    <li>❌ Real-time connection consumes resources</li>
+                                    <li>❌ More complex infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg8.webp" alt="WebSockets infrastructure"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Full-duplex real-time communication.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Why choose WebSockets?</h4>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Chat applications</li>
+                                    <li>Gaming</li>
+                                    <li>Live dashboards</li>
+                                    <li>Stock trading systems</li>
+                                </ul>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Example: WhatsApp
+                                    messaging.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ gRPC</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">gRPC is a
+                            high-performance RPC framework developed by Google that allows services to communicate
+                            efficiently. gRPC uses HTTP/2 and Protocol Buffers (binary format). <br>Instead of
+                            REST-style
+                            URLs, you call functions directly.</p>
+
+                        <div
+                            style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-bottom: 2rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example:</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                                <pre
+                                    style="margin: 0; color: var(--color-text-secondary); line-height: 1.6; font-size: 0.95rem;"><code>service UserService {
+ rpc GetUser(UserRequest) returns (UserResponse);
+}
+
+GetUser(user_id)</code></pre>
+                            </div>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Client calls service like
+                                a
+                                function.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg6.png" alt="gRPC architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What is HTTP/2?</h4>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">HTTP/2 is a
+                                    newer version of HTTP (after HTTP/1.1) designed to make communication faster and
+                                    more efficient.</p>
+                            </div>
+
+                            <div style="margin-top: 1.5rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">Important Features of
+                                    HTTP/2</h5>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                    <ol
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                        <li><strong>Multiplexing :</strong> multiple requests can be sent on the same
+                                            connection
+                                            simultaneously.</li>
+                                        <li><strong>Persistent connection :</strong> connection stays open (No need to
+                                            reconnect repeatedly like normal HTTP calls.).
+                                        </li>
+                                        <li><strong>Streaming :</strong> HTTP/2 allows streaming in client streaming,
+                                            server streaming,
+                                            bidirectional streaming.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Comparing with REST (Binary
+                                Format: Protocol Buffers)</h4>
+
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                    <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                            style="color: var(--color-primary);">REST APIs usually use JSON</strong></p>
+                                    <div
+                                        style="background: rgba(99, 102, 241, 0.06); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                                        <pre
+                                            style="margin: 0; color: var(--color-text-secondary); line-height: 1.6; font-size: 0.95rem;"><code>{
+ "user_id": 101,
+ "name": "Anna"
+}</code></pre>
+                                    </div>
+                                    <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">JSON is
+                                        text-based,
+                                        so it is larger and slower to parse.</p>
+                                </div>
+
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                    <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                            style="color: var(--color-primary);">gRPC uses Protocol Buffers
+                                            which are binary format</strong></p>
+                                    <div
+                                        style="background: rgba(99, 102, 241, 0.06); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                                        <pre
+                                            style="margin: 0; color: var(--color-text-secondary); line-height: 1.6; font-size: 0.95rem;"><code>message User {
+ int32 user_id = 1;
+ string name = 2;
+}</code></pre>
+                                    </div>
+                                    <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Instead of
+                                        sending
+                                        text JSON, it sends compact binary data.</p>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+                                <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                        style="color: var(--color-primary);">Much smaller message in gRPC compared to
+                                        REST API</strong></p>
+                                <div style="overflow-x: auto;">
+                                    <table
+                                        style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                                        <thead>
+                                            <tr style="background: rgba(16, 185, 129, 0.12);">
+                                                <th
+                                                    style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                                    Format</th>
+                                                <th
+                                                    style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                                    Size</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="border-top: 1px solid var(--glass-border);">
+                                                <td style="padding: 1rem; color: var(--color-text-secondary);">JSON</td>
+                                                <td style="padding: 1rem; color: var(--color-text-secondary);">100 bytes
+                                                </td>
+                                            </tr>
+                                            <tr style="border-top: 1px solid var(--glass-border);">
+                                                <td style="padding: 1rem; color: var(--color-text-secondary);">Protobuf
+                                                </td>
+                                                <td style="padding: 1rem; color: var(--color-text-secondary);">~30 bytes
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">So gRPC is faster.
+                                </p>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center;">
+                                <img src="images/API_DesignImg5.png" alt="JSON vs Protobuf"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                        <li>Very fast (binary protocol)</li>
+                                        <li>Strong typing</li>
+                                        <li>Built-in streaming</li>
+                                        <li>Efficient microservice communication</li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                        <li>Harder to debug</li>
+                                        <li>Not browser-friendly</li>
+                                        <li>Requires schema definition</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Uses <strong>Protocol Buffers</strong> + <strong>HTTP/2</strong> for high-performance
+                                communication.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">When to Use</h4>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Internal microservices communication</li>
+                                    <li>High-performance systems</li>
+                                    <li>Low-latency services</li>
+                                </ul>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Example: Google
+                                    microservices.</p>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg6.png" alt="gRPC diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ Webhooks</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Webhooks are HTTP
+                            callbacks where the server automatically sends data to another system when an event
+                            happens.</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);">Instead of polling:</p>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary); line-height: 2;">Client →
+                                “Any update?”<br>
+                                Server pushes event:<br>
+                                Server → “Event happened!”</p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/API_DesignImg9.png" alt="Webhooks push events"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Advantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Real-time notifications</li>
+                                    <li>No polling required</li>
+                                    <li>Efficient for event-based systems</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                <h4 style="color: #ef4444; margin-bottom: 1rem;">Disadvantages</h4>
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Requires public endpoint</li>
+                                    <li>Harder to debug</li>
+                                    <li>Retry handling required</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2.5rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Unique Feature:</strong><br>
+                                Event-driven push mechanism using HTTP.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 2.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">When to Use</h4>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                    <li>Payment notifications</li>
+                                    <li>CI/CD pipelines</li>
+                                    <li>GitHub events</li>
+                                </ul>
+                                <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Example: Stripe sends
+                                    webhook when payment succeeds.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Final Comparison
+                    </h3>
+
+                    <div style="overflow-x: auto; margin-top: 1.5rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(99, 102, 241, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        API Type</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Best Use</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Unique Feature</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);"><strong>REST</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Standard APIs</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Resource-based HTTP
+                                        endpoints</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);"><strong>SOAP</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Enterprise systems
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Strong security
+                                        standards</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">
+                                        <strong>GraphQL</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Flexible data queries
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Client controls
+                                        response</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">
+                                        <strong>WebSockets</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Real-time apps</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Persistent two-way
+                                        communication</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">
+                                        <strong>gRPC</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Microservices</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High-performance
+                                        binary
+                                        protocol</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">
+                                        <strong>Webhooks</strong>
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Event notifications
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Server pushes event
+                                        automatically</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                            <strong style="color: var(--color-primary);">Quick Comparison:</strong><br>
+                            <strong> Speed : </strong> gRPC &gt; WebSocket &gt; REST &gt; SOAP<br>
+                            <strong> Ease : </strong> REST &gt; GraphQL &gt; WebSocket &gt; gRPC<br>
+                            <strong> Real-time : </strong> WebSocket &gt; gRPC &gt; GraphQL &gt; REST
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/API_DesignImg10.gif" alt="API architecture styles comparison"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem;">
+                        <li><strong>REST</strong> is a stateless HTTP-based API for standard CRUD operations</li>
+                        <li><strong>SOAP</strong> is a strict XML-based protocol used in secure enterprise systems</li>
+                        <li><strong>GraphQL</strong> lets clients fetch exactly the data they need in a single request
+                        </li>
+                        <li><strong>WebSockets</strong> enable real-time, bidirectional communication using a persistent
+                            connection</li>
+                        <li><strong>gRPC</strong> provides high-performance service-to-service communication using
+                            HTTP/2 and binary
+                            serialization</li>
+                        <li><strong>Webhooks</strong> are event-driven callbacks where a system automatically notifies
+                            another system
+                            when a
+                            specific event occurs</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin: 0;">Choose the simplest style that matches
+                        your
+                        requirements. <br>
+                        Most public APIs start with <strong>REST</strong>, complex client data needs benefit from
+                        <strong>GraphQL</strong>,
+                        real-time features use <strong>WebSockets</strong>, internal microservices prefer
+                        <strong>gRPC</strong>, and event notifications
+                        are
+                        ideal for <strong>Webhooks.</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="apiGateway.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🚪 API Gateway</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: API Architecture Styles 🌐', 'success');
+        });
+    </script>
+</body>
+
+</html>

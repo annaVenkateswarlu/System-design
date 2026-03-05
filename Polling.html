@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Polling</span>
+                </nav>
+
+                <h2>🔄 POLLING - Periodically Checking for Updates</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Polling is a technique where
+                        the client repeatedly asks the server for updates at regular intervals.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0.5rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Example:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Client is Mobile device or Browser.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                            Client → “Any new data?”<br>
+                            Server → “No.”<br>
+                            <span style="color: var(--color-text-muted);">(After 5 seconds)</span><br>
+                            Client → “Any new data?”
+                        </p>
+                    </div>
+
+                    <p style="color: var(--color-text-secondary); margin: 0;">Client keeps checking even if nothing
+                        changed. <br> <strong>That is Polling.</strong></p>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Polling solves:</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Getting near real-time updates</li>
+                            <li>Monitoring server state</li>
+                            <li>Checking for new messages</li>
+                        </ul>
+                        <p style="color: var(--color-text-muted); font-style: italic; margin: 1rem 0 0 0;">It is simple
+                            and easy to implement.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+                    <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without polling (or any update mechanism):</p>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        <li>Client won’t know about new data</li>
+                        <li>No live updates</li>
+                        <strong style="color: #ef4444; text-decoration: underline;">
+                            <li>User must refresh page manually</li>
+                        </strong>
+                    </ul>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">Example:</strong><br>
+                            Chat app without polling → messages appear only after refresh.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to use Polling</h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Simple systems</li>
+                                <li>Low traffic apps</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>Examples:</strong><br>
+                                Checking payment status<br>
+                                Checking report generation
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(251, 191, 36, 0.06); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(251, 191, 36, 0.25);">
+                            <h4 style="color: var(--color-warning, #f59e0b); margin-bottom: 1rem;">❌ When NOT to use
+                            </h4>
+                            <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>High-scale real-time apps</li>
+                                <li>Chat apps with millions of users</li>
+                                <li>Stock trading systems</li>
+                                <li>Live dashboards</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Because:
+                                Too many repeated requests → server overload.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <p style="margin: 0; color: var(--color-text-secondary);"><strong style="color: #ef4444;">🚨
+                                Setting polling interval too low.</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">Example: Polling
+                            every
+                            1 second for 1 million users → 1M requests per second
+                            <br>❌ Huge load.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">8️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                style="color: var(--color-primary);">📱 Polling in Instagram</strong></p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 0;">Modern apps avoid
+                            heavy polling at scale. <br> But historically and in some workflows, polling has been used
+                            in
+                            multiple places.</p>
+
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Notifications (Old
+                                Method)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.9;">Earlier ( Before WebSockets
+                                became
+                                common ) : <br>Instagram app used to call <code
+                                    style="background: rgba(99, 102, 241, 0.1); padding: 0.2rem 0.45rem; border-radius: 0.5rem; border: 1px solid var(--glass-border);">GET
+                                /notifications</code> every few seconds.</p>
+                            <p style="color: var(--color-text-muted); font-style: italic; margin: 0;">That is short
+                                polling.
+                                Client keeps asking even if nothing changed.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Feed Refresh (Manual
+                                Polling)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 0;">When you
+                                pull
+                                to
+                                refresh 🔄 or open the app again, it triggers a request like <code
+                                    style="background: rgba(99, 102, 241, 0.1); padding: 0.2rem 0.45rem; border-radius: 0.5rem; border: 1px solid var(--glass-border);">GET
+                                /home-feed</code>. <br> This is a form of manual polling.</p>
+                        </div>
+
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Story Views Count</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 0;">Some
+                                systems
+                                periodically fetch <code
+                                    style="background: rgba(99, 102, 241, 0.1); padding: 0.2rem 0.45rem; border-radius: 0.5rem; border: 1px solid var(--glass-border);">GET
+                                /story-views</code> to update the count. <br>Again → polling.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(251, 191, 36, 0.06); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(251, 191, 36, 0.9); margin-top: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;"><strong
+                                    style="color: var(--color-warning, #f59e0b);">Why Modern Apps Avoid
+                                    Polling</strong><br>
+                                Because: Millions of users, huge unnecessary traffic, waste of bandwidth, high server
+                                load.
+                            </p>
+                            <p style="margin: 1rem 0 0 0; color: var(--color-text-secondary);">Instead they use:
+                                <br>👉 WebSockets
+                                <br>👉 Push notifications
+                                <br>👉 Server push mechanisms
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ Types of
+                        Polling
+                        (Very Important)</h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Short Polling</h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                Client sends request at fixed interval ( example: every 5 seconds )
+                                <br>
+                                <strong>Problem:</strong> many unnecessary requests → wasted bandwidth
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/PollingImg3.png" alt="Short Polling"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Long Polling</h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Client sends request</li>
+                                <li>Server holds connection open</li>
+                                <li>Responds only when data available</li>
+                            </ol>
+                            <p style="color: var(--color-text-muted); font-style: italic; margin: 1rem 0 0 0;">Better
+                                efficiency than short polling.</p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/PollingImg2.png" alt="Long Polling"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Alternatives
+                        of Polling </h3>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔌 1️⃣ WebSocket</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9;">WebSocket is a protocol that
+                            creates a persistent two-way connection between client and server. <br> After connection is
+                            established, both sides ( Client , Server ) can send messages anytime.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">How It Works (Simple Flow)
+                            </h5>
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Client sends HTTP request to upgrade connection</li>
+                                <li>Server agrees → connection upgraded</li>
+                                <li>Connection stays open</li>
+                                <li>Both sides can send messages anytime</li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 1.5rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example:</strong></p>
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                After connection is established:<br>
+                                Client ↔ Server (connection stays open)<br>
+                                Now:<br>
+                                If new data comes:<br>
+                                Server → “You have new message!” (instant push)<br>
+                                If client wants to send something:<br>
+                                Client → “Here is my message.”<br>
+                                Both sides can send anytime.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/PollingImg4.png" alt="WebSocket flow"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">WhatsApp Example</strong></p>
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>App opens → WebSocket connection created</li>
+                                <li>Friend sends message</li>
+                                <li>Server pushes message instantly</li>
+                                <li>You reply → goes through same connection</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">No repeated requests.
+                                Connection stays alive.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📡 2️⃣ Server-Sent Events (SSE)
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9;">SSE allows server to send
+                            updates
+                            to client automatically, but client cannot send data back through the same connection.
+                            <br> This is <strong>One-Way Communication</strong>
+                            <br> Server → Client only.
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">How It Works</h5>
+                            <ol style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem;">
+                                <li>Client opens connection</li>
+                                <li>Server keeps connection open</li>
+                                <li>Server sends updates whenever needed</li>
+                            </ol>
+                            <p style="color: var(--color-text-muted); font-style: italic; margin: 1rem 0 0 0;">Client
+                                cannot send back on that same channel.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(99, 102, 241, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid rgba(99, 102, 241, 0.8); margin-top: 1.5rem;">
+                            <p style="margin: 0 0 1rem 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example:</strong></p>
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 2;">
+                                After connection is established:<br>
+                                Client → Server (opens connection)<br>
+                                Then:<br>
+                                Server → “New notification!”<br>
+                                Server → “Another update!”<br>
+                                Client CANNOT send through that same connection.<br>
+                                If client wants to send data:<br>
+                                It must use normal HTTP request separately.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/PollingImg5.png" alt="SSE flow"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">
+                                <strong style="color: var(--color-primary);">Instagram Example:
+                                </strong>
+                                <br>1️⃣ App opens → SSE connection created.
+                                <br>2️⃣ Someone likes your post
+                                <br> 3️⃣ server pushes notification.
+                                <br>If you
+                                comment,
+                                that goes through normal API request (not through SSE).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem; text-align: center;">
+                        <img src="images/PollingImg1.webp" alt="Polling vs alternatives"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">WhatsApp Uses
+                            WebSocket</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9;">
+                            Because chat needs two-way communication.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Polling vs
+                        WebSockets (Quick Compare)</h3>
+
+                    <div style="overflow-x: auto; margin-top: 1.5rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--glass-border);">
+                            <thead>
+                                <tr style="background: rgba(99, 102, 241, 0.12);">
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Feature</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        Polling</th>
+                                    <th
+                                        style="text-align: left; padding: 1rem; color: var(--color-text); font-weight: 700;">
+                                        WebSockets</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Connection</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Repeated requests
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Persistent</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Efficiency</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Low</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Real-time</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Limited</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">True real-time</td>
+                                </tr>
+                                <tr style="border-top: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Scalability</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Poor</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Better</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/PollingImg6.png" alt="Polling vs WebSockets"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Polling is a technique
+                        where the client repeatedly sends requests to the server to check for updates, which is simple
+                        but
+                        inefficient at scale.</p>
+                </div>
+
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Pro Tip</h3>
+                    <p style="color: var(--color-text-secondary); margin: 0;">If you must use polling, choose intervals
+                        carefully (e.g., 10–30s), add exponential backoff, and cache results to reduce load.
+                        <br> For true
+                        real-time at scale, prefer WebSockets or SSE.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="message-queues.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">📬 Message Queues</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Polling 🔄', 'success');
+        });
+    </script>
+</body>
+
+</html>
