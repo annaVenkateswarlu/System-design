@@ -38,32 +38,59 @@
         <h2>Topics</h2>
         <ul>
             <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
             <li><a href="system-design.html">📐 System Design Basics</a></li>
-            <li><a href="scalability.html">🚀 Scalability</a></li>
             <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
             <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
             <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
             <li><a href="caching.html">💾 Caching</a></li>
             <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
-            <li><a href="databases.html">🗄️ Databases</a></li>
-            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
-            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
-            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
-            <li><a href="redundancy.html">🔁 Redundancy</a></li>
-            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
-            <li><a href="microservices.html">🔧 Microservices</a></li>
-            <li><a href="api-design.html">🔌 API Design</a></li>
-            <li><a href="message-queues.html">📬 Message Queues</a></li>
-            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
-            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
-            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
             <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
-            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
             <li><a href="checksum.html">🔐 Checksum</a></li>
-            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
             <li><a href="idempotent.html">🔁 Idempotency</a></li>
-            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
-            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
             <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
         </ul>
     </div>
@@ -98,11 +125,13 @@
                         </h4>
                         <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Stateless system does
                             <strong>NOT store client session data on the server</strong>. So, every request is
-                            independent and the server does not remember anything about previous requests.</p>
+                            independent and the server does not remember anything about previous requests.
+                        </p>
 
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
-                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it works:</strong>
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it
+                                    works:</strong>
                             </p>
                             <p style="color: var(--color-text-secondary); margin: 0.75rem 0;">Client sends all required
                                 data in every request:</p>
@@ -235,7 +264,8 @@
 
                             <div
                                 style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
-                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem; font-weight: 600;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 0.75rem; font-weight: 600;">
                                     🔍 Real Website Example</p>
                                 <p style="color: var(--color-text-secondary); margin: 0; line-height: 1.8;">When you
                                     login to Instagram, PayPal, or Amazon, most modern systems use <strong>stateless
@@ -264,11 +294,13 @@
                         </h4>
                         <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">A Stateful system stores
                             <strong>client session data on the server</strong>. The server remembers the user’s session,
-                            current state, and previous interactions.</p>
+                            current state, and previous interactions.
+                        </p>
 
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
-                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it works:</strong>
+                            <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">How it
+                                    works:</strong>
                             </p>
                             <ul
                                 style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.75rem;">
@@ -359,7 +391,8 @@
                             Example</h4>
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
-                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">When you
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">When
+                                you
                                 open WhatsApp:</p>
                             <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
                                 <li>Your phone connects to WhatsApp server</li>
@@ -369,14 +402,16 @@
                             </ul>
                             <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">If
                                 connection breaks: session ends and you appear offline.</p>
-                            <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem; margin-bottom: 0;">
+                            <p
+                                style="color: var(--color-primary); font-weight: 600; margin-top: 1rem; margin-bottom: 0;">
                                 👉 This is Stateful because the server is maintaining your session state.</p>
                         </div>
                     </div>
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Direct Comparison
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Direct
+                        Comparison
                     </h3>
 
                     <div style="overflow-x: auto; margin-bottom: 2rem;">
@@ -403,20 +438,24 @@
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">✅ Yes</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Easy
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Easy
                                         to scale?</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">✅ Yes</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">❌ Hard</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Load
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Load
                                         balancing</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Easy</td>
-                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Sticky sessions needed
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Sticky sessions
+                                        needed
                                     </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Fault
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Fault
                                         tolerance</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Lower</td>
