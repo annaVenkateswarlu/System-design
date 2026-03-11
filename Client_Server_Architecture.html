@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Server Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Client Server Architecture</span>
+                </nav>
+
+                <h2>🖥️ Client–Server Architecture</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">📌 What is
+                        Client–Server Architecture?</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                        <strong> Client–Server
+                            Architecture </strong> is a computing model where clients request services or data, and
+                        servers process
+                        those requests and return responses over a network.
+                    </p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">Client → sends
+                            request<br>
+                            Server → processes request and returns response</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>💡
+                                In
+                                simple terms:</strong> Client asks → Server answers</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Example:</strong><br>
+                            When you open a website, your browser (client) sends a request to a web server, which
+                            returns
+                            the webpage.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ClientServerImg1.png" alt="Client Server Architecture Overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚙️ Key Components
+                    </h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Client</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                client is the user-side application that interacts with the system.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Responsibilities:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin:2;">
+                                <li>UI interaction</li>
+                                <li>Send requests</li>
+                                <li>Display server responses</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.25rem 0 0.5rem 0;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Web browsers (Chrome)</li>
+                                <li>Mobile apps</li>
+                                <li>Desktop applications</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Server</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                server is a powerful system that processes client requests and provides services or
+                                data.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Responsibilities:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Process requests</li>
+                                <li>Execute business logic</li>
+                                <li>Access databases</li>
+                                <li>Send responses</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.25rem 0 0.5rem 0;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Web servers (Apache, Nginx)</li>
+                                <li>Database servers (MySQL, PostgreSQL)</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Network</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                network is the communication channel between client and server.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Protocols
+                                    used:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>HTTP / HTTPS</li>
+                                <li>TCP/IP</li>
+                                <li>DNS</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.25rem 0 0.5rem 0;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 2;">DNS converts
+                                google.com → IP address so the request reaches the correct server.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔄 How
+                        Client–Server
+                        Communication Works</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1.5rem 0;"><strong>Step-by-step
+                                flow:</strong></p>
+
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>User
+                                    performs an action</strong> : Example: Clicks a link.
+                            </p>
+                        </div>
+
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Client
+                                    sends request</strong> : Usually an HTTP request to a server.
+                            </p>
+                        </div>
+
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Request
+                                    travels through network</strong> : Using TCP/IP to server IP address.
+                            </p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Server
+                                        processes request</strong> : Server may:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin-bottom: 0;">
+                                    <li>run business logic</li>
+                                    <li>query database</li>
+                                    <li>fetch resources</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                5</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Server
+                                        sends
+                                        response</strong> : Example:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin-bottom: 0;">
+                                    <li>HTML webpage</li>
+                                    <li>JSON data</li>
+                                    <li>confirmation message</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                6</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                <strong>Client
+                                    renders response</strong> : Browser or app displays the result.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🏗️ Types of
+                        Client–Server Architecture</h3>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ 1-Tier Architecture
+                            (Monolithic)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong> Single
+                                System :</strong> All layers (UI, logic, and data) are integrated into one system.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                            <strong>Local
+                                Data Storage :</strong> Data is stored locally on the same machine or on a shared drive.
+                        </p>
+
+                        <div style="margin-top: 1.25rem; text-align: center;">
+                            <img src="images/ClientServerImg2.png" alt="1-Tier Client Server Architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                            <strong>Example:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Microsoft Excel, Local desktop
+                            applications</p>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                            <strong>Use Cases</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">One-tier
+                            architecture
+                            is suitable for personal use applications or scenarios where:
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.25rem; margin: 5;">
+                            <li>The application is used by
+                                a
+                                single user or a small group.
+                            </li>
+                            <li>There is no need for real-time data sharing or
+                                collaboration.
+                            </li>
+                            <li>The
+                                system operates in environments with limited or no internet connectivity.</li>
+                        </ol>
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Pros</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; padding-left: 1rem;">
+                                    <li>Simple</li>
+                                    <li>No network communication ( Does not rely on network connectivity, making it
+                                        ideal
+                                        for offline use)</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Cons</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 2;">
+                                    <li>Not scalable</li>
+                                    <li>Only single user</li>
+                                    <li>Hard to maintain</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ 2-Tier Architecture</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong>Two
+                                layers: </strong> <br>Client → Server (Database + Logic)
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong> Example: </strong> <br>
+                            Desktop application directly connected to database.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">The
+                            <strong> client directly communicates with the database server. </strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Client
+                            → Database Server</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                            <strong> Example: </strong><br>
+                            Local Systems: Applications where the client and server are on the same network or have
+                            limited users.
+                        </p>
+
+                        <div style="margin-top: 1.25rem; text-align: center;">
+                            <img src="images/ClientServerImg3.png" alt="2-Tier Client Server Architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Pros</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; padding-left: 1rem;">
+                                    <li>Simple</li>
+                                    <li>Faster for small systems</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Cons</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 2;">
+                                    <li>No security because client directly to database so no secure for data in
+                                        database
+                                    </li>
+                                    <li>Limited scalability</li>
+                                    <li>Heavy load on server</li>
+                                    <li>Hard to maintain many clients</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ 3-Tier Architecture (Most
+                            Common)</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">We have
+                            Three
+                            layers
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Layers:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong> 1️⃣
+                                Presentation
+                                Layer</strong>
+                            → UI ( where users interact with the system )</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>2️⃣
+                                Application
+                                Layer</strong>
+                            → Business logic ( this layer processes user requests, applies business rules, and
+                            communicates with the data tier )</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong> 3️⃣ Data
+                                Layer</strong> →
+                            Database ( storage layer responsible for managing and retrieving data )</p>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                            <strong>Example:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Typical web application.<br>Browser →
+                            Backend API → Database</p>
+
+                        <div style="margin-top: 1.25rem; text-align: center;">
+                            <img src="images/ClientServerImg4.png" alt="3-Tier Client Server Architecture"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Pros</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 0; padding-left: 1rem;">
+                                    <li>Scalable</li>
+                                    <li>Maintainable</li>
+                                    <li>Secure ( Due to client can communicate to server not database )</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Cons</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 2;">
+                                    <li>More complex</li>
+                                    <li>Slight latency</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ N-Tier Architecture</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Extends
+                            the 3-tier model with additional layers for complex, scalable systems.</p>
+
+                        <div style="margin-top: 1.25rem; text-align: center;">
+                            <img src="images/ClientServerImg5.png" alt="N-Tier Client Server Architecture"
+                                style="max-width: 40%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                            <strong>Example:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Large platforms
+                            like : Netflix, Amazon, Spotify
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Pros</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin:0; padding-left: 1rem;">
+                                    <li>Highly scalable</li>
+                                    <li>Fault tolerant</li>
+                                    <li>Independent services</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Cons</h4>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1rem; margin: 2;">
+                                    <li>Complex</li>
+                                    <li>Hard to debug</li>
+                                    <li>Requires DevOps</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">✅ Advantages of
+                        Client–Server Architecture</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>
+                                1️⃣ Centralized
+                                Management </strong> <br>All data and logic is managed on the server.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;">2️⃣
+                            <strong> Scalability </strong><br>Servers can scale:<br> <strong> Vertical scaling </strong>
+                            (bigger
+                            machine)<br><strong>Horizontal scaling</strong>
+                            (more servers)
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>
+                                3️⃣ Data
+                                Integrity </strong><br>Data stored centrally → consistent data.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>
+                                4️⃣
+                                Resource
+                                Sharing </strong><br>Many clients can use the same resources.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Challenges</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">1️⃣ Single Point of Failure</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">If the
+                                server fails → system stops.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0; font-size:large;">
+                                <strong>Solution:</strong>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.25rem; margin: 2;">
+                                <li>Replication</li>
+                                <li>Failover</li>
+                                <li>Load balancing</li>
+                            </ol>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">2️⃣ Performance Bottleneck</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Too
+                                many requests can overload server.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Solution:</strong>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.25rem; margin: 2;">
+                                <li>Caching</li>
+                                <li>Load
+                                    balancing</li>
+                                <li>Scaling</li>
+                            </ol>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">3️⃣ Complexity</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Large
+                                distributed systems require:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.25rem; margin: 2;">
+                                <li>Monitoring</li>
+                                <li>DevOps</li>
+                                <li>Orchestration</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🚀 Scaling
+                        Client–Server Architecture</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Use Load Balancer</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            Distributes
+                            requests across multiple servers.</p>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 0.75rem 0;">2️⃣ Use Caching</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">Stores
+                            frequently used data.</p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">
+                            <strong>Examples:</strong><br>Redis<br>CDN
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0.5rem 0;">
+                            <strong>Benefits:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Faster response<br>Reduced database
+                            load
+                        </p>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 0.75rem 0;">3️⃣ Use Horizontal Scaling
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Add more servers
+                            instead of increasing one server’s power.</p>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 0.75rem 0;">4️⃣ Use Microservices</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">Break
+                            monolithic systems into small independent services.</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong> Example services:
+                            </strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">User service<br>Payment
+                            service<br>Product
+                            service</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🌍 Real-World
+                        Examples</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📧 Email Systems</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Client:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Gmail app<br>Outlook</p>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0.5rem 0;">
+                                <strong>Server:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Mail server</p>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0.5rem 0;">
+                                <strong>Protocols:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">SMTP<br>IMAP<br>POP3</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">☁️ Cloud Computing</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                Apps
+                                communicate with cloud servers using APIs.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">AWS<br>Google Cloud<br>Azure</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong> Client–Server
+                            Architecture </strong> is a system design model where clients send requests and servers
+                        process them and
+                        return responses over a network.
+                        <br>
+                        It separates the <strong>user interface</strong> from <strong>backend processing</strong> and
+                        <strong>data storage</strong>.
+                        <br> This architecture is widely used in <strong>web applications</strong>, <strong>cloud
+                            systems</strong>, and <strong>enterprise software</strong>.
+                    </p>
+                </div>
+
+                <div style="margin-top: 2.5rem;">
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Check out this link
+                            for differences between all architectures</p>
+                        <div style="margin-top: 1rem;">
+                            <a href="Architecture_Comparison.html"
+                                style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--color-primary); font-weight: 600;">
+                                <span
+                                    style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25);">📘</span>
+                                <span>Open: Difference Between Major System Architectures</span>
+                                <span style="opacity: 0.9;">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Client–Server Architecture 🖥️', 'success');
+        });
+    </script>
+</body>
+
+</html>

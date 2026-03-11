@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Driven Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Event Driven Architecture</span>
+                </nav>
+
+                <h2>⚡ Event-Driven Architecture</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                        <strong>Event-Driven
+                            Architecture </strong> is a design pattern where systems communicate by <strong> producing
+                            and
+                            reacting to events </strong> .
+                    </p>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">Instead of
+                        services calling each other directly , it publishes an event , and other services react to that
+                        event <strong> asynchronously. </strong></p>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/EventDrivenImg1.png" alt="Event Driven Architecture"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 0;"><strong>💡 Simple
+                                idea:</strong><br>
+                            Service A → emits event → Event Broker → Service B / Service C react</p>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example
+                                event:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                            <li>OrderPlaced</li>
+                            <li>PaymentCompleted</li>
+                            <li>UserRegistered</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Other services
+                            listen
+                            and perform actions automatically.</p>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What is an Event?</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">An event
+                            is
+                            something that has happened in the system.</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Examples:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                            <li>User signed up</li>
+                            <li>Payment completed</li>
+                            <li>Order placed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚙️ Key Components
+                    </h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Event Producer</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                <strong> producer generates an event</strong> when something happens.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Order service</li>
+                                <li>Payment service</li>
+                                <li>User signup service</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0.75rem 0;">
+                                <strong>Example:</strong> <br> User places order → Order Service emits "OrderPlaced"
+                            </p>
+                            <pre
+                                style="margin: 0; padding: 1rem; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-lg); color: var(--color-text-secondary); overflow-x: auto;"><code>{
+ "event": "order_created",
+ "order_id": 123
+}</code></pre>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Event Broker / Event
+                                Bus
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                <strong> broker receives events and distributes them to consumers.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">It
+                                acts
+                                like a <strong> middleman message system.</strong> </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Common
+                                    technologies:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Kafka</li>
+                                <li>RabbitMQ</li>
+                                <li>AWS SNS/SQS</li>
+                                <li>Google Pub/Sub</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.25rem 0 0.5rem 0;">
+                                <strong>Responsibilities:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Store events</li>
+                                <li>Deliver events</li>
+                                <li>Manage queues or topics</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Event Consumer</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Consumers
+                                listen for events and react when they occur.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Email service</li>
+                                <li>Notification service</li>
+                                <li>Inventory service</li>
+                                <li>Analytics service</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0.5rem 0;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); margin: 0; border: 1px solid rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-lg);">
+                                OrderPlaced
+                                event<br><strong style="text-align: center;"> ↓ </strong> <br>Inventory
+                                Service → reduce stock<br>Email Service → send confirmation email<br>Analytics Service →
+                                update metrics</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔄 How Event-Driven
+                        Architecture Works</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Example:</strong>
+                        E-commerce order system
+                    </p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.25rem;">
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">User
+                                places
+                                an order</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Order
+                                service creates event OrderPlaced</p>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Event is
+                                sent to event broker (Kafka)</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Multiple
+                                services consume the event</p>
+                        </div>
+
+                        <div
+                            style="margin-top: 1.75rem; background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">OrderPlaced
+                                Event<br>
+                                ↓<br>Inventory Service → update stock<br>Payment Service → process payment<br>Email
+                                Service → send confirmation to user<br>Analytics Service → track order</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0.75rem 0 0 0;">
+                            Everything
+                            happens independently and asynchronously.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">
+                        🏗️ Event-Driven Architecture Flow
+                    </h3>
+
+                    <div style="background: linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(52,211,153,0.05) 100%);
+        padding: 1.75rem;
+        border-radius: var(--radius-xl);
+        border: 1px solid rgba(16,185,129,0.2);
+        text-align: center;">
+
+                        <!-- Client -->
+                        <p style="color: var(--color-text-secondary); margin:0; border: 5px solid rgba(16,185,129,0.2);
+        padding:0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace;">
+                            Client
+                        </p>
+
+                        <p style="margin:0;">↓</p>
+
+                        <!-- Producer -->
+                        <p style="color: var(--color-text-secondary); margin:0; border: 5px solid rgba(16,185,129,0.2);
+        padding:0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace;">
+                            Order Service (Producer)
+                        </p>
+
+                        <p style="margin:0;">↓</p>
+
+                        <!-- Event Broker -->
+                        <p style="color: var(--color-text-secondary); margin:0; border: 5px solid rgba(16,185,129,0.2);
+        padding:0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace;">
+                            Event Broker (Kafka / RabbitMQ)
+                        </p>
+
+                        <p style="margin:0;">↓</p>
+
+                        <!-- Consumers -->
+                        <p style="color: var(--color-text-secondary); margin:0; border: 5px solid rgba(16,185,129,0.2);
+        padding:0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace;">
+                            Consumers
+                        </p>
+
+                        <p style="margin:0;">↓</p>
+
+                        <!-- Consumer Services -->
+                        <p style="color: var(--color-text-secondary); margin:0; border: 5px solid rgba(16,185,129,0.2);
+        padding:0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace;">
+                            Payment Service ( Payment Service processes payment )
+                            <br>Inventory Service ( Inventory Service updates stock )
+                            <br>Email Service ( Email Service sends confirmation )
+                            <br>Analytics Service ( Analytics Service records order )
+                        </p>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Types of
+                        Event-Driven Patterns</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Event Notification</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                producer only <strong> notifies that something happened.</strong></p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Example:</strong><br> -> UserRegistered<br> -> Consumers
+                                fetch required data separately.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Event Carried State
+                                Transfer</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                event includes <strong> complete data needed by consumers.</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Example:</strong>
+                                OrderPlaced
+                            </p>
+                            <pre
+                                style="margin: 0; padding: 1rem; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-lg); color: var(--color-text-secondary); overflow-x: auto;"><code>{
+orderId: 101
+userId: 45
+amount: 200
+}</code></pre>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0.75rem 0 0 0;">
+                                Consumers
+                                don't need to query other services.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Event Sourcing</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Instead
+                                of storing final state, system stores <strong> all events that happened.</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                AccountCreated<br>MoneyDeposited<br>MoneyWithdrawn<br>Current
+                                state = replaying events.</p>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Used
+                                    in:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">-> banking<br>-> financial systems
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">✅ Advantages</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 1.25rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>1️⃣ Loose
+                                Coupling</strong><br>Services don’t directly depend on each other.<br>Producer doesn’t
+                            know who consumes events.</p>
+
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>2️⃣
+                                High Scalability</strong><br>Consumers can scale
+                            independently.<br><strong>Example:</strong><br>--> 10
+                            notification services<br>--> 5 analytics services</p>
+
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>3️⃣
+                                Asynchronous Processing</strong><br>Events are processed <strong>without blocking the
+                                main
+                                system.</strong><br>Faster response times.</p>
+
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0 0 0;"><strong>4️⃣
+                                Fault Tolerance</strong><br>If a service fails, the event can be <strong>reprocessed
+                                later.</strong></p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Disadvantages
+                    </h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">1️⃣ System Complexity</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Harder to design
+                                and debug.</p>
+                        </div>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">2️⃣ Event Ordering Issues</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Events may
+                                arrive
+                                out of order.</p>
+                        </div>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">3️⃣ Data Consistency Challenges</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Eventual
+                                consistency instead of strong consistency.</p>
+                        </div>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.75rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 0.75rem;">4️⃣ Monitoring Difficulty</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                Hard
+                                to trace flow across many services.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Requires:</strong><br>--> distributed
+                                tracing<br>--> logging<br>--> monitoring tools
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🌍 Real-World
+                        Examples</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🛒 E-commerce</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Event:</strong>
+                                OrderPlaced
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Consumers:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">--> Inventory service<br>-->
+                                Payment
+                                service<br>--> Shipping service<br>--> Notification service</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🚗 Ride-Sharing Apps</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Event:</strong>
+                                RideRequested
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Consumers:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">--> Driver matching service<br>-->
+                                Pricing
+                                service<br>--> Notification service</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📺 Streaming Platforms</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Event:</strong>
+                                VideoWatched
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Consumers:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">--> Recommendation system<br>-->
+                                Analytics
+                                system<br>--> Advertisement system</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">How Event driven
+                        architecture differ with client server architecture :</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Client–Server
+                                Architecture</h4>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Idea</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0 0 1rem 0;">A
+                                client
+                                sends a request to a server, and the server responds.<br>Communication is <strong>direct
+                                    and
+                                    synchronous.</strong></p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Flow</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Client → Server →
+                                Response<br>
+                            <p><strong>Client waits for response.</strong></p>
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Characteristics</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">--> Direct
+                                communication<br>--> Request–response
+                                model<br>--> Synchronous (client waits)</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Order Service → Payment Service →
+                                Email Service → Inventory Service<br>If one service fails → the entire chain
+                                fails.<br>Services
+                                directly call each other</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Event-Driven
+                                Architecture</h4>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Idea</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0 0 1rem 0;">
+                                Services
+                                communicate by <strong>sending events</strong>, not direct requests.<br>Services
+                                <strong>do not call each other
+                                    directly.</strong>
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Flow</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Producer → Event →
+                                Message
+                                Broker → Consumers<br>
+                                <strong>
+                                    <p>Consumer Services react independently.</p>
+                                </strong>
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                                E-commerce order
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">User places
+                                order<br>↓<br>OrderPlaced
+                                event<br>↓<br>Event Broker<br>↓<br>Inventory Service updates stock<br>Payment Service
+                                processes payment<br>Email Service sends confirmation<br>Analytics Service records order
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 1rem 0 0 0;">Each
+                                service reacts independently.(Asynchronously) ( Means don’t wait for other response )
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Example Event-Driven :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">You subscribe to
+                                YouTube.<br>Creator
+                                uploads video → Event → Subscribers notified<br>
+                            <p style="padding-top:1rem;"><strong>Subscribers react when event occurs.</strong></p>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2.5rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 3-Line
+                            Interview Answer</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>Event-Driven
+                                Architecture</strong> is a system design pattern where services communicate through
+                            events instead of
+                            direct calls.<br><strong>Producers publish events</strong> to a message broker, and
+                            consumers react
+                            asynchronously.<br>It enables <strong>loose coupling, scalability, and real-time
+                                processing</strong> in
+                            distributed systems.</p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem; margin-bottom: 0;">
+                            <strong>More scalable </strong>( easy to scale in future improvements ) in event driven
+                            <br><strong>Less scalable</strong> (
+                            hard
+                            to scale in future ) in client server architecture
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Check out this
+                                link for differences between all architectures</p>
+                            <div style="margin-top: 1rem;">
+                                <a href="Architecture_Comparison.html"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--color-primary); font-weight: 600;">
+                                    <span
+                                        style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25);">📘</span>
+                                    <span>Open: Difference Between Major System Architectures</span>
+                                    <span style="opacity: 0.9;">→</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Event-Driven Architecture ⚡', 'success');
+        });
+    </script>
+</body>
+
+</html>

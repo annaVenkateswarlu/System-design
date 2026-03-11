@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peer-to-Peer Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Peer-to-Peer Architecture</span>
+                </nav>
+
+                <h2>🔗 Peer-to-Peer (P2P) Architecture</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">📌 What is
+                        Peer-to-Peer Architecture?</h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                        <strong>Peer-to-Peer (P2P) Architecture</strong> is a distributed system where each node (peer)
+                        acts as both a
+                        <strong>client and a server.</strong>
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Unlike the
+                        client-server model, there is <strong>no central server controlling the system.</strong></p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Every
+                        <strong>peer</strong>
+                        can request resources and also provide resources.
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Each
+                        computer can <strong>send and receive data </strong>directly from other peers.</p>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/PeerToPeerImg1.png" alt="Peer-to-Peer Architecture Overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚙️ Key
+                        Characteristics</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ No Central Server</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">All nodes
+                                communicate directly with each other.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Each Node is Both
+                                Client and Server</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom:0.5rem;">A
+                                peer
+                                can:</p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Download data (client)
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Upload data (server)
+                                </li>
+                            </ol>
+                            <br>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Example:</strong><br>Peer
+                                A downloads file from Peer B<br>Peer A uploads file to Peer C</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Distributed Network
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Resources are spread across many nodes instead of a central server.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                This improves:</p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">fault tolerance
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">scalability
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔄 How Peer-to-Peer
+                        Architecture Works</h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Example:</strong> File sharing system
+                    </p>
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 2rem;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">A user
+                                wants to download a file.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">The
+                                system finds peers that already have that file.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">The user
+                                downloads pieces of the file from multiple peers.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">While
+                                downloading, the user also uploads parts to others.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/PeerToPeerImg2.png" alt="Peer-to-Peer Architecture File Sharing Flow"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">
+                            <strong>Flow:</strong><br>Peer A requests file<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>Network finds peers<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>Peer B, C, D send file chunks<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>Peer A downloads chunks simultaneously
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🌍 Real-World
+                        Examples</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">📂 BitTorrent</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Used for
+                            <strong>large file sharing.</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Peers
+                            share pieces of files with each other.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong>Example files:</strong>
+                        </p>
+                        <ol style="padding-left:2rem;">
+                            <li style="color: var(--color-text-secondary); font-size:large; ">Linux ISO downloads
+                            </li>
+                            <li style="color: var(--color-text-secondary); font-size:large; ">Large datasets
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">✅ Advantages</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"> <strong>1️⃣ Highly
+                                Scalable </strong> <br>More users → more resources.<br><strong>Example:</strong><br>More
+                            peers sharing →
+                            faster
+                            downloads.<br><br><strong>2️⃣ No Single Point of Failure</strong><br>If one node fails,
+                            others still
+                            work.<br><br><strong>3️⃣ Efficient Resource Sharing</strong><br>Storage and bandwidth are
+                            shared across
+                            peers.<br><br><strong>4️⃣ Cost Effective</strong><br>No need for large centralized servers.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Disadvantages</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"><strong>1️⃣
+                                Security
+                                Issues</strong><br>Harder to control malicious peers.<br><br><strong>2️⃣ Data
+                                Consistency</strong><br>Different peers
+                            may have different data versions.<br><br><strong>3️⃣ Network Management
+                                Difficulty</strong><br>Hard to
+                            monitor and control decentralized systems.<br><br><strong>4️⃣ Performance
+                                Variability</strong><br>Performance
+                            depends on peer availability.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚔️ Client-Server vs
+                        Peer-to-Peer</h3>
+
+                    <div
+                        style="overflow-x: auto; background: var(--glass-bg); border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <table style="width: 100%; border-collapse: collapse; min-width: 680px;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.08);">
+                                    <th style="text-align: left; padding: 1rem; color: var(--color-text);">Feature</th>
+                                    <th style="text-align: left; padding: 1rem; color: var(--color-text);">Client-Server
+                                    </th>
+                                    <th style="text-align: left; padding: 1rem; color: var(--color-text);">Peer-to-Peer
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Central Server</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Yes</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        No</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Communication</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Client → Server</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Peer ↔ Peer</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Scalability</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Limited</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Very High</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Fault Tolerance</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Example</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Websites</td>
+                                    <td
+                                        style="padding: 1rem; border-top: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        BitTorrent</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔗 5 Types of P2P
+                        Architectures</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Pure Peer-to-Peer (Pure
+                                P2P)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In
+                                <strong>pure P2P</strong>, there is <strong>no central server</strong> and no special
+                                nodes.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Every
+                                node has <strong>equal responsibilities.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom:0.5rem;">Each
+                                peer can:</p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Request resources
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Provide resources
+                                </li>
+                            </ol>
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/PeerToPeerImg3.webp" alt="Pure Peer-to-Peer Architecture"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom:0.5rem;">
+                                        <strong>Characteristics : </strong>
+                                    </p>
+                                    <ol style="padding-left:1rem;">
+                                        <li style="color: var(--color-text-secondary); font-size:large; ">Fully
+                                            decentralized
+                                        </li>
+                                        <li
+                                            style="color: var(--color-text-secondary); font-size:large;padding:0.1rem; ">
+                                            All nodes are
+                                            equal
+                                        </li>
+                                        <li style="color: var(--color-text-secondary); font-size:large; ">No central
+                                            coordination
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom:0.5rem;">
+                                        <strong>Example</strong> :
+                                    </p>
+                                    <ol style="padding-left:1rem;">
+                                        <li style="color: var(--color-text-secondary); font-size:large; ">Early <strong>
+                                                Gnutella network </strong>
+                                        </li>
+                                        <li style="color: var(--color-text-secondary); font-size:large; ">Blockchain
+                                            networks
+                                            (similar concept)
+                                        </li>
+                                    </ol>
+                                </div>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Pros</strong><br>✔ No single point of failure<br>✔ Highly decentralized
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.08); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Cons</strong><br>❌ Hard to search for resources<br>❌ Network traffic can
+                                        increase
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Centralized P2P</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In
+                                this model, a <strong> central server helps locate peers</strong>, but <strong>actual
+                                    file transfer happens
+                                    directly between peers.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                server only maintains an <strong>index of files and peers.</strong></p>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>How it Works</strong>
+                            </p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Peer asks central
+                                    server for file
+                                    location
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; padding:0.1rem;">Server
+                                    returns peer
+                                    list
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Peer downloads
+                                    directly from other
+                                    peers
+                                </li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Example</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Napster (early music sharing
+                                system)</p>
+
+                            <div
+                                style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Pros</strong><br>✔ Faster resource discovery<br>✔ Easier management
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.08); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Cons</strong><br>❌ Central server becomes single point of failure
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Hybrid P2P</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Hybrid
+                                    P2P</strong> combines <strong>client-server architecture</strong> and
+                                <strong>peer-to-peer.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Some
+                                nodes act as <strong>central coordinators</strong>, while peers still exchange data
+                                directly.</p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/PeerToPeerImg4.webp" alt="Hybrid Peer-to-Peer Architecture"
+                                    style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Example</strong>
+                            </p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Modern Skype
+                                    architecture
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Some gaming networks
+                                </li>
+                            </ol>
+                            <div
+                                style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Pros</strong><br>✔ Faster peer discovery<br>✔ Better performance than
+                                        pure P2P
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.08); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Cons</strong><br>❌ Partial dependency on server
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Structured P2P</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Structured P2P networks</strong> organize peers using a <strong>structured
+                                    algorithm like Distributed
+                                    Hash Tables (DHT).</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">This
+                                helps <strong>locate resources efficiently and quickly.</strong></p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">
+                                <strong>Architecture :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Nodes follow a defined
+                                topology such as:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Ring Network</strong></p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/PeerToPeerImg5.webp" alt="Structured Peer-to-Peer (DHT / Ring)"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                Each peer stores part of the distributed index.</p>
+
+                            <p style="color: var(--color-text-secondary); margin: 1.25rem 0 0.5rem 0;"><strong>Example
+                                    Systems</strong></p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Chord
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; padding:0.1rem; ">
+                                    Kademlia
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">BitTorrent DHT
+                                </li>
+                            </ol>
+                            <div
+                                style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Pros</strong><br>✔ Efficient resource discovery<br>✔ Predictable search
+                                        time
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.08); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Cons</strong><br>❌ Complex to maintain network structure
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">5️⃣ Unstructured P2P</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In
+                                this network, peers join <strong>randomly without structured organization.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">When
+                                searching for data, the system uses <strong>flooding or broadcasting queries.</strong>
+                            </p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/PeerToPeerImg6.jpg" alt="Unstructured Peer-to-Peer Architecture"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Search process:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Peer asks neighbors → neighbors
+                                ask others</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Example</strong>
+                            </p>
+                            <ol style="padding-left:2rem;">
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Gnutella
+                                </li>
+                                <li style="color: var(--color-text-secondary); font-size:large; ">Early file sharing
+                                    systems
+                                </li>
+                            </ol>
+                            <div
+                                style="margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.18);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Pros</strong><br>✔ Easy to implement<br>✔ Flexible network
+                                    </p>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.08); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                        <strong>Cons</strong><br>❌ Search is inefficient<br>❌ High network traffic
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary </h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"><strong>Peer-to-Peer
+                                architecture</strong> is a distributed system where each node acts as both a
+                            <strong>client and a
+                                server.</strong><br>Nodes communicate directly with each other<strong> without a
+                                centralized server.</strong><br>It is
+                            commonly used in systems like <strong>BitTorrent, blockchain networks, and distributed
+                                storage
+                                platforms.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2.5rem;">
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Check out this link
+                            for differences between all architectures</p>
+                        <div style="margin-top: 1rem;">
+                            <a href="Architecture_Comparison.html"
+                                style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--color-primary); font-weight: 600;">
+                                <span
+                                    style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25);">📘</span>
+                                <span>Open: Difference Between Major System Architectures</span>
+                                <span style="opacity: 0.9;">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Peer-to-Peer (P2P) Architecture 🔗', 'success');
+        });
+    </script>
+</body>
+
+</html>

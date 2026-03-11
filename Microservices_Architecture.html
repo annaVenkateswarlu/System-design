@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservices Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Microservices Architecture</span>
+                </nav>
+
+                <h2>🧩 Microservices Architecture</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                        <strong>Microservices architecture</strong> is a design approach where a large application is
+                        <strong>split into many small, independent services,</strong> each responsible for a
+                        <strong>specific functionality.</strong>
+                    </p>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">Each
+                        service:</p>
+                    <ol style="padding-left: 2rem; margin: 0 0 1.25rem 0;">
+                        <li style="color: var(--color-text-secondary); font-size: large;">Runs independently</li>
+                        <li style="color: var(--color-text-secondary); font-size: large;">Has its own database (often)
+                        </li>
+                        <li style="color: var(--color-text-secondary); font-size: large;">Communicates with other
+                            services via APIs or events.</li>
+                    </ol>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"><strong>Basic
+                                flow:</strong><br>Client → API Gateway → Microservices → Database</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong>Example services:</strong>
+                        </p>
+                        <ol style="padding-left: 2rem; margin: 0;">
+                            <li style="color: var(--color-text-secondary); font-size: large;">User Service</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Order Service</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Payment Service</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Notification Service</li>
+                        </ol>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0 0;">Each
+                            service can be <strong>developed, deployed, and scaled independently.</strong></p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/MicroservicesImg1.webp" alt="Microservices Architecture Overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚙️ Key
+                        Characteristics</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Small Independent
+                                Services</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Each
+                                microservice performs a <strong>single responsibility.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">User Service → manages users</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Payment Service → processes
+                                payments</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Order Service → handles orders</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ Independent Deployment
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Services can be deployed <strong>without affecting others.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Example:</strong><br>Update Payment Service<br>(No need to redeploy entire
+                                system)
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ API-based Communication
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Microservices communicate using <strong>APIs or messaging systems.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                <strong>Example:</strong><br>Order Service → calls Payment Service API
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>Protocols used:</strong>
+                            </p>
+                            <ol style="padding-left: 2rem; margin: 0;">
+                                <li style="color: var(--color-text-secondary); font-size: large;">REST</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">gRPC</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">Messaging (Kafka,
+                                    RabbitMQ)</li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Independent Databases
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Each
+                                service often has its <strong>own database.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">User Service → User DB</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Order Service → Order DB</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Payment Service → Payment DB</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0 0;">This
+                                avoids tight coupling.</p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/MicroservicesImg2.png" alt="Microservices Independent Databases"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">✅ Advantages</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">
+                            <strong>1️⃣ Scalability</strong><br>Each service can scale
+                            <strong>independently.</strong><br><strong>Example:</strong><br>Payment Service → scale
+                            more<br>Notification
+                            Service → scale less
+                            <br><br>
+                            <strong>2️⃣ Faster Development</strong><br>Multiple teams can work in
+                            <strong>parallel.</strong>
+                            <br><br>
+                            <strong>3️⃣ Fault Isolation</strong><br>If one service fails, others can still
+                            work.<br><strong>Example:</strong><br>Notification service fails<br>Orders still work
+                            <br><br>
+                            <strong>4️⃣ Technology Flexibility</strong><br>Each service can use different
+                            technologies.<br><strong>Example:</strong><br>User Service → Java<br>Payment Service →
+                            Go<br>Recommendation → Python
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 1rem;">⚠️ Disadvantages</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">
+                            <strong>1️⃣ System Complexity</strong><br>Many services increase complexity.
+                            <br><br>
+                            <strong>2️⃣ Network Overhead</strong><br>Services communicate over network → latency.
+                            <br><br>
+                            <strong>3️⃣ Data Consistency Challenges</strong><br>Distributed data leads to eventual
+                            consistency.
+                            <br><br>
+                            <strong>4️⃣ Deployment & Monitoring Complexity</strong><br>Requires strong DevOps
+                            practices.<br>Tools often used:
+                        </p>
+                        <ol style="padding-left: 2rem; margin: 1rem 0 0 0;">
+                            <li style="color: var(--color-text-secondary); font-size: large;">Kubernetes</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Docker</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Prometheus</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Grafana</li>
+                        </ol>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <img src="images/MicroservicesImg3.png" alt="Microservices Disadvantages and Ops"
+                        style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                </div>
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">5️⃣ Key components
+                        in Microservices</h3>
+
+                    <div style="display: grid; grid-template-rows: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 API Gateway</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Single
+                                    entry point</strong> for clients.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>Handles:</strong>
+                            </p>
+                            <ol style="padding-left: 2rem; margin: 0;">
+                                <li style="color: var(--color-text-secondary); font-size: large;">Routing</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">Authentication</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">Rate limiting</li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Service Discovery</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong>Services dynamically</strong> find each other.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>Example tools:</strong>
+                            </p>
+                            <ol style="padding-left: 2rem; margin: 0;">
+                                <li style="color: var(--color-text-secondary); font-size: large;">Consul</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">Eureka</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">Kubernetes DNS</li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Load Balancer</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                <strong>Distributes
+                                    traffic</strong> among service instances.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Message Queue / Event
+                                Broker</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Enables <strong>asynchronous communication.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ol style="padding-left: 2rem; margin: 0;">
+                                <li style="color: var(--color-text-secondary); font-size: large;">Kafka</li>
+                                <li style="color: var(--color-text-secondary); font-size: large;">RabbitMQ</li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Database per Service
+                            </h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Each service
+                                manages its <strong>own data storage.</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without Microservices ?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>Without
+                                microservices</strong> in large systems:
+                        </p>
+                        <ol style="padding-left: 2rem; margin: 0;">
+                            <li style="color: var(--color-text-secondary); font-size: large;">Entire application must be
+                                redeployed for small changes</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Scaling one component
+                                requires scaling whole system</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Large codebases become
+                                hard to maintain</li>
+                            <li style="color: var(--color-text-secondary); font-size: large;">Development teams block
+                                each other</li>
+                        </ol>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0 0;">
+                            <strong>Example:</strong><br>If order service fails in a monolith, the entire application
+                            <strong>may crash.</strong>
+                        </p>
+
+                        <div style="margin-top: 1.75rem; text-align: center;">
+                            <img src="images/MicroservicesImg4.png" alt="Microservices Patterns"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0;">microservices patterns
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 summary</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;"><strong>Microservices
+                                architecture</strong> splits a large application into <strong>small independent
+                                services</strong>, each responsible
+                            for a <strong>specific business capability</strong>.<br>Services communicate through<strong>
+                                APIs or message queues</strong>
+                            and can be <strong>developed and deployed independently.</strong><br>It improves
+                            scalability, flexibility,
+                            and team productivity but adds operational complexity.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2.5rem;">
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Check out this link
+                            for differences between all architectures</p>
+                        <div style="margin-top: 1rem;">
+                            <a href="Architecture_Comparison.html"
+                                style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--color-primary); font-weight: 600;">
+                                <span
+                                    style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25);">📘</span>
+                                <span>Open: Difference Between Major System Architectures</span>
+                                <span style="opacity: 0.9;">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Microservices Architecture 🧩', 'success');
+        });
+    </script>
+</body>
+
+</html>

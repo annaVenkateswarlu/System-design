@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serverless Architecture - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Serverless Architecture</span>
+                </nav>
+
+                <h2>☁️ Serverless Architecture</h2>
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What it is</h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                        <strong>Serverless
+                            architecture </strong>is a cloud computing model where developers run code <strong>without
+                            managing servers.</strong>
+                    </p>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">The cloud
+                        provider automatically handles <strong>infrastructure, scaling, and maintenance,</strong> while
+                        developers focus
+                        only on application logic.</p>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">Even though
+                        servers exist, they are fully managed by the cloud provider, so developers never manage them.
+                    </p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 0;">You only write
+                            functions.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.9; margin: 1rem 0 0 0;"><strong>💡
+                                Simple idea:</strong><br>Client → API Gateway → Serverless Function → Database</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Examples of
+                                serverless platforms:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                            <li>AWS Lambda</li>
+                            <li>Google Cloud Functions</li>
+                            <li>Azure Functions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why It Is
+                        Called
+                        “Serverless”</h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Servers
+                        <strong>still
+                            exist,</strong> but developers <strong>do not manage them.</strong>
+                    </p>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">Cloud
+                        providers like Amazon Web Services, Google Cloud, Microsoft Azure handle the infrastructure.</p>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ServerlessImg1.webp" alt="Serverless Architecture Overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚙️ Key Components
+                    </h3>
+
+                    <div
+                        style="display: grid; grid-template-rows: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1️⃣ Client</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                client is the user interface that sends requests.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Web browser</li>
+                                <li>Mobile app</li>
+                                <li>IoT device</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Example
+                                    request:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">User clicks "Place Order"</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2️⃣ API Gateway</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">API
+                                Gateway acts as the entry point for all requests.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Responsibilities:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Route requests</li>
+                                <li>Authentication</li>
+                                <li>Rate limiting</li>
+                                <li>API management</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Client → API Gateway → Lambda
+                                Function</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3️⃣ Serverless Functions
+                                (FaaS)</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                <strong>FaaS
+                                    = Function as a Service</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong> Function
+                                    as a Service (FaaS)</strong> is a cloud computing model where small pieces of code
+                                (functions)
+                                run only when triggered by events.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Developers
+                                write individual functions instead of full servers or applications.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Each
+                                function runs independently when needed.</p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>AWS Lambda</li>
+                                <li>Google Cloud Functions</li>
+                                <li>Azure Functions</li>
+                            </ul>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Example
+                                    function:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                PlaceOrderFunction()<br>ProcessPaymentFunction()<br>SendEmailFunction()
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">These
+                                functions <strong>run on demand and scale automatically.</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4️⃣ Database / Storage</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Serverless
+                                applications usually use managed databases.</p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>DynamoDB</li>
+                                <li>Firebase</li>
+                                <li>MongoDB Atlas</li>
+                                <li>Cloud Storage</li>
+                            </ul>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Responsibilities:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                                <li>Data storage</li>
+                                <li>Queries</li>
+                                <li>persistence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔄 How Serverless
+                        Architecture Works</h3>
+
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                        <strong>Example:</strong>
+                        E-commerce order
+                    </p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.25rem;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">User
+                                places an order in the app.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Client
+                                sends request to API Gateway.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">API
+                                Gateway triggers a Lambda function.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Function
+                                processes business logic.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                5</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Function
+                                reads/writes data to database.</p>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                6</div>
+                            <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">Response
+                                returned to client.</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ServerlessImg2.webp" alt="How Serverless Works"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Key
+                        Characteristics</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 1.25rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>1️⃣
+                                Event-driven</strong><br>Functions run when triggered by an event.</p>
+                        <p style="color: var(--color-text-secondary); margin-top: 0.75rem; margin-bottom: 0.5rem;">
+                            <strong>Example
+                                triggers:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.1; margin-left: 1.25rem; margin: 2;">
+                            <li>HTTP request</li>
+                            <li>file upload</li>
+                            <li>database update</li>
+                        </ul>
+
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0 0;">
+                            <strong>2️⃣
+                                Auto scaling</strong><br>Cloud provider automatically scales functions.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-top: 0.75rem; margin-bottom: 0.5rem;">
+                            <strong>Example:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">10 users → 10 function
+                            instances<br>1M users → 1M instances</p>
+                        <p style="color: var(--color-text-secondary); margin-top: 0.75rem; margin-bottom: 0;">If 1
+                            million users request: Cloud automatically <strong>runs many function instances.</strong>
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1.25rem 0 0 0;">
+                            <strong>3️⃣
+                                Pay-per-use</strong><br>You <strong> pay only when code runs.</strong><br>No idle server
+                            cost.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Advantages</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-top: 1.25rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">✔ No server
+                            management<br>✔ Automatic scaling<br>✔ Cost efficient for low traffic<br>✔ Faster
+                            development</p>
+                    </div>
+
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin: 2.5rem 0 1rem 0;">⚠️
+                        Disadvantages</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444;">
+                        <p style="color: var(--color-text-secondary); line-height: 2; margin: 0;">1️⃣ <strong>Cold Start
+                                Latency</strong><br>Functions may take time to start if idle.<br><br><strong>2️⃣ Vendor
+                                Lock-in</strong><br>Applications
+                            depend on specific cloud providers.<br><br><strong>3️⃣ Debugging
+                                Complexity</strong><br>Distributed functions
+                            are harder to debug.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Real World Example
+                        : Image uploading</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Input:</strong>
+                            User image file (and metadata like userId, file type).<br><strong>Output:</strong> Processed
+                            image stored in cloud storage with a URL returned to the client.( Include original image,
+                            compressed image, resized image, thumbnail image )
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                1</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>User
+                                        Uploads
+                                        Image (Client)</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">A user uploads an image from:
+                                    Mobile app, Web browser</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">
+                                    <strong>Example:</strong>
+                                    Upload profile picture
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">The client sends an
+                                    HTTP request with the image.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">Client → API
+                                    Gateway</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                2</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>API Gateway
+                                        Receives Request</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>The API
+                                        Gateway acts as the entry point.
+                                    </strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Responsibilities: Receive HTTP
+                                    request, Authenticate user, Route request to correct function</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">Client → API
+                                    Gateway → Lambda Function</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                3</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Lambda
+                                        Function Executes (FaaS)</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">The request
+                                    triggers a serverless function.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;"><strong>Example
+                                        function:</strong> uploadImage()</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">
+                                    <strong>Responsibilities:</strong>
+                                    Validate image, Generate unique file name, Upload image to storage, Trigger further
+                                    processing
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0.5rem 0;">
+                                    <strong>Example
+                                        code logic:</strong>
+                                </p>
+                                <ol
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.25rem; margin: 2;">
+                                    <li>Receive image</li>
+                                    <li>Validate size and format</li>
+                                    <li>Generate unique ID</li>
+                                    <li>Store image in storage</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                4</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Image
+                                        Stored
+                                        in Cloud Storage</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">The image is stored
+                                    in a cloud storage service.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Examples: Amazon S3, Google
+                                    Cloud Storage, Azure Blob Storage</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0.5rem 0;">
+                                    <strong>Example:</strong>
+                                    Image stored → S3 Bucket
+                                </p>
+                                <p
+                                    style="color: var(--color-text-secondary); margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                    s3://user-images/profile_12345.jpg</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                5</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Event
+                                        Triggered After Upload</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">After uploading the image,
+                                    storage triggers another event.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0;"><strong>Example
+                                        event:</strong> ImageUploaded</p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">This can trigger
+                                    another function.</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                6</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Image
+                                        Processing Function</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Another serverless
+                                    function runs automatically.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">
+                                    <strong>Example:</strong>
+                                    resizeImage()
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">
+                                    <strong>Responsibilities:</strong>
+                                    Create thumbnails, Compress image, Convert format, Run AI detection
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0.5rem 0;">
+                                    <strong>Example
+                                        output:</strong>
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">
+                                    profile_original.jpg<br>profile_thumbnail.jpg<br>profile_small.jpg
+                                </p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-start;">
+                            <div
+                                style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                7</div>
+                            <div style="margin-left: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Image URL
+                                        Sent Back to Client</strong></p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Finally, the system returns
+                                    the
+                                    <strong> image URL.</strong>
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0.5rem 0;">
+                                    <strong>Example:</strong>
+                                </p>
+                                <p
+                                    style="color: var(--color-text-secondary); margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                    https://cdn.example.com/profile_12345.jpg</p>
+                                <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">The
+                                    client can now display the image.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/ServerlessImg3.png" alt="Serverless Image Uploading Example"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong>Serverless
+                            architecture</strong> is a cloud computing model where developers run code without managing
+                        servers.</p>
+                    <br>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Applications are
+                        built using event-triggered functions executed by cloud providers like <strong> AWS Lambda.
+                        </strong> <br>It
+                        provides
+                        <strong> automatic scaling, pay-per-use pricing, and faster development.</strong>
+                    </p>
+                </div>
+
+                <div style="margin-top: 2.5rem;">
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Check out this link
+                            for differences between all architectures</p>
+                        <div style="margin-top: 1rem;">
+                            <a href="Architecture_Comparison.html"
+                                style="display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--color-primary); font-weight: 600;">
+                                <span
+                                    style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25);">📘</span>
+                                <span>Open: Difference Between Major System Architectures</span>
+                                <span style="opacity: 0.9;">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Serverless Architecture ☁️', 'success');
+        });
+    </script>
+</body>
+
+</html>

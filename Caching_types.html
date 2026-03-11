@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caching Types - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="caching.html" aria-label="Go to Caching page" class="tooltip-trigger"
+                        data-tooltip="Go back to caching overview">Caching</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Caching Types & Strategies</span>
+                </nav>
+
+                <h2>💾 Caching Types, Strategies & Eviction Policies</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ Types of
+                        Caching</h3>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">1. Client-Side Cache</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Storing
+                            server responses on the client’s device so that repeated requests for the same resource can
+                            be served locally without contacting the server again.</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1rem;">
+                            <li>Data stored on the user’s device or browser.</li>
+                            <li><strong>Data Stored in:</strong> Browser cache, Local storage, Device memory</li>
+                        </ul>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.25rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example flow:</strong></p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8;">User
+                                (Client) → Client Cache (Browser / App Cache) → (if cache miss) Server → Database</p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-muted); font-style: italic;">If
+                                data exists in cache → server is not called.</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Used in:</strong>
+                            Websites, static resources (images, CSS)</p>
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <img src="images/CachingImg1.png" alt="Client-side caching flow"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">2. Server-Side Cache</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Data
+                            stored on the server to reduce database calls.</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Example
+                                tools:</strong> Redis, Memcached</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.25rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Example flow:</strong></p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8;">
+                                Client → Server → Cache → Database</p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-muted); font-style: italic;">If
+                                cache hit → data returned quickly.</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Used in:</strong>
+                            APIs, database query results</p>
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <img src="images/CachingImg2.webp" alt="Server-side caching flow"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">3. CDN Cache</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">CDN
+                            caching stores copies of static content on edge servers closer to users around the world to
+                            deliver content faster. <br> Instead of every user requesting data from the origin server,
+                            the CDN serves content from the nearest edge server.</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.25rem;">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Flow:</strong></p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8;">User
+                                → CDN Edge Server → (if cache miss) Origin Server → Database</p>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Example:</strong>
+                            Cloudflare, AWS CloudFront, Akamai</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Used
+                                for:</strong> Images, videos, static files</p>
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <img src="images/CachingImg3.jpeg" alt="CDN caching flow"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4. Database Cache</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Database
+                            itself stores frequently accessed queries. <br>
+                            Cache is maintained inside the database engine.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Example:</strong>
+                            MySQL query cache, PostgreSQL caching</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Flow:</strong></p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8;">
+                                Client → Application Server → Database Cache (Query Cache / Buffer Pool) → (if miss)
+                                Database Storage</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">5. Application Cache</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            Application cache stores frequently used data inside the backend application layer to avoid
+                            repeated database queries.<br> Cache is close to the application server. <br> Cache stored
+                            in backend servers using tools like Redis.</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Usually stored
+                                in:</strong> In-memory cache, Redis, Memcached</p>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.25rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="margin: 0; color: var(--color-text-secondary);"><strong
+                                    style="color: var(--color-primary);">Flow with application cache:</strong></p>
+                            <p style="margin: 0.75rem 0 0 0; color: var(--color-text-secondary); line-height: 1.8;">
+                                Client → Server → Application Cache → Database</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(52, 211, 153, 0.04) 100%); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Quick Summary Table</h4>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            style="text-align: left; padding: 0.9rem; border-bottom: 1px solid var(--glass-border); color: var(--color-text-primary);">
+                                            Cache Type</th>
+                                        <th
+                                            style="text-align: left; padding: 0.9rem; border-bottom: 1px solid var(--glass-border); color: var(--color-text-primary);">
+                                            Location</th>
+                                        <th
+                                            style="text-align: left; padding: 0.9rem; border-bottom: 1px solid var(--glass-border); color: var(--color-text-primary);">
+                                            Purpose</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Client Cache</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            User device</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Reduce network requests</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            CDN Cache</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Edge servers</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Faster global delivery</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Application Cache</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Backend servers</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Reduce DB queries</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Server Cache</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Server layer</td>
+                                        <td
+                                            style="padding: 0.9rem; border-bottom: 1px solid rgba(16, 185, 129, 0.12); color: var(--color-text-secondary);">
+                                            Reduce DB hits</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Database Cache
+                                        </td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Inside DB</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Speed up
+                                            queries</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Real World
+                            Example: Opening an Instagram Post</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">User
+                            opens:</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.5rem;">
+                            <strong>https://instagram.com/post/123</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">System
+                            uses multiple caching layers.</p>
+
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 1️⃣ Client-Side
+                                    Cache (Browser / Mobile Cache)</h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">First the app
+                                    checks local device cache.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        User → Client Cache</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example
+                                        cached items:</strong></p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-bottom: 1rem;">
+                                    <li>Images</li>
+                                    <li>CSS</li>
+                                    <li>JavaScript</li>
+                                    <li>Previously viewed posts</li>
+                                </ul>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">If image exists
+                                    locally → show instantly.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">If not → request goes to
+                                    network.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 2️⃣ CDN Cache</h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Request goes to
+                                    nearest CDN edge server.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        User → CDN Edge Server</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Example:</strong>
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">User in India →
+                                    CDN server in Mumbai.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">CDN checks:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-bottom: 0.75rem;">
+                                    <li>Is post image cached?</li>
+                                </ul>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">If YES → send
+                                    image immediately.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">If NO → fetch from origin
+                                    server.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 3️⃣ Load Balancer
+                                    / API Server</h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">If CDN doesn't
+                                    have it, request goes to backend.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        User → CDN → Load Balancer → Application Server</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Load balancer chooses one
+                                    backend server.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 4️⃣ Application
+                                    Cache (Redis / Memcached)</h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Server checks
+                                    application cache.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        Application Server → Redis Cache</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Example
+                                        cached data:</strong></p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.25rem; margin-bottom: 1rem;">
+                                    <li>Post metadata</li>
+                                    <li>Like counts</li>
+                                    <li>Comments</li>
+                                    <li>User profiles</li>
+                                </ul>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">If found → return
+                                    instantly.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">If not → query database.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 5️⃣ Database Cache
+                                </h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Database itself
+                                    has internal caching.</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        Application Server → Database Cache → Database</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Example:</strong>
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">Database may cache
+                                    frequently used queries like:</p>
+                                <div
+                                    style="background: rgba(0, 0, 0, 0.03); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.15); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        SELECT * FROM posts WHERE id=123</p>
+                                </div>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">If cached → return
+                                    quickly.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">If not → fetch from disk
+                                    storage.</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                                <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">Step 6️⃣ Database</h4>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Final fallback.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                    <strong>Flow:</strong>
+                                </p>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        Database Cache Miss → Database Disk Storage</p>
+                                </div>
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.05); padding: 0.9rem 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1rem;">
+                                    <p
+                                        style="margin: 0; color: var(--color-text-secondary); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                        Database returns data → server
+                                        stores it in cache layers.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); text-align: center;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;text-align: left;">Complete
+                                Real System Flow
+                            </h4>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin:0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                User
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Client-Side
+                                Cache (Browser / App)</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                CDN Cache</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Load Balancer
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Application
+                                Server</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Application
+                                Cache (Redis)</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(16, 185, 129, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Database Cache
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">↓</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; border: 5px solid rgba(42, 249, 180, 0.2); padding: 0.5rem; border-radius: var(--radius-lg); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                Database</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Caching
+                            Strategies</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <li style="font-size: large;">Caches
+                                have real problems like <strong>stale data</strong>, <strong>limited memory</strong>,
+                                and
+                                <strong>consistency issues</strong>.
+                            </li>
+                            <li style="font-size: large;"> So caching strategies define rules for handling these
+                                problems.</li>
+
+                            <li style="font-size: large;"> Caching strategies are needed to manage how data is stored,
+                                updated, and removed from
+                                cache
+                                so systems achieve faster performance, reduced database load, and consistent data.</li>
+
+                        </p>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Cache-Aside (Lazy
+                                Loading)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Steps:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.25rem;">
+                                <li>Application checks cache for data.</li>
+                                <li>If cache hit → return data.</li>
+                                <li>If cache miss → fetch from database.</li>
+                                <li>Store data in cache.</li>
+                                <li>Return data to user.</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"><strong>Used
+                                    in:</strong>
+                                Most applications</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Advantages:<br></strong> ✔ Cache stores only frequently used data
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Disadvantages:<br></strong> ❌
+                                Risk of stale data if DB updates but cache doesn't <br>
+                                ❌ Cache inconsistency possible
+                            </p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg8.png" alt="Cache-aside strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Write-Through Cache</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Steps:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.25rem;">
+                                <li>Application writes data to cache.</li>
+                                <li>Cache immediately writes the same data to database.</li>
+                                <li>Cache and DB stay synchronized.</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">When data is written:
+                            </p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom:1.25rem;">
+                                <li> Cache updated </li>
+                                <li>DB updated simultaneously</li>
+                            </ol>
+
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Advantage:<br></strong> ✔ Cache always fresh <br>✔ reads are very fast
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Disadvantage:<br></strong>
+                                ❌
+                                Write
+                                latency increases (two writes)</p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg7.png" alt="Write-through strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Write-Behind
+                                (Write-Back)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Steps:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.25rem;">
+                                <li>Application writes data to cache only.</li>
+                                <li>Cache returns success immediately.</li>
+                                <li>Cache asynchronously writes to database later.</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Database update happens
+                                later asynchronously.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Advantage:<br></strong> ✔ Very fast writes
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Disadvantages:<br></strong> ❌
+                                Risk of data loss if cache crashes
+                                <br> ❌ Database may temporarily have old data
+                            </p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg6.png" alt="Write-behind strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 Read-Through Cache</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Application only talks to cache. <br>The cache automatically fetches missing data from
+                                the
+                                database and returns it to the application.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Steps:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.25rem;">
+                                <li>Application requests data from cache.</li>
+                                <li>Cache checks if data exists.</li>
+                                <li>Cache hit → return data to application.</li>
+                                <li>Cache miss → cache fetches data from database.</li>
+                                <li>Cache stores fetched data.</li>
+                                <li>Cache returns data to application.</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Advantages:<br></strong> ✔ Simpler for application – app only interacts with
+                                cache
+
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Disadvantages:<br></strong> ❌
+                                Cache dependency increases<br> ❌ If cache fails → application cannot directly access
+                                database
+                            </p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg5.png" alt="Read-through strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">6. Refresh-Ahead Cache</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Cache stores frequently
+                                accessed data and refreshes it in the background before it expires, so it stays fresh.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Steps:</p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-bottom: 1.25rem;">
+                                <li>Cache stores frequently accessed data.</li>
+                                <li>Before cache expires, system refreshes data in background.</li>
+                                <li>Cache always contains fresh data.</li>
+                            </ol>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Advantages:<br></strong> ✔ Very fast reads <br> ✔ reduces cache misses
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">
+                                <strong>Disadvantages:<br></strong> ❌
+                                Extra background processing <br> ❌ More complex to Implement
+                            </p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg4.png" alt="Refresh-ahead strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ Cache
+                            Eviction
+                            Policies</h3>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">When the
+                            cache is full, which data should be removed?</p>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 LRU (Least Recently
+                                Used)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Removes data that
+                                hasn't been used recently.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;"></p>If user hasn’t
+                            accessed item for long time → remove it.</p>
+                            <p style="color: var(--color-text-muted); margin: 0;">Most commonly used policy.</p>
+
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg10.webp" alt="Read-through strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 LFU (Least Frequently
+                                Used)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">Removes data used the
+                                least number of times.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">If item accessed only
+                                once → remove it.</p>
+                            <p style="color: var(--color-text-muted); margin: 0;">Useful when access patterns are
+                                stable.
+                            </p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg12.webp" alt="Read-through strategy diagram"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 FIFO (First In First
+                                Out)</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">The earliest inserted cache entry
+                                is
+                                removed first.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"> It only cares about insertion
+                                order,
+                                not usage.</p>
+
+                            <p style="color: var(--color-text-muted); margin: 0;">Simple but not always optimal.</p>
+
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">🔹 TTL (Time To Live)</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Data expires after certain
+                                time.<br>
+                                TTL is the amount of time a cached data is allowed to stay in the cache before it
+                                expires and gets removed after expiry.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Example:</strong></p>
+                            <li style="color: var(--color-text-secondary); margin: 0 0 0 1rem;">Session tokens</li>
+                            <li style="color: var(--color-text-secondary); margin: 0 0 0 1rem;">Temporary data</li>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg13.webp" alt="Read-through strategy diagram"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">4. Random Eviction</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Removes a random cache entry.</p>
+                        </div>
+
+                        <div
+                            style="margin-top: 2rem; background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">5. MRU (Most Recently Used)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Removes the most recently used
+                                item
+                                first. <br> Opposite of LRU</p>
+                            <div style="margin-top: 1.25rem; text-align: center;">
+                                <img src="images/CachingImg11.png" alt="Read-through strategy diagram"
+                                    style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Summary Section -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+
+                        <strong>Caching improves system performance</strong> by storing frequently accessed data in
+                        memory, using
+                        strategies like <strong>cache-aside</strong> or <strong>write-through</strong> and eviction
+                        policies such as <strong>LRU</strong>
+                        or <strong>LFU</strong> when cache capacity is reached.
+                    </p>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="caching.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">💾 Caching</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Caching Types 💾', 'success');
+        });
+    </script>
+</body>
+
+</html>

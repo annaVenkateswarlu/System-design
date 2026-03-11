@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Balancing Algorithms - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content" id="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="load-balancing.html" aria-label="Go to Load Balancing page" class="tooltip-trigger"
+                        data-tooltip="Back to load balancing">Load Balancing</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Load Balancing Algorithms</span>
+                </nav>
+
+                <h2>⚖️ Load Balancing Algorithms</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;"> Why Load
+                        Balancing Algorithms Exist</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">They solve
+                            the problem:</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
+                            <strong>
+                                Which server should handle the next request?</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            Different
+                            algorithms choose servers differently based on:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 2;">
+                            <li>Current load</li>
+                            <li>Server capacity</li>
+                            <li>Network latency</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Load balancing,
+                            algorithms are broadly divided into <strong>two categories:</strong></p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0.75rem 0 0 0;">
+                            <strong> 1️⃣ Static Load Balancing Algorithms<br>
+                                2️⃣ Dynamic Load Balancing Algorithms </strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0.75rem 0 0 0;">The
+                            difference depends on <strong>whether the load balancer considers the current server state
+                                or not.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ Static Load
+                        Balancing Algorithms</h3>
+
+                    <div
+                        style="margin-top: 1.5rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it means</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Static
+                            algorithms distribute requests <strong> without checking the current load of
+                                servers.</strong></p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">The
+                            decision is made using <strong> predefined rules.</strong></p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0;">The load
+                            balancer assumes all servers behave similarly.</p>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 0.75rem 0;">Characteristics</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 2;">
+                            <li>Simple</li>
+                            <li>Fast</li>
+                            <li>No monitoring needed</li>
+                            <li>Works well when servers have similar capacity</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Algorithms under Static</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    1</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Round
+                                        Robin</strong>
+                                </p>
+                            </div>
+
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Requests
+                                are distributed <strong> sequentially across servers.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">It
+                                assigns a request to the first server, then moves to the second, third, and so on, and
+                                after reaching the last server, it starts again at the first.</p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg1.gif" alt="Round Robin load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0.5rem;">
+                                <strong>Example
+                                    servers: </strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Server A<br>Server B<br>Server C
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                Requests
+                                go like:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Req1 → A<br>Req2 → B<br>Req3 →
+                                C<br>Req4
+                                → A<br>Req5 → B</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">✔ Simple<br>✔ Easy to implement
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">❌ Doesn't consider server load</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Used when:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Servers have equal capacity</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    2</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Weighted
+                                        Round Robin</strong>
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong> Weighted
+                                    Round Robin (WRR) </strong> is a load balancing algorithm where each server is given
+                                a <strong> weight </strong>
+                                based on its capacity (CPU, RAM, performance).
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong> Weight
+                                    =
+                                    capacity or priority of a server. </strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">It
+                                represents <strong> how much load the server can handle.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Servers
+                                with <strong> higher weight receive more requests.</strong></p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong> Example:
+                                </strong></p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Server A weight = 3<br>Server B
+                                weight
+                                = 1</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong> Traffic
+                                    distribution:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">A → A → A → B → A → A → A →
+                                B<br>Server
+                                A gets more requests.</p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg2.gif" alt="Weighted Round Robin load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0.5rem;">
+                                <strong> On
+                                    above image </strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong> Clients :</strong> John
+                                and Sarah send
+                                requests.<br>
+                                <strong> Load
+                                    Balancer : </strong> Receives requests and decides <strong> which server should
+                                    handle them.</strong>
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                Total
+                                weight:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">0.6 + 0.2 + 0.2 = 1.0</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                This
+                                means the traffic distribution will be:</p>
+
+                            <div
+                                style="margin-top: 1rem; overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.08);">
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Server</th>
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Weight</th>
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Traffic Share</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 1
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">0.6
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">60%
+                                                requests
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 2
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">0.2
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">20%
+                                                requests
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 3
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">0.2
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">20%
+                                                requests
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p
+                                style="color: var(--color-text-secondary); font-size: large; margin-top: 1.5rem; margin-bottom: 0.5rem;">
+                                <strong>If
+                                    Only 4 Requests Arrive</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">Calculate expected
+                                share:
+                            </p>
+
+                            <div
+                                style="margin-top: 1rem; overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                <table style="width: 100%; border-collapse: collapse; min-width: 520px;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.08);">
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Server</th>
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Calculation</th>
+                                            <th
+                                                style="text-align: left; padding: 0.75rem 1rem; color: var(--color-primary);">
+                                                Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 1
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">4 ×
+                                                0.6</td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">2.4
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 2
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">4 ×
+                                                0.2</td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">0.8
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">
+                                                Server 3
+                                            </td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">4 ×
+                                                0.2</td>
+                                            <td style="padding: 0.75rem 1rem; color: var(--color-text-secondary);">0.8
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0.5rem;">
+                                But
+                                we cannot <strong> send 2.4 requests </strong> to a server. Requests must be whole
+                                numbers.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">So the
+                                load balancer approximates to 3.</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">Possible distribution:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Server 1 → 3 requests<br>Server 2
+                                → 1
+                                request<br>Server 3 → 0 requests</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong> Why? </strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Because Server 1
+                                has
+                                the highest weight, so it receives the extra request when rounding happens.</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages
+                                    :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Better load distribution than
+                                simple
+                                Round Robin</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages
+                                    :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Complexity in Weight Assignment :
+                                Determining appropriate weights for each server can be challengin</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>When
+                                    used</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">When servers have different
+                                capacities.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    3</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>IP
+                                        Hash</strong>
+                                </p>
+                            </div>
+
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it is</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">The
+                                client IP address determines which server handles the request.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                Uses a
+                                hash of the client’s IP to determine the server.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong> Example :</strong>
+                                <strong style="font-size:x-large;"> hash(IP) % servers </strong><br>Same user → same
+                                server.
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Suppose you
+                                have three servers <strong> (Server A, Server B, and Server C) </strong> and a client
+                                with the IP address
+                                <strong> 192.168.1.10 </strong>. <br> The load balancer applies a hash function to this
+                                IP
+                                address, resulting in
+                                a
+                                hash value. If the hash value is 2 and there are three servers, the load balancer
+                                routes
+                                the request to Server C (2 % 3 = 2).
+                            </p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg3.gif" alt="IP Hash load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">✔ Session persistence (User must
+                                always
+                                connect to the same server)<br>✔ Good for login sessions</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">❌ Uneven distribution possible
+                                (requests
+                                are not equally or fairly spread across servers)</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    4</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Random
+                                        Algorithm</strong>
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Random
+                                algo
+                                distributes incoming requests to servers randomly</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong> Example:
+                                </strong> </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Req1 → B<br>Req2 → A<br>Req3 → C
+                            </p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg7.gif" alt="Random load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">✔ Simple<br>✔ Fair distribution in
+                                large
+                                systems</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">❌ May cause imbalance (some
+                                servers may
+                                receive more requests, while others receive fewer requests)</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Dynamic Load
+                        Balancing Algorithms</h3>
+
+                    <div
+                        style="margin-top: 1.5rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">What it means</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Dynamic
+                            algorithms distribute requests based on the <strong>current load of servers</strong>.</p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">They
+                            monitor:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 2;">
+                            <li>CPU usage</li>
+                            <li>Memory</li>
+                            <li>Active connections</li>
+                            <li>response time</li>
+                        </ul>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 0.75rem 0;">Characteristics</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 2;">
+                            <li>More intelligent</li>
+                            <li>Adapts to real-time load</li>
+                            <li>Slightly more complex</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Algorithms under Dynamic</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    1</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Least
+                                        Connections</strong>
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                <strong>Least Connections</strong> algorithm directs incoming requests to the server
+                                with the lowest number of
+                                active connections.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.25rem;"><strong>Meaning
+                                    :</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                load
+                                balancer checks <strong>how many requests each server is currently processing.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                server
+                                with the <strong> lowest number of active requests </strong> receives the next request.
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Server A → 20
+                                connections<br>Server B → 5
+                                connections<br>Next request → Server B</p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg4.gif" alt="Least Connections load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">✔ Balances real-time load<br>✔
+                                Works well
+                                for long sessions</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">❌ Slightly more complex</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Used
+                                    for:</strong>
+                            </p>
+                            Long-lived connections <br> Web applications
+
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    2</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Weighted
+                                        Least Connections</strong>
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                <strong>Weighted
+                                    Least Connections</strong> algorithm combines the Least Connections and Weighted
+                                Round Robin
+                                algorithms.
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In
+                                Weighted
+                                Least Connections, the load balancer chooses the server with the <strong>Smallest Value
+                                </strong>of:</p>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                <strong>Active Connections / Weight</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">This
+                                ratio
+                                helps consider both server load and server capacity.</p>
+                            <ol style="padding-left:2rem;">
+                                <li
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                                    <strong> Active
+                                        Connections</strong> → how many requests the server is currently handling
+                                </li>
+                                <li
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                                    <strong>Weight</strong> →
+                                    capacity of a server
+                                </li>
+                            </ol>
+
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem; padding-left:1">Why This
+                                Works</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Servers with <strong> higher
+                                    weight </strong> can
+                                handle
+                                more requests.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">Servers with <strong>
+                                    lower
+                                    active
+                                    connections </strong> are less busy.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">So the algorithm
+                                balances
+                                <strong> capacity + current load.</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">The server with the
+                                <strong> lowest
+                                    (active connections / weight)</strong> ratio receives the next request.
+                            </p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg5.gif" alt="Weighted Least Connections load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages
+                                    :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Handles heterogeneous servers
+                                well.</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages
+                                    :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Slightly more complex to
+                                implement.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 1.25rem;">
+                                <div
+                                    style="background: var(--color-primary); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">
+                                    3</div>
+                                <p style="color: var(--color-text-secondary); margin-left: 1rem; margin-bottom: 0;">
+                                    <strong>Least
+                                        Response Time</strong>
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Load
+                                balancer
+                                directs incoming requests to the server with the <strong>lowest response time</strong>
+                                and the <strong> fewest
+                                    active
+                                    connections.</strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">The
+                                server
+                                with <strong> lowest response time </strong> gets the next request.</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                <strong> Lower
+                                    response
+                                    time = faster server </strong></p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">So the
+                                load
+                                balancer chooses the server that can <strong> deliver responses quickest. </strong></p>
+
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/LoadBalAlgoImg6.gif" alt="Least Response Time load balancing"
+                                    style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Advantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">✔ Fast user experience – requests
+                                go to
+                                fastest server<br>✔ Adapts to real-time performance</p>
+
+                            <p style="color: var(--color-text-secondary); margin-top: 1.25rem; margin-bottom: 0.5rem;">
+                                <strong>Disadvantages</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">❌ Requires continuous monitoring
+                                of
+                                response times<br>❌ Fast servers may become overloaded if not controlled</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Load balancing
+                        algorithms
+                        distribute incoming requests across multiple servers using strategies like round robin, least
+                        connections, or IP hashing to improve scalability and reliability.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="load-balancing.html" class="next-topic-link">
+                    <span class="next-topic-text">Back</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">⚖️ Load Balancing</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Load Balancing Algorithms ⚖️', 'success');
+        });
+    </script>
+</body>
+
+</html>
