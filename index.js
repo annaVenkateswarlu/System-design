@@ -62,6 +62,277 @@ function showToast(message, type = 'info') {
 }
 
 // ===================================
+// Sidebar Topic Consistency
+// ===================================
+function ensureSidebarTopicLinks() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    const list = sidebar.querySelector('ul');
+    if (!list) return;
+
+    const requiredTopics = [
+        {
+            href: 'Stateless_VS_StatefulArchitecture.html',
+            text: '🧠 Stateless vs Stateful Architecture'
+        },
+        {
+            href: 'Partitioning_VS_Sharding.html',
+            text: '🧩 Partitioning vs Sharding'
+        },
+        {
+            href: 'Fault_Tolerance.html',
+            text: '🛡️ Fault Tolerance'
+        },
+        {
+            href: 'Polling.html',
+            text: '🔄 Polling'
+        },
+        {
+            href: 'API_Architecture_Styles.html',
+            text: '🌐 API Architecture Styles'
+        },
+        {
+            href: 'Service_Mesh.html',
+            text: '🕸️ Service Mesh'
+        },
+        {
+            href: 'Service_Discovery.html',
+            text: '🔎 Service Discovery'
+        }
+    ];
+
+    const existingHrefs = new Set(
+        Array.from(list.querySelectorAll('a'))
+            .map(a => (a.getAttribute('href') || '').trim().toLowerCase())
+            .filter(Boolean)
+    );
+
+    const apiGatewayLink = Array.from(list.querySelectorAll('a')).find(link => {
+        const href = (link.getAttribute('href') || '').trim();
+        return href.toLowerCase() === 'apigateway.html';
+    });
+
+    requiredTopics.forEach(topic => {
+        if (existingHrefs.has(topic.href.toLowerCase())) return;
+
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = topic.href;
+        a.textContent = topic.text;
+        li.appendChild(a);
+
+        if (apiGatewayLink && apiGatewayLink.parentElement && apiGatewayLink.parentElement.parentElement === list) {
+            list.insertBefore(li, apiGatewayLink.parentElement);
+        } else {
+            list.appendChild(li);
+        }
+
+        existingHrefs.add(topic.href.toLowerCase());
+    });
+}
+
+// ===================================
+// Sidebar Search
+// ===================================
+function initSidebarSearch() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    const list = sidebar.querySelector('ul');
+    if (!list) return;
+
+    if (sidebar.querySelector('.sidebar-search')) return;
+
+    const container = document.createElement('div');
+    container.className = 'sidebar-search';
+
+    const inputWrap = document.createElement('div');
+    inputWrap.className = 'sidebar-search-input-wrap';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Search topics...';
+    input.setAttribute('aria-label', 'Search topics');
+
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'sidebar-search-clear';
+    clearBtn.setAttribute('aria-label', 'Clear search');
+    clearBtn.textContent = '×';
+    clearBtn.style.display = 'none';
+
+    const hint = document.createElement('div');
+    hint.className = 'sidebar-search-hint';
+    hint.textContent = 'Type to filter topics';
+
+    const emptyState = document.createElement('div');
+    emptyState.className = 'sidebar-search-empty';
+    emptyState.style.display = 'none';
+    emptyState.innerHTML = `
+        <div class="sidebar-search-empty-illustration" aria-hidden="true">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="28" stroke="currentColor" stroke-width="6" opacity="0.25" />
+                <line x1="72" y1="72" x2="102" y2="102" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="0.25" />
+                <path d="M32 50h36" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity="0.18" />
+            </svg>
+        </div>
+        <div class="sidebar-search-empty-title">No results found</div>
+        <div class="sidebar-search-empty-subtitle">Try a different keyword</div>
+    `;
+
+    inputWrap.appendChild(input);
+    inputWrap.appendChild(clearBtn);
+
+    container.appendChild(inputWrap);
+    container.appendChild(hint);
+    container.appendChild(emptyState);
+
+    const heading = sidebar.querySelector('h2');
+    if (heading && heading.parentElement === sidebar) {
+        heading.insertAdjacentElement('afterend', container);
+    } else {
+        sidebar.insertBefore(container, list);
+    }
+
+    const normalize = (value) => (value || '')
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    const tokenize = (value) => normalize(value)
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .filter(Boolean);
+
+    const isSubsequence = (needle, haystack) => {
+        let i = 0;
+        let j = 0;
+        while (i < needle.length && j < haystack.length) {
+            if (needle[i] === haystack[j]) i += 1;
+            j += 1;
+        }
+        return i === needle.length;
+    };
+
+    const levenshtein = (a, b, maxDistance) => {
+        if (a === b) return 0;
+        if (Math.abs(a.length - b.length) > maxDistance) return maxDistance + 1;
+
+        const prev = new Array(b.length + 1);
+        const curr = new Array(b.length + 1);
+
+        for (let j = 0; j <= b.length; j += 1) prev[j] = j;
+
+        for (let i = 1; i <= a.length; i += 1) {
+            curr[0] = i;
+            let rowMin = curr[0];
+
+            for (let j = 1; j <= b.length; j += 1) {
+                const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                curr[j] = Math.min(
+                    prev[j] + 1,
+                    curr[j - 1] + 1,
+                    prev[j - 1] + cost
+                );
+                if (curr[j] < rowMin) rowMin = curr[j];
+            }
+
+            if (rowMin > maxDistance) return maxDistance + 1;
+
+            for (let j = 0; j <= b.length; j += 1) prev[j] = curr[j];
+        }
+
+        return prev[b.length];
+    };
+
+    const fuzzyMatch = (queryRaw, textRaw) => {
+        const query = normalize(queryRaw);
+        if (query === '') return true;
+
+        const text = normalize(textRaw);
+        if (text.includes(query)) return true;
+
+        const qCompact = query.replace(/\s+/g, '');
+        const tCompact = text.replace(/\s+/g, '');
+        if (qCompact.length >= 2 && isSubsequence(qCompact, tCompact)) return true;
+
+        const qTokens = tokenize(query);
+        const tTokens = tokenize(text);
+        if (qTokens.length === 0) return true;
+
+        return qTokens.every(qt => {
+            const allowed = qt.length <= 4 ? 1 : qt.length <= 8 ? 2 : 3;
+            return tTokens.some(tt => {
+                if (tt.startsWith(qt)) return true;
+                return levenshtein(qt, tt, allowed) <= allowed;
+            });
+        });
+    };
+
+    const filter = () => {
+        const query = normalize(input.value);
+        const items = Array.from(list.querySelectorAll('li'));
+        let visibleCount = 0;
+
+        clearBtn.style.display = query === '' ? 'none' : '';
+
+        items.forEach(li => {
+            const a = li.querySelector('a');
+            if (!a) return;
+            const text = a.textContent || '';
+            const isVisible = fuzzyMatch(query, text);
+            li.style.display = isVisible ? '' : 'none';
+            if (isVisible) visibleCount += 1;
+        });
+
+        if (query !== '' && visibleCount === 0) {
+            emptyState.style.display = '';
+        } else {
+            emptyState.style.display = 'none';
+        }
+
+    };
+
+    input.addEventListener('input', filter);
+
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        filter();
+        input.focus();
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            input.value = '';
+            filter();
+            input.blur();
+        }
+    });
+
+    filter();
+}
+
+function initMobileSidebarAutoClose() {
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    sidebarLinks.forEach(link => {
+        if (link.dataset.sidebarAutocloseBound === 'true') return;
+        link.dataset.sidebarAutocloseBound = 'true';
+
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar && sidebar.classList.contains('open')) {
+                    setTimeout(() => toggleSidebar(), 200);
+                }
+            }
+        });
+    });
+}
+
+// ===================================
 // Sidebar Toggle
 // ===================================
 function toggleSidebar() {
@@ -505,6 +776,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide page loader
     hidePageLoader();
 
+    // Keep sidebar topics consistent across all pages
+    ensureSidebarTopicLinks();
+
+    // Sidebar search (works after ensuring topics are present)
+    initSidebarSearch();
+
+    // Close sidebar when clicking on a link on mobile
+    initMobileSidebarAutoClose();
+
     // Initialize all animations and interactions
     initAnimations();
     initCardInteractions();
@@ -532,19 +812,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleSidebar();
             }
         }
-    });
-
-    // Close sidebar when clicking on a link on mobile
-    const sidebarLinks = document.querySelectorAll('.sidebar a');
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                const sidebar = document.getElementById('sidebar');
-                if (sidebar && sidebar.classList.contains('open')) {
-                    setTimeout(() => toggleSidebar(), 200);
-                }
-            }
-        });
     });
 
     // Handle orientation change
