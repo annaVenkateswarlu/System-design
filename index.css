@@ -310,7 +310,7 @@ p {
     z-index: 1;
     margin-bottom: var(--space-lg);
     padding-bottom: var(--space-sm);
-    background: rgba(255, 255, 255, 0.98);
+    background: transparent;
 }
 
 .sidebar-search-input-wrap {
