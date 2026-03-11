@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Tips - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="microservices.html">🔧 Microservices</a></li>
+            <li><a href="api-design.html">🔌 API Design</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Interview_Tips.html">🧠 Interview Tips</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Interview Tips</span>
+                </nav>
+
+                <h2>🧠 Interview Tips — System Design</h2>
+
+                <div
+                    style="margin-top: 2rem; background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                    <p style="margin: 0; color: var(--color-text-secondary); line-height: 1.9;">
+                        A single, numbered checklist you can scan quickly during interviews.
+                    </p>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Core mindset &
+                        requirements</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Understand the functional and non-functional requirements before designing.</li>
+                            <li>Clearly define the use cases and constraints of the system.</li>
+                            <li>There is no perfect solution. It's all about tradeoffs.</li>
+                            <li>Assume everything can and will fail. Make it fault tolerant.</li>
+                            <li>Keep it simple. Avoid over-engineering.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Scalability &
+                        performance</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol start="6" style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Design your system for scalability from the ground up.</li>
+                            <li>Prefer horizontal scaling over vertical scaling for scalability.</li>
+                            <li>Use Load Balancers to ensure high availability and distribute traffic.</li>
+                            <li>Use CDNs to reduce latency for a global user base.</li>
+                            <li>Use edge computing to process data closer to users.</li>
+                            <li>Use caching to reduce load on the database and improve response times.</li>
+                            <li>Use write-through cache for write-heavy applications.</li>
+                            <li>Use read-through cache for read-heavy applications.</li>
+                            <li>Use Time-To-Live (TTL) values to automatically expire cached data and reduce staleness.</li>
+                            <li>Pre-populate critical data in the cache to avoid cold starts.</li>
+                            <li>Implement Autoscaling to handle traffic spikes smoothly.</li>
+                            <li>Plan capacity forecasting based on growth trends.</li>
+                            <li>Implement data compression to reduce network bandwidth usage.</li>
+                            <li>Use content delivery optimization like image resizing and lazy loading.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Databases & data</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol start="19" style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Consider using SQL Databases for structured data and ACID transactions.</li>
+                            <li>Opt for NoSQL Databases when dealing with unstructured data.</li>
+                            <li>Consider using a graph database for highly connected data.</li>
+                            <li>Use Database Sharding to scale SQL databases horizontally.</li>
+                            <li>Use Database Indexing to optimize the read queries in databases.</li>
+                            <li>Assume everything can and will fail. Make it fault tolerant.</li>
+                            <li>Implement data partitioning and sharding for large datasets.</li>
+                            <li>Consider denormalizing databases for read-heavy workloads.</li>
+                            <li>Use bloom filters to check for an item in a large dataset quickly.</li>
+                            <li>Implement Data Replication and Redundancy to avoid single point of failure.</li>
+                            <li>Avoid hotspots by distributing traffic evenly across partitions.</li>
+                            <li>Use consistent hashing for scalable data partitioning.</li>
+                            <li>Consider using a data lake or data warehouse for analytics and reporting.</li>
+                            <li>Use object storage like S3 for storing large datasets and media files.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">APIs, services &
+                        communication</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol start="33" style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Use Rate Limiting to prevent system from overload and DOS attacks.</li>
+                            <li>Use API Gateways to manage authentication, routing, and rate limiting.</li>
+                            <li>Implement Service Discovery so services can dynamically find each other.</li>
+                            <li>Use Health Checks to ensure only healthy servers receive traffic.</li>
+                            <li>Consider using WebSockets for real-time communication.</li>
+                            <li>Use Heartbeat Mechanisms to detect failures.</li>
+                            <li>Consider using a message queue for asynchronous communication.</li>
+                            <li>Use Dead Letter Queues to handle failed messages safely.</li>
+                            <li>Use Asynchronous processing for background tasks.</li>
+                            <li>Use batch processing for non-urgent tasks to optimize resources.</li>
+                            <li>Implement Backpressure mechanisms to protect systems during overload.</li>
+                            <li>Use Distributed Locks to coordinate operations across multiple services.</li>
+                            <li>Use Event-Driven Architecture for loosely coupled systems.</li>
+                            <li>Use Schema Versioning to maintain backward compatibility in APIs.</li>
+                            <li>Use Pagination to efficiently handle large datasets in APIs.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Reliability patterns</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol start="48" style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Implement comprehensive logging and monitoring to track the system's performance and health.</li>
+                            <li>Maintain observability using metrics, logs, and distributed tracing.</li>
+                            <li>Implement circuit breakers to prevent a single failing service from bringing down the entire system.</li>
+                            <li>Use Bulkhead Pattern to isolate failures between system components.</li>
+                            <li>Apply Retry mechanisms with exponential backoff for transient failures.</li>
+                            <li>Make operations idempotent to simplify retry logic and error handling.</li>
+                            <li>Design idempotent APIs so repeated requests don't cause duplicate effects.</li>
+                            <li>Implement request deduplication to avoid duplicate processing.</li>
+                            <li>Implement chaos engineering practices to test system resilience and find vulnerabilities.</li>
+                            <li>Design for statelessness when possible to improve scalability and simplify architecture.</li>
+                            <li>Design systems to handle eventual consistency in distributed environments.</li>
+                            <li>Use leader election algorithms when coordination between nodes is required.</li>
+                            <li>Use failover mechanisms to automatically switch to a redundant system when a failure is detected.</li>
+                            <li>Distribute your system across different data centers to prevent localized failures.</li>
+                            <li>Design graceful degradation when parts of the system fail.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">Security & delivery</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ol start="63" style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Implement security best practices such as authentication and authorization.</li>
+                            <li>Encrypt sensitive data at rest and in transit.</li>
+                            <li>Use token-based authentication (JWT, OAuth) for secure API access.</li>
+                            <li>Implement audit logs to track important system activities.</li>
+                            <li>Use feature flags to release features safely without redeployment.</li>
+                            <li>Apply blue-green deployment or canary releases for safer deployments.</li>
+                            <li>Always design for maintainability and operability.</li>
+                        </ol>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Interview Tips 🧠', 'success');
+        });
+    </script>
+</body>
+
+</html>

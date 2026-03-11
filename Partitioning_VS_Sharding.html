@@ -87,20 +87,23 @@
                     <span class="breadcrumb-current" aria-current="page">Partitioning vs Sharding</span>
                 </nav>
 
-                <h2>🧩 PARTITIONING vs SHARDING — Split Within vs Split Across Servers</h2>
+                <h2>🧩 Partitioning vs Sharding — Split Within vs Split Across Servers</h2>
 
                 <div style="margin-top: 3rem;">
                     <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔹 1️⃣ What is
                         Partitioning?</h3>
-                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Partitioning means splitting a
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Partitioning means splitting
+                        a
                         large table into smaller pieces inside the <strong>same database server</strong>. The database
                         still runs on one machine.</p>
 
                     <div
                         style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
                         <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Example:</strong></p>
-                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">You have a big <strong>Orders</strong>
-                            table:</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">You have a big
+                            <strong>Orders</strong>
+                            table:
+                        </p>
                         <div
                             style="background: var(--glass-bg); padding: 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
                             <p style="color: var(--color-primary); font-weight: 600; margin: 0;">orders</p>
@@ -111,7 +114,8 @@
                             <li>orders_2023</li>
                             <li>orders_2024</li>
                         </ul>
-                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">All partitions
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">All
+                            partitions
                             are still stored on the same DB server.</p>
                     </div>
 
@@ -127,7 +131,8 @@
                 <div style="margin-top: 3rem;">
                     <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔹 2️⃣ What is
                         Sharding?</h3>
-                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Sharding means splitting data
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">Sharding means splitting
+                        data
                         across <strong>multiple database servers</strong>. Each shard runs on a different machine and
                         helps you scale horizontally.</p>
 
@@ -141,23 +146,27 @@
                             <li>Server B → users 10M–20M</li>
                             <li>Server C → users 20M–30M</li>
                         </ul>
-                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Each shard is on
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Each shard is
+                            on
                             a different machine.</p>
                     </div>
 
                     <div
                         style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
-                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Check this for types of
+                        <p style="margin: 0.5rem 0;"><strong style="color: var(--color-primary);">Check this for types
+                                of
                                 sharding:</strong></p>
                         <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
-                            <li><a href="data-sharding.html" style="color: var(--color-primary); font-weight: 600;">🔀 Data
+                            <li><a href="data-sharding.html" style="color: var(--color-primary); font-weight: 600;">🔀
+                                    Data
                                     Sharding</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Why Do They Exist?
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🧠 Why Do They
+                        Exist?
                     </h3>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
@@ -172,7 +181,8 @@
                         </div>
                         <div
                             style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
-                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Sharding solves:
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Sharding
+                                solves:
                             </p>
                             <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
                                 <li>📈 Massive scale</li>
@@ -184,7 +194,8 @@
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">💥 What breaks without
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">💥 What breaks
+                        without
                         them?</h3>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
@@ -251,7 +262,8 @@
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚠️ One Common Mistake
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">⚠️ One Common
+                        Mistake
                     </h3>
                     <div
                         style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #dc2626;">
@@ -273,7 +285,8 @@
                     <div
                         style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
                         <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Stage 1</p>
-                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Single DB →
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Single DB
+                            →
                             Add partitioning for orders by year</p>
                         <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Stage 2</p>
                         <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Traffic increases →
@@ -303,7 +316,8 @@
 
                         <div
                             style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
-                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">Example</p>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">Example
+                            </p>
                             <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Users
                                 table: <strong>user_id, name, email, city</strong></p>
                             <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Split
@@ -324,7 +338,8 @@
 
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
-                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Used when:</strong>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Used
+                                    when:</strong>
                             </p>
                             <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
                                 <li>Table has millions of rows</li>
@@ -342,8 +357,10 @@
 
                         <div
                             style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
-                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">Example</p>
-                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Original:
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">Example
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Original:
                                 | user_id | name | email | bio | profile_photo |</p>
                             <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Split
                                 like:</p>
@@ -363,7 +380,8 @@
 
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem;">
-                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Used when:</strong>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Used
+                                    when:</strong>
                             </p>
                             <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem;">
                                 <li>Some columns are rarely used</li>
@@ -393,32 +411,39 @@
                                 </thead>
                                 <tbody>
                                     <tr style="border-bottom: 1px solid var(--glass-border);">
-                                        <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        <td
+                                            style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                             Split by</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">Rows</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">Columns</td>
                                     </tr>
                                     <tr style="border-bottom: 1px solid var(--glass-border);">
-                                        <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        <td
+                                            style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                             Used for</td>
-                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Large datasets</td>
-                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Heavy/unused columns
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Large datasets
+                                        </td>
+                                        <td style="padding: 1rem; color: var(--color-text-secondary);">Heavy/unused
+                                            columns
                                         </td>
                                     </tr>
                                     <tr style="border-bottom: 1px solid var(--glass-border);">
-                                        <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        <td
+                                            style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                             Same columns?</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">Yes</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">No</td>
                                     </tr>
                                     <tr style="border-bottom: 1px solid var(--glass-border);">
-                                        <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        <td
+                                            style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                             Same rows?</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">No</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">Yes</td>
                                     </tr>
                                     <tr>
-                                        <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        <td
+                                            style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                             Goal</td>
                                         <td style="padding: 1rem; color: var(--color-text-secondary);">Performance &
                                             scalability</td>
@@ -450,7 +475,8 @@
                 </div>
 
                 <div style="margin-top: 3rem;">
-                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔍 Difference between
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔍 Difference
+                        between
                         partitioning vs sharding</h3>
 
                     <div style="overflow-x: auto; margin-bottom: 2rem;">
@@ -474,28 +500,33 @@
                                     <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
                                         Location</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Same DB</td>
-                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Multiple DB servers</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Multiple DB servers
+                                    </td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Goal
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Goal
                                     </td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Performance</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Scalability</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Scaling
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Scaling
                                     </td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Vertical</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Horizontal</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Server
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Server
                                         count</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">One</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Many</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid var(--glass-border);">
-                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">Complexity
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Complexity
                                     </td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">Low</td>
                                     <td style="padding: 1rem; color: var(--color-text-secondary);">High</td>
@@ -520,9 +551,11 @@
 
                     <div
                         style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-top: 3rem;">
-                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Important Insight 🔥
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Important Insight
+                            🔥
                         </p>
-                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Sharding is basically
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Sharding is
+                            basically
                             horizontal partitioning across multiple servers. So technically: <strong>all sharding is
                                 partitioning</strong>, but <strong>not all partitioning is sharding</strong>.</p>
                     </div>
@@ -531,7 +564,8 @@
                         <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Summary</h3>
                         <div
                             style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
-                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Partitioning splits
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">Partitioning
+                                splits
                                 data within a single database for performance optimization, while sharding distributes
                                 data across multiple databases for horizontal scalability.</p>
                         </div>
