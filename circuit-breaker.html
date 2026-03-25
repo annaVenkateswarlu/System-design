@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Breaker - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Circuit Breaker</span>
+                </nav>
+
+                <h2>⚡ Circuit Breaker - Stop calling when service is failing </h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style=" line-height: 1.8; margin-bottom: 1rem;">A <strong>Circuit
+                            Breaker</strong> is a pattern that:</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1rem;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Stops calling a failing service temporarily</strong> to prevent system overload
+                            </li>
+                            <li>Instead of continuously retrying a failing service, it <strong>"breaks the
+                                    circuit"</strong> and <strong>fails fast</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔥 Why Circuit
+                        Breaker is Needed</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">In microservices:
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                            <strong>Service A → Service B → Service C</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">If
+                            <strong>Service C fails</strong>, and A keeps retrying:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>System overloads</li>
+                            <li>Cascading failures happen</li>
+                            <li>Entire system may crash</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem; margin-bottom: 0;">
+                            Circuit breaker prevents this.</p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin: 0 0 1rem 0;">⚡ Simple Example</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Imagine: <strong>Payment
+                                service is down</strong>, Order service keeps calling payment</p>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 700; margin: 0 0 0.75rem 0;">Without circuit breaker:
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Order → Payment ❌<br>
+                                Order → Payment ❌<br>
+                                Order → Payment ❌<br>
+                                <strong style="color: #dc2626;">System becomes slow.</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 0.75rem 0;">With
+                                circuit breaker:</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Order → Payment ❌<br>
+                                <strong>Circuit opens</strong><br>
+                                Order → Fallback (skip payment / retry later)<br>
+                                <strong style="color: var(--color-primary);">System stays stable.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">Without circuit breaker:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>One slow service <strong>blocks others</strong></li>
+                            <li>Thread pools <strong>get exhausted</strong></li>
+                            <li>Entire system <strong>becomes unresponsive</strong></li>
+                            <li><strong>Retry storms</strong> crash the system</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Circuit
+                        Breaker States (Very Important)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>How Circuit
+                                Breaker Works:<br></strong> It has <strong>3 states</strong>:</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ Closed State (Normal)</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Requests go normally</li>
+                                <li>System monitors failures</li>
+                                <li><strong>Client → Service → Response</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">2️⃣ Open State (Failure)</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Too many failures detected</strong></li>
+                                <li><strong>Circuit opens</strong></li>
+                                <li>Requests are <strong>blocked immediately</strong></li>
+                                <li><strong>Client → ❌ Service (blocked)</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin-bottom: 1.5rem;">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">3️⃣ Half-Open State (Testing)</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>After some time, <strong>allow a few requests</strong></li>
+                                <li><strong>If success:</strong> ✔ close circuit</li>
+                                <li><strong>If failure:</strong> ❌ open again</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); text-align: center;">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">🔁 Flow Summary</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0; font-size: 1.1rem;">
+                                <strong>Closed → Open → Half-Open → Closed</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CircuitBreakerImg1.png" alt="Circuit Breaker States Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Circuit Breaker States Diagram</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ How it works
+                        (Simple Flow)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; text-align: center; font-size: 1.1rem;">
+                            <strong>Request → Service</strong><br>
+                            ↓<br>
+                            <strong>If failures > threshold</strong><br>
+                            ↓<br>
+                            <strong style="color: #dc2626;">Circuit opens</strong><br>
+                            ↓<br>
+                            <strong>Requests blocked</strong><br>
+                            ↓<br>
+                            <strong>After timeout → test requests</strong>
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/CircuitBreakerImg2.webp" alt="Circuit Breaker Flow Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Circuit Breaker Flow Diagram</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">
+                                <strong>Order Service → Payment Service</strong><br><br>
+                                If Payment fails:<br>
+                                → Circuit opens<br>
+                                → Order service stops calling payment<br>
+                                → Shows <strong>fallback response</strong>
+                            </p>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">💬
+                                    Example fallback:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>"Payment service
+                                        unavailable, try later"</strong></p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.2);">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">💳 PayPal / Payment System</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">
+                                User makes payment:<br>
+                                <strong>App → Payment Service</strong><br><br>
+                                If payment service fails repeatedly:<br>
+                                → Circuit opens<br>
+                                → App shows:<br>
+                                <strong>👉 "Payment temporarily unavailable"</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Instead
+                                of retrying endlessly.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Circuit Breaker:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Microservices architecture</li>
+                                <li>External API calls</li>
+                                <li>Remote service calls</li>
+                                <li>Unreliable services</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Avoid when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Simple local function calls</li>
+                                <li>Single monolithic system</li>
+                                <li>No network dependency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">9️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin: 0 0 1rem 0;">🚨 Only adding retries without circuit breaker
+                        </h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg);">
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.75rem;">Retries alone:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>Increase load</li>
+                                    <li>Make failure worse</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">
+                                    Circuit breaker:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>Stops retries when needed</li>
+                                    <li>Protects system</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔟 If NOT circuit
+                        breaker, then what else?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">Related patterns:</h4>
+
+                        <div style="overflow-x: auto; margin-bottom: 2rem;">
+                            <table style="width: 100%; border-collapse: collapse; min-width: 400px;">
+                                <thead>
+                                    <tr
+                                        style="background: rgba(16, 185, 129, 0.1); border-bottom: 2px solid var(--color-primary);">
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Problem</th>
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Solution</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Temporary failure</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Retry</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Slow response</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Timeout</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Overload</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Rate limiting
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Failover</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Load balancing
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">👉 Best practice:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0;"><strong>Use Circuit
+                                    Breaker + Retry + Timeout together</strong></p>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--color-primary); margin: 2rem 0 1.5rem 0;">🔹 Circuit Breaker vs Retry</h4>
+
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Retry</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Circuit Breaker</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Goal
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Try again</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Stop trying</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        When used</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Temporary failures
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Repeated failures
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Effect</td>
+                                    <td style="padding: 1rem; color: #dc2626;">Can overload system</td>
+                                    <td style="padding: 1rem; color: var(--color-primary);">Protects system</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Popular Tools
+                        of circuit breaker</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Netflix Hystrix</strong> (deprecated but famous)</li>
+                            <li><strong>Resilience4j</strong></li>
+                            <li><strong>Envoy Proxy</strong></li>
+                            <li><strong>Istio</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯
+                        Interview-ready one-liner</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.8; margin: 0;">
+                            <strong>Circuit breaker</strong> is a <strong>fault-tolerance pattern</strong> that prevents
+                            <strong>repeated calls to a failing service</strong> by temporarily <strong>blocking
+                                requests</strong> and allowing <strong>recovery</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Circuit breaker <strong>stops requests to a failing service</strong> to prevent
+                                cascading failures</li>
+                            <li>It has <strong>three states</strong>: <strong>closed</strong>, <strong>open</strong>,
+                                and <strong>half-open</strong> to manage failure and recovery</li>
+                            <li>It improves <strong>system resilience</strong> by <strong>failing fast</strong> and
+                                <strong>protecting resources</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="saga-pattern.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔄 Saga Pattern</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Saga Pattern 🔄', 'success');
+        });
+    </script>
+</body>
+
+</html>

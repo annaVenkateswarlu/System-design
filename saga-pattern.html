@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saga Pattern - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Saga Pattern</span>
+                </nav>
+
+                <h2>🔄 Saga Pattern — Distributed Transactions Without a Global Transaction</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">The Saga Pattern is a way to
+                        manage distributed transactions across multiple microservices without using a single big
+                        transaction.</p>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong
+                                style="color: var(--color-primary);">Instead of one big transaction:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>It breaks into multiple small transactions</li>
+                            <li>Each service performs its own step</li>
+                            <li>If something fails → compensating actions (rollback steps) are triggered</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">In microservices:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Each service has its own database</li>
+                            <li>Traditional transactions (ACID) don’t work across services</li>
+                            <li>Two-phase commit (2PC) is slow and not scalable</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 1rem 0;">Saga solves:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Distributed transaction management</li>
+                            <li>Failure handling</li>
+                            <li>Maintaining data consistency across services</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <h4 style="color: #dc2626; margin: 0 0 1rem 0;">🧩 Example: Order flow</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">User places an order.</p>
+                        <ol style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem;">
+                            <li>Order Service → create order</li>
+                            <li>Payment Service → process payment</li>
+                            <li>Inventory Service → reserve stock</li>
+                        </ol>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 700; margin: 0 0 0.75rem 0;">Problem</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">If payment succeeds but inventory
+                                fails:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0;">❌ Payment done<br>
+                                ❌ Order created<br>
+                                ❌ Stock not available<br>
+                                <strong style="color: #dc2626;">System becomes inconsistent.</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 0.75rem 0;">Saga
+                                Solution</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Saga ensures: <br><strong
+                                    style="color: var(--color-primary);">If one step fails → undo previous
+                                    steps</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0.75rem 0 0 0;">If inventory fails :
+                                <br>
+                                → Refund Payment<br>
+                                → Cancel Order<br>
+                                👉 Each step has a reverse action
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 1rem 0;">Saga Flow</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Order Created<br>
+                                ↓<br>
+                                Payment Done<br>
+                                ↓<br>
+                                Inventory Failed ❌<br>
+                                ↓<br>
+                                Refund Payment <strong>(Compensation)</strong><br>
+                                ↓<br>
+                                Cancel Order
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">3️⃣ What breaks
+                        without it?</h3>
+
+                    <ul
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem; padding-left: 2rem;">
+                        <li>Partial updates happen</li>
+                        <li>Payment succeeds but order fails ❌</li>
+                        <li>Inventory reduced but order not placed ❌</li>
+                        <li>System becomes inconsistent</li>
+                    </ul>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                style="color: var(--color-primary);">📌 Example:</strong> Order created → Payment failed
+                            →
+                            Order still exists ❌</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">4️⃣ Real-world
+                        analogy</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 1rem 0;">Travel booking ✈️
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">You book:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Flight</li>
+                            <li>Hotel</li>
+                            <li>Taxi</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">If hotel booking fails:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Cancel flight</li>
+                            <li>Cancel taxi</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;">Each step has a compensation
+                            step.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Types of Saga
+                        Pattern</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Choreography (Event-based)</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Idea:</strong>
+                            Services
+                            communicate using events (no central controller).</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                    style="color: var(--color-primary);">Flow:</strong><br>
+                                Order Service → Event → Payment Service<br>
+                                Payment Service → Event → Inventory Service<br>
+                                Each service reacts to events.
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/SagePatternImg2.webp" alt="Saga Choreography Diagram"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">Advantages</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>✔ Simple</li>
+                                    <li>✔ No central dependency</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 0.75rem;">Disadvantages</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>❌ Hard to debug</li>
+                                    <li>❌ Complex event chains</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Orchestration (Central control)
+                        </h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Idea:</strong> A
+                            central orchestrator controls all steps.</p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                    style="color: var(--color-primary);">Flow:</strong><br>
+                                Orchestrator → Order → Payment → Inventory
+                            </p>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="images/SagePatternImg1.jpg" alt="Saga Orchestration Diagram"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">Advantages</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>✔ Easier to manage</li>
+                                    <li>✔ Better control</li>
+                                </ul>
+                            </div>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                                <h5 style="color: #dc2626; margin-bottom: 0.75rem;">Disadvantages</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                    <li>❌ Central dependency</li>
+                                    <li>❌ Slight bottleneck</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Order Created<br>
+                                ↓<br>
+                                Payment Processed<br>
+                                ↓<br>
+                                Inventory Reserved<br>
+                                ↓<br>
+                                Confirmation Sent
+                            </p>
+                        </div>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">Failure case</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                Inventory Failed<br>
+                                ↓<br>
+                                Refund Payment<br>
+                                ↓<br>
+                                Cancel Order
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Saga when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Microservices architecture</li>
+                                <li>Distributed transactions</li>
+                                <li>Event-driven systems</li>
+                                <li>No shared database</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Avoid Saga when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Monolithic systems</li>
+                                <li>Simple CRUD apps</li>
+                                <li>Strong ACID transactions required</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">9️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin: 0 0 1rem 0;">🚨 Thinking Saga guarantees strong consistency
+                        </h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Saga provides: <strong
+                                style="color: #dc2626;">eventual consistency</strong>, not immediate consistency.</p>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;"><strong>👉 ACID = Instant
+                                consistency</strong><br>
+                            <strong>👉 Saga = Eventual consistency</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Difference: ACID vs Saga Pattern
+                        </h4>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin: 0 0 1rem 0;">1️⃣ ACID (Traditional
+                                    Transaction)</h5>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.75rem 0;"><strong
+                                        style="color: var(--color-primary);">What it means :<br></strong> All operations
+                                    must succeed together or fail together (all-or-nothing).</p>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.75rem 0;"><strong
+                                        style="color: var(--color-primary);">Used in :</strong><br>
+                                    Monolithic systems<br>
+                                    Single database</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                        style="color: var(--color-primary);">🔥 Key idea :</strong> ACID ensures <strong
+                                        style="color: var(--color-primary);">strong consistency</strong> using
+                                    rollback.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin: 0 0 1rem 0;">2️⃣ Saga Pattern
+                                    (Microservices)</h5>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.75rem 0;"><strong
+                                        style="color: var(--color-primary);">What it means :<br></strong> Each step is
+                                    independent, and if something fails, we undo using <strong
+                                        style="color: var(--color-primary);">compensation actions</strong>.</p>
+                                <p style="color: var(--color-text-secondary); margin: 0 0 0.75rem 0;"><strong
+                                        style="color: var(--color-primary);">Used in :</strong><br>
+                                    Microservices<br>
+                                    Distributed systems</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                        style="color: var(--color-primary);">🔥 Key idea :</strong> Saga ensures
+                                    consistency using <strong style="color: var(--color-primary);">compensating
+                                        actions</strong> (undo logic).</p>
+                            </div>
+                        </div>
+
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; min-width: 720px;">
+                                <thead>
+                                    <tr
+                                        style="background: rgba(16, 185, 129, 0.1); border-bottom: 2px solid var(--color-primary);">
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Feature</th>
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            ACID (Bank)</th>
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Saga (E-commerce)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            System Type</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Single DB</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Microservices
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Transaction</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">One big
+                                            transaction</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Multiple small
+                                            transactions</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Failure Handling</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Automatic
+                                            rollback</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Manual
+                                            compensation</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Example</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Bank transfer
+                                        </td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Online order
+                                            system</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Consistency</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Strong</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Eventual</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">What is Two-Phase Commit (2PC)?
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">2PC is a
+                            protocol to ensure all services commit or rollback together in a distributed system.<br> It
+                            tries to behave like ACID across multiple services.</p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">Phase 1: Prepare</h5>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Coordinator asks all services:
+                                    <strong>“Can you commit?”</strong><br>
+                                    Service A → Yes<br>
+                                    Service B → Yes
+                                </p>
+                            </div>
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.75rem;">Phase 2: Commit</h5>
+                                <p style="color: var(--color-text-secondary); margin: 0;">If all say yes:
+                                    <strong>“Commit now”</strong><br>
+                                    If any says no:
+                                    <strong>“Rollback everything”</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong
+                                    style="color: var(--color-primary);">So, Coordinator ensures:</strong> <strong
+                                    style="color: var(--color-primary);">Both succeed OR both fail</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 700; margin: 0 0 0.5rem 0;">⚠️ Problem with 2PC</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">If coordinator crashes → system
+                                stuck</p>
+                        </div>
+
+                        <div style="overflow-x: auto; margin-top: 1.5rem;">
+                            <table style="width: 100%; border-collapse: collapse; min-width: 720px;">
+                                <thead>
+                                    <tr
+                                        style="background: rgba(16, 185, 129, 0.1); border-bottom: 2px solid var(--color-primary);">
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Feature</th>
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            2PC</th>
+                                        <th
+                                            style="padding: 0.9rem; text-align: left; color: var(--color-primary); font-weight: 700;">
+                                            Saga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Transaction Type</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Global
+                                            transaction</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Multiple local
+                                            transactions</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Consistency</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Strong
+                                            consistency</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Eventual
+                                            consistency</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Failure Handling</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Rollback</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Compensation
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Blocking</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Yes (waits for
+                                            all)</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">No
+                                            (asynchronous)</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Scalability</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Poor</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">High</td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="padding: 0.9rem; color: var(--color-text-secondary); font-weight: 600;">
+                                            Performance</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Slower</td>
+                                        <td style="padding: 0.9rem; color: var(--color-text-secondary);">Faster</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🎯 Interview-ready
+                        one-liner</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        The Saga pattern manages distributed transactions in microservices by breaking them into smaller
+                        steps with compensating actions to maintain eventual consistency.<br>
+                        <strong style="color: var(--color-primary);">Saga = Step-by-step transaction + undo if
+                            failure</strong>
+                    </p>
+                </div>
+
+                <div
+                    style="margin-top: 3rem; background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🧠 Summary</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                        Saga pattern handles distributed transactions by splitting them into smaller steps across
+                        services. If a step fails, compensating transactions are executed to undo previous steps. It
+                        ensures eventual consistency in microservices without using global transactions.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Service_Discovery.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔎 Service Discovery</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Saga Pattern 🔄', 'success');
+        });
+    </script>
+</body>
+
+</html>

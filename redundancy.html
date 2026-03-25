@@ -567,6 +567,139 @@
                     </div>
                 </div>
 
+                <!-- Important Clarification Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔥 Important
+                        Clarification</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <p style="color: #dc2626; font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">❌ Backup
+                            (not same as redundancy)</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Stored somewhere</li>
+                            <li>Used later</li>
+                            <li>Not immediately active</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Example:</strong></p>
+                        <p style="color: var(--color-text-muted); margin-left: 1.5rem;">Database backup file (used after
+                            crash)</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                            ✅ Redundancy</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Already running or ready</li>
+                            <li>Takes over immediately</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Example:</strong></p>
+                        <p style="color: var(--color-text-muted); margin-left: 1.5rem;">Secondary server already running
+                        </p>
+                    </div>
+
+                    <h4 style="color: var(--color-accent); font-size: 1.2rem; margin: 2rem 0 1rem;">🧠 Simple
+                        Comparison</h4>
+                    <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr
+                                    style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Backup</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Redundancy</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        When used</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        After failure</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Immediately during failure</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Speed</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Slow</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Instant</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        State</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Stored</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Active / ready</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Example</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Backup file</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Failover server</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;">Example: Backup case</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">Server crashes</p>
+                            <p style="color: var(--color-text-secondary);">→ Restore from backup (takes time)</p>
+                            <p style="color: #dc2626; margin-top: 1rem; font-weight: 500;">⏱ Downtime present</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">Example:
+                                Redundancy case</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">Server crashes</p>
+                            <p style="color: var(--color-text-secondary);">→ Backup server instantly takes over</p>
+                            <p style="color: var(--color-primary); margin-top: 1rem; font-weight: 500;">⚡ No downtime
+                                (or very minimal)</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">
+                            🔥 Final Understanding</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>👉 Redundancy = live backup system (instant takeover)</strong></li>
+                            <li><strong>👉 Backup = stored data for recovery</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Interview Ready Section -->
                 <div style="margin-top: 3rem; margin-bottom: 3rem;">
                     <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🎯 Interview-Ready

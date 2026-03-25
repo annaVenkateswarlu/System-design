@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normalization vs Denormalization - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Normalization vs Denormalization</span>
+                </nav>
+
+                <h2>🗄️ Normalization vs Denormalization — Consistency vs Performance Trade-off</h2>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ What is it?
+                    </h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Normalization</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <strong>Organizing data into multiple related tables</strong> to reduce redundancy and
+                            improve consistency.
+                        </p>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <img src="images/NormalizationImg1.png" alt="Normalization Diagram"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 2rem; margin-bottom: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 700; margin: 0 0 1rem 0;">Example (Before
+                                Normalization ❌)</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Single
+                                    table:</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.9rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">Orders</p>
+                                <p style="color: var(--color-primary); margin: 0.5rem 0;">
+                                    ----------------------------------
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">order_id | user_name |
+                                    user_city | product</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">1 | Anna | Hyderabad |
+                                    Phone</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">2 | Anna | Hyderabad |
+                                    Laptop</p>
+                            </div>
+
+                            <p style="color: #dc2626; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">
+                                Problem:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Repeated user data</li>
+                                <li>Redundancy</li>
+                                <li>Hard to update</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 1rem 0;">After
+                                Normalization ✅</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;"><strong>Split into
+                                    tables:</strong></p>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); margin: 0 0 0.5rem 0;">Users</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">-----------------------</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">user_id | name | city</p>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.9rem;">
+                                <p style="color: var(--color-primary); margin: 0 0 0.5rem 0;">Orders</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">-----------------------</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">order_id | user_id | product
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(245, 158, 11, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #f59e0b;">
+                        <h4 style="color: #f59e0b; margin-bottom: 1rem;">🔹 Denormalization</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem;">
+                            <strong>Combining data into fewer tables</strong> by duplicating data to improve read
+                            performance.
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0;">Orders</p>
+                            <p style="color: var(--primary); margin: 0.5rem 0;">----------------------------------</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">order_id | user_name | city |
+                                product</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">1 | Anna | Hyderabad | Phone</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">2 | Anna | Hyderabad | Laptop</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Data is duplicated
+                                intentionally.</strong></p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ Why do they
+                        exist? (What problem do they solve?)</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Normalization solves:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Data duplication</li>
+                                <li>Data inconsistency</li>
+                                <li>Easier updates</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b;">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">Denormalization solves:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Slow queries</li>
+                                <li>Too many joins</li>
+                                <li>High read latency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ What breaks
+                        without them?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">Without Normalization:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Duplicate data</li>
+                                <li>Inconsistent updates</li>
+                                <li>Data anomalies</li>
+                            </ul>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; font-size: 0.95rem;">
+                                    <strong>Example:</strong><br>
+                                    Same user email stored 10 times → update needed everywhere ❌
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">Without Denormalization:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Complex joins</li>
+                                <li>Slow queries</li>
+                                <li>High latency</li>
+                            </ul>
+                            <div
+                                style="background: rgba(239, 68, 68, 0.05); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; font-size: 0.95rem;">
+                                    <strong>Example:</strong><br>
+                                    Fetching user + orders requires multiple joins → slow ❌
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Normalization:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>OLTP systems (transactions)</li>
+                            <li>Banking systems</li>
+                            <li>Payment systems</li>
+                            <li>Data integrity is critical</li>
+                        </ul>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;">❌ Avoid Normalization when:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Too many joins required</li>
+                                <li>Performance is slow</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(245, 158, 11, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(245, 158, 11, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #f59e0b; margin-bottom: 1rem;">✅ Use Denormalization:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Read-heavy systems</li>
+                            <li>Analytics systems</li>
+                            <li>Caching layers</li>
+                            <li>Data warehouses</li>
+                        </ul>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;">❌ Avoid Denormalization when:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Frequent updates</li>
+                                <li>Data consistency is critical</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">6️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin: 0 0 1rem 0;">🚨 Thinking one is always better</h4>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">👉 Real systems use
+                                both:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Normalize</strong> for correctness</li>
+                                <li><strong>Denormalize</strong> for performance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛒 E-commerce</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">
+                                <strong>Users & Orders</strong> → Normalized<br>
+                                <strong>Product listing page</strong> → Denormalized (fast reads)
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.2);">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">📊 Analytics System</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1;">
+                                Denormalized tables for <strong>fast reporting</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <h4 style="color: var(--color-primary); margin: 2rem 0 1.5rem 0;">🧠 Real-World Examples</h4>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🏦 Banking System →
+                                Normalization</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Needs <strong>high consistency</strong></li>
+                                <li>Avoid <strong>duplicate data</strong></li>
+                            </ul>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; font-size: 0.95rem;">
+                                    <strong>Example:</strong><br>
+                                    Account details stored once<br>
+                                    Transactions linked via IDs
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b;">
+                            <h4 style="color: #f59e0b; margin-bottom: 1rem;">📱 Instagram / Netflix → Denormalization
+                            </h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.2rem; margin: 1;">
+                                <li>Need <strong>fast reads</strong></li>
+                                <li><strong>Millions of users</strong></li>
+                            </ul>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0; font-size: 0.95rem;">
+                                    <strong>Example:</strong><br>
+                                    Feed data precomputed<br>
+                                    User data duplicated for speed
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Key
+                        differences</h3>
+
+                    <div style="overflow-x: auto; margin-bottom: 2rem;">
+                        <table
+                            style="width: 100%; border-collapse: collapse; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); overflow: hidden;">
+                            <thead style="background: rgba(16, 185, 129, 0.1);">
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Normalization</th>
+                                    <th
+                                        style="padding: 1rem; color: var(--color-primary); font-weight: 600; text-align: left; border-bottom: 1px solid var(--glass-border);">
+                                        Denormalization</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Data redundancy</td>
+                                    <td style="padding: 1rem; color: var(--color-primary);">Low</td>
+                                    <td style="padding: 1rem; color: #f59e0b;">High</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Performance (read)</td>
+                                    <td style="padding: 1rem; color: #dc2626;">Slower</td>
+                                    <td style="padding: 1rem; color: var(--color-primary);">Faster</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Performance (write)</td>
+                                    <td style="padding: 1rem; color: var(--color-primary);">Faster</td>
+                                    <td style="padding: 1rem; color: #dc2626;">Slower</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--glass-border);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Consistency</td>
+                                    <td style="padding: 1rem; color: var(--color-primary);">Strong</td>
+                                    <td style="padding: 1rem; color: #f59e0b;">Risky</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary); font-weight: 600;">
+                                        Complexity</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">More joins</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Less joins</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin: 0 0 1rem 0;">⚡ Important Insight</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            👉 <strong>Normalization = Consistency first</strong><br>
+                            👉 <strong>Denormalization = Performance first</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 What are
+                        Normal Forms?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Normal Forms</strong> are rules used to organize database tables to reduce
+                            redundancy and improve consistency.
+                        </p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem; text-align: center;">
+                        <img src="images/NFImg1.jpg" alt="Normal Forms Overview"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ First Normal Form (1NF)
+                        </h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0 0 0.5rem 0;">Rule</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Each column must have
+                                <strong>atomic (single) values</strong> and <strong>no repeating groups</strong>.
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg2.webp" alt="1NF Example 1"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg3.webp" alt="1NF Example 2"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">Key Idea</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">👉 <strong>No
+                                    multiple values in a single column</strong></p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 2️⃣ Second Normal Form (2NF)
+                        </h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0 0 0.5rem 0;">Rule</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Table must be in
+                                <strong>1NF</strong> + <strong>no partial dependency</strong><br>
+                                (Every non-key column must depend on the <strong>full primary key</strong>)
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.05); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid #f59e0b; margin-bottom: 1.5rem;">
+                            <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">What is Partial Dependency?</h5>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                Partial dependency occurs when a one column depends on <strong>only part of a composite
+                                    primary key</strong>, instead of the whole key.
+                            </p>
+
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">A
+                                composite key means:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">👉 Primary key =
+                                <strong>combination of multiple columns</strong><br>
+                                <strong>Example:</strong> (order_id, product_id)
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg4.webp" alt="2NF Example"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                The <strong>candidate key</strong> for this table is <strong>{STUD_NO,
+                                    COURSE_NO}</strong>
+                                because the combination of these two columns uniquely identifies each row in the table.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">
+                                <strong>COURSE_FEE</strong> is a <strong>non-prime attribute</strong> because it is
+                                not part of the candidate key {STUD_NO, COURSE_NO}.<br><br>
+                                But, <strong>COURSE_NO -> COURSE_FEE</strong>, i.e., COURSE_FEE is dependent on
+                                COURSE_NO, which is a <strong>proper subset</strong> of the candidate key.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">
+                                Therefore, Non-prime attribute <strong>COURSE_FEE</strong> is dependent on a proper
+                                subset of the candidate key, which is a <strong>partial dependency</strong> and so this
+                                relation is <strong>not in 2NF</strong>.
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg5.webp" alt="2NF Solution"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">Key Idea</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">👉 <strong>No partial
+                                    dependency on composite key</strong></p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 3️⃣ Third Normal Form (3NF)
+                        </h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0 0 0.5rem 0;">Rule</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Table must be in
+                                <strong>2NF</strong> + <strong>no transitive dependency</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(245, 158, 11, 0.05); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid #f59e0b; margin-bottom: 1.5rem;">
+                            <h5 style="color: #f59e0b; margin-bottom: 0.75rem;">What is Transitive dependency?</h5>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">
+                                A transitive dependency occurs when <strong>one non-prime attribute depends on another
+                                    non-prime attribute</strong> rather than depending directly on the primary key.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                For example, if we have the following relationship between attributes:<br>
+                                <strong>A -> B</strong> (A determines B)<br>
+                                <strong>B -> C</strong> (B determines C)<br><br>
+                                This means that A indirectly determines C through B, creating a transitive dependency.
+                                <strong><br>3NF eliminates these transitive dependencies</strong> to ensure that non-key
+                                attributes are directly dependent only on the primary key.
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg6.webp" alt="3NF Example"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-primary); font-weight: 600; margin: 0 0 1rem 0;">3.
+                                Identifying Transitive Dependency:</p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                                The <strong>candidate key</strong> for this relation is <strong>{CAND_NO}</strong>,
+                                since
+                                CAND_NO uniquely identifies all other attributes in the table.
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">
+                                The issue here arises from the <strong>transitive dependency</strong> between CAND_NO
+                                and CAND_COUNTRY:<br>
+                                <strong>CAND_NO → CAND_STATE</strong><br>
+                                <strong>CAND_STATE → CAND_COUNTRY</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">
+                                This means that <strong>CAND_COUNTRY</strong> is transitively dependent on
+                                <strong>CAND_NO</strong> via <strong>CAND_STATE</strong>, which violates the
+                                <strong>Third Normal Form (3NF)</strong> rule that states that no non-prime attribute
+                                (non-key attribute) should be transitively dependent on the primary key.
+                            </p>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-top: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 700; margin: 0 0 0.5rem 0;">Final
+                                    Decomposed Relations:</p>
+                                <div
+                                    style="font-family: monospace; font-size: 0.9rem; color: var(--color-text-secondary);">
+                                    <p style="margin: 0;"><strong>CANDIDATE</strong> (CAND_NO, CAND_NAME, CAND_STATE,
+                                        CAND_AGE)</p>
+                                    <p style="margin: 0.5rem 0 0 0;"><strong>STATE_COUNTRY</strong> (CAND_STATE,
+                                        CAND_COUNTRY)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem; text-align: center;">
+                            <img src="images/NFImg7.webp" alt="3NF Solution"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: var(--color-primary); font-weight: 700; margin: 0;">Key Idea</p>
+                            <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">👉 <strong>Non-key
+                                    columns should depend only on primary key</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯
+                        Interview-ready
+                        one-liner</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; line-height: 1.8; margin: 0;">
+                            <strong>Normalization</strong> reduces data redundancy and ensures consistency, while
+                            <strong>denormalization</strong> improves read performance by duplicating data and
+                            reducing joins.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Normalization</strong> organizes data into multiple tables to reduce redundancy
+                                and maintain consistency</li>
+                            <li><strong>Denormalization</strong> combines data into fewer tables to improve read
+                                performance and reduce joins</li>
+                            <li>Modern systems use a <strong>balance of both</strong> based on performance and
+                                consistency needs</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Partitioning_VS_Sharding.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🧩 Partitioning vs Sharding</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Normalization vs Denormalization 🗄️', 'success');
+        });
+    </script>
+</body>
+
+</html>
