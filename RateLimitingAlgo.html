@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limiting Algorithms - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="RateLimitingAlgo.html">🔢 Rate Limiting Algorithms</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Rate Limiting Algorithms</span>
+                </nav>
+
+                <h2>🔢 Rate Limiting Algorithms — Controlling Request Flow</h2>
+
+                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem;"><strong>Rate limiting
+                        algorithms</strong> control how many requests a user/client can make in a given time.</p>
+
+                <!-- 1️⃣ Fixed Window Counter -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">1️⃣ Fixed Window
+                        Counter</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Idea</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary);">Count requests in a <strong>fixed time
+                                window</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">How does Fixed Window Counter work?
+                        </h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Stores the number of requests in the current window and limits them <strong>(eg: 100
+                                    requests per minute)</strong>.</li>
+                            <li>When a new request arrives, it's either <strong>accepted or rejected</strong>, depending
+                                on
+                                whether the current window can accommodate it.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/RateLimitingAlgoImg3.webp" alt="Fixed Window Counter Diagram"
+                            style="max-width: 50%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Fixed Window Counter Algorithm</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Example</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Window:</strong> 1 minute</li>
+                            <li><strong>Limit:</strong> 5 requests</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-left: 1.5rem;">
+                            <strong>12:00</strong> → 5 requests allowed<br>
+                            <strong>12:01</strong> → reset
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <p style="color: #dc2626; font-weight: 600; margin-bottom: 1rem;"><strong>Problem</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>12:00:59</strong> →
+                            5
+                            requests</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>12:01:00</strong> →
+                            5
+                            requests</p>
+                        <p style="color: #dc2626; margin-top: 1rem;"><strong>👉 10 requests in 1 second ❌ (burst
+                                issue)</strong></p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/RateLimitingAlgoImg4.webp" alt="Fixed Window Burst Problem"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Burst Problem in Fixed Window Counter</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-top: 2rem;">
+                        <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;"><strong>One-Line</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Fixed Window → Simple counting
+                                in fixed intervals</strong></p>
+                    </div>
+                </div>
+
+                <!-- 2️⃣ Sliding Window Log -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">2️⃣ Sliding Window
+                        Log</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Idea</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary);">Store <strong>timestamps of requests</strong> and
+                            check last N seconds</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Example</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Allow <strong>5 requests in
+                                last 60 seconds</strong></p>
+                        <p style="color: var(--color-text-secondary);">System checks <strong>exact timestamps</strong>.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🚦 Scenario</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>👉 Limit = 5 requests per 10 seconds</strong></li>
+                            <li><strong>👉 User sends requests at these times:</strong> t = 1, 2, 3, 4, 5, 6, 7 sec</li>
+                        </ul>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>At t = 6
+                                    :</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary);">Requests in last 10 sec =
+                                <strong>[1,2,3,4,5,6]</strong>
+                            </p>
+                            <p style="color: #dc2626; margin-top: 0.5rem;"><strong>→ 6 requests → ❌ reject</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>At t = 11 :
+                                    Request</strong></p>
+                            <p style="color: var(--color-text-secondary);">Valid window = <strong>1–11 sec</strong></p>
+                            <p style="color: var(--color-text-secondary);">Remove <strong>t=1</strong></p>
+                            <p style="color: var(--color-text-secondary);">Now <strong>[2,3,4,5,11]</strong></p>
+                            <p style="color: var(--color-primary); margin-top: 0.5rem;"><strong>→ 5 requests → ✅
+                                    allow</strong></p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;"> Advantages</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>✔ Accurate</strong></li>
+                                <li><strong>✔ No burst problem</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;"> Disadvantages</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>❌ High memory</strong> (stores logs)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;"><strong>One-Line</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Sliding Log → Exact tracking
+                                using request timestamps</strong></p>
+                    </div>
+                </div>
+
+                <!-- 🔥 3️⃣ Sliding Window Counter -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔥 3️⃣ Sliding
+                        Window
+                        Counter</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Idea</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary);"><strong>Hybrid</strong> of fixed window + sliding
+                            window log</p>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Uses:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Current window</strong></li>
+                            <li><strong>Previous window</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Requests = (current
+                                window
+                                + previous window * weight)</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">How does Sliding Window Counter
+                            work?
+                        </h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>This approach combines <strong>Fixed Window Counter</strong> and <strong>Sliding Window
+                                    Log</strong> algorithms.</li>
+                            <li>Instead of recording every request timestamp, only the <strong>total number of requests
+                                    in
+                                    the previous fixed window</strong> is logged.</li>
+                            <li>When a new request arrives, the <strong>"weighted number of requests"</strong> for the
+                                current
+                                window is calculated.</li>
+                        </ul>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2); margin-top: 1.5rem;">
+                            <h5 style="color: #F97316; margin-bottom: 1rem;">Example (Figure 7):</h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Assume <strong>Window size: 1 min</strong></li>
+                                <li><strong>Window capacity: 4 requests/min</strong></li>
+                                <li>A new request arrives at <strong>t=2:15</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">The current window (1:15 -
+                                2:15) consists of:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>75%</strong> of the previous window (1:15 - 2:00)</li>
+                                <li><strong>25%</strong> of the current window (2:00 - 2:15)</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">Instead of tracking all
+                                timestamps, only the request count in the previous fixed window is logged.</p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>The
+                                        "weighted
+                                        number of requests" is calculated as:</strong></p>
+                                <p style="color: var(--color-accent); font-size: 1.1rem; font-weight: 600;">
+                                    requestsInCurrentWindow + (weight * requestsInPreviousWindow)<br>
+                                    = 2 + (0.75 * 3)<br>
+                                    = <strong>4.25</strong>
+                                </p>
+                                <p style="color: #dc2626; margin-top: 1rem;"><strong>Since adding the new request would
+                                        bring the total to 4.25 (exceeding the limit of 4), the request is
+                                        rejected.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/RateLimitingAlgoImg5.webp" alt="Sliding Window Counter Diagram"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Figure 7: Sliding Window Counter</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 2rem; margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;"> Advantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>✔ Less memory</strong></li>
+                            <li><strong>✔ More accurate than fixed</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;"><strong>One-Line</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Sliding Counter → Approximate
+                                sliding window using weights</strong></p>
+                    </div>
+                </div>
+
+                <!-- 🔥 4️⃣ Token Bucket -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔥 4️⃣ Token Bucket
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Idea</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>You have a <strong>bucket with tokens</strong></li>
+                            <li><strong>Tokens are added over time</strong></li>
+                            <li>Each request <strong>consumes 1 token</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem;"><strong>Idea:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Request <strong>allowed</strong> if token exists</li>
+                            <li>Otherwise <strong>rejected</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/RateLimitingAlgoImg1.webp" alt="Token Bucket Diagram"
+                            style="max-width: 40%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Token Bucket Algorithm</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-top: 2rem; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Example</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Bucket size = 5 tokens</strong></li>
+                            <li><strong>Refill rate = 1 token/sec</strong></li>
+                        </ul>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>At
+                                    start:</strong>
+                                Tokens = 5</p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Requests:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>t=1</strong> → Remaining token for next step = 4 ✅</li>
+                                <li><strong>t=2</strong> → Remaining token for next step = 3 ✅</li>
+                                <li><strong>t=3</strong> → Remaining token for next step = 2 ✅</li>
+                                <li><strong>t=4</strong> → Remaining token for next step = 1 ✅</li>
+                                <li><strong>t=5</strong> → Remaining token for next step = 0 ✅</li>
+                                <li><strong>t=6</strong> → no token ❌ <strong>reject</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1.5rem;"><strong>At t=7:</strong>
+                            </p>
+                            <p style="color: var(--color-primary);"><strong>1 token added → request allowed ✅</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">Why It's Powerful</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 You can allow
+                                bursts</strong></p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Bucket has <strong>5 tokens</strong></li>
+                                <li>User can send <strong>5 requests instantly</strong></li>
+                                <li>Then <strong>wait for refill</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🧠 Real Life Analogy</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Think of mobile
+                                data</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>You get <strong>data daily</strong></li>
+                            <li>You can <strong>use it anytime</strong></li>
+                            <li>If <strong>exhausted</strong> → wait for next day</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;"> Advantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>✔ Allows bursts</strong></li>
+                            <li><strong>✔ Smooth traffic</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;"><strong>One-Line</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Token Bucket → Allows bursts
+                                with controlled refill rate</strong></p>
+                    </div>
+                </div>
+
+                <!-- 🔥 5️⃣ Leaky Bucket -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1rem;">🔥 5️⃣ Leaky Bucket
+                    </h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">How does Leaky Bucket work?</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Requests are added to a <strong>fixed-size queue</strong> and processed at a
+                                <strong>steady
+                                    rate</strong>.
+                            </li>
+                            <li>Requests are <strong>discarded</strong> if the queue is full.</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                            <strong>Flow</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary);"><strong>Incoming requests → Queue → Processed
+                                steadily</strong></p>
+                    </div>
+
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <img src="images/RateLimitingAlgoImg2.webp" alt="Leaky Bucket Diagram"
+                            style="max-width: 40%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Leaky Bucket Algorithm</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-top: 2rem; margin-bottom: 1.5rem;">
+                        <p style="color: #F97316; font-weight: 600; margin-bottom: 1rem;"><strong>Example</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Incoming → 10 requests/sec</strong></li>
+                            <li><strong>Processing → 2 requests/sec</strong></li>
+                            <li><strong>Queue fills → extra requests dropped</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🪣 Visualization</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Bucket with
+                                hole</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Water enters fast</strong></li>
+                            <li><strong>Water leaks slowly</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;"> Advantages</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>✔ Smooth output rate</strong></li>
+                                <li><strong>✔ Prevents bursts</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;"> Disadvantages</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>❌ Drops extra requests</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;"><strong>One-Line</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Leaky Bucket → Smooths traffic
+                                by processing at fixed rate</strong></p>
+                    </div>
+                </div>
+
+                <!-- 🔥 Comparison Table -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔥 Comparison
+                        Table
+                    </h3>
+
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                            <thead>
+                                <tr
+                                    style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Algorithm</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Burst Handling</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Accuracy</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; border: 1px solid rgba(16, 185, 129, 0.2); color: var(--color-primary); font-weight: 600;">
+                                        Memory</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Fixed Window</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        ❌ Poor</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Sliding Log</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        ✔ Best</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Sliding Counter</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        ✔ Good</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Medium</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Medium</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Token Bucket</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        ✔ Yes</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Leaky Bucket</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        ❌ No</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Medium</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 🎯 Interview Tip -->
+                <div style="margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 Interview Tip
+                        (Very Important)</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>If interviewer
+                                asks:</strong></p>
+                        <p style="color: #dc2626; font-size: 1.1rem; font-weight: 600; margin-bottom: 1.5rem;">👉 "Which
+                            one do you use?"</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">
+                                <strong>Answer:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Token Bucket</strong> → most practical</li>
+                                <li><strong>Sliding Window Counter</strong> → good balance</li>
+                                <li><strong>Sliding Log</strong> → high precision but costly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="consistent-hashing.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🔄 Consistent Hashing</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Rate Limiting Algorithms 🔢', 'success');
+        });
+    </script>
+</body>
+
+</html>
