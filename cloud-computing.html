@@ -1,0 +1,2711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Computing - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Cloud Computing</h1>
+                <p>A comprehensive guide to understanding cloud computing concepts and technologies.</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Cloud Computing</span>
+                </nav>
+
+                <h2>☁️ Cloud Computing — A Complete Guide</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Cloud Computing?</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Cloud
+                                        Architecture</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Cloud
+                                        Services (IaaS, PaaS, SaaS)</a></li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Cloud
+                                        Deployment Models</a></li>
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Types
+                                        of Cloud Storage</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="6"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Virtual Machine?</a></li>
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Containers?</a></li>
+                                <li><a href="#topic-8"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Kubernetes?</a></li>
+                                <li><a href="#topic-9"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Cloud
+                                        Security</a></li>
+                                <li><a href="#topic-10"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Regions
+                                        & Availability Zones</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 1: What is Cloud Computing -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">☁️ What is Cloud
+                        Computing?</h3>
+
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem;">Instead of running apps on
+                        your
+                        own laptop or server, you run them on <strong>powerful computers provided by companies like
+                            Google,
+                            Amazon, Microsoft</strong>.</p>
+
+                    <!-- Instead of / You just -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">👉 Instead of:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Buying</strong> a powerful computer</li>
+                                <li><strong>Storing</strong> data locally</li>
+                                <li><strong>Maintaining</strong> servers</li>
+                            </ul>
+                        </div>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 You just:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Connect</strong> to the internet</li>
+                                <li><strong>Use</strong> services provided by companies like <strong>Amazon Web
+                                        Services,
+                                        Microsoft Azure, or Google Cloud</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Key Features -->
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 3rem;">
+                        <h3 style="color: var(--color-primary); margin-bottom: 1.5rem;">🎯 Key Features</h3>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>On-demand</strong> – Use resources anytime</li>
+                            <li><strong>Pay-as-you-go</strong> – Only pay for what you use</li>
+                            <li><strong>Scalable</strong> – Increase/decrease resources easily</li>
+                            <li><strong>Accessible anywhere</strong> – Just need internet</li>
+                        </ul>
+                    </div>
+
+                    <!-- Cloud Architecture -->
+                    <div id="topic-2" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏗️ Cloud
+                            Architecture</h3>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg1.jpg" alt="Cloud Architecture Diagram"
+                                style="max-width: 50%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <!-- 1. Client Infrastructure -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">1️⃣ Client Infrastructure</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Client
+                                    infrastructure</strong> is just the <strong>device and app</strong> you use to
+                                access the
+                                cloud.</p>
+                            <p style="color: var(--color-text-secondary);"><strong>Your device + browser = client
+                                    infrastructure</strong></p>
+                        </div>
+
+                        <!-- 2. Applications -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">2️⃣ Applications (Cloud Apps)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Application</strong> is
+                                a <strong>tool used by users</strong> to do tasks (like typing, chatting, emailing).
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Application
+                                    means
+                                    software that runs on the internet (cloud), not on your device</strong></p>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">👉
+                                    Examples:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>Google Docs</strong> → write documents</li>
+                                    <li><strong>Gmail</strong> → send emails</li>
+                                    <li><strong>Zoom</strong> → attend meetings</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.08); padding: 1rem; border-radius: var(--radius-lg);">
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>When you open Google
+                                        Docs in
+                                        your browser →</strong> You are using a <strong>cloud application</strong> (no
+                                    need
+                                    to install anything)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cloud Services Section -->
+                    <div id="topic-3" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">☁️ Cloud
+                            Services
+                            (3 Types)</h3>
+
+                        <!-- IaaS -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #3b82f6; margin-bottom: 1rem;">🖥️ 1. IaaS - Infrastructure as a Service
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>You manage the
+                                    software; cloud manages the hardware.</strong></p>
+
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅
+                                        What
+                                        it provides</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>Virtual machines (VMs)</li>
+                                        <li>Storage (disk)</li>
+                                        <li>Networks (VPC)</li>
+                                        <li>Load balancers</li>
+                                        <li>Firewalls</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">⚙️
+                                        What
+                                        YOU manage (as developer)</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>OS</li>
+                                        <li>Runtime</li>
+                                        <li>Application code</li>
+                                        <li>Security patches for OS</li>
+                                        <li>Scaling your app</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">💡
+                                    Examples
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Google Compute Engine (GCE)</li>
+                                    <li>AWS EC2</li>
+                                    <li>Azure Virtual Machines</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #F97316;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🏠 Simple analogy
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Like <strong>renting an empty
+                                        house</strong> - you place furniture, AC, kitchen, everything.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">❓ When
+                                    to
+                                    use?</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>When you need <strong>full control</strong> over environment</li>
+                                    <li><strong>Deploying custom</strong> applications</li>
+                                    <li>Running <strong>databases or backend</strong> systems</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- PaaS -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(34, 197, 94, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #22c55e; margin-bottom: 1rem;">🎯 2. PaaS - Platform as a Service</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>Cloud provides
+                                    platform; you deploy your code.</strong></p>
+
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅
+                                        What
+                                        it provides</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>OS + Runtime managed by cloud</li>
+                                        <li>Managed servers</li>
+                                        <li>Managed databases</li>
+                                        <li>Auto-scaling</li>
+                                        <li>CI/CD deployment pipelines</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">⚙️
+                                        What
+                                        YOU manage</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>Only <strong>application code</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">💡
+                                    Examples
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Google App Engine</li>
+                                    <li>Google Cloud Run</li>
+                                    <li>AWS Elastic Beanstalk</li>
+                                    <li>Heroku</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #F97316;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🏠 Simple analogy
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Like <strong>renting a fully
+                                        furnished house</strong> - you only bring your clothes.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">❓ When
+                                    to
+                                    use?</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li><strong>Fast development</strong> without worrying about infrastructure</li>
+                                    <li>Deploying <strong>web apps / APIs</strong> easily</li>
+                                    <li><strong>Startups / student projects / hackathons</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- SaaS -->
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #a855f7; margin-bottom: 1rem;">📱 3. SaaS - Software as a Service</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>Ready-made
+                                    full
+                                    applications delivered through the internet.</strong></p>
+
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅
+                                        What
+                                        it provides</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>Complete software</li>
+                                        <li>Hosting, security, updates</li>
+                                        <li>No installation needed</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">⚙️
+                                        What
+                                        YOU manage</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                        <li>Only <strong>usage</strong></li>
+                                        <li><strong>No coding</strong> required</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">💡
+                                    Examples
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Gmail</li>
+                                    <li>Google Docs</li>
+                                    <li>Salesforce</li>
+                                    <li>Zoom</li>
+                                    <li>Slack</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #F97316;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🏠 Simple analogy
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin: 0;">Like <strong>staying in a
+                                        hotel</strong> → everything is ready; just use it.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">❓ When
+                                    to
+                                    use?</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>If you need a <strong>tool, not a development environment</strong></li>
+                                    <li>Email, CRM, <strong>collaboration tools</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Simple Summary -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 In simple terms:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>IaaS</strong> - You manage <strong>most things</strong></li>
+                                <li><strong>PaaS</strong> - You manage <strong>only code</strong></li>
+                                <li><strong>SaaS</strong> - You manage <strong>nothing</strong></li>
+                            </ul>
+                        </div>
+
+                        <!-- Best Way to Remember -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🧠 Best way to remember</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>IaaS</strong> = <strong>Infrastructure</strong> - servers in the cloud</li>
+                                <li><strong>PaaS</strong> = <strong>Platform</strong> - deploy code, no servers</li>
+                                <li><strong>SaaS</strong> = <strong>Software</strong> - ready-made apps</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Why This Matters -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💡 Why This
+                            Matters in Cloud?</h3>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">In cloud service models,
+                            <strong>knowing who manages what</strong> is important:
+                        </p>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg2.jpg" alt="Cloud Service Models Comparison"
+                                style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <!-- On IaaS -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🔹 On IaaS </h4>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong> You
+                                    manage:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Application</strong></li>
+                                <li><strong>Data</strong></li>
+                                <li><strong>Runtime</strong></li>
+                                <li><strong>OS</strong></li>
+                            </ul>
+                        </div>
+
+                        <!-- On PaaS -->
+                        <div
+                            style="background: rgba(34, 197, 94, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #22c55e; margin-bottom: 1.5rem;">
+                            <h4 style="color: #22c55e; margin-bottom: 1rem;">🔹 On PaaS</h4>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong> You
+                                    manage:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Application</strong></li>
+                                <li><strong>Data</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Cloud
+                                    manages:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Servers</li>
+                                <li>OS</li>
+                                <li>Runtime</li>
+                            </ul>
+                        </div>
+
+                        <!-- On SaaS -->
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🔹 On SaaS </h4>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong> You
+                                    manage:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Only your <strong>data</strong> (sometimes)</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Cloud
+                                    manages:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Application</li>
+                                <li>Runtime</li>
+                                <li>Everything else</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- On-Premises Section -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏢
+                            On-Premises vs
+                            Cloud</h3>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg3.jpg" alt="On-Premises vs Cloud"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong
+                                    style="color: #dc2626;">On-premises</strong> = all systems are stored and managed
+                                <strong>locally (not in cloud)</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary);">On-premises means <strong>you own and manage
+                                    all
+                                    servers and systems yourself</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">✔ You own (
+                                Buy
+                                all Yourself ) :</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Servers 🖥️</li>
+                                <li>Storage 💾</li>
+                                <li>Network 🌐</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Explanation of All Elements -->
+                    <div style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧩
+                            Explanation of
+                            All Elements</h3>
+
+                        <!-- 1. Applications -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">1️⃣ Applications</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 The actual
+                                    software you use</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>It
+                                    includes:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Your <strong>frontend (UI)</strong></li>
+                                <li>Your <strong>backend (APIs)</strong></li>
+                                <li><strong>Business logic</strong> (what your app does)</li>
+                                <li>All <strong>features and functionality</strong></li>
+                            </ul>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    Gmail, WhatsApp, Google Docs</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>👉 Simple:</strong>
+                                What user interacts with</p>
+                        </div>
+
+                        <!-- 2. Data -->
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">2️⃣ Data</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Information
+                                    used by the application</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Data = The
+                                    information your application uses, stores, processes, or generates.</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    your
+                                    emails, files, photos</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> The content
+                                inside
+                                apps</p>
+                        </div>
+
+                        <!-- 3. Runtime -->
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">3️⃣ Runtime</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Environment
+                                    where your code runs</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>If you write a <strong>Python app</strong>, the Python interpreter + required
+                                    libraries
+                                    = runtime.</li>
+                                <li>If you write a <strong>Java app</strong>, the JVM (Java Virtual Machine) = runtime.
+                                </li>
+                            </ul>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    Java,
+                                    Python runtime</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Engine that runs
+                                your
+                                code</p>
+                        </div>
+
+                        <!-- 4. Middleware -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">4️⃣ Middleware</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Software that
+                                    connects different systems</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    database connectors, APIs</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Bridge between
+                                app
+                                and system</p>
+                        </div>
+
+                        <!-- 5. Operating System -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">5️⃣ Operating System (OS)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Basic system
+                                    software</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    Linux, Windows</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Controls the
+                                computer</p>
+                        </div>
+
+                        <!-- 6. Virtualization -->
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">6️⃣ Virtualization</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Creating
+                                    virtual
+                                    machines (VMs)</strong></p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Example:</strong>
+                                    running multiple systems on one server</p>
+                            </div>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Divide one server
+                                into many virtual servers</p>
+                        </div>
+
+                        <!-- 7. Servers -->
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">7️⃣ Servers</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Physical
+                                    machines
+                                    that run everything</strong></p>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Actual computers
+                                in
+                                data centers</p>
+                        </div>
+
+                        <!-- 8. Storage -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">8️⃣ Storage</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Where data is
+                                    saved</strong></p>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Hard disk of
+                                cloud</p>
+                        </div>
+
+                        <!-- 9. Networking -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">9️⃣ Networking</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Internet
+                                    connection between systems</strong></p>
+                            <p style="color: var(--color-text-secondary);"><strong>👉 Simple:</strong> Communication
+                                between
+                                servers and users</p>
+                        </div>
+                    </div>
+
+                    <!-- Types of Cloud Deployment -->
+                    <div id="topic-4" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">☁️ Types of
+                            Cloud
+                            Deployment</h3>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">It tells <strong>where your
+                                data
+                                and applications are stored</strong> and <strong>who can use them</strong></p>
+
+                        <!-- 1. Public Cloud -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #3b82f6; margin-bottom: 1rem;">🌍 1. Public Cloud</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A public cloud is a
+                                    cloud environment where resources (servers, storage, etc.) are <strong>owned and
+                                        managed
+                                        by third-party providers</strong> and shared among multiple users (tenants).</p>
+                                <p style="color: var(--color-text-secondary);">👉 <strong>Examples:</strong> Amazon Web
+                                    Services, Microsoft Azure, Google Cloud</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.75rem;">🧠 How
+                                    it
+                                    works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Cloud provider <strong>owns huge data centers</strong></li>
+                                    <li>Resources are divided using <strong>virtualization</strong></li>
+                                    <li>Multiple companies use the <strong>same infrastructure securely</strong></li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 1.5rem;">
+                                <img src="images/CloudImg6.png" alt="Public Cloud Architecture"
+                                    style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑 Key
+                                    Characteristics</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Multi-tenant <strong>(shared infrastructure)</strong></li>
+                                    <li>Highly scalable <strong>(increase resources anytime)</strong></li>
+                                    <li>Pay-as-you-go</li>
+                                    <li>Accessible via internet</li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Very <strong>low cost</strong> (no hardware needed)</li>
+                                        <li><strong>Easy to start</strong> (just create account)</li>
+                                        <li>High <strong>availability & reliability</strong></li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Less <strong>control</strong> over infrastructure</li>
+                                        <li><strong>Security concerns</strong> (shared environment)</li>
+                                        <li><strong>Internet dependency</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Real
+                                        Example:</strong>
+                                    If you deploy a web app on <strong>AWS</strong> → your app runs on <strong>shared
+                                        servers
+                                        used by thousands of others</strong>.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(168, 85, 247, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: #A855F7; font-weight: 600; margin: 0;">Simply: Cloud is shared and
+                                    available to everyone. Anyone can use it via internet.</p>
+                            </div>
+                        </div>
+
+                        <!-- 2. Private Cloud -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #10b981; margin-bottom: 1rem;">🏢 2. Private Cloud</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A <strong>private
+                                        cloud</strong> is used by <strong>only one organization</strong>. The
+                                    infrastructure
+                                    is <strong>not shared with others</strong>.</p>
+                                <p style="color: var(--color-text-secondary);">👉 It can be:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>On-premises</strong> (inside company data center)</li>
+                                    <li>Or <strong>hosted privately</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">🧠 How
+                                    it
+                                    works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Company <strong>owns or rents dedicated servers</strong></li>
+                                    <li><strong>Full control</strong> over hardware & software</li>
+                                    <li>Internal teams <strong>manage security and infrastructure</strong></li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 1.5rem;">
+                                <img src="images/CloudImg5.png" alt="Private Cloud Architecture"
+                                    style="max-width: 50%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑 Key
+                                    Characteristics</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Single-tenant <strong>(not shared)</strong></li>
+                                    <li>High <strong>security & control</strong></li>
+                                    <li>Customizable environment</li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li><strong>Maximum security & privacy</strong></li>
+                                        <li><strong>Full control</strong> over configuration</li>
+                                        <li>Ideal for <strong>sensitive data</strong> (banking, healthcare)</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li><strong>Expensive</strong> (hardware + maintenance)</li>
+                                        <li>Requires <strong>skilled team</strong></li>
+                                        <li>Limited scalability compared to public cloud</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Real
+                                        Example:</strong> A
+                                    bank storing customer financial data in its own data center.</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(168, 85, 247, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: #A855F7; font-weight: 600; margin: 0;">Simply: Cloud is used by only
+                                    one
+                                    company. Only your organization can access it.</p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Hybrid Cloud -->
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #a855f7; margin-bottom: 1rem;">🔀 3. Hybrid Cloud</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary);">A hybrid cloud is a <strong>combination
+                                        of
+                                        public + private cloud</strong>, connected together.</p>
+                                <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 <strong>Some data
+                                        stays
+                                        private, some runs in public cloud.</strong></p>
+                            </div>
+
+                            <div
+                                style="background: rgba(168, 85, 247, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.75rem;">🧠 How it works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>Sensitive data</strong> → private cloud</li>
+                                    <li><strong>General workloads</strong> → public cloud</li>
+                                    <li>Both communicate via <strong>secure connection</strong></li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 1.5rem;">
+                                <img src="images/CloudImg7.webp" alt="Hybrid Cloud Architecture"
+                                    style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑 Key
+                                    Characteristics</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li><strong>Flexible</strong> architecture</li>
+                                    <li>Combines <strong>benefits of both</strong></li>
+                                    <li>Supports <strong>cloud bursting</strong> (scale to public cloud when needed)
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Best balance of <strong>cost + security</strong></li>
+                                        <li>Highly <strong>flexible</strong></li>
+                                        <li>Good for <strong>scaling during high traffic</strong></li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li><strong>Complex</strong> to manage</li>
+                                        <li>Requires <strong>integration setup</strong></li>
+                                        <li>Security management is <strong>tricky</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1.5rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;">📌 <strong>Real
+                                        Example:</strong> A
+                                    company stores <strong>user data privately</strong> but runs <strong>website traffic
+                                        on
+                                        AWS during peak usage</strong></p>
+                            </div>
+
+                            <div
+                                style="background: rgba(168, 85, 247, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-top: 1rem;">
+                                <p style="color: #A855F7; font-weight: 600; margin: 0;">Simply: Mix of public + private
+                                    cloud. Some data private, some on public cloud.</p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Comparison Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ Quick Comparison</h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Public Cloud ☁️</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Private Cloud 🏢</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Hybrid Cloud 🔀</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Ownership</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Third-party</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Organization</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Both</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Cost</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Low</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Security</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scalability</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Very High</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Limited</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Very High</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Control</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Low</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Full</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg4.jpg" alt="Cloud Deployment Models Summary"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <!-- Summary -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧩 Summary</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>👉 Public Cloud:</strong> Shared, cheap, scalable</li>
+                                <li><strong>👉 Private Cloud:</strong> Secure, expensive, full control</li>
+                                <li><strong>👉 Hybrid Cloud:</strong> Combination of both for flexibility</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Types of Cloud Storage -->
+                    <div id="topic-5" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💾 Types of
+                            Cloud
+                            Storage</h3>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 2rem;"><strong>Cloud
+                                storage</strong> is
+                            how data is stored and accessed in the cloud.</p>
+
+                        <!-- 1. Object Storage -->
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">📦 1. Object Storage</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Data is stored as
+                                    <strong>objects inside buckets</strong>.
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Each object
+                                    contains:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>Data</strong> (file)</li>
+                                    <li><strong>Metadata</strong> (info about file)</li>
+                                    <li><strong>Unique ID</strong></li>
+                                </ul>
+                                <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉
+                                    <strong>Example:</strong>
+                                    Amazon S3
+                                </p>
+                            </div>
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🧠 How it works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>No folders</strong> like traditional systems (flat structure)</li>
+                                    <li>Access using <strong>HTTP APIs</strong></li>
+                                    <li>Each file has a <strong>unique URL</strong></li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 1.5rem;">
+                                <img src="images/CloudImg9.webp" alt="Object Storage Diagram"
+                                    style="max-width: 50%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑
+                                    Features
+                                </p>
+                                <p style="color: var(--color-text-secondary);">Best for <strong>unstructured
+                                        data</strong>
+                                </p>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.5rem;">📌 Used
+                                    for
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Images, videos, backups</li>
+                                    <li>Logs, big data</li>
+                                    <li>Static websites</li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li><strong>Cheap</strong></li>
+                                        <li>Highly <strong>scalable</strong></li>
+                                        <li>Easy to <strong>access globally</strong></li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Not suitable for <strong>databases</strong></li>
+                                        <li>Higher <strong>latency</strong> compared to block storage</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Block Storage -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #3b82f6; margin-bottom: 1rem;">💾 2. Block Storage</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary);">Data is <strong>divided into small
+                                        blocks</strong> and stored separately.</p>
+                                <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉
+                                    <strong>Example:</strong>
+                                    Amazon EBS
+                                </p>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.75rem;">🧠 How
+                                    it
+                                    works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Blocks act like a <strong>hard disk</strong></li>
+                                    <li>Attached to <strong>virtual machines (VMs)</strong></li>
+                                    <li><strong>OS manages</strong> how data is stored</li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 1.5rem;">
+                                <img src="images/CloudImg10.png" alt="Block Storage Diagram"
+                                    style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑
+                                    Features
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Very <strong>low latency</strong></li>
+                                    <li>High <strong>performance</strong></li>
+                                    <li><strong>Structured</strong> storage</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.5rem;">📌 Used
+                                    for
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Databases (MySQL, PostgreSQL)</li>
+                                    <li>Operating systems</li>
+                                    <li>Transactional systems</li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li><strong>Fast performance</strong></li>
+                                        <li>Suitable for <strong>critical apps</strong></li>
+                                        <li><strong>Fine control</strong> over data</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>More <strong>expensive</strong></li>
+                                        <li>Limited scalability compared to <strong>object storage</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. File Storage -->
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #10b981; margin-bottom: 1rem;">📁 3. File Storage</h4>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">✅ What
+                                    it
+                                    is</p>
+                                <p style="color: var(--color-text-secondary);">Data is stored as <strong>files in
+                                        folders</strong>
+                                    (like your computer).</p>
+                                <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉
+                                    <strong>Example:</strong>
+                                    Amazon EFS
+                                </p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">🧠 How
+                                    it
+                                    works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Uses <strong>file system</strong> (NFS/SMB)</li>
+                                    <li>Multiple users can <strong>access same files</strong></li>
+                                    <li>Hierarchical structure <strong>(folders → subfolders → files)</strong></li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🔑
+                                    Features
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li><strong>Shared access</strong></li>
+                                    <li>Easy to use</li>
+                                    <li>Familiar structure</li>
+                                </ul>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.08); padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.5rem;">📌 Used
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Shared drives</li>
+                                    <li>Content management systems</li>
+                                    <li>Team collaboration</li>
+                                </ul>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div
+                                    style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">👍
+                                        Advantages</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Supports <strong>multiple users</strong></li>
+                                        <li>Good for <strong>shared data</strong></li>
+                                    </ul>
+                                </div>
+                                <div
+                                    style="background: rgba(239, 68, 68, 0.1); padding: 1rem; border-radius: var(--radius-lg);">
+                                    <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">👎 Disadvantages
+                                    </p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1rem; font-size: 0.9rem;">
+                                        <li>Slower than <strong>block storage</strong></li>
+                                        <li>Limited scalability compared to <strong>object storage</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Storage Comparison Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ Quick Comparison</h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Object Storage 📦</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Block Storage 💾</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                File Storage 📁</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Structure</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Objects (flat)</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Blocks</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Files/Folders</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Performance</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scalability</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Very High</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Best For</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Media, backups</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Databases</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Shared files</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Example</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                S3</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                EBS</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                EFS</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg8.png" alt="Cloud Storage Types Summary"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+
+                    <!-- Virtual Machine Section -->
+                    <div id="topic-6" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💻 What is a
+                            Virtual Machine (VM)?</h3>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A <strong>Virtual
+                                    Machine
+                                    (VM)</strong> is a software-based computer that runs like a real computer — with its
+                                own:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>CPU</strong></li>
+                                <li><strong>Memory (RAM)</strong></li>
+                                <li><strong>Storage</strong></li>
+                                <li><strong>Operating System</strong> (Windows/Linux)</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 But instead of being
+                                <strong>physical, it runs inside another real machine.</strong>
+                            </p>
+                        </div>
+
+                        <!-- YouTube Video -->
+                        <div style="margin: 2rem 0; text-align: center;">
+                            <iframe width="560" height="315"
+                                src="https://www.youtube.com/embed/yIVXjl4SwVo?si=Ov2koxhRnuK43uMZ"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+                                style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);"></iframe>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Easy Analogy</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Think of your
+                                    laptop 🧑‍💻</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Normally</strong> → 1 OS (Windows)</li>
+                                <li><strong>With VM</strong> → You can run:
+                                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Windows</li>
+                                        <li>Linux</li>
+                                        <li>Another OS</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 <strong>All on the same
+                                    physical system</strong></p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg11.webp" alt="Virtual Machine Diagram"
+                                style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚙️ How VM Works (Core Idea)
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">At the heart of VMs is
+                                something called a <strong>Hypervisor</strong>.</p>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-accent); margin-bottom: 0.75rem;">🔹 Hypervisor</h5>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A hypervisor is
+                                    software
+                                    that:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>Creates and manages VMs</strong></li>
+                                    <li><strong>Divides physical resources</strong> (CPU, RAM, storage)</li>
+                                    <li><strong>Allocates them to different VMs</strong></li>
+                                </ul>
+                                <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉
+                                    <strong>Examples:</strong>
+                                    VMware, VirtualBox
+                                </p>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary);"><strong>One physical server → split into many
+                                    virtual machines using a hypervisor</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">Each VM works
+                                <strong>independently</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔁 Flow</h4>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Physical Server</strong> (Host Machine)</li>
+                                <li><strong>Hypervisor</strong> installed</li>
+                                <li><strong>Multiple VMs</strong> created</li>
+                                <li>Each VM runs its own <strong>OS independently</strong></li>
+                            </ol>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🔑 Benefits</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Resource Efficiency</strong> – One server → many VMs</li>
+                                <li><strong>Isolation</strong> – If one VM crashes → others unaffected</li>
+                                <li><strong>Scalability</strong> – Create/destroy VMs anytime</li>
+                                <li><strong>Flexibility</strong> – Run different OS on same machine</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-Life Example</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Suppose you
+                                    deploy
+                                    a backend app:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>You launch an <strong>EC2 instance (VM)</strong> on AWS</li>
+                                <li>Install <strong>Linux</strong></li>
+                                <li>Run your <strong>app</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 That VM behaves like a
+                                <strong>real server, but it's virtual</strong>
+                            </p>
+                        </div>
+
+                        <!-- VM vs Physical Machine Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ VM vs Physical Machine
+                            </h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Virtual Machine 💻</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Physical Machine 🖥️</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Setup</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Fast</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Slow</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Cost</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Low</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scalability</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Easy</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Hard</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Isolation</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Yes</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                No</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧩 Summary</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 A Virtual Machine is a
+                                    software-based computer that runs an OS and applications using virtualized hardware
+                                    managed
+                                    by a hypervisor.</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Containers Section -->
+                    <div id="topic-7" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📦 What are
+                            Containers?</h3>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A
+                                <strong>container</strong>
+                                is a lightweight package that includes:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Application code</strong></li>
+                                <li><strong>Dependencies</strong> (libraries, runtime)</li>
+                                <li><strong>Configurations</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 It runs
+                                <strong>consistently anywhere</strong> (your laptop, server, cloud).
+                            </p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>Container = a
+                                        lightweight
+                                        box that has your app + everything it needs to run</strong></p>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 <strong>No need to
+                                    install
+                                    anything separately</strong></p>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg13.webp" alt="Container Diagram"
+                                style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Easy Analogy</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Think of a
+                                    shipping container 🚢</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Same container</strong> → can run on truck, ship, train</li>
+                                <li><strong>Inside content doesn't change</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 <strong>Same way: Your
+                                    app
+                                    runs same everywhere using containers</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-World Example</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Suppose you
+                                    built
+                                    a Node.js app</strong></p>
+                            <div style="margin-bottom: 1rem;">
+                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">Without container:
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Works on your laptop ✅</li>
+                                    <li><strong>Fails on server</strong> (missing setup) ❌</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">With
+                                    container:</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li><strong>Pack app + dependencies</strong></li>
+                                    <li>Run anywhere ✅</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚙️ How Containers Work</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Unlike
+                                    VMs:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Containers <strong>don't have their own OS</strong></li>
+                                <li>They <strong>share the host OS kernel</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🔑 Key Characteristics</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Lightweight</strong> (very small size)</li>
+                                <li><strong>Fast startup</strong> (seconds)</li>
+                                <li><strong>Portable</strong> (runs anywhere)</li>
+                                <li><strong>Isolated</strong> (apps don't interfere)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Docker Section -->
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                            <h4 style="color: #3b82f6; margin-bottom: 1rem;">🐳 What is Docker?</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;"><strong>👉 Docker is a
+                                    tool used to create, run, and manage containers</strong></p>
+
+                            <div
+                                style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">🧠 One
+                                    line:</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>Docker = software that
+                                        runs
+                                        containers</strong></p>
+                            </div>
+
+                            <div
+                                style="background: rgba(59, 130, 246, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                                <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.75rem;">How it
+                                    works</p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>👉 You <strong>create a container</strong> using Docker</li>
+                                    <li>👉 <strong>Run it anywhere:</strong>
+                                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                            <li>Laptop</li>
+                                            <li>Server</li>
+                                            <li>Cloud</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <p style="color: var(--color-primary); margin-top: 1rem;">👉 It works <strong>same
+                                        everywhere ✅</strong></p>
+                            </div>
+
+                            <!-- YouTube Video -->
+                            <div style="margin: 2rem 0; text-align: center;">
+                                <iframe width="560" height="315"
+                                    src="https://www.youtube.com/embed/t9YuqwGYUUg?si=GSeUh1q1YObzv34y"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+                                    style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);"></iframe>
+                            </div>
+
+                            <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                                <img src="images/CloudImg12.webp" alt="Docker Architecture"
+                                    style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            </div>
+
+
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #F97316;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🏠 Simple Analogy
+                                </p>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li><strong>👉 Container = food box 🍱</strong> (everything packed inside)</li>
+                                    <li><strong>👉 Docker = delivery system 🚚</strong> (moves & runs it)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🚀 Why Containers are
+                                Important</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Microservices Architecture</strong> – Each service runs in its own container
+                                </li>
+                                <li><strong>Dev = Prod consistency</strong> – No "it works on my machine" problem</li>
+                                <li><strong>Scalability</strong> – Easily create multiple containers</li>
+                                <li><strong>CI/CD friendly</strong> – Fast deployments</li>
+                            </ul>
+                        </div>
+
+                        <!-- Containers vs VMs Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ Containers vs Virtual
+                                Machines</h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Containers 📦</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Virtual Machines 💻</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                OS</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Shared</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Separate OS</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Size</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Small</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Large</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Startup Time</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Seconds</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Minutes</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Performance</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Faster</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Slower</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Isolation</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Medium</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Strong</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg14.webp" alt="Containers vs VMs Diagram"
+                                style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Simple Understanding</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>VM = Full computer inside computer</strong></li>
+                                <li><strong>Container = Just app + dependencies</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧩 Summary</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>👉 Container = packaged app</strong></li>
+                                <li><strong>👉 Docker = tool to run containers</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Kubernetes Section -->
+                    <div id="topic-8" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">☸️ What is
+                            Kubernetes?</h3>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">Problem:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">When you have <strong>many
+                                    containers</strong>, managing them manually is <strong>difficult ❌</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Solution:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Use Kubernetes</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                                <strong>Kubernetes</strong>
+                                (often called <strong>K8s</strong>) is a system used to <strong>manage, deploy, and
+                                    scale
+                                    containers automatically.</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>👉 It is an <strong>orchestration tool for containers.</strong></li>
+                                <li>👉 Originally developed by <strong>Google</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Easy Analogy</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Think of
+                                    Kubernetes like a manager of workers 👨‍💼</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Containers = workers</strong></li>
+                                <li><strong>Kubernetes = manager</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Manager
+                                    responsibilities:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Assign <strong>tasks</strong></li>
+                                <li>Replace <strong>workers if they fail</strong></li>
+                                <li>Increase <strong>workers when demand increases</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚙️ What Problem Kubernetes
+                                Solves
+                            </h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">If you have:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>10 containers</strong> → manageable manually</li>
+                                <li><strong>100+ containers</strong> → ❌ very hard</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>👉 Kubernetes
+                                    handles:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Deployment</strong></li>
+                                <li><strong>Scaling</strong></li>
+                                <li><strong>Networking</strong></li>
+                                <li><strong>Failures</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🧩 Core Concepts in Kubernetes</h4>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">📦 1. Pod</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Smallest unit in Kubernetes</li>
+                                    <li>Contains <strong>one or more containers</strong></li>
+                                    <li>👉 <strong>You don't run containers directly, you run Pods</strong></li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🖥️ 2. Node</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">A machine
+                                    (VM
+                                    or physical) that runs Pods</p>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🌐 3. Cluster</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">Group of
+                                    nodes
+                                    managed by Kubernetes</p>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🎯 4. Deployment</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>Defines <strong>how many Pods to run</strong></li>
+                                    <li>Handles <strong>updates & scaling</strong></li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔗 5. Service</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li><strong>Exposes Pods</strong> to users</li>
+                                    <li>Provides <strong>stable network access</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔁 How Kubernetes Works (Flow)
+                            </h4>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>You <strong>define your app</strong> (YAML file)</li>
+                                <li>Kubernetes <strong>creates Pods</strong></li>
+                                <li><strong>Schedules them on Nodes</strong></li>
+                                <li><strong>Monitors health</strong></li>
+                                <li><strong>Auto-heals & scales</strong></li>
+                            </ol>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/CloudImg15.jpg" alt="Kubernetes Architecture"
+                                style="max-width: 70%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔑 Key Features</h4>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">1. Auto Scaling 📈</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>👉 Increases or decreases <strong>containers based on traffic</strong></li>
+                                    <li>👉 <strong>Example:</strong> More users → more containers automatically</li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">2. Load Balancing ⚖️
+                                </h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>👉 <strong>Distributes traffic evenly</strong></li>
+                                    <li>👉 <strong>Example:</strong> 100 users → shared across many containers</li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">3. Self-Healing 🔁</h5>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 0.95rem;">
+                                    <li>👉 If a <strong>container crashes</strong> → Kubernetes <strong>restarts
+                                            it</strong>
+                                    </li>
+                                    <li>👉 <strong>Example:</strong> App fails → automatically fixed</li>
+                                </ul>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">4. Rolling Updates</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Update
+                                        app without downtime</strong>
+                                </p>
+                            </div>
+
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">5. Service Discovery
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Containers
+                                        can find each other easily</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Kubernetes vs Docker Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ Kubernetes vs Docker</h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Docker 🐳</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Kubernetes ☸️</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Purpose</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Run containers</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Manage containers</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scope</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Single machine</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Multiple machines</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scaling</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Manual</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Automatic</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <p style="color: #F97316; font-weight: 600; margin-bottom: 0.75rem;">🧠 Simple Understanding
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Docker → creates containers</strong></li>
+                                <li><strong>Kubernetes → manages containers at scale</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧩 Summary</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Kubernetes is a
+                                    container
+                                    orchestration platform that automates deployment, scaling, and management of
+                                    containerized applications.</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Cloud Security Section -->
+                    <div id="topic-9" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔐 Cloud
+                            Security:
+                            IAM Roles (Identity & Access Management)</h3>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <p style="color: #dc2626; font-weight: 600; margin: 0;"><strong>Cloud security = protecting
+                                    your
+                                    data and applications in the cloud</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">✅ What is IAM?</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>IAM (Identity
+                                    and
+                                    Access Management)</strong> is a cloud security system that controls:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>👉 <strong>Who can access what resources</strong> and what actions they can perform
+                                </li>
+                                <li>👉 Used in platforms like <strong>Amazon Web Services, Microsoft Azure, Google
+                                        Cloud</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ What is an IAM Role?</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">An <strong>IAM
+                                    Role</strong>
+                                is a secure way to grant <strong>temporary permissions</strong> to users or services
+                                without
+                                using long-term credentials.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-Life Example</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Suppose you
+                                    have
+                                    an app running on a VM:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>VM needs access to <strong>storage (S3)</strong></li>
+                            </ul>
+                            <div style="margin-top: 1rem;">
+                                <p style="color: #dc2626; margin-bottom: 0.5rem;">❌ Bad approach:</p>
+                                <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Hardcode access keys
+                                </p>
+                                <p style="color: var(--color-primary); margin-bottom: 0.5rem;">✅ Good approach:</p>
+                                <p style="color: var(--color-text-secondary);"><strong>Attach IAM Role to VM</strong>
+                                </p>
+                                <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">👉 <strong>VM
+                                        automatically gets secure access</strong></p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🔐 Why IAM Roles are Important</h4>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 1. No Hardcoded
+                                    Credentials
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>More
+                                        secure</strong>
+                                </p>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 2. Temporary Access
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Credentials
+                                        expire automatically</strong>
+                                </p>
+                            </div>
+
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 3. Least Privilege
+                                    Principle</h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Give
+                                        only required permissions</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regions & Availability Zones Section -->
+                    <div id="topic-10" style="margin-top: 3rem; margin-bottom: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌍 Regions &
+                            Availability Zones</h3>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🌍 What is a Region?</h4>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">✅ Definition
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">A
+                                <strong>Region</strong> is a
+                                <strong>geographical area</strong> where cloud data centers are located.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">👉 <strong>Example
+                                    Regions in
+                                    Amazon Web Services:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Mumbai (ap-south-1)</strong> 🇮🇳</li>
+                                <li><strong>US East (N. Virginia)</strong> 🇺🇸</li>
+                                <li><strong>Europe (Ireland)</strong> 🇮🇪</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Simple Understanding</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Region = City
+                                    /
+                                    Location</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Each
+                                    region:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Is <strong>physically separate</strong></li>
+                                <li>Has <strong>multiple data centers</strong></li>
+                                <li><strong>Operates independently</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🏢 What is an Availability
+                                Zone
+                                (AZ)?</h4>
+                            <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 1rem;">✅ Definition
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">An <strong>Availability
+                                    Zone
+                                    (AZ)</strong> is a separate data center (or group of data centers) within a region.
+                            </p>
+                            <p style="color: var(--color-text-secondary);">👉 <strong>Each region has multiple
+                                    AZs</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🧠 Simple Understanding</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Region =
+                                    City</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 AZ =
+                                    Buildings
+                                    inside the city</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Each building
+                                    (AZ)
+                                    is:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Independent</strong></li>
+                                <li>Has <strong>power, network, cooling</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔁 Relationship</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 1 Region =
+                                    Multiple
+                                    Availability Zones</strong></p>
+                            <p style="color: var(--color-text-secondary);"><strong>Example:</strong></p>
+                            <p
+                                style="color: var(--color-accent); font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem;">
+                                Mumbai Region → AZ1, AZ2, AZ3</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🚀 Why Availability Zones are
+                                Important</h4>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 1. High Availability
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">If
+                                    <strong>one
+                                        AZ fails → others still work</strong>
+                                </p>
+                            </div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 2. Fault Isolation
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Failures
+                                        don't spread</strong>
+                                </p>
+                            </div>
+
+                            <div>
+                                <h5 style="color: var(--color-primary); margin-bottom: 0.5rem;">🔑 3. Load Distribution
+                                </h5>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    <strong>Traffic
+                                        spread across AZs</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Real-Life Example</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>👉 Suppose you
+                                    build a
+                                    web app:</strong></p>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                                <strong>Deploy:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>App server in <strong>AZ1</strong></li>
+                                <li>Another in <strong>AZ2</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;">👉 <strong>If AZ1
+                                    crashes:</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-weight: 600;">AZ2 still serves users ✅</p>
+                        </div>
+
+                        <!-- Region vs AZ Comparison Table -->
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1.5rem;">⚖️ Quick Comparison</h4>
+
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Feature</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Region 🌍</th>
+                                            <th
+                                                style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Availability Zone 🏢</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Scope</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Large (country/area)</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Smaller (data center)</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Isolation</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Very high</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High</td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Distance</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Far apart</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Nearby</td>
+                                        </tr>
+                                        <tr
+                                            style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                                Purpose</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                Global distribution</td>
+                                            <td
+                                                style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                High availability</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🧠 Easy Way to Remember</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>👉 Region = Location (like city)</strong></li>
+                                <li><strong>👉 AZ = Data center inside that location</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">🔥 Interview Tip</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Always
+                                    say:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>"<strong>Deploy across multiple AZs</strong> for high availability"</li>
+                                <li>"<strong>Use multiple regions</strong> for disaster recovery"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="system-design.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">📐 System Design Basics</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Cloud Computing ☁️', 'success');
+        });
+    </script>
+</body>
+
+</html>

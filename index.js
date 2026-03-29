@@ -369,8 +369,8 @@ function toggleSidebar() {
 // GSAP Animations
 // ===================================
 function initAnimations() {
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
+    // Register ScrollTrigger and ScrollToPlugin
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     // Animate hero section on load with delay to ensure loader is hidden
     gsap.from('.hero h1', {

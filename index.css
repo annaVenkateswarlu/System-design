@@ -1887,8 +1887,8 @@ a:focus-visible {
    Scroll Reveal Animations
    =================================== */
 .scroll-reveal {
-    opacity: 0;
-    transform: translateY(15px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
