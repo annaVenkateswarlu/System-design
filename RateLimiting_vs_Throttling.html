@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Limiting vs Throttling - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="rate-limiting.html" aria-label="Go to Rate Limiting page">Rate Limiting</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Rate Limiting vs Throttling</span>
+                </nav>
+
+                <h2>🚦 Rate Limiting vs Throttling</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Rate Limiting?</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Throttling?</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Key
+                                        Difference</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="4"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real-world
+                                        Analogy</a></li>
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">When
+                                        to Use Each</a></li>
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real
+                                        App Connection</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 1: What is Rate Limiting -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ What is Rate
+                        Limiting?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Rate Limiting</strong> means:
+                            <strong>Restricting the number of requests a client can make within a fixed time
+                                window.</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>100 requests per minute</strong></li>
+                            <li>If requests are exceeded → <strong>Request is rejected ❌</strong></li>
+                            <li>Server returns: <strong>HTTP 429 Too Many Requests</strong></li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-top: 1rem; margin-bottom: 0;">🎯
+                            Goal: <strong>Protect Server</strong></p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/RateLimiting_VS_Throttling_Img1.png" alt="Rate Limiting Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🚫 How rate limiting blocks excess requests</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛡️ Why it exists</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Rate limiting
+                                protects:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Servers from overload</strong></li>
+                            <li><strong>APIs from abuse</strong></li>
+                            <li><strong>Systems from DDoS attacks</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">📊 Example Scenario</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>API allows: 100
+                                requests per minute</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>If user sends <strong>100 requests</strong> → <strong
+                                    style="color: var(--color-primary);">allowed ✅</strong></li>
+                            <li><strong>101st request</strong> → <strong style="color: #dc2626;">rejected ❌ (HTTP
+                                    429)</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 2: What is Throttling -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ What is
+                        Throttling?</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Throttling</strong> means:
+                            <strong>Controlling or slowing down the rate of requests instead of rejecting them.</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔄 Instead of blocking:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>System allows
+                                requests but:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Adds delay</strong></li>
+                            <li><strong>Slows response</strong></li>
+                            <li><strong>Queues requests</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/RateLimiting_VS_Throttling_Img2.png" alt="Throttling Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🐌 How throttling slows down request processing</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Why it exists</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Throttling
+                                ensures:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Smooth traffic handling</strong></li>
+                            <li><strong>Fair usage</strong></li>
+                            <li><strong>Better user experience during spikes</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">📺 Real Example (YouTube / Streaming)</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>If too many
+                                requests:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Video quality reduced</strong></li>
+                            <li><strong>Buffering increases</strong></li>
+                            <li>System <strong>doesn't block</strong> — it <strong>slows you</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 3: Key Difference -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚡ Key Difference
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center;">⚖️
+                            Comparison Table</h4>
+
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: rgba(16, 185, 129, 0.1);">
+                                        <th
+                                            style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                            Feature</th>
+                                        <th
+                                            style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                            Rate Limiting 🚫</th>
+                                        <th
+                                            style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                            Throttling 🐌</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                            Behavior</td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Reject requests</strong>
+                                        </td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Slow down requests</strong>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                            Goal</td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Prevent server overload</strong>
+                                        </td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Smooth traffic and avoid sudden spikes</strong>
+                                        </td>
+                                    </tr>
+                                    <tr style="border: 1px solid var(--glass-border);">
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                            Response</td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Error (429)</strong>
+                                        </td>
+                                        <td
+                                            style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                            <strong>Delay / queue</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 4: Real-world Analogy -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ Real-world
+                        Analogy</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">🚧 Rate Limiting = Gate closed</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Only <strong>100 people allowed</strong></li>
+                                <li>Extra people → <strong>blocked ❌</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">🚦 Throttling = Traffic signal</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Everyone allowed</strong></li>
+                                <li>But flow is <strong>controlled slowly</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 5: When to use each -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ When to Use
+                        Each</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Rate Limiting:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Public APIs</strong></li>
+                                <li><strong>Prevent abuse</strong></li>
+                                <li><strong>Protect backend systems</strong></li>
+                                <li><strong>Security enforcement</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">✅ Use Throttling:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Handling traffic spikes</strong></li>
+                                <li><strong>Background processing</strong></li>
+                                <li><strong>Graceful degradation</strong></li>
+                                <li><strong>Improving system stability</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/RateLimiting_VS_Throttling_Img3.png" alt="When to Use Each"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Choosing between rate limiting and throttling based on use case</p>
+                    </div>
+                </div>
+
+                <!-- Topic 6: Common Mistake -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Common
+                        Mistake
+                    </h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Thinking they are the same</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>They are related but
+                                different:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Rate limiting = hard stop</strong></li>
+                            <li><strong>Throttling = soft control</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 7: Real App Connection -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Connection</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3b82f6; margin-bottom: 1rem;">🛒 E-commerce</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Rate limiting</strong> → prevent bots placing orders</li>
+                            <li><strong>Throttling</strong> → slow down traffic during sale</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">💳 Payment System</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Rate limiting</strong> → prevent fraud attempts</li>
+                            <li><strong>Throttling</strong> → manage peak load</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Interview-ready One-liner</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.05rem;"><strong>Rate
+                                limiting restricts the number of requests by rejecting excess traffic, while throttling
+                                controls the request rate by slowing down processing instead of rejecting
+                                requests.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Summary</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Rate limiting</strong> enforces a <strong>hard cap</strong> on request count,
+                            <strong>rejecting</strong> if requests beyond a limit.
+                        </li>
+                        <li><strong>Throttling</strong> controls request flow by <strong>delaying</strong> or slowing
+                            down
+                            processing.</li>
+                        <li><strong>Rate limiting</strong> protects systems, while <strong>throttling</strong> ensures
+                            smooth performance under load.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="rate-limiting.html" class="next-topic-link">
+                    <span class="next-topic-text">Previous Topic</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">🚦 Rate Limiting</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Rate Limiting vs Throttling 🚦', 'success');
+        });
+    </script>
+</body>
+
+</html>

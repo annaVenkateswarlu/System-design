@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 3: REST vs GraphQL for Microservices - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 3</span>
+                </nav>
+
+                <div
+                    style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                    <span
+                        style="background: #A855F7; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        3</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🔌 REST vs
+                        GraphQL: Choosing the Right API for Microservices</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                    <h4 style="color: var(--color-accent); margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>Design an API
+                            layer for a system where clients (web/mobile) need to fetch data from multiple microservices
+                            (e.g., User, Orders, Products).
+                            <br> Would you use REST or GraphQL?</strong></p>
+                </div>
+
+                <!-- REST Section -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔵 REST
+                        (Representational State Transfer)</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">📌 Core Idea:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Server decides what data is returned
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚙️ Flow:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Client calls multiple endpoints:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><code>/users/123</code></li>
+                            <li><code>/orders?userId=123</code></li>
+                            <li><code>/products</code></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Strengths of REST:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>1. Simplicity 👍</strong>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>Easy to design</li>
+                                    <li>Easy to understand</li>
+                                    <li>Works well with HTTP standards</li>
+                                </ul>
+                            </li>
+                            <li><strong>2. Strong Caching Support 🔥</strong>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>Uses: ETag, Cache-Control, CDN caching</li>
+                                    <li><strong>👉 Huge performance advantage</strong></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Problems in REST:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>1. Over-Fetching</strong> — Getting extra data you don't need</li>
+                            <li><strong>2. Under-Fetching</strong> — Need multiple API calls</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Example:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><code>GET /article</code></li>
+                            <li><code>GET /author</code></li>
+                            <li><code>GET /comments</code></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- GraphQL Section -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟣 GraphQL</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">📌 Core Idea:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Client decides what data is needed</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚙️ Flow:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Client sends single query:
+                        </p>
+                        <pre
+                            style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: var(--radius-sm); overflow-x: auto; color: var(--color-text-secondary);"><code>{
+  user(id: "123") {
+    name
+    orders {
+      id
+      product {
+        name
+      }
+    }
+  }
+}</code></pre>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>GraphQL
+                                server:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Calls <strong>User Service</strong></li>
+                            <li>Calls <strong>Order Service</strong></li>
+                            <li>Calls <strong>Product Service</strong></li>
+                            <li><strong>Combines response</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Strengths of GraphQL:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>1. No Over / Under Fetching 🔥</strong> — Client asks exactly what it needs</li>
+                            <li><strong>2. Single Request → Multiple Data</strong> — Aggregates data from multiple
+                                services</li>
+                            <li><strong>3. Strong for Microservices</strong> — Acts like API Gateway layer</li>
+                            <li><strong>4. Schema-Based API</strong> — Strong typing, Self-documenting</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Problems in GraphQL:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>1. Complex Server Logic ⚠️</strong> — Resolver logic</li>
+                            <li><strong>2. Caching is Hard 😬</strong> — No simple HTTP caching</li>
+                            <li><strong>3. Performance Risks</strong> — Bad queries = heavy DB load</li>
+                            <li><strong>4. Monitoring is Harder</strong> — Hard to track "which endpoint is slow"</li>
+                        </ul>
+                    </div>
+
+                    <!-- Image -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem3_Img1.gif" alt="REST vs GraphQL Architecture"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            REST vs GraphQL Architecture Comparison</p>
+                    </div>
+                </div>
+
+                <!-- When to Use REST -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 When to Use
+                        REST</h3>
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>👉 Use
+                                REST when:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Simple CRUD APIs</li>
+                            <li>Strong caching needed</li>
+                            <li>Backend-driven system</li>
+                            <li>Public APIs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- When to Use GraphQL -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 When to Use
+                        GraphQL</h3>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>👉 Use
+                                GraphQL when:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Multiple data sources</li>
+                            <li>Microservices architecture</li>
+                            <li>Mobile apps (reduce network calls)</li>
+                            <li>Complex UI requirements</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Important Points -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Important
+                        Points</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 BFF Pattern (Backend for
+                            Frontend)</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">👉 GraphQL often used as: <strong>BFF
+                                layer between frontend & microservices</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 N+1 Problem</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">👉 GraphQL can cause: <strong>Multiple
+                                DB queries per request</strong><br>✔ Solution: <strong>DataLoader</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Versioning</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>REST → /v1,
+                                /v2</strong><br><strong>GraphQL → No versioning</strong> (schema evolves)</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Error Handling</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>REST → HTTP status
+                                codes</strong><br><strong>GraphQL → Always 200</strong> (errors in response body)</p>
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚖️ REST vs
+                        GraphQL Comparison</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Factor</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        REST</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        GraphQL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Data Fetching</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Multiple endpoints</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Single endpoint</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Over-fetching</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Common problem</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Eliminated</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Caching</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        HTTP caching (easy)</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Application-level (complex)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interview Answer -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💬 Interview
+                        Answer</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>REST</strong>
+                            is <strong>simple</strong>, <strong>cache-friendly</strong>, and works well for
+                            <strong>resource-based APIs</strong> with <strong>strong HTTP support</strong>, but it can
+                            suffer from <strong>over-fetching</strong> and <strong>multiple requests</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0; line-height: 2;">
+                            <strong>GraphQL</strong> allows clients to fetch <strong>exactly the data they need</strong>
+                            in a <strong>single request</strong>, making it ideal for <strong>complex</strong> and
+                            <strong>microservice-based systems</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">The choice depends on
+                            <strong>system requirements</strong> — <strong>REST for simplicity and caching</strong>,
+                            <strong>GraphQL for flexibility and aggregation</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0; line-height: 2;">If the system
+                            involves <strong>multiple microservices</strong> and clients need <strong>aggregated
+                                data</strong>, I would use <strong>GraphQL as a gateway</strong> to reduce multiple
+                            network calls and avoid over-fetching.</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">However, for
+                            <strong>simpler use cases</strong> or where <strong>strong caching is required</strong>,
+                            <strong>REST is more suitable</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0; line-height: 2;">In
+                            practice, I would use a <strong>hybrid approach</strong> where backend services expose
+                            <strong>REST APIs</strong> and a <strong>GraphQL</strong> layer sits in front.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Discuss trade-offs</strong> — Caching, complexity, team skills</li>
+                        <li><strong>Consider the client</strong> — Mobile vs Web vs Internal</li>
+                        <li><strong>Mention N+1 problem</strong> — For GraphQL data loading</li>
+                        <li><strong>Talk about caching strategies</strong> — Often the deciding factor</li>
+                        <li><strong>Hybrid approach</strong> — Show practical flexibility</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem2.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem4.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problem →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 3 - REST vs GraphQL 🔌', 'success');
+        });
+    </script>
+</body>
+
+</html>

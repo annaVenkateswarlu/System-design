@@ -1,4 +1,18 @@
 // ===================================
+// Utility: Throttle Function
+// ===================================
+function throttle(func, delay) {
+    let lastCall = 0;
+    return function (...args) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+            lastCall = now;
+            func(...args);
+        }
+    };
+}
+
+// ===================================
 // Toast Notification System
 // ===================================
 function showToast(message, type = 'info') {
@@ -369,8 +383,8 @@ function toggleSidebar() {
 // GSAP Animations
 // ===================================
 function initAnimations() {
-    // Register ScrollTrigger and ScrollToPlugin
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    // Register ScrollTrigger plugin (ScrollToPlugin is not used)
+    gsap.registerPlugin(ScrollTrigger);
 
     // Animate hero section on load with delay to ensure loader is hidden
     gsap.from('.hero h1', {
@@ -678,14 +692,16 @@ function initProgressBar() {
     const progressBar = document.getElementById('progress-bar');
     if (!progressBar) return;
 
-    window.addEventListener('scroll', () => {
+    const updateProgress = throttle(() => {
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
 
         progressBar.style.width = scrollPercent + '%';
-    });
+    }, 30);
+
+    window.addEventListener('scroll', updateProgress);
 }
 
 // ===================================
@@ -695,13 +711,15 @@ function initBackToTop() {
     const backToTopBtn = document.getElementById('back-to-top');
     if (!backToTopBtn) return;
 
-    window.addEventListener('scroll', () => {
+    const handleScroll = throttle(() => {
         if (window.pageYOffset > 300) {
             backToTopBtn.classList.add('visible');
         } else {
             backToTopBtn.classList.remove('visible');
         }
-    });
+    }, 30);
+
+    window.addEventListener('scroll', handleScroll);
 
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({
@@ -718,7 +736,7 @@ function initBackToTop() {
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
 
-    const revealOnScroll = () => {
+    const revealOnScroll = throttle(() => {
         revealElements.forEach(element => {
             const elementTop = element.getBoundingClientRect().top;
             const elementBottom = element.getBoundingClientRect().bottom;
@@ -728,7 +746,7 @@ function initScrollReveal() {
                 element.classList.add('revealed');
             }
         });
-    };
+    }, 50);
 
     // Initial check with slight delay to ensure DOM is fully loaded
     setTimeout(() => {
@@ -741,11 +759,7 @@ function initScrollReveal() {
     }, 1500);
 
     // On scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(revealOnScroll, 50);
-    });
+    window.addEventListener('scroll', revealOnScroll);
 }
 
 

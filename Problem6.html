@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 6: Global Latency Optimization - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 6</span>
+                </nav>
+
+                <div
+                    style="background: rgba(6, 182, 212, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #06B6D4; margin-bottom: 2rem;">
+                    <span
+                        style="background: #06B6D4; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        6</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🌍 Global Latency
+                        Optimization: Australia (80ms) vs India (600ms)</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(6, 182, 212, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #06B6D4; margin-bottom: 2rem;">
+                    <h4 style="color: #06B6D4; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>Page loads in
+                            80 ms (Australia) but 600 ms (India). <br> Same backend, same code. <br> What will you
+                            do?</strong></p>
+                </div>
+
+                <!-- Problem Analysis -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Problem Analysis:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0;">Since the <strong>backend and code are
+                            the same</strong>, the issue is most likely due to <strong>network latency caused by
+                            geographical distance</strong>.</p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 1rem; margin-bottom: 0;">
+                        <li><strong>👉 Australia Users</strong> → close to server → fast response</li>
+                        <li><strong>👉 India Users</strong> → far to server → slow response</li>
+                    </ul>
+                    <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                            Solution:</strong> Bring data closer to user</p>
+                </div>
+
+                <!-- Solution 1: CDN -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔵 1. Use CDN
+                        (First & Best Answer)</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>"I would use a CDN like
+                                Cloudflare to serve static content closer to users."</strong></p>
+                    </div>
+                    <div
+                        style="background: rgba(6, 182, 212, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #06B6D4; margin-bottom: 1.5rem;">
+                        <h4 style="color: #06B6D4; margin-bottom: 1rem;">💡 How it works:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>User in India → gets data
+                                from India CDN edge</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">No need to
+                            hit far backend server</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Result:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Huge latency reduction (600ms
+                                → ~100–200ms)</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">📦 What CDN Caches:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Images</strong></li>
+                            <li>✔ <strong>CSS / JS</strong></li>
+                            <li>✔ <strong>Static APIs (optional)</strong></li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+                <!-- Solution 2: Multi-Region Deployment -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟡 2.
+                        Multi-Region Deployment</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Deploy backend in multiple
+                                regions.</strong></p>
+                    </div>
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">💡 Why:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Reduce round-trip time
+                                (RTT)</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>AWS Mumbai region</strong> for India</li>
+                            <li><strong>AWS Sydney</strong> for Australia</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-top: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🟣 3. Edge Computing</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>What it
+                                is:</strong> Run logic closer to the user (edge locations) instead of central server</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>✅ What
+                                you
+                                move to edge:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Authentication checks</strong></li>
+                            <li><strong>Simple API responses</strong></li>
+                            <li><strong>Personalization</strong></li>
+                            <li><strong>A/B testing logic</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Instead of request going <strong>India
+                                → Australia → back</strong>, it is handled at <strong>nearby edge node</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(6, 182, 212, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #06B6D4; margin-top: 1.5rem;">
+                        <h4 style="color: #06B6D4; margin-bottom: 1rem;">🚀 Result:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Ultra low latency</strong></li>
+                            <li><strong>Faster response than even backend</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Solution 3: Geo-Based Load Balancing -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟢 3. Geo-Based
+                        Load Balancing</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 What it does:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Routes user to nearest
+                                server</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">✅ Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>India user</strong> → Mumbai region</li>
+                            <li><strong>Australia user</strong> → Sydney region</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Done via:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>DNS-based routing</strong></li>
+                            <li><strong>Geo-aware load balancers</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- One Line Answer -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💬 One Line
+                        Answer
+                    </h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">Since the backend and
+                            code are the same, the issue is likely due to <strong>network latency caused by geographic
+                                distance</strong>. To solve this, I would <strong>first use a CDN</strong> to cache
+                            static
+                            content near users. Then, I would use <strong>edge computing</strong> to execute lightweight
+                            logic closer to users. I would implement <strong>geo-based routing</strong> to direct users
+                            to the nearest region and use <strong>regional load balancers</strong> to distribute traffic
+                            efficiently. Finally, I would <strong>deploy the backend in multiple regions</strong> to
+                            reduce round-trip latency.</p>
+                    </div>
+                </div>
+
+                <!-- Comparison Table -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔥 Clean
+                        Comparison</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Concept</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        CDN</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Cache static content</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Edge Computing</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Run logic near users</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Geo Routing</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Send user to nearest region</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Load Balancer</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Distribute traffic within region</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Identify the root cause</strong> — Same code = network latency issue</li>
+                        <li><strong>Start with CDN</strong> — First and best answer</li>
+                        <li><strong>Show progression</strong> — CDN → Edge → Multi-region</li>
+                        <li><strong>Know the numbers</strong> — 600ms → 100-200ms with CDN</li>
+                        <li><strong>Consider all layers</strong> — Static + Dynamic + Routing</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem5.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem7.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problems →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 6 - Global Latency Optimization 🌍', 'success');
+        });
+    </script>
+</body>
+
+</html>

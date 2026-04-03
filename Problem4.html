@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 4: API Fails at 100K Users - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 4</span>
+                </nav>
+
+                <div
+                    style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #F97316; margin-bottom: 2rem;">
+                    <span
+                        style="background: #F97316; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        4</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🚨 API Works for
+                        1K Users but Fails at 100K — What Will You Do?</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                    <h4 style="color: #dc2626; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>Your API works
+                            for 1K users but fails at 100K. <br> You cannot change infrastructure. <br> What will you
+                            do?</strong>
+                    </p>
+                </div>
+
+                <!-- Introduction -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Key Constraint:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0;">Since I <strong>cannot change
+                            infrastructure</strong> — no new servers, no DB scaling changes, no re-architecture — my
+                        focus would be on <strong>reducing unnecessary load</strong> on the existing system.</p>
+                    <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>My
+                            approach in three layers:</strong></p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0;">
+                        <li><strong>Reduce repeated work</strong></li>
+                        <li><strong>Reduce number of requests</strong></li>
+                        <li><strong>Control incoming traffic</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Step 1: Caching -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔵 1. Reduce
+                        Repeated Work → Caching</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">📌 The first optimization I'd
+                            introduce is caching, especially if the system is read-heavy.</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">
+                            <strong>Cache:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Hot GET responses</strong></li>
+                            <li><strong>Expensive queries</strong></li>
+                            <li><strong>Reference/static data</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Key idea:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Same response → avoid
+                                recomputing it every time</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ I would explicitly mention:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>TTL tuning</strong> (not too long, not too short)</li>
+                            <li><strong>Cache invalidation</strong> on writes</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>If
+                                traffic is read-heavy, caching alone can drastically reduce backend load.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Batching -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟢 2. Reduce
+                        Request Count → Batching</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 The second issue at scale
+                            is not just heavy requests, but too many small requests.</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>So I
+                                would:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Combine multiple reads</strong> into one request</li>
+                            <li>Introduce <strong>bulk APIs</strong> (fetch 100 items in 1 call)</li>
+                            <li><strong>Batch writes</strong> asynchronously</li>
+                            <li><strong>Deduplicate</strong> identical concurrent requests</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Instead of 100 API calls for
+                                100 items, I'd serve it in one call.</strong></p>
+                    </div>
+
+                    <!-- Image -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem4_Img1.jpg" alt="Batching API Requests"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            Batching: Combining multiple requests into one</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🚀 Impact:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Fewer DB connections</strong></li>
+                            <li><strong>Lower network overhead</strong></li>
+                            <li><strong>Reduced thread contention</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3: Rate Limiting -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔴 3. Control
+                        Traffic → Rate Limiting</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">📌 Even with optimizations, uncontrolled
+                            traffic can still break the system.</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>So I
+                                would
+                                add rate limiting at API level:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Per-user / per-API key</strong> limits</li>
+                            <li><strong>Stricter limits</strong> for expensive endpoints</li>
+                            <li>Return <strong>429 (Too Many Requests)</strong> instead of failing internally</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">⚙️ Algorithms:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Token bucket</strong></li>
+                            <li><strong>Sliding window</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Key idea:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Don't let the system crash —
+                                degrade gracefully.</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📋 My Rate Limiting Priority:
+                        </h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">I would
+                            <strong>first</strong>
+                            rate limit <strong>write-heavy</strong> and <strong>critical endpoints</strong> like
+                            <strong>bookings</strong> and <strong>payments</strong>, then <strong>expensive read
+                                operations</strong> like <strong>search</strong>, followed by
+                            <strong>authentication endpoints</strong> for security, and finally <strong>public or
+                                hotspot endpoints</strong> to handle traffic spikes.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">I don't rate
+                            limit everything equally — I <strong>prioritize endpoints based on cost, risk, and impact on
+                                system stability</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4: Database Optimization -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 4. Database
+                        Optimization</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🔹 Indexing</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">✔ <strong>Faster queries</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Query Optimization</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Avoid SELECT *</strong></li>
+                            <li>✔ <strong>Use joins properly</strong></li>
+                            <li>✔ <strong>Add pagination</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Connection Pooling</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">✔ <strong>Reuse DB
+                                connections</strong></p>
+                    </div>
+                </div>
+
+                <!-- Final Thought -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💡 Final Thought
+                    </h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #A855F7;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>"Since I can't
+                                increase capacity, I focus on reducing demand."</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0; line-height: 2;"><strong>So my
+                                strategy is:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Caching</strong> → reduce repeated work</li>
+                            <li><strong>Batching</strong> → reduce number of requests</li>
+                            <li><strong>Rate limiting</strong> → control incoming load</li>
+                            <li><strong>Database Optimization</strong> → faster queries</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What NOT to Say -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🚫 What You
+                        Should NOT Say</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>❌ <strong>Add load balancer</strong></li>
+                            <li>❌ <strong>Add more servers</strong></li>
+                            <li>❌ <strong>Use microservices</strong></li>
+                            <li>❌ <strong>Scale DB</strong> (Replication, Sharding, Partitioning, Vertical/Horizontal
+                                Scaling)</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Why?</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Because infra change is NOT
+                                allowed</strong></p>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Respect the constraint</strong> — No infrastructure changes</li>
+                        <li><strong>Show systematic approach</strong> — Caching → Batching → Rate Limiting</li>
+                        <li><strong>Quantify impact</strong> — "Reduces DB calls by X%"</li>
+                        <li><strong>Know what NOT to say</strong> — Avoid infrastructure solutions</li>
+                        <li><strong>Graceful degradation</strong> — 429 instead of crashes</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem3.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem5.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problem →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 4 - API Scaling Emergency 🚨', 'success');
+        });
+    </script>
+</body>
+
+</html>

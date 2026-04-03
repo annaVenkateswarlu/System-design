@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 7: Cache Layer Increasing Latency - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 7</span>
+                </nav>
+
+                <div
+                    style="background: rgba(234, 179, 8, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #EAB308; margin-bottom: 2rem;">
+                    <span
+                        style="background: #EAB308; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        7</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🐌 Cache Layer
+                        Increasing Latency: 120ms → 900ms</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(234, 179, 8, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EAB308; margin-bottom: 2rem;">
+                    <h4 style="color: #EAB308; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>We added a
+                            cache layer to improve performance of system but our API latency went from 120ms to 900ms.
+                            <br> Any idea why this happened?</strong></p>
+                </div>
+
+                <!-- Key Insight -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Key Insight:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Cache only helps when hit ratio
+                            is high and access is fast.</strong> If not, it becomes an extra bottleneck layer.</p>
+                </div>
+
+                <!-- What's Going Wrong -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔍 What's Going
+                        Wrong?</h3>
+
+                    <!-- 1. Low Cache Hit Rate -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🔴 1. Low Cache Hit Rate</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">📊 What is Cache Hit
+                                Ratio?</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Cache Hit Ratio measures how
+                                often your system finds data in the cache instead of going to the database.</p>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; font-family: monospace;">
+                                <strong>Cache Hit Ratio = (Cache Hits) / (Total Requests)</strong>
+                            </p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>💥 Problem:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">If most requests are cache
+                            misses:</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Request → Cache
+                                (miss) → DB → Response</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>👉 You added an <strong>extra network hop</strong> (cache + DB)</li>
+                            <li>👉 <strong>Result = more latency instead of less</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">💡 Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Cache lookup: <strong>50ms</strong></li>
+                            <li>DB query: <strong>120ms</strong></li>
+                            <li>👉 <strong>Total = 170ms+</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">Example 2:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Hit
+                                ratio = 20% ❌</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">👉 <strong>80% requests still go to
+                                DB + extra cache step</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Fix:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>1. Cache frequently accessed
+                                data</strong></p>
+                    </div>
+                </div>
+
+                <!-- 2. Network Latency to Cache -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟠 2. Network
+                        Latency to Cache</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problem:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">If cache (like
+                            Redis) is:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>In <strong>different region / AZ</strong></li>
+                            <li>Or <strong>poorly connected</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">👉
+                            <strong>Cache
+                                call itself becomes slow (200–500ms)</strong><br>👉 <strong>Cache becomes slower than
+                                DB</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Fix:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Keep cache close to app</strong></li>
+                            <li><strong>Use same region / in-memory caching</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Cache Stampede -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔵 3. Cache
+                        Stampede</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problem:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Many keys expire at <strong>same time</strong></li>
+                            <li>Many requests hit <strong>DB simultaneously</strong></li>
+                            <li>👉 <strong>System slows down massively</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Fix:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Add
+                                jitter to TTL</strong></p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">What is Jitter to TTL?</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>TTL (Time To
+                                    Live)</strong>
+                                = how long data stays in cache</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                            <h5 style="color: #F97316; margin: 0 0 0.5rem 0;">⚠️ Problem Without Jitter:</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0;">If you set: <strong>TTL = 60
+                                    seconds</strong><br>After 60 sec → cache expires at the same moment → next request
+                                hits DB</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1rem; border-radius: var(--radius-sm);">
+                            <h5 style="color: var(--color-accent); margin: 0 0 0.5rem 0;">💡 Solution:</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;">
+                                <strong>Jitter
+                                    = random variation added to TTL</strong></p>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;">Example:
+                                <strong>TTL = 60 + random(0–10) seconds</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">👉 Some keys expire at 61s, 65s,
+                                68s…<br>👉 Requests spread out → no sudden spike ✅</p>
+                        </div>
+
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>Add
+                                TTL
+                                + Jitter</strong> means setting a base expiration time and adding randomness so cached
+                            data expires at different times, preventing many requests from hitting the database at once.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4. Synchronous Cache Layer Blocking -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟣 4. Synchronous
+                        Cache Layer Blocking</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problem:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>App <strong>waits for cache</strong> every time</li>
+                            <li>Even when cache is <strong>slow</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Fix:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Use
+                                fallback logic</strong></p>
+
+                        <div style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-sm);">
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">What is Fallback Logic?</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Fallback logic means your system
+                                should <strong>not fail or wait indefinitely</strong> if the cache is unavailable—it
+                                should gracefully <strong>fall back to the database</strong>.</p>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">
+                                Fallback
+                                logic ensures the system continues to serve requests by retrieving data from the
+                                database when the cache fails or misses, instead of blocking or returning errors.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- One Line Answer -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💬 One Line
+                        Answer
+                    </h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">If latency increases
+                            after adding a cache, it usually means the cache is <strong>adding overhead instead of
+                                reducing work</strong>. This can happen due to <strong>low cache hit ratio</strong>,
+                            <strong>frequent cache misses</strong>, <strong>network latency to the cache</strong>, or
+                            <strong>poor key design</strong>.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0; line-height: 2;">I would first
+                            <strong>analyze cache metrics</strong> like hit rate and latency, then optimize by
+                            <strong>caching only frequently accessed data</strong>, <strong>improving key
+                                design</strong>,
+                            <strong>keeping cache close to apps</strong> in the same region, and handling
+                            <strong>cache stampede using TTL strategies + jitter</strong> and handling
+                            <strong>synchronous cache layer blocking using fallback logic</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary Table -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Summary</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Problem</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Low Cache Hit Rate</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Cache frequently accessed data only</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Network Latency to Cache</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Keep cache close to app, same region</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Cache Stampede</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Add jitter to TTL</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Synchronous Cache Blocking</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Use fallback logic to DB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Understand the counter-intuitive nature</strong> — Cache can increase latency</li>
+                        <li><strong>Know the metrics</strong> — Hit rate, latency to cache</li>
+                        <li><strong>Explain cache stampede</strong> — TTL jitter is key</li>
+                        <li><strong>Fallback logic</strong> — Don't let cache block requests</li>
+                        <li><strong>Proximity matters</strong> — Same region, in-memory</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem6.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="real-world-scenarios.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Back to All Problems →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 7 - Cache Layer Latency Issue 🐌', 'success');
+        });
+    </script>
+</body>
+
+</html>

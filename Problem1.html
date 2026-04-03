@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 1: Design Scalable and Reliable APIs - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 1</span>
+                </nav>
+
+                <div
+                    style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                    <span
+                        style="background: var(--color-accent); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        1</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;"> How to Design
+                        Good APIs</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                    <h4 style="color: #A855F7; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>"How would you
+                            design scalable and reliable APIs?"</strong></p>
+                </div>
+
+                <!-- Introduction -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <p style="color: var(--color-text-secondary); margin: 0;">When designing APIs for production
+                        systems, I focus on <strong>five key aspects : <br> idempotency, versioning, resource modeling,
+                            security, and scalability.</strong></p>
+                    <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">The goal is not
+                        just functionality, but ensuring the API is <strong>predictable, resilient, and easy to
+                            evolve.</strong></p>
+                </div>
+
+                <!-- Image 1 -->
+                <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                    <img src="images/Problem1_Img1.gif" alt="API Design Principles"
+                        style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        🎯 API Design Best Practices Overview</p>
+                </div>
+
+                <!-- Section 1: Idempotency -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 1.
+                        Idempotency — Handling Retries & Duplicate Requests</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"In distributed systems, retries are
+                            inevitable due to network failures. So I design APIs to be idempotent wherever possible."
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Naturally
+                                Idempotent:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>GET, PUT, DELETE</strong> → naturally idempotent</li>
+                            <li><strong>POST</strong> → handled using idempotency keys</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">"In a payments API, I would
+                            use an idempotency key stored in Redis. If the same request is retried, the server returns
+                            the previous response instead of reprocessing."</p>
+
+                        <h4 style="color: var(--color-primary); margin: 1.5rem 0 1rem 0;">🔧 Flow:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Client → <strong>POST
+                                /payments</strong> (Idempotency-Key: abc123)</p>
+
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Server:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Check if key exists</strong></li>
+                            <li>→ <strong>YES</strong> → return old response</li>
+                            <li>→ <strong>NO</strong> → process + store result</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-top: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">Prevents:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Duplicate payments</strong></li>
+                            <li><strong>Inconsistent state</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 2: Versioning -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 2. Versioning
+                        — Ensuring Backward Compatibility</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"APIs evolve over time, but we should
+                            never break existing clients."</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Approach:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>URL versioning</strong> → /api/v1/orders</li>
+                            <li><strong>Gradual migration</strong> to /v2</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">"Older mobile apps continue using v1
+                            while new clients adopt v2."</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Ensures:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Smooth upgrades</strong></li>
+                            <li><strong>No production breakages</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 3: Resource-Oriented Design -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 3.
+                        Resource-Oriented Design — Keep It Predictable</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"I design APIs around resources
+                            (nouns) rather than actions."</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Good:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>GET /users</strong></li>
+                            <li><strong>POST /orders</strong></li>
+                            <li><strong>PUT /products/{id}</strong></li>
+                            <li><strong>DELETE /products/{id}</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Bad:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>/getUsers</li>
+                            <li>/createOrder</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">"HTTP methods define
+                            behavior, which keeps APIs intuitive and consistent."</p>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0;">👉 This is why REST
+                            APIs scale across teams</p>
+                    </div>
+                </div>
+
+                <!-- Section 4: Security -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 4. Security
+                        — Built-In, Not an Afterthought</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"Security is enforced at every layer
+                            of the API."</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>I include:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Authentication</strong> → JWT / OAuth</li>
+                            <li><strong>Authorization</strong> → Role-Based Access (RBAC)</li>
+                            <li><strong>Input validation</strong> → prevent injection</li>
+                            <li><strong>HTTPS + secure headers</strong></li>
+                            <li><strong>Request signing</strong> (for critical APIs)</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔧 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Authorization: Bearer
+                            &lt;JWT_TOKEN&gt;</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">💡 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">"For financial APIs, I'd add HMAC
+                            request signatures to prevent tampering."</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">💡 Real Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Banking APIs use HMAC signatures</li>
+                            <li><strong>Prevent tampering</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 5: Pagination -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 5. Pagination
+                        — Handling Large Data Efficiently</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Real Problem:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">GET /orders → returns 1
+                            million records 😵</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Server crashes</li>
+                            <li>Slow response</li>
+                            <li>Bad UX</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Design Solution:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">GET /orders?limit=10&offset=0</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">💡 Real Benefit:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Faster response</li>
+                            <li>Reduced DB load</li>
+                            <li>Better UX</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"This reduces database load, improves
+                            latency, and enhances user experience."</p>
+                    </div>
+                </div>
+
+                <!-- Section 6: Consistent Request/Response Design -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 6. Consistent
+                        Request/Response Design</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"Consistency is key for developer
+                            experience and debugging."</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">GET /api/v1/orders?limit=10
+                        </p>
+
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Headers:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Authorization: Bearer &lt;token&gt;</li>
+                            <li>Accept: application/json</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Benefits:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Easy to integrate</strong></li>
+                            <li><strong>Easy to debug</strong></li>
+                            <li><strong>Standardized logs</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div style="margin-top: 3rem; text-align: center; margin-bottom: 2rem;">
+                    <img src="images/Problem1_Img2.jpg" alt="Production API Enhancements"
+                        style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                    <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                        🔧 Production-Level System Architecture</p>
+                </div>
+
+                <!-- Production-Level Enhancements -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔧
+                        Production-Level Enhancements</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">"Beyond basic API design, I also
+                            consider system-level concerns:"</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">⚡ Rate Limiting</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Prevent abuse (Token Bucket /
+                                Sliding Window)</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚡ Caching</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Use Redis/CDN for frequently
+                                accessed data</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">⚡ Retry Strategy</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Exponential backoff to avoid
+                                overload</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">⚡ Circuit Breaker</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Prevent cascading failures in
+                                microservices</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; grid-column: span 2;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">⚡ API Gateway</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Centralized auth, logging,
+                                throttling</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview
+                        Tips</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Start with requirements</strong> - Don't assume, ask clarifying questions</li>
+                        <li><strong>Think out loud</strong> - Show your reasoning process</li>
+                        <li><strong>Discuss trade-offs</strong> - There's no perfect solution</li>
+                        <li><strong>Mention specific technologies</strong> - Redis, JWT, HMAC, etc.</li>
+                        <li><strong>Consider security at every layer</strong> - Not as an afterthought</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="real-world-scenarios.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Back to Problems
+                    </a>
+                    <a href="Problem2.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problem →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 1 - Design Scalable APIs 🚀', 'success');
+        });
+    </script>
+</body>
+
+</html>

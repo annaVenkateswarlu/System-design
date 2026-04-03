@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 5: Improve Database Performance - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 5</span>
+                </nav>
+
+                <div
+                    style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #ef4444; margin-bottom: 2rem;">
+                    <span
+                        style="background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        5</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🗄️ How to Improve
+                        Database Performance</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                    <h4 style="color: #A855F7; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>How would you
+                            improve database performance?</strong></p>
+                </div>
+
+                <!-- Introduction -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <p style="color: var(--color-text-secondary); margin: 0;">Improving database performance can be
+                        approached in <strong>two phases</strong>: first <strong>optimizing the existing
+                            system</strong>,
+                        and then <strong>scaling it if needed</strong>.</p>
+                    <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">So I would first
+                        optimize the database, and if that is not sufficient, then I would move to scaling techniques.
+                    </p>
+                </div>
+
+                <!-- Database Optimization -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📊 Database
+                        Optimization</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🎯 Goal of Optimization:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Make queries faster
+                                without changing system size</strong></p>
+                    </div>
+
+                    <!-- 1. Data Indexing -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔵 1. Data Indexing</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">They act as a
+                            data
+                            structure that provides a quick way to locate and access data without scanning the entire
+                            dataset.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>📌 <strong>Add indexes</strong> on frequently queried columns</li>
+                            <li>✔ <strong>Speeds up lookups</strong></li>
+                            <li>✔ <strong>Avoids full table scans</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Query Optimization -->
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔵 2. Query Optimization</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Query
+                            optimization
+                            means improving a SQL query so it uses <strong>less time</strong>, <strong>less
+                                memory</strong>, and <strong>fewer resources</strong>.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Avoid SELECT *</strong></li>
+                            <li>✔ <strong>Avoid Nested Queries</strong> (Use JOINs)</li>
+                            <li>✔ <strong>Use WHERE conditions efficiently</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Connection Pooling -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🔵 3. Connection Pooling</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Connection
+                            pooling
+                            is a technique where a set of <strong>pre-initialized connections</strong> (to a database,
+                            API, or other resource) is <strong>maintained and reused</strong> instead of creating and
+                            destroying a connection for every request.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Reuse DB connections</strong></li>
+                            <li>✔ <strong>Avoid connection overhead</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 4. Denormalization -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔵 4. Denormalization</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Denormalization
+                            is a
+                            database optimization technique where <strong>redundant data</strong> is intentionally added
+                            to one or more tables to reduce the need for complex joins and improve query performance.
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Reduce joins</strong> by storing computed data</li>
+                            <li>✔ <strong>Store computed data</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 5. Materialized Views -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🔵 5. Materialized Views</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">A materialized
+                            view
+                            is a <strong>stored, precomputed result</strong> of a query instead of computing it every
+                            time.
+                            <br> Store pre-computed query results for quick access, reducing the need to process complex
+                            queries repeatedly.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">This improves performance
+                            but
+                            requires periodic refresh to stay updated.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Store precomputed query results</strong></li>
+                            <li>✔ <strong>Faster data retrieval</strong> (Faster Reads)</li>
+                        </ul>
+                    </div>
+
+                    <!-- 6. Pagination -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔵 6. Pagination</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Pagination means
+                            fetching and displaying data in <strong>limited batches (pages)</strong> to improve
+                            performance and user experience.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Don't fetch large datasets at once</strong></li>
+                            <li>✔ <strong>Uses LIMIT and OFFSET</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 7. Caching -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🔵 7. Caching</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Cache frequently accessed data</strong></li>
+                            <li>✔ <strong>Reduce DB hits</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Database Scaling -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📈 Database
+                        Scaling
+                        (Infra Change)</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🎯 Goal of Scaling:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Handle more users + more
+                                data</strong></p>
+                    </div>
+
+                    <!-- 1. Vertical Scaling -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🔴 1. Vertical Scaling</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Increase the
+                            capacity of the database server by adding more <strong>CPU</strong>, <strong>RAM</strong>,
+                            or
+                            <strong>storage</strong>.
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Increase CPU / RAM</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 2. Read Replicas -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔴 2. Read Replicas</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Separate reads
+                            from writes.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Distribute read traffic</strong></li>
+                            <li>✔ <strong>Primary → writes</strong></li>
+                            <li>✔ <strong>Replica → reads</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 3. Sharding -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🔴 3. Sharding</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Divide the
+                            database into smaller, manageable pieces, or <strong>shards</strong>, to distribute load and
+                            improve performance.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Split data across multiple DBs</strong></li>
+                            <li>✔ <strong>Handles large datasets</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 4. Partitioning -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔴 4. Partitioning</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Split large
+                            tables
+                            into smaller, more manageable pieces to improve query performance and maintenance.</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Split large tables into smaller parts</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- 5. Replication -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🔴 5. Replication</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Create copies of
+                            the primary database on different servers to distribute read load and enhance availability.
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>✔ <strong>Improve availability + performance</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💬 One Line
+                        Answer
+                    </h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">To improve database
+                            performance, I would <strong>first focus on optimization</strong> techniques such as
+                            <strong>indexing</strong>, <strong>query optimization</strong>, <strong>connection
+                                pooling</strong>, <strong>caching</strong>, and <strong>denormalization</strong> to
+                            reduce
+                            query latency.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0; line-height: 2;">If the system
+                            still cannot handle the load, I would move to <strong>scaling strategies</strong> such as
+                            <strong>vertical scaling</strong>, <strong>read replicas</strong> for read-heavy workloads,
+                            and <strong>sharding</strong> or <strong>partitioning</strong> for large datasets.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">This ensures both
+                            <strong>efficient performance</strong> and <strong>scalability</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Key Takeaways
+                    </h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #A855F7;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>👉 Optimization = Make system faster</strong></li>
+                            <li><strong>👉 Scaling = Handle more load</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Optimization
+                                improves efficiency</strong>, while <strong>scaling improves capacity</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary Table -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Summary</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Category</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Techniques</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Database Optimization</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Data Indexing, Query Optimization, Connection Pooling, Denormalization,
+                                        Materialized Views, Pagination, Caching</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        Database Scaling</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Vertical Scaling, Read Replicas, Sharding, Partitioning, Replication</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Start with optimization</strong> — No infrastructure changes needed</li>
+                        <li><strong>Show progression</strong> — Optimization first, then scaling</li>
+                        <li><strong>Discuss trade-offs</strong> — Optimization vs Scaling</li>
+                        <li><strong>Quantify improvements</strong> — "This reduces query time by X%"</li>
+                        <li><strong>Know when to scale</strong> — When optimization isn't enough</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem4.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem6.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problems →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 5 - Database Performance 🗄️', 'success');
+        });
+    </script>
+</body>
+
+</html>

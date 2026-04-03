@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Pooling - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Connection Pooling</span>
+                </nav>
+
+                <h2>🔗 Connection Pooling — Efficient Database Connection Management</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is it?</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Why
+                                        does it exist?</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        breaks without it?</a></li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">How
+                                        it works</a></li>
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">When
+                                        to use / When NOT</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="6"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Common
+                                        mistake</a></li>
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real
+                                        app connection</a></li>
+                                <li><a href="#topic-8"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Why
+                                        not unlimited?</a></li>
+                                <li><a href="#topic-9"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real
+                                        Tools</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 1: What is it -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ What is it?
+                    </h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Connection Pooling</strong>
+                            is a technique where a system maintains a <strong>pool (set) of reusable
+                                connections</strong>
+                            (usually to a database) instead of creating a new connection for every request.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔄 Instead of:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Creating new
+                                connection for request → using server → closing connection every time ❌</strong></p>
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ We:</h4>
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0;"><strong>Reuse
+                                existing connections from a pool ✅</strong></p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Connection_Pooling_Img1.png" alt="Connection Pooling Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🔄 App → Pool → DB: Connections are created once and reused multiple times</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Simple Idea</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>App → Pool → DB</strong></li>
+                            <li><strong>Connections are created once</strong></li>
+                            <li><strong>Reused multiple times</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 2: Why does it exist -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ Why does it
+                        exist? (What problem does it solve?)</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">Creating a database connection is
+                            expensive:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Network setup</strong></li>
+                            <li><strong>Authentication</strong></li>
+                            <li><strong>Resource allocation</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">If every request creates a new connection:
+                        </h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>High latency ❌</strong></li>
+                            <li><strong>Server overload ❌</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Connection pooling solves:
+                        </h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Faster response time</strong></li>
+                            <li><strong>Reduced overhead</strong></li>
+                            <li><strong>Efficient resource usage</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 3: What breaks without it -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ What breaks
+                        without it?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Without connection
+                                pooling:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Every request <strong>opens a new DB connection</strong></li>
+                            <li>DB <strong>gets overloaded</strong></li>
+                            <li><strong>Increased latency</strong></li>
+                            <li>System <strong>crashes under high traffic</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">📌 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>1000
+                                users → 1000 DB connections → DB failure ❌</strong></p>
+                    </div>
+                </div>
+
+                <!-- Topic 4: How it works -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ How it works
+                    </h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1.5rem;">
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Pool creates N connections</strong> (say 20)</li>
+                            <li><strong>Incoming Request comes</strong> → picks available connection in pool</li>
+                            <li><strong>Performs DB operation</strong></li>
+                            <li><strong>Returns connection to pool</strong></li>
+                            <li><strong>Next request reuses it</strong></li>
+                        </ol>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Connection_Pooling_Img2.png" alt="Connection Pooling Flow"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📊 Connection pool workflow: request → get connection → use → return</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 1.5rem;">
+                        <h4 style="color: #3b82f6; margin-bottom: 1rem;">📊 Example</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Pool size = 3 (max
+                                number of DB connections)</strong></p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Requests:</strong>
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Req1 → <strong>Conn1</strong></li>
+                            <li>Req2 → <strong>Conn2</strong></li>
+                            <li>Req3 → <strong>Conn3</strong></li>
+                            <li>Req4 → <strong>waits (no free connection)</strong></li>
+                        </ul>
+                        <p style="color: #F97316; margin-top: 1rem; margin-bottom: 0;"><strong>If pool is full →
+                                requests may wait or fail.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Topic 5: When to use / When NOT to use -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ When to use /
+                        When NOT to use</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ When to use:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Database-heavy applications</strong></li>
+                                <li><strong>High-traffic systems</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem;"><strong>Examples:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>E-commerce</li>
+                                <li>Banking apps</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ When NOT needed:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Very small apps</strong></li>
+                                <li><strong>Low traffic systems</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 6: Common mistake -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ One common
+                        mistake</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.1); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Pool size misconfiguration</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Too small</strong> → requests wait (slow system)</li>
+                            <li><strong>Too large</strong> → DB overload</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.75rem;">👉 Must tune
+                            based on:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>DB capacity</strong></li>
+                            <li><strong>Traffic load</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 7: Real app connection -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Real app
+                        connection</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3b82f6; margin-bottom: 1rem;">🛒 E-commerce</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Thousands of users browsing products</li>
+                            <li>Connection pool prevents DB overload</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">💳 Banking System</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Frequent transactions</li>
+                            <li>Pool ensures fast DB access</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 8: Why not unlimited connections -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Why not
+                        create
+                        unlimited connections?</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">Because:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>DB has connection limits</strong></li>
+                            <li><strong>Memory usage increases</strong></li>
+                            <li><strong>Context switching overhead</strong></li>
+                            <li><strong>Performance degradation</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0;">👉 Pooling ensures
+                            <strong>controlled usage</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Topic 9: Real Tools -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ Real Tools
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <div
+                                style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #3b82f6;">
+                                <p style="color: #3b82f6; font-weight: 600; margin-bottom: 0.5rem;">☕ HikariCP (Java)
+                                </p>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">Fast,
+                                    reliable, most popular</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #A855F7;">
+                                <p style="color: #A855F7; font-weight: 600; margin-bottom: 0.5rem;">🔧 Apache DBCP</p>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">Apache
+                                    Commons Database Connection Pooling</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid var(--color-primary);">
+                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">🐘
+                                    PgBouncer (PostgreSQL)</p>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">
+                                    Lightweight connection pooler for PostgreSQL</p>
+                            </div>
+
+                            <div
+                                style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 3px solid #F97316;">
+                                <p style="color: #F97316; font-weight: 600; margin-bottom: 0.5rem;">🐬 MySQL Connection
+                                    Pooling</p>
+                                <p style="color: var(--color-text-secondary); font-size: 0.95rem; margin: 0;">Built-in
+                                    connection pooling support</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Interview-ready One-liner</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.05rem;"><strong>Connection
+                                pooling is a technique of reusing a fixed number of database connections to reduce
+                                overhead and improve performance in high-traffic systems.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Summary</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Connection pooling</strong> maintains a set of reusable database connections
+                            instead of creating new ones per request.</li>
+                        <li>It <strong>reduces latency</strong> and prevents database overload in high-traffic systems.
+                        </li>
+                        <li><strong>Proper tuning of pool size</strong> is critical for optimal performance.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="caching.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">💾 Caching</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Connection Pooling 🔗', 'success');
+        });
+    </script>
+</body>
+
+</html>

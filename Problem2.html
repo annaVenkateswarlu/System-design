@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 2: Scale from 100 to 10M+ Users - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 2</span>
+                </nav>
+
+                <div
+                    style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid var(--color-primary); margin-bottom: 2rem;">
+                    <span
+                        style="background: var(--color-primary); color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        2</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">📈 Scale from 100
+                        Users to 10 Million+ Users</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 2rem;">
+                    <h4 style="color: #A855F7; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>Design a
+                            system that scales from 100 users to 10 million+ users.<br>Explain how your architecture
+                            evolves at each stage, what breaks as you scale, how you fix it, and what trade-offs each
+                            solution introduces.</strong></p>
+                </div>
+
+                <!-- Introduction -->
+
+
+                <!-- Phase 1: 100 Users -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟢 Phase 1: ~100
+                        Users (Very Small Scale)</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Just make it work correctly. No
+                            need to overthink.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Almost none</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">🤔 <strong>Why?</strong> Traffic is
+                            too low to expose real bottlenecks</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Basic client-server architecture</li>
+                            <li>Simple database (SQL or NoSQL)</li>
+                            <li>Monolithic backend (Single server)</li>
+                            <li>Basic REST APIs</li>
+                        </ul>
+                    </div>
+
+                    <!-- HLD Phase 1 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Client → Single Server → Database
+                        </p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img1.png" alt="Phase 1: 100 Users Architecture"
+                            style="max-width: 30%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Client → Single Server → Database</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ What you use:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>One backend server (Node.js [Express] / Spring Boot)</li>
+                            <li>One DB (MySQL / PostgreSQL)</li>
+                            <li>No caching, no load balancer</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Avoid:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Load balancer ❌</li>
+                            <li>Rate limiting ❌</li>
+                            <li>Microservices ❌</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ Hidden Risk:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Bad schema design now = big pain
+                            later</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Interview Insight:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">At this scale, simplicity >
+                            scalability.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At <strong>100 users</strong> scale, I would keep the system <strong>simple</strong>. <br> I'll use a <strong>monolithic backend</strong> deployed on a <strong>single server</strong> with a <strong>single database</strong>. <br> This is sufficient because <strong>concurrency is low</strong> and avoids unnecessary complexity. <br> I'll include <strong>basic authentication</strong>, <strong>logging</strong>, and <strong>error handling</strong> to ensure reliability. <br> I would avoid <strong>distributed systems</strong>, <strong>load balancers</strong>, or <strong>caching</strong> since they are not needed at this scale.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 2: 1,000 Users -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟡 Phase 2:
+                        ~1,000 Users (Small Scale)</h3>
+                    <h4> At 1,000 users, I would still keep the architecture simple but optimize performance.</h4>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Handle moderate traffic, avoid single
+                            point bottlenecks.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>DB Connection Limits</strong> — The number of connections a database can
+                                accommodate depends on the DB engine</li>
+                            <li><strong>Slow queries</strong> under concurrent requests</li>
+                            <li><strong>CPU spikes</strong> — temporary increases in processor usage</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">🤔
+                            <strong>Why?</strong>
+                            <br>Each request opens a DB connection. <br> DB has limited connections (~100 in PostgreSQL)
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Vertical scaling</strong> — increase server power such as CPU, RAM</li>
+                            <li><strong>Basic indexing in DB</strong> — A data structure that improves query speed</li>
+                            <li><strong>Query Optimization</strong> — Avoid SELECT *, Use proper joins, Limit results
+                            </li>
+                            <li><strong>Connection pooling</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🔌 What is Connection Pooling?</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Reusing DB connections instead of creating new ones per request</li>
+                            <li>Keeping an active connection and running the query in a loop</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">✅ <strong>Why
+                                critical?</strong><br> DB connection creation is expensive so use connection pooling</p>
+                    </div>
+
+                    <!-- HLD Phase 2 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Client → Single Server (Vertically Scaled) → Single Database (Optimized)
+                        </p>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img2.png" alt="Phase 2: 1,000 Users Architecture"
+                            style="max-width: 30%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Client → Single Server (Vertically Scaled) → Single Database (Optimized)</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Still avoid:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Load balancer (not needed yet)</li>
+                            <li>Distributed systems</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ New Problems Introduced:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Connection pool
+                            mismanagement:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Connection Timeouts</li>
+                            <li>Connection Leaks</li>
+                            <li>Deadlocks</li>
+                            <li>Pool Sizing</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Interview Insight:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Optimize before you distribute.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At around <strong>1,000 users</strong>, I would still keep the architecture <strong>simple</strong> and focus on <strong>optimizing a single server setup</strong>. <br> I would use <strong>vertical scaling</strong> to increase server capacity and optimize the database using <strong>indexing</strong>, <strong>query tuning</strong>, and <strong>connection pooling</strong>. <br> This helps handle <strong>moderate concurrency efficiently</strong>. <br> However, I would monitor <strong>system metrics</strong>, and if I observe bottlenecks like <strong>CPU saturation</strong> or increased latency, I would then introduce <strong>horizontal scaling</strong> using a <strong>load balancer</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 3: 10,000 Users -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟠 Phase 3:
+                        ~10,000 Users (Growing System)</h3>
+                    <h4> At this point, the system starts facing concurrency and latency issues.</h4>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Handle concurrent users and reduce
+                            latency.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>High response time</li>
+                            <li>Repeated DB hits (Same data fetched again and again)</li>
+                            <li>Server overload — Single server cannot handle traffic</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">🤔
+                            <strong>Why?</strong>
+                            <br>Same data fetched again and again. <br> DB becomes bottleneck
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Horizontal scaling begins</strong> — Adding multiple servers instead of
+                                upgrading one</li>
+                            <li><strong>Caching Layer</strong> (like Redis) — In-memory data store used to cache
+                                frequently accessed data</li>
+                            <li><strong>Basic load balancing</strong> — Distributes incoming traffic across multiple
+                                servers</li>
+                            <li><strong>Stateless servers</strong> — not store client session data on the server. Every
+                                request is independent and the server does not remember anything about previous
+                                requests. Which is good for scale in future</li>
+                        </ul>
+                    </div>
+
+                    <!-- HLD Phase 3 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Client → LB → [Server 1, Server 2, Server 3] → Cache → DB
+                        </p>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img3.png" alt="Phase 3: 10,000 Users Architecture"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Client → LB → [Server 1, Server 2, Server 3] → Cache → DB</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ New Problems:</h4>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;"><strong>Cache
+                                invalidation</strong> — Users update profile → stale data everywhere</p>
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">✅ <strong>Fix:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Caching Strategies</strong> — Cache-aside pattern</li>
+                            <li><strong>Cache Eviction Policies</strong> — TTL (time-to-live) — Data expires after
+                                certain
+                                time</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At around <strong>10,000 users</strong>, the system starts facing <strong>concurrency</strong> and <strong>latency issues</strong>. <br> A <strong>single server</strong> becomes insufficient, so I would introduce <strong>horizontal scaling</strong> with multiple <strong>stateless servers</strong> behind a <strong>load balancer</strong>. <br> To reduce <strong>database load</strong> and improve <strong>response time</strong>, I would add a <strong>caching layer</strong> like <strong>Redis</strong> using a <strong>cache-aside strategy</strong>. <br> This setup ensures <strong>scalability</strong> while keeping the system manageable.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 4: 100,000 Users -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔵 Phase 4:
+                        ~100,000 Users (1 Lakh)</h3>
+                    <h4>At this scale, the database becomes the main bottleneck.</h4>
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Scale reads & writes efficiently.
+                            <br> Split reads (replicas) + split writes (Primary Database).
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Write contention</strong> — Too many writes hitting single DB</li>
+                            <li><strong>Latency Increases</strong> — Global users, large data</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">🤔
+                            <strong>Why?</strong>
+                            <br>Too many writes hitting single DB.<br> Data size grows → slower queries
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Read Replicas</strong> — Copies of database used for read queries which separate
+                                reads/writes</li>
+                            <li><strong>CDN</strong> — Content Delivery Network stores static content closer to users
+                            </li>
+                            <li><strong>Rate limiting</strong> — Limit number of requests per user/IP</li>
+                            <li><strong>Async writes</strong> — Move heavy operations to background which use: Queues
+                                (Kafka / RabbitMQ)</li>
+                        </ul>
+                    </div>
+
+                    <!-- HLD Phase 4 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Clients → CDN → Load Balancer → Multiple App Servers → Cache → Queue → DB Layer (Primary +
+                            Read Replicas)
+                        </p>
+                    </div>
+
+                    <!-- Image 4 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img4.png" alt="Phase 4: 100,000 Users Architecture"
+                            style="max-width: 30%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Clients → CDN → Load Balancer → Multiple App Servers → Cache → Queue → DB Layer (Primary
+                            + Read Replicas)</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ New Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Eventual consistency</strong> — Data may not be instantly consistent across
+                                systems. ✔ Happens due to replicas + async</li>
+                            <li><strong>Replication lag</strong> — delay between a data update on a primary node and the
+                                time it takes for that update to be reflected on replica nodes</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Interview Insight:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Database becomes the bottleneck
+                            here.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At around <strong>100,000 users</strong>, the <strong>database</strong> becomes the <strong>primary bottleneck</strong>, especially for <strong>write operations</strong>. <br> To handle this, I would introduce <strong>database scaling strategies</strong> such as <strong>read replicas</strong> for read traffic. <br> I would also use a <strong>CDN</strong> to serve <strong>static content</strong> and reduce latency for <strong>global users</strong>. <br> Additionally, I would use a <strong>distributed caching layer</strong> like <strong>Redis</strong> and introduce <strong>asynchronous processing</strong> using <strong>queues</strong> to offload heavy tasks. <br> <strong>Rate limiting</strong> would also be important to protect the system. <br> This design ensures <strong>scalability</strong>, <strong>performance</strong>, and <strong>fault tolerance</strong> at higher scale.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 5: 1 Million Users -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔴 Phase 5:
+                        ~1 Million Users = 10 Lakh users (Large Scale)</h3>
+                    <h4>Break the system into independent services to scale and deploy them separately.
+                    </h4>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Highly scalable & fault-tolerant
+                            system</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Single DB still bottleneck</li>
+                            <li>Large tables (slow queries)</li>
+                            <li>Tight coupling in monolith</li>
+                            <li>Deployment slow & risky</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">🤔
+                            <strong>Why?</strong><br>
+                            System not designed for independent scaling
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Microservices architecture</strong> — Break system into smaller independent
+                                services and does Independent scaling</li>
+                            <li><strong>Database Scaling — Sharding</strong> — Splitting database into multiple smaller
+                                databases</li>
+                            <li><strong>Distributed systems</strong></li>
+                            <li><strong>Async processing</strong></li>
+                            <li><strong>Load balancers</strong></li>
+                            <li><strong>CDN</strong></li>
+                            <li><strong>Rate Limiting</strong></li>
+
+                            <li><strong>Saga pattern</strong> — If something fails → compensating actions (rollback
+                                steps)
+                                are triggered</li>
+                            <li><strong>Idempotency</strong> — Performing it multiple times produces the same result as
+                                performing it once</li>
+                            <li><strong>Circuit breaker</strong> — Stops calling a failing service temporarily to
+                                prevent
+                                system overload</li>
+                            <li><strong>Message queues</strong> — It enables asynchronous communication between
+                                services, improving scalability</li>
+                        </ul>
+                    </div>
+
+                    <!-- HLD Phase 5 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Microservices with Sharding, Message Queues, and Circuit Breakers
+                        </p>
+                    </div>
+
+                    <!-- Image 5 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img5.png" alt="Phase 5: 1 Million Users Architecture"
+                            style="max-width: 40%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Microservices with Sharding, Message Queues, and Circuit Breakers</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Add:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Microservices</li>
+                            <li>DB sharding</li>
+                            <li>Message queues (like Apache Kafka)</li>
+                            <li>Saga pattern + idempotency</li>
+                            <li>Circuit breaker</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ Now you must handle:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Failures</li>
+                            <li>Data consistency</li>
+                            <li>Monitoring</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Interview Insight:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">System design becomes distributed
+                            systems.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At around <strong>1 million users</strong>, the system transitions into a <strong>distributed architecture</strong> where a <strong>monolith</strong> is no longer sufficient, and services need to be broken into <strong>independent microservices</strong> for better <strong>scalability</strong> and <strong>fault isolation</strong>. <br> To handle massive <strong>read</strong> and <strong>write loads</strong>, I would introduce <strong>database sharding</strong> along with <strong>replication</strong>. <br> I would also use a <strong>CDN</strong> to reduce latency for <strong>global users</strong> and a <strong>distributed caching layer</strong> like <strong>Redis</strong> to minimize <strong>database load</strong>. <br> Additionally, I would implement <strong>asynchronous processing</strong> using <strong>message queues</strong> like <strong>Apache Kafka</strong> to <strong>decouple services</strong> and handle spikes efficiently. <br> To ensure reliability, I would incorporate patterns like <strong>saga</strong> for <strong>distributed transactions</strong>, <strong>idempotency</strong> to avoid <strong>duplicate operations</strong>, and <strong>circuit breakers</strong> to prevent <strong>cascading failures</strong>, along with <strong>rate limiting</strong> to protect the system. <br> This design ensures <strong>high scalability</strong>, <strong>resilience</strong>, and <strong>availability</strong> at large scale.</p>
+                    </div>
+                </div>
+
+                <!-- Phase 6: 10 Million+ Users -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🟣 Phase 6: 10
+                        Million+ Users (1 crore) to 1000 Million Users (100 crore) - (Internet Scale)</h3>
+                    <h4>At this level, the system needs to be globally distributed and fault tolerant.
+
+                        <br> Now you’re running an internet-scale system
+                    </h4>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🎯 Goal:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Extreme scalability + high
+                            availability.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Hotspots</strong> — Some data gets extreme traffic (e.g., trending video,
+                                celebrity profile)</li>
+                            <li><strong>Regional outages</strong> — entire data center down</li>
+                            <li><strong>Hot keys</strong> — same data requested heavily</li>
+                            <li><strong>Traffic spikes</strong> — flash sales, bookings</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin: 0;">🤔
+                            <strong>Why?</strong>
+                            <br> Uneven traffic distribution. <br>System is globally distributed. <br>Shared
+                            dependencies
+                            failing
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Concepts Needed:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>CDN</strong></li>
+                            <li><strong>Rate Limiting</strong></li>
+                            <li><strong>Load Balancers</strong></li>
+                            <li><strong>Replication + Redundancy</strong> — For disaster recovery</li>
+                            <li><strong>Data partitioning + Data Sharding</strong></li>
+                            <li><strong>Advanced Caching</strong> — CDN cache, Service-level cache, Regional cache</li>
+                            <li><strong>Multi-region deployment</strong> — Deploying your system in multiple geographic
+                                regions (different data centers across the world)</li>
+                            <li><strong>Geo-based routing</strong> — Routing user requests to the closest or
+                                best-performing region</li>
+                            <li><strong>Event-driven architecture</strong> — All services communicate via events</li>
+                            <li><strong>Advanced observability</strong> — monitoring, logging, tracing</li>
+                            <li><strong>Container orchestration</strong> (like Kubernetes)</li>
+                        </ul>
+                    </div>
+
+                    <!-- HLD Phase 6 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🏗️ High-Level Design:</h4>
+                        <p
+                            style="color: var(--color-text-secondary); margin: 0; font-family: monospace; font-size: 1.1rem;">
+                            Global Multi-Region Architecture with Kubernetes
+                        </p>
+                    </div>
+
+                    <!-- Image 6 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Problem2_Img6.png" alt="Phase 6: 10M+ Users Architecture"
+                            style="max-width: 40%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Global Multi-Region Architecture with Kubernetes</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Add:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Multi-region deployment</li>
+                            <li>Geo-based routing</li>
+                            <li>Event-driven architecture</li>
+                            <li>Circuit breakers</li>
+                            <li>Auto-scaling</li>
+                            <li>Observability</li>
+                            <li>Container orchestration (like Kubernetes)</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Example tools:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Amazon Web Services</li>
+                            <li>Kubernetes</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">⚠️ New Problems:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Debugging becomes extremely hard</li>
+                            <li>Data consistency vs availability trade-offs</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">👉 Interview Insight:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Now you're designing like Google /
+                            Netflix.</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💬 One Line:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">At <strong>10 million to billion users</strong>, the system evolves into a <strong>globally distributed</strong>, <strong>internet-scale architecture</strong> where applications are deployed across <strong>multiple regions</strong> to ensure <strong>high availability</strong> and <strong>fault tolerance</strong>. <br> To handle <strong>massive</strong> and <strong>uneven traffic</strong>, I would use <strong>geo-based routing</strong> to direct users to the <strong>nearest</strong> or <strong>healthiest region</strong>, along with <strong>global load balancing</strong>. <br> I would leverage <strong>CDNs</strong> and <strong>multi-level caching</strong> (<strong>CDN</strong>, <strong>regional</strong>, and <strong>service-level</strong>) to reduce <strong>latency</strong> and minimize <strong>backend load</strong>. <br> Additionally, I would use <strong>data partitioning</strong> and <strong>sharding</strong> with <strong>replication</strong> to handle <strong>large-scale data</strong> efficiently and ensure <strong>disaster recovery</strong>. <br> <strong>Event-driven architecture</strong> would be used for <strong>asynchronous communication</strong> between services to handle <strong>spikes</strong> and improve <strong>scalability</strong>. <br> To maintain <strong>reliability</strong>, I would implement <strong>rate limiting</strong>, <strong>circuit breakers</strong>, and <strong>auto-scaling</strong> mechanisms. <br> Finally, strong <strong>observability</strong> with <strong>monitoring</strong>, <strong>logging</strong>, and <strong>tracing</strong>, along with <strong>container orchestration</strong> tools like <strong>Kubernetes</strong> on platforms like <strong>Amazon Web Services</strong>, ensures <strong>system stability</strong> and <strong>efficient operations</strong> at global scale. <br> This design enables <strong>extreme scalability</strong>, <strong>resilience</strong>, and <strong>high availability</strong> across regions.</p>
+                    </div>
+                </div>
+
+                <!-- Summary Table -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Scalability
+                        Evolution Summary</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Phase</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Users</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Key Addition</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🟢 1</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        100</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Simple database + Monolithic backend + Simple Client Server Architecture
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🟡 2</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        1K</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Vertical Scaling + Connection Pooling + Basic Indexing </strong>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🟠 3</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        10K</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Horizontal scaling + Load Balancer + Caching + Stateless
+                                            servers</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🔵 4</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        100K</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Read Replicas + CDN + Async + Rate limiting</strong>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🔴 5</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        1M</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Microservices + Sharding + Saga pattern + idempotency + Circuit breaker
+                                            + Message queues
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        🟣 6</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        10M+</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Multi-Region deployment + Kubernetes
+                                            + Advanced Caching + Geo-based routing <br> + Event-driven architecture
+                                            + Data partitioning + Data Sharding + Replication + Redundancy
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Golden Rule -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.3);">
+                    <h3 style="color: #A855F7; font-size: 1.4rem; margin-bottom: 1rem; text-align: left;">🏆 Golden
+                        Rule</h3>
+                    <p
+                        style="color: var(--color-text-secondary); font-size: 1.1rem; text-align: center; margin: 0; font-style: italic;">
+                        "Good system design is not about adding everything — it's about adding the right things at the
+                        right scale."</p>
+                    <p
+                        style="color: var(--color-text-secondary); font-size: 1rem; text-align: center; margin-top: 1rem; margin-bottom: 0;">
+                        Scale is not about handling more users. It's about handling new kinds of failures.</p>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview
+                        Tips</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Start simple</strong> — Don't over-engineer early phases</li>
+                        <li><strong>Show progression</strong> — Clear evolution at each scale</li>
+                        <li><strong>Discuss bottlenecks</strong> — What breaks at each phase?</li>
+                        <li><strong>Quantify decisions</strong> — Why 4 servers vs 10?</li>
+                        <li><strong>Consider costs</strong> — Not just technical feasibility</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem1.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem3.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problem →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 2 - Scale to 10M+ Users 📈', 'success');
+        });
+    </script>
+</body>
+
+</html>
