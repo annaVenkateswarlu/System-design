@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Security</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">🔐 Security</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Security</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real-world
+                                        Analogy</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Authentication</a>
+                                </li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Authorization</a>
+                                </li>
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Encryption</a>
+                                </li>
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Network
+                                        Security</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="7"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">API
+                                        Security</a></li>
+                                <li><a href="#topic-8"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Security
+                                        Layers</a></li>
+                                <li><a href="#topic-9"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Common
+                                        Threats</a></li>
+                                <li><a href="#topic-10"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Input
+                                        Validation</a></li>
+                                <li><a href="#topic-11"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">XSS</a>
+                                </li>
+                                <li><a href="#topic-12"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Best
+                                        Practices</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. What is Security -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ What is it?
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">
+                            <strong>Security</strong> in system design is about <strong>protecting data</strong>,
+                            <strong>services</strong>, and <strong>users</strong> from <strong>unauthorized
+                                access</strong>, <strong>attacks</strong>, and <strong>misuse</strong>.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🎯 Goal: CIA Triad</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">
+                            <strong>Confidentiality</strong> + <strong>Integrity</strong> +
+                            <strong>Availability</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">✅ Security
+                            ensures:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Only <strong>authorized users</strong> access data</li>
+                            <li>Data is <strong>not altered</strong></li>
+                            <li>Systems stay <strong>available</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Real-world Analogy -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ Real-world
+                        Analogy</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🏦 Bank Security</h4>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>ID check</strong> → <strong>Authentication</strong></li>
+                            <li><strong>Access level</strong> → <strong>Authorization</strong></li>
+                            <li><strong>CCTV</strong> → <strong>Monitoring</strong></li>
+                            <li><strong>Vault lock</strong> → <strong>Encryption</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Core Security Concepts -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ Core Security
+                        Concepts</h3>
+
+                    <!-- Authentication -->
+                    <div id="topic-3" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 1.
+                            Authentication (Who are you?)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Verify user
+                                    identity.</strong></p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📝
+                                Examples:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Username</strong> + <strong>password</strong></li>
+                                <li><strong>OTP</strong></li>
+                                <li><strong>Biometrics</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔧 Common
+                                methods:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>OAuth 2.0</strong></li>
+                                <li><strong>JWT</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 "Is this user
+                                    real?"</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Authorization -->
+                    <div id="topic-4" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 2.
+                            Authorization (What can you do?)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>After login,
+                                    decide permissions.</strong></p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">
+                                <strong>Authorization</strong> determines what actions an <strong>authenticated
+                                    user</strong> can perform
+                            </p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📝
+                                Examples:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Admin</strong> vs <strong>user</strong></li>
+                                <li><strong>Read</strong> vs <strong>write</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔧
+                                Models:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>RBAC</strong> (Role-based access)</li>
+                                <li><strong>ABAC</strong> (Attribute-based access)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Encryption -->
+                    <div id="topic-5" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 3.
+                            Encryption (Protect data)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">📦 What is
+                                Data In Transit?</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Data is
+                                <strong>moving</strong> from one place to another
+                            </p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📦 What
+                                is Data At Rest?</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Data is
+                                <strong>stored</strong> somewhere
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Ex:</strong> Data in
+                                database, Files on disk</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                            <h4 style="color: #3B82F6; margin-bottom: 1rem;">🔐 In transit (Network)</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>We protect data
+                                    in transit using:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>HTTPS</strong> / <strong>TLS</strong></li>
+                                <li><strong>Prevents interception</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔐 At rest (Database)</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>We protect data
+                                    in rest using:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Database encryption</strong></li>
+                                <li><strong>Disk encryption</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Network Security -->
+                    <div id="topic-6" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 4. Network
+                            Security</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Firewalls</strong></li>
+                                <li><strong>VPC</strong> (Virtual Private Cloud)</li>
+                                <li><strong>Private subnets</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0;"><strong>Protects
+                                    internal services from exposure.</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- API Security -->
+                    <div id="topic-7" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 5. API
+                            Security</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>API keys</strong></li>
+                                <li><strong>Rate limiting</strong></li>
+                                <li><strong>Input validation</strong></li>
+                                <li><strong>Authentication tokens</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Data Integrity -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 6. Data
+                            Integrity</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Ensure data is
+                                    not modified illegally.</strong></p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📝
+                                Example:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Hashing</strong> (SHA-256)</li>
+                                <li><strong>Checksums</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Data Protection -->
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">🔹 7. Data
+                            Protection</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Mask</strong> sensitive data</li>
+                                <li><strong>Tokenization</strong></li>
+                                <li><strong>Backup</strong> and <strong>recovery</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Security Layers -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Security
+                        Layers in System Design</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🔹 1) Client Layer</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Input validation</strong></li>
+                            <li><strong>Secure cookies</strong></li>
+                            <li><strong>Prevent XSS</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem;">🔹 2) Network Layer</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>HTTPS</strong></li>
+                            <li><strong>Firewalls</strong></li>
+                            <li><strong>Rate limiting</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(20, 184, 166, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #14B8A6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #14B8A6; margin-bottom: 1rem;">🔹 3) Application Layer</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Authentication</strong> & <strong>Authorization</strong></li>
+                            <li><strong>Input validation</strong></li>
+                            <li><strong>Secure APIs</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔹 4) Database Layer</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Encryption</strong></li>
+                            <li><strong>Access control</strong></li>
+                            <li><strong>Backup</strong> & <strong>recovery</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 5. Common Security Threats -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Common
+                        Security Threats</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(239, 68, 68, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: #dc2626; font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Threat</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-text-secondary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>SQL Injection</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Malicious DB queries</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>XSS</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Script injection</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>DDoS</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Overloading system</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Man-in-the-middle</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Data interception</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 6. Input Validation -->
+                <div id="topic-10" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Input
+                        Validation</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>Input
+                                validation</strong> = <strong>checking user input</strong> before using it</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🧩 Types of Input Validation</h4>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">🔹 1. Format
+                            Validation</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Check
+                                structure</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Email</strong> → abc@gmail.com</li>
+                            <li><strong>Phone</strong> → 10 digits</li>
+                        </ul>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔹 2. Range
+                            Validation</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Check
+                                limits</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Age</strong> → 0 to 120</li>
+                            <li><strong>Price</strong> → > 0</li>
+                        </ul>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔹 3.
+                            Required Fields</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Ensure mandatory
+                                fields exist</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Username</strong> cannot be
+                            empty</p>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔹 4. Type
+                            Validation</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Check data
+                                type</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Age</strong> must be number</li>
+                            <li><strong>Name</strong> must be string</li>
+                        </ul>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔹 5. Length
+                            Validation</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Limit
+                                size</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Password</strong> → min 8 chars</li>
+                            <li><strong>Comment</strong> → max 500 chars</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 7. XSS -->
+                <div id="topic-11" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ What is XSS?
+                    </h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">⚠️ XSS = Cross-Site Scripting</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 It is an attack
+                                where:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Attacker</strong> injects <strong>malicious JavaScript</strong> into your
+                                website</li>
+                            <li>That <strong>script runs</strong> in other users' browsers</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ How to Prevent XSS</h4>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔹 1. Escape
+                            Output (Most Important)</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Convert special
+                                characters:</strong></p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;"><&amp;script&amp;><br>👉 to :<br>&amp;lt;script&amp;gt;</code>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Now browser shows it as
+                                text, not code</strong></p>
+                    </div>
+                </div>
+
+                <!-- 8. Best Practices -->
+                <div id="topic-12" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Best
+                        Practices</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Use <strong>HTTPS</strong> everywhere</li>
+                            <li>Implement <strong>authentication</strong> + <strong>authorization</strong></li>
+                            <li><strong>Encrypt</strong> sensitive data</li>
+                            <li>Use <strong>rate limiting</strong></li>
+                            <li>Regular <strong>security audits</strong></li>
+                            <li>Follow <strong>least privilege</strong> principle</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 Summary</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">
+                            <strong>Security</strong> in system design involves protecting systems through
+                            <strong>authentication</strong>, <strong>authorization</strong>,
+                            <strong>encryption</strong>, and <strong>layered defenses</strong> to ensure data
+                            <strong>confidentiality</strong>, <strong>integrity</strong>, and
+                            <strong>availability</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interview Tip -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔥 Pro tip
+                        (Interview)</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">If asked:
+                            <br>👉 "How do you secure a system?"
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Say:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">Apply <strong>layered
+                                security</strong>: <strong>HTTPS</strong> for transport, <strong>authentication</strong>
+                            at entry, <strong>authorization</strong> in services, <strong>encryption</strong> at rest,
+                            and <strong>monitoring</strong> for threats.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="index.html" class="next-topic-link">
+                    <span class="next-topic-text">Back to Home</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">🏠 Home</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Security 🔐', 'success');
+        });
+    </script>
+</body>
+
+</html>

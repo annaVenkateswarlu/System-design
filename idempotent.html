@@ -229,7 +229,7 @@
                     <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without idempotency:</p>
 
                     <ul
-                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left:0; margin-bottom: 2rem;">
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; padding-left:2.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left:0; margin-bottom: 2rem;">
                         <li>💳 Double payments</li>
                         <li>📦 Duplicate orders</li>
                         <li>🗄️ Duplicate database entries</li>
@@ -290,12 +290,14 @@
                             safe.</p>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
                             <div>
-                                <p style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem;">
+                                <p
+                                    style="color: var(--color-primary); font-weight: 600; margin-bottom: 0.5rem; border: 2px solid #10b981; padding-left: 1rem;">
                                     Safe → No state change (GET)
                                 </p>
                             </div>
                             <div>
-                                <p style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem;">
+                                <p
+                                    style="color: #dc2626; font-weight: 600; margin-bottom: 0.5rem; border: 2px solid #ef4444; padding-left: 1rem;">
                                     Idempotent → May change state, but repeating doesn't change result further
                                 </p>
                             </div>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaking in HLD Interviews - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Speaking in HLD Interviews</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">🧠 How to Talk in HLD (High-Level Design)
+                    Interviews</h2>
+
+                <!-- 1. Requirement Clarification -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 1. Requirement
+                        Clarification</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q1. Who is the
+                                customer and
+                                for whom are we designing this system?</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Identify target users (end users, businesses, internal systems)</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 2. Scale & Estimation -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📈 2. Scale &
+                        Estimation</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q3. How many users
+                                will use
+                                the system (current + future)?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Example: Design for 1M → scale to 10M
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q4. What is the
+                                expected
+                                traffic (RPS, read/write ratio)?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Helps decide architecture</p>
+                    </div>
+                </div>
+
+                <!-- 3. Scope Definition -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌍 3. Scope
+                        Definition</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q5. Is the system
+                                regional
+                                (India) or global?</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Global → CDN, multi-region</li>
+                            <li>Regional → simpler setup</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 4. CAP Theorem -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚖️ 4. CAP Theorem
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q6. What does the
+                                system
+                                prioritize: Consistency or Availability? Why?</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Payments → Consistency</li>
+                            <li>Feed systems → Availability</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">If you choose
+                            Consistency then follow ACID principles.<br>
+                            If availability is more important, I would design using BASE and eventual consistency.</p>
+                    </div>
+                </div>
+
+
+                <!-- 5. Database Design -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🗄️ 5. Database
+                        Design</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q7. Which database
+                                should
+                                we choose and why?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">SQL vs NoSQL</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q8. How does the
+                                database
+                                work internally?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Indexing, partitioning, replication
+                        </p>
+                    </div>
+                </div>
+
+
+
+                <!-- 6. System Workflow -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔄 6. System
+                        Workflow</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q9. What is the
+                                end-to-end
+                                flow of the system?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Step-by-step sequence
+                            of
+                            events</p>
+
+                        <p style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-weight: 600;">Example:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>User sends request</li>
+                            <li>API Gateway receives</li>
+                            <li>Service processes</li>
+                            <li>DB read/write</li>
+                            <li>Response sent</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <p style="color: var(--color-text-secondary); margin: 0;">👉 This is the backbone of
+                            your
+                            design.</p>
+                    </div>
+                </div>
+
+
+                <!-- 7. API Design -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔌 7. API Design
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q10. What APIs are
+                                we
+                                designing?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Define endpoints
+                            clearly</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q11. What is the
+                                exact
+                                request and response format?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Show JSON
+                            structure</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q12. Who sends the
+                                request
+                                and who receives the response?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Client → Backend →
+                            Service
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q13. How do we
+                                handle
+                                pagination and filtering in GET APIs?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Example:
+                            ?page=1&limit=10</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">Be specific:</h4>
+
+                        <p style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-weight: 600;">Request</p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">POST /order<br>{<br>  "user_id": "123",<br>  "items": ["pizza"]<br>}</code>
+                        </div>
+
+                        <p style="color: var(--color-primary); margin: 1rem 0 0.5rem 0; font-weight: 600;">Response</p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">{<br>  "order_id": "789",<br>  "status": "confirmed"<br>}</code>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Also explain:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Who sends request?</li>
+                            <li>Who processes it?</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- 8. Microservices Design -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧩 8.
+                        Microservices Design</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q14. What
+                                microservices are
+                                required?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">User, Order, Payment,
+                            etc.
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q15. What is the
+                                responsibility of each microservice?</strong></p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q16. Can you explain the
+                                high-level
+                                architecture (HLD diagram verbally)?</strong></p>
+                    </div>
+                </div>
+
+
+                <!-- 9. Communication Design -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌐 9.
+                        Communication Design</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q17. How does
+                                client
+                                communicate with server?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">HTTP/HTTPS
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q18. How does
+                                server
+                                communicate back (real-time)?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">WebSockets
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q19. How do microservices
+                                communicate
+                                with each other?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">REST / gRPC / Message
+                            Queue</p>
+                    </div>
+                </div>
+
+                <!-- 10. Data Flow & Ownership -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔁 10. Data Flow
+                        & Ownership</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q20. What data is
+                                required
+                                in the system?</strong></p>
+
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0.5rem 0;"><strong>Q21. Which
+                                Microservices owns which data?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Each service owns its
+                            DB</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q22. How does data flow
+                                between
+                                services?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Event-driven / APIs
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 11. Design Patterns -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 11. Design
+                        Patterns</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q23. Which design
+                                patterns
+                                are used and why?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Singleton, Factory, Observer,
+                            Circuit
+                            Breaker</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); margin: 0;">👉 Choosing correct DP =
+                            strong
+                            signal.</p>
+                    </div>
+                </div>
+
+                <!-- 12. Scalability -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🚀 12.
+                        Scalability</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q24. How will the
+                                system
+                                scale with increasing users?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Horizontal
+                            scaling</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q25. How do we distribute
+                                traffic?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Load balancers</p>
+                    </div>
+                </div>
+
+                <!-- 13. Caching -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚡ 13. Caching
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q26. Where will
+                                caching be
+                                used?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Redis, CDN
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q27. What caching strategies
+                                will be
+                                used?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Geo-based caching, eviction
+                            policies
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 14. Failures, Fault Tolerance -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🛡️ 14. Failures,
+                        Fault Tolerance</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q28. What happens
+                                when a
+                                service fails?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Retry,
+                            fallback</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q29. How is data
+                                protected?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Replication, backups
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 15. Health Checks -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">❤️ 15. Health
+                        Checks</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q30. How do we monitor service
+                                health?
+                            </strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Heartbeats, health
+                            APIs</p>
+                    </div>
+                </div>
+
+                <!-- 16. Logging & Monitoring -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📊 16. Logging &
+                        Monitoring</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q31. How do we log
+                                system
+                                activity?</strong></p>
+
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0.5rem 0;"><strong>Q32. How do we
+                                monitor
+                                performance?</strong></p>
+
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0;"><strong>Q33. How do we
+                                analyze logs
+                                and metrics?</strong></p>
+                    </div>
+                </div>
+
+                <!-- 17. Security -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔐 17. Security
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q34. How is the
+                                system
+                                secured?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Authentication,
+                            authorization
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q35. How is data
+                                protected?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Encryption, HTTPS</p>
+                    </div>
+                </div>
+
+                <!-- 18. Algorithms & Data Structures -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧮 18. Algorithms
+                        & Data Structures</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q36. Are any
+                                algorithms
+                                used in this system?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Like in Google Maps
+                            use
+                            Dijkstra</p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q37. What data structures are
+                                required?</strong></p>
+                    </div>
+                </div>
+
+                <!-- Food Delivery Example Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🍔 Real-World
+                        Thinking (Food Delivery Example)</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔍 1. Understanding Existing Systems</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q38. How does a food
+                                delivery app work
+                                end-to-end?</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">⚖️ 2. Comparison Thinking</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q39. What is the
+                                difference
+                                between different food delivery apps like Swiggy vs Zomato?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Why is architecture
+                            designed that way?</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Why not a different
+                            approach?
+                        </p>
+
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q40. Why build a
+                                new app if
+                                one already exists? What's unique?</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Faster delivery?</li>
+                            <li>Better pricing?</li>
+                            <li>Better UX?</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem;">🧱 3. Components</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q41. What are the
+                                main
+                                components of the system?</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Mobile App</li>
+                            <li>Backend</li>
+                            <li>Database</li>
+                            <li>Payment Gateway</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(20, 184, 166, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #14B8A6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #14B8A6; margin-bottom: 1rem;">🌐 4. Networking & Communication</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q42. How do components
+                                communicate
+                                internally and how they are performing in outside world?</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🗃️ 5. Data Storage</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q43. What are the datastore
+                                options
+                                and why choose one?</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">SQL vs NoSQL ..</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(139, 92, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8B5CF6;">
+                        <h4 style="color: #8B5CF6; margin-bottom: 1rem;">🔬 6. Deep Understanding</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q44. How does the database
+                                work
+                                internally?</strong></p>
+                    </div>
+                </div>
+
+                <!-- Trade-offs Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚖️ Trade-offs
+                        (Very Important)</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q46. Why did you
+                                choose
+                                this design over other approaches?</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>👉 Key
+                                rule:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>There is NO
+                                single
+                                correct answer.</strong><br>
+                            <strong>What matters is explaining WHY you chose something and WHY not others.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- HLD vs LLD Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🆚 HLD vs LLD
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">🏗️ HLD</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q47. What is
+                                    covered in
+                                    High-Level Design?</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>System components</li>
+                                <li>Networking</li>
+                                <li>Databases</li>
+                                <li>Scalability</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                            <h4 style="color: #3B82F6; margin-bottom: 1rem;">🧱 LLD</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;"><strong>Q48. What is
+                                    covered in
+                                    Low-Level Design?</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Code structure</li>
+                                <li>Classes</li>
+                                <li>Functions</li>
+                                <li>Design patterns in code</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Flow Section -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">✅ Final Flow to
+                        Speak in Interview</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎤 Final Meta Question</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Q49. How should I approach
+                                answering
+                                an HLD interview question step by step?</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>👉 Answer like
+                                this:</strong></p>
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li>Clarify requirements</li>
+                            <li>Define scale</li>
+                            <li>Identify components</li>
+                            <li>Explain data flow</li>
+                            <li>Design APIs</li>
+                            <li>Add scalability</li>
+                            <li>Add caching</li>
+                            <li>Handle failures</li>
+                            <li>Add security</li>
+                            <li>Explain trade-offs</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Golden Line Section -->
+                <div style="margin-top: 3rem; margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💡 Golden Line
+                    </h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(245, 158, 11, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; line-height: 2;"><strong>👉 In
+                                HLD
+                                interviews, they are NOT checking if you know the "right answer"</strong></p>
+                        <p style="color: var(--color-primary); margin: 0 0 0.5rem 0; font-weight: 600;">They are
+                            checking:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>How you think</li>
+                            <li>How you justify decisions</li>
+                            <li>How you handle trade-offs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📝 Interview
+                        Approach
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img1.png" alt="Interview Tips 1"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img2.png" alt="Interview Tips 2"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img3.png" alt="Interview Tips 3"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img4.png" alt="Interview Tips 4"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img5.png" alt="Interview Tips 5"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img6.png" alt="Interview Tips 6"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img7.png" alt="Interview Tips 7"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img8.png" alt="Interview Tips 8"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Tips_Img9.png" alt="Interview Tips 9"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interview Tips Images -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📝 Interview Tips
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div style="text-align: center;">
+                            <img src="images/Interview_Tips_Img1.png" alt="Interview Tips 1"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Interview_Tips_Img2.png" alt="Interview Tips 2"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Interview_Tips_Img3.png" alt="Interview Tips 3"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/Interview_Tips_Img4.png" alt="Interview Tips 4"
+                                style="max-width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="real-world-scenarios.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🎯 Real World Scenarios</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Speaking in HLD Interviews 🎤', 'success');
+        });
+    </script>
+</body>
+
+</html>

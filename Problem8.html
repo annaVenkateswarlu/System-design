@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 8: Reducing Latency in Distributed Systems - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 8</span>
+                </nav>
+
+                <div
+                    style="background: rgba(139, 92, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #8B5CF6; margin-bottom: 2rem;">
+                    <span
+                        style="background: #8B5CF6; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        8</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">⚡ Reducing
+                        Latency in Distributed Systems</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(139, 92, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8B5CF6; margin-bottom: 2rem;">
+                    <h4 style="color: #8B5CF6; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>How do you
+                            reduce latency in a distributed system?</strong></p>
+                </div>
+
+                <!-- 1. Caching -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ Use Caching
+                        Strategically</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Cache <strong>frequently accessed data</strong> (in-memory or distributed)</li>
+                            <li><strong>Avoid repeated DB calls</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Example:</strong> User profile, product catalog</p>
+                    </div>
+                </div>
+
+                <!-- 2. Load Balancing -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ Load
+                        Balancing</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Distribute traffic</strong> across multiple servers or services</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Prevents overload and reduces response time</strong></p>
+                    </div>
+                </div>
+
+                <!-- 3. Connection Pooling -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ Connection
+                        Pooling</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Reuse DB connections</strong> instead of creating new ones</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Saves time + improves performance</strong></p>
+                    </div>
+                </div>
+
+                <!-- 4. Choose the Right Data Store -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Choose the
+                        Right Data Store</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Use <strong>SQL for consistency</strong></li>
+                            <li>Use <strong>NoSQL for speed & scalability</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Example:</strong> Use key-value stores for fast lookups</p>
+                    </div>
+                </div>
+
+                <!-- 5. Efficient Data Structures -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ Choose
+                        Efficient Data Structures</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Use the <strong>right algorithms and data structures</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Prefer O(1) or O(log n) over O(n) in critical paths</strong></p>
+                    </div>
+                </div>
+
+                <!-- 6. Data Indexing -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Data Indexing
+                        is a Must</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Index frequently queried fields</strong></li>
+                            <li>Reduces query time from <strong>seconds → milliseconds</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Example:</strong> Indexing the user_id, short_url</p>
+                    </div>
+                </div>
+
+                <!-- 7. CDN -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ Use Content
+                        Delivery Networks (CDNs)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Serve static content closer to users</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Reduces latency globally</strong></p>
+                    </div>
+                </div>
+
+                <!-- 8. Enable Compression -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ Enable
+                        Compression</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Use <strong>gzip or Brotli</strong> to shrink payload size</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Faster data transfer over the network</strong></p>
+                    </div>
+                </div>
+
+                <!-- 9. Optimize Database Queries -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ Optimize
+                        Database Queries</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Avoid <strong>SELECT *</strong></li>
+                            <li>Use <strong>pagination</strong> (Limit, offset)</li>
+                            <li><strong>Optimize joins</strong></li>
+                            <li>Avoid <strong>N+1 queries problem</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Faster queries = lower latency</strong></p>
+                    </div>
+
+                    <!-- N+1 Query Problem -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚫 What is the N+1 Query Problem?</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Doing repeated
+                            DB calls for the same data</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">The N+1 query
+                            problem happens when your code executes:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>1 query</strong> to fetch a list of items</li>
+                            <li>Then <strong>N additional queries</strong> (one per item)</li>
+                            <li>👉 <strong>Total = 1 + N queries</strong> → causes serious latency issues</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Doing work again
+                            and again inside a loop instead of doing it once.</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Let's
+                                say:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Step
+                                1:</strong></p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">SELECT * FROM students;</code>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin: 0.5rem 0;">👉 returns 5 students (N = 5)
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Step
+                                2:</strong></p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #fca5a5; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">SELECT * FROM marks WHERE student_id = 1;<br>SELECT * FROM marks WHERE student_id = 2;<br>SELECT * FROM marks WHERE student_id = 3;<br>SELECT * FROM marks WHERE student_id = 4;<br>SELECT * FROM marks WHERE student_id = 5;</code>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Now
+                                total queries:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>1 (students)</li>
+                            <li>5 (marks)</li>
+                            <li><strong>👉 = 6 queries → N + 1 problem</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">N+1 happens
+                            when we fetch a list using one query and then execute additional queries for each item. This
+                            leads to multiple database calls and high latency.</p>
+                    </div>
+
+                    <!-- Image 1: N+1 Query Problem -->
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <img src="images/Problem8_Img1.png" alt="N+1 Query Problem Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Figure 1:
+                            N+1 Query Problem Illustration</p>
+                    </div>
+
+                    <!-- How to Fix N+1 -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-top: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ How to Fix It</h4>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">1️⃣ Use JOINs (Best for
+                                SQL)</h5>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">SELECT users.*, orders.*<br>FROM users<br>LEFT JOIN orders ON users.id = orders.user_id;</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">👉
+                                <strong>Fetch everything in one query</strong>
+                            </p>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">2️⃣ Use IN Query (Batch
+                                Fetching)</h5>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">SELECT * FROM orders<br>WHERE user_id IN (1, 2, 3, 4, ...);</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">👉
+                                <strong>Reduces N queries → just 2 queries total</strong>
+                            </p>
+                        </div>
+
+                        <div>
+                            <h5 style="color: var(--color-primary); margin: 0 0 0.5rem 0;">3️⃣ Use Eager Loading (ORM
+                                Fix)</h5>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;">Instead of
+                                lazy loading:</p>
+                            <p style="color: #ef4444; margin: 0; margin-bottom: 0.5rem;">❌ Bad (Lazy Loading)</p>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #fca5a5; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">users = get_users()<br>for user in users:<br>&nbsp;&nbsp;user.orders&nbsp;&nbsp;# triggers query every time</code>
+                            </div>
+                            <p style="color: var(--color-primary); margin: 0.5rem 0;">✅ Good (Eager Loading)</p>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #86efac; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">users = get_users_with_orders()</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; margin-bottom: 0;">👉
+                                <strong>ORM fetches related data in advance</strong>
+                            </p>
+
+                            <!-- Image 2: ORM Eager Loading Fix -->
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <img src="images/Problem8_Img2.webp" alt="ORM Eager Loading Fix"
+                                    style="max-width: 70%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                                <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+                                    Figure 2: ORM Eager Loading vs Lazy Loading</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Asynchronous Processing -->
+                <div id="topic-10" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔟 Asynchronous
+                        Processing</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Don't block user requests</strong></li>
+                            <li>Use <strong>queues</strong> (Kafka, RabbitMQ)</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Example:</strong> Send emails in background</p>
+                    </div>
+                </div>
+
+                <!-- 11. Reduce Network Calls -->
+                <div id="topic-11" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣1️⃣ Reduce
+                        Network Calls</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Combine APIs</strong> (batching)</li>
+                            <li><strong>Avoid unnecessary round trips</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Example:</strong> Fetch all dashboard data in one request</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>👉 Every
+                                time your app talks to a server, it takes time</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">(Network travel +
+                            processing + response)</p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 If you make many small
+                                requests, latency increases</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Bad Approach (Too Many Calls)</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Example:
+                            Dashboard
+                            screen</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Call 1 → Get user info</li>
+                            <li>Call 2 → Get notifications</li>
+                            <li>Call 3 → Get recent orders</li>
+                            <li>Call 4 → Get analytics</li>
+                            <li><strong>👉 Total = 4 network calls → slower response 😬</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Good Approach (Batching / Single
+                            Call)</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>👉
+                                Combine
+                                everything into one API:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Call 1 →
+                            /dashboard-data</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>user info</li>
+                            <li>notifications</li>
+                            <li>orders</li>
+                            <li>analytics</li>
+                            <li><strong>👉 Total = 1 network call → faster 🚀</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 12. Monitor & Optimize Continuously -->
+                <div id="topic-12" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣2️⃣ Monitor &
+                        Optimize Continuously</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Use tools like:
+                        </p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Prometheus</strong></li>
+                            <li><strong>Grafana</strong></li>
+                            <li><strong>New Relic</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Measure Latency percentiles (p95, p99), then improve it</strong></p>
+                    </div>
+
+                    <!-- Image 3: Monitoring Tools -->
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <img src="images/Problem8_Img3.png" alt="Monitoring and Observability Tools"
+                            style="max-width: 80%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Figure 3:
+                            Monitoring Dashboard with Latency Percentiles</p>
+                    </div>
+                </div>
+
+                <!-- Summary Table -->
+                <div id="topic-13" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Summary: 12
+                        Techniques to Reduce Latency</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(16, 185, 129, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Technique</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Benefit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        1. Caching</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Avoid repeated DB calls</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        2. Load Balancing</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Distribute traffic, prevent overload</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        3. Connection Pooling</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Reuse connections, save time</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        4. Right Data Store</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        SQL for consistency, NoSQL for speed</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        5. Efficient Data Structures</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Prefer O(1) or O(log n)</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        6. Data Indexing</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Reduce query time</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        7. CDN</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Serve content closer to users</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        8. Compression</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Faster data transfer</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        9. Query Optimization</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Avoid SELECT *, fix N+1 problem</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        10. Async Processing</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Don't block user requests</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        11. Reduce Network Calls</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Combine APIs, batch requests</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border); background: rgba(0,0,0,0.02);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary); font-weight: 600;">
+                                        12. Monitoring</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Measure p95, p99, continuously optimize</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Categorize your answers</strong> — Client-side, Server-side, Network-level</li>
+                        <li><strong>Know the N+1 problem</strong> — Very common interview question</li>
+                        <li><strong>Mention monitoring</strong> — p95, p99 percentiles show real user experience</li>
+                        <li><strong>Trade-offs matter</strong> — Caching vs consistency, Async vs immediacy</li>
+                        <li><strong>Start with biggest impact</strong> — Caching and CDN usually give most benefit</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem7.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="Problem9.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Next Problem →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 8 - Reducing Latency in Distributed Systems ⚡', 'success');
+        });
+    </script>
+</body>
+
+</html>

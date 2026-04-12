@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem 9: Flash Sale Inventory Management - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="real-world-scenarios.html" aria-label="Go to Real World Scenarios">Real World
+                        Scenarios</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Problem 9</span>
+                </nav>
+
+                <div
+                    style="background: rgba(236, 72, 153, 0.08); padding: 2rem; border-radius: var(--radius-xl); border-left: 4px solid #EC4899; margin-bottom: 2rem;">
+                    <span
+                        style="background: #EC4899; color: white; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem;">Problem
+                        9</span>
+                    <h2 style="color: var(--color-text-primary); margin-top: 1rem; margin-bottom: 0;">🛒 Flash Sale
+                        Inventory Management: 10 Lakh Users, 2 Units</h2>
+                </div>
+
+                <!-- Interviewer Question -->
+                <div
+                    style="background: rgba(236, 72, 153, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EC4899; margin-bottom: 2rem;">
+                    <h4 style="color: #EC4899; margin-bottom: 0.5rem;">👉 Interviewer asks:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>10 lakh people
+                            hit Buy Now at the exact same time during a flash sale. Only 2 units are left.<br>How did
+                            you handle this?</strong></p>
+                </div>
+
+                <!-- Problem Understanding -->
+                <div
+                    style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 2rem;">
+                    <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🎯 Problem Understanding:</h4>
+                    <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">The problem here is
+                        <strong>not inventory storage</strong>. It is <strong>concurrent reservation under extreme
+                            contention</strong>.
+                    </p>
+                    <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                        <li><strong>👉 10 lakh users</strong> → competing for <strong>2 units</strong></li>
+                        <li><strong>👉 Extreme load</strong> → system must handle gracefully</li>
+                        <li><strong>👉 No overselling</strong> → exactly 2 users should get it</li>
+                    </ul>
+                </div>
+
+                <!-- Solution Overview -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">✅ Solution (Used
+                        by Amazon-like Systems)</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔥 Key Idea: Two-Layer Protection</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.2rem;"><strong>👉 Fast
+                                layer
+                                (Redis) + Safe layer (Database)</strong></p>
+                    </div>
+
+                    <!-- Layer 1: Fast Gate -->
+                    <div id="topic-2" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ Fast Gate
+                            (Using Redis)</h3>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Implementation:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Keep
+                                    stock in Redis:</strong></p>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">stock = 2</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0;">When users click
+                                <strong>"Buy Now"</strong>:
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Use atomic
+                                    operation:</strong></p>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #86efac; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">DECR stock</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0;">
+                                <strong>The above step decreases the stock.</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">💥 What Happens:</h4>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                                            <th
+                                                style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Request</th>
+                                            <th
+                                                style="padding: 0.75rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                                Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                <strong>User 1</strong>
+                                            </td>
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: var(--color-primary);">
+                                                <strong>✅ Success (stock → 1)</strong>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                <strong>User 2</strong>
+                                            </td>
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: var(--color-primary);">
+                                                <strong>✅ Success (stock → 0)</strong>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid var(--glass-border);">
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                                <strong>User 3+</strong>
+                                            </td>
+                                            <td
+                                                style="padding: 0.75rem; border: 1px solid var(--glass-border); color: #dc2626;">
+                                                <strong>❌ Fail immediately</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Only first 2 users
+                                    pass</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent);">
+                            <h4 style="color: var(--color-accent); margin-bottom: 1rem;">🤔 Why Atomic Operation?</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">
+                                <strong>Atomic
+                                    operations in Redis</strong> are required to prevent race conditions when multiple
+                                requests try to update the same stock simultaneously.
+                            </p>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Without
+                                atomicity, concurrent reads and writes can lead to <strong>overselling</strong>.</p>
+                            <div
+                                style="background: var(--glass-bg); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>So...</strong></p>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Atomic = Either fully
+                                    happens OR doesn't happen — no interference where No other request can interrupt
+                                    it</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Layer 2: Soft Hold -->
+                    <div id="topic-3" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🛒 2️⃣ Soft
+                            Hold</h3>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">📖 Definition:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;"><strong>Safe Hold = Temporarily
+                                    reserving an item for a user for a short time</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 It Means:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                                <li>Item is <strong>not sold yet</strong> ❌</li>
+                                <li>But <strong>no one else can buy it temporarily</strong> ✅</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                            <h4 style="color: #F97316; margin-bottom: 1rem;">⏳ Example:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Hold
+                                    for 5–10 minutes</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                                <li>If: <strong>Payment success</strong> → confirm order ✅</li>
+                                <li>If: <strong>Payment fails</strong> → release stock 🔁</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🤔 Why Soft Hold?</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">
+                                <strong>Because:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                                <li>Users <strong>abandon cart</strong></li>
+                                <li><strong>Payments fail</strong></li>
+                                <li><strong>Network issues</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>👉
+                                    Without this → stock gets locked forever</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(6, 182, 212, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #06B6D4; margin-top: 1.5rem;">
+                            <h4 style="color: #06B6D4; margin-bottom: 1rem;">💡 Summary of Soft Hold:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">A <strong>safe hold</strong> is a
+                                temporary reservation of inventory for a user after they pass the initial check. It
+                                ensures that the item is not sold to others while the user completes the transaction,
+                                and is released back to the system for next user if the transaction fails or times
+                                out.</p>
+                        </div>
+                    </div>
+
+                    <!-- Layer 3: Database -->
+                    <div id="topic-4" style="margin-top: 3rem;">
+                        <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🗄️ 3️⃣
+                            Database = Final Truth</h3>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">At checkout
+                                or order confirmation, the <strong>DB uses optimistic or pessimistic locking</strong> to
+                                make sure the final stock transition is valid.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Only
+                                    when you pay:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                                <li>System <strong>checks again</strong></li>
+                                <li><strong>Confirms purchase</strong></li>
+                                <li><strong>👉 This is final truth</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Why Database is Final
+                                Truth:</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0;">The database is considered the
+                                <strong>final source of truth</strong> because it ensures <strong>durability and
+                                    consistency</strong>. While Redis is used for fast filtering and temporary
+                                reservations, the database performs the final validation and commits the transaction to
+                                guarantee correctness.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Summary</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">To prevent
+                            overselling during a flash sale, I would use <strong>Redis as a fast gate with atomic
+                                decrement</strong> to allow only limited users. Then I would <strong>place items on
+                                temporary hold</strong> and finally <strong>confirm the purchase using the
+                                database</strong> to ensure correctness.</p>
+                    </div>
+                </div>
+
+                <!-- Q&A Section -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">❓ Questions You
+                        May Get</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🎯 Why Not Only Database?</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉
+                                Because:</strong><br><strong>10
+                                lakh people → DB crashes 😬</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🎯 Why Not Only Redis?</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉
+                                Because:</strong><br><strong>Redis
+                                is fast but not 100% safe</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">⚖️ So We Use Both</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>👉 Redis = speed 🚀</strong></li>
+                            <li><strong>👉 DB = correctness ✅</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Deep Dive: How Order is Decided -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔍 Deep Dive: If
+                        10 Lakh People Click at the Exact Same Millisecond, How Does the System Decide the First 2?</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🔥 Key Idea:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>In computers, nothing truly
+                                happens at the exact same time</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Even if users
+                            click at the same millisecond:</p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Requests reach server one
+                                by one (very very fast)</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">⚙️ How Order Is Actually Decided:
+                        </h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">There is
+                            <strong>NO central "queue"</strong> created intentionally
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Instead, order is decided
+                                by:</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 1. Network Travel Time (Most
+                            Important)</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Each request
+                            travels from phone → server</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Different
+                                users have:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>different <strong>internet speeds</strong></li>
+                            <li>different <strong>distances</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 1rem;"><strong>So
+                                even if they click at same time:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>User A</strong> → reaches in <strong>20ms</strong></li>
+                            <li><strong>User B</strong> → reaches in <strong>50ms</strong></li>
+                            <li><strong>User C</strong> → reaches in <strong>80ms</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>Order
+                                becomes: A → B → C</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 2. Load Balancer Routing</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Requests first
+                            hit a <strong>load balancer</strong>.</p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>It
+                                distributes requests to servers:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>Server 1</strong></li>
+                            <li><strong>Server 2</strong></li>
+                            <li><strong>Server 3</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">Each server
+                            processes requests in its own order</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 3. Server Processing Time</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Even
+                                inside server:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li>Requests handled in <strong>small batches</strong></li>
+                            <li><strong>Slight delays happen</strong></li>
+                            <li>More ordering happens here</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(236, 72, 153, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #EC4899;">
+                        <h4 style="color: #EC4899; margin-bottom: 1rem;">🔹 4. Redis Final Ordering (MOST CRITICAL)
+                        </h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>All
+                                servers call Redis:</strong></p>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Redis
+                                processes:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 2;">
+                            <li><strong>One request at a time</strong></li>
+                            <li>In the <strong>exact order it receives</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                This is the final queue</strong></p>
+                    </div>
+                </div>
+
+                <!-- Interview Tips -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🧠 Interview Tips
+                    </h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 2;">
+                        <li><strong>Start with the core problem</strong> — Concurrent reservation, not storage</li>
+                        <li><strong>Explain the two-layer architecture</strong> — Redis for speed, DB for correctness
+                        </li>
+                        <li><strong>Emphasize atomic operations</strong> — Critical for preventing race conditions</li>
+                        <li><strong>Don't forget soft hold</strong> — Prevents stock from being locked forever</li>
+                        <li><strong>Explain ordering clearly</strong> — Network + Load Balancer + Server + Redis</li>
+                        <li><strong>Know the trade-offs</strong> — Why not just Redis? Why not just DB?</li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="Problem8.html"
+                        style="display: inline-block; background: var(--glass-bg); color: var(--color-text-primary); padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(-5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        ← Previous Problem
+                    </a>
+                    <a href="real-world-scenarios.html"
+                        style="display: inline-block; background: var(--color-accent); color: white; padding: 1rem 2rem; border-radius: var(--radius-lg); text-decoration: none; font-weight: 600; transition: transform 0.2s;"
+                        onmouseover="this.style.transform='translateX(5px)';"
+                        onmouseout="this.style.transform='translateX(0)';">
+                        Back to All Problems →
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Problem 9 - Flash Sale Inventory Management 🛒', 'success');
+        });
+    </script>
+</body>
+
+</html>

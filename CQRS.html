@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CQRS in Microservices - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="Microservices_Architecture.html"
+                        aria-label="Go to Microservices Architecture page">Microservices
+                        Architecture</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">CQRS</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">⚡ CQRS in Microservices</h2>
+
+                <!-- 1. What is CQRS -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">1️⃣ What is
+                        CQRS?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1.5rem;"><strong>CQRS
+                                (Command Query
+                                Responsibility Segregation)</strong> is a design pattern where <strong>read operations
+                                (queries)</strong> and <strong>write operations (commands)</strong> are handled
+                            separately.</p>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🎯 Instead of
+                            one system doing both:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Write (update data)</strong></li>
+                            <li><strong>Read (fetch data)</strong></li>
+                        </ul>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">✅ We split
+                            into:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Command side → Writes</strong></li>
+                            <li><strong>Query side → Reads</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/CQRS_Img1.png" alt="CQRS Architecture Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            ⚡ CQRS Architecture - Command and Query Separation</p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">🔑 Key Concept:
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Commands</strong>
+                            represent state-changing operations like <strong>creating,
+                                updating, or deleting data</strong>. They <strong>do not return data</strong> but
+                            instead <strong>trigger events</strong> to reflect the changes.</p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1.5rem 0;"><strong>Queries</strong>,
+                            on the other hand, are <strong>read-only operations</strong>
+                            that retrieve data in a format <strong>optimized for presentation</strong>, without
+                            altering the underlying state.</p>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🧠
+                            Understanding the Models:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>The <strong>write model</strong> handles commands and includes <strong>business
+                                    logic</strong>, <strong>validation</strong>, and <strong>transactional
+                                    integrity</strong>.</li>
+                            <li>The <strong>read model</strong> focuses on queries, often using
+                                <strong>denormalized</strong>
+                                or <strong>materialized views</strong> to enhance performance.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Why does CQRS exist -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">2️⃣ Why does CQRS
+                        exist? (Problem it solves)</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">🎯 In large
+                            systems:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Reads and writes have very different workloads</strong></li>
+                            <li><strong>Queries need optimized fast reads</strong></li>
+                            <li><strong>Writes need strong consistency</strong></li>
+                        </ul>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">✅ CQRS
+                            solves:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Performance bottlenecks</strong></li>
+                            <li><strong>Scaling issues</strong></li>
+                            <li><strong>Complex query logic</strong></li>
+                            <li><strong>High read traffic systems</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. What breaks without CQRS -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">3️⃣ What breaks
+                        without CQRS?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Without CQRS:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Single DB handles both read & write → bottleneck</strong></li>
+                            <li><strong>Complex queries slow down writes</strong></li>
+                            <li><strong>Hard to scale independently</strong></li>
+                            <li><strong>Poor performance in read-heavy systems</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">📌 Example:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Social media feed → millions
+                                of reads, few writes</strong></p>
+                    </div>
+                </div>
+
+                <!-- 4. Real-world analogy -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">4️⃣ Real-world
+                        analogy</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-primary); margin: 0 0 1.5rem 0; font-weight: 600; font-size: 1.1rem;">
+                            🍽️ Restaurant Analogy</p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <p style="color: var(--color-text-primary); margin: 0 0 0.5rem 0; font-weight: 600;">
+                                    👨‍🍳 Chef</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>→ prepares food
+                                        (write)</strong></p>
+                            </div>
+                            <div>
+                                <p style="color: var(--color-text-primary); margin: 0 0 0.5rem 0; font-weight: 600;">🤵
+                                    Waiter</p>
+                                <p style="color: var(--color-text-secondary); margin: 0;"><strong>→ serves food
+                                        (read)</strong></p>
+                            </div>
+                        </div>
+
+                        <p style="color: var(--color-primary); margin: 1.5rem 0 0.5rem 0; font-weight: 600;">💡 Insight:
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Different roles → better
+                                efficiency</strong></p>
+                    </div>
+                </div>
+
+                <!-- 5. How CQRS Works in Microservices -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">5️⃣ How CQRS
+                        Works in Microservices</h3>
+
+                    <!-- Command Side -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem;">🔹 Command Side (Write Model)</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Handles create/update/delete</strong></li>
+                            <li><strong>Ensures consistency</strong></li>
+                            <li><strong>Uses transactional DB</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Example:</strong><br>
+                            Create Order<br>
+                            Update Payment
+                        </p>
+                    </div>
+
+                    <!-- Query Side -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🔹 Query Side (Read Model)</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Handles read requests</strong></li>
+                            <li><strong>Optimized for fast queries</strong></li>
+                            <li><strong>Uses denormalized or cached data</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Example:</strong><br>
+                            Get Order Details<br>
+                            Get User Dashboard
+                        </p>
+                    </div>
+
+                    <!-- Flow in Microservices -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">🔹 Flow in Microservices</h4>
+                    </div>
+                    <!-- Image 2 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/CQRS_Img2.jpg" alt="CQRS Flow in Microservices"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🔄 CQRS Flow in Microservices Architecture</p>
+                    </div>
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🛠️ Often uses:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Apache Kafka</strong></li>
+                            <li><strong>RabbitMQ</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 6. Real App Example -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">6️⃣ Real App
+                        Example</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🛒 E-commerce</h4>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                            <h4 style="color: #3B82F6; margin-bottom: 1rem;">✍️ Write side:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Create order</strong></li>
+                                <li><strong>Update payment</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👁️ Read side:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Order history</strong></li>
+                                <li><strong>Dashboard view</strong></li>
+                                <li><strong>Recommendations</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(20, 184, 166, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #14B8A6;">
+                        <h4 style="color: #14B8A6; margin-bottom: 1rem;">🔄 Flow:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Order placed → Event → Update
+                                read DB</strong></p>
+                    </div>
+                </div>
+
+                <!-- 7. CQRS + Event Sourcing -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">7️⃣ CQRS + Event
+                        Sourcing</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>CQRS often
+                                pairs well with Event Sourcing</strong>, where changes are stored as a sequence of
+                            events.
+                            This approach allows the system to <strong>rebuild the current state by replaying
+                                events</strong>, providing a complete history of changes and enabling features like
+                            <strong>auditing</strong> or <strong>undo operations</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/CQRS_Img3.png" alt="CQRS with Event Sourcing"
+                            style="max-width: 60%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            📝 CQRS Combined with Event Sourcing</p>
+                    </div>
+                </div>
+
+                <!-- 8. When to use / NOT use -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">8️⃣ When to use /
+                        NOT use</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use CQRS when:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>High read traffic systems</strong></li>
+                            <li><strong>Complex queries</strong></li>
+                            <li><strong>Microservices architecture</strong></li>
+                            <li><strong>Real-time systems</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1.5rem; margin-bottom: 0;">
+                            <strong>Examples:</strong><br>
+                            <strong>Banking systems</strong><br>
+                            <strong>E-commerce platforms</strong><br>
+                            <strong>Social media</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: #dc2626; margin: 0 0 1rem 0; font-weight: 600;">❌ Avoid CQRS when:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Small applications</strong></li>
+                            <li><strong>Simple CRUD systems</strong></li>
+                            <li><strong>Low traffic systems</strong></li>
+                        </ul>
+
+                        <p style="color: #F97316; margin: 1.5rem 0 1rem 0; font-weight: 600;">⚠️ Because:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Adds complexity</strong></li>
+                            <li><strong>Harder to maintain</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 9. Common Mistake -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">9️⃣ Common
+                        Mistake
+                    </h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">🚨 Overengineering</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Using
+                                CQRS
+                                for simple apps leads to:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Unnecessary complexity</strong></li>
+                            <li><strong>Debugging difficulty</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Interview-Ready One-liner -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯
+                        Interview-ready
+                        one-liner</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(20, 184, 166, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>CQRS separates
+                                read and write operations into different models</strong>, allowing systems to
+                            <strong>scale</strong>, <strong>optimize</strong>, and <strong>handle complex workloads
+                                efficiently</strong> in microservices architectures.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Summary</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>CQRS separates command (write) and query (read) operations into different
+                                    systems.</strong></li>
+                            <li><strong>It allows independent scaling and optimization of read and write workloads in
+                                    microservices.</strong></li>
+                            <li><strong>It is often combined with event-driven architecture and event sourcing for high
+                                    scalability systems.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Event_Driven_Architecture.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">⚡ Event Driven Architecture</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: CQRS in Microservices ⚡', 'success');
+        });
+    </script>
+</body>
+
+</html>

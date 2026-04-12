@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observability - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Observability</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">🔍 Observability</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        it is Observability</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Why
+                                        Observability is Needed</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Metrics</a>
+                                </li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Logs</a>
+                                </li>
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Traces</a>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="6"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Observability
+                                        vs Monitoring</a></li>
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Tools
+                                        Used</a></li>
+                                <li><a href="#topic-8"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Correlation
+                                        ID</a></li>
+                                <li><a href="#topic-9"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Why
+                                        in Microservices</a></li>
+                                <li><a href="#topic-10"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Summary</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. What it is -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔍 What it is
+                        Observability ?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">
+                            <strong>Observability</strong> is the ability to understand what's happening inside
+                            a system by looking at its outputs (<strong>logs</strong>, <strong>metrics</strong>,
+                            <strong>traces</strong>).
+                        </p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Observability_Img1.png" alt="Observability Overview"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🔍 Observability Overview - Understanding System Outputs</p>
+                    </div>
+                </div>
+
+                <!-- 2. Why Observability is Needed -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">❓ Why
+                        Observability
+                        is Needed</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-primary); margin: 0 0 1rem 0; font-weight: 600;">🎯 In modern
+                            systems
+                            (microservices, distributed systems):</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>Many <strong>services</strong></li>
+                            <li>Many <strong>servers</strong></li>
+                            <li>Many <strong>requests</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🚨 If something fails:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">👉 You
+                            must quickly answer:</p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>What</strong> went wrong?</li>
+                            <li><strong>Where</strong> did it fail?</li>
+                            <li><strong>Why</strong> did it fail?</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <p style="color: var(--color-text-secondary); margin: 0;">✅ <strong>Observability</strong> helps
+                            you do that.</p>
+                    </div>
+                </div>
+
+                <!-- Core Pillars -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏛️ Core Pillars
+                        of
+                        Observability</h3>
+
+                    <!-- 3. Metrics -->
+                    <div id="topic-3" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">1️⃣ Metrics (
+                            Monitoring )</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Numerical
+                                    data</strong> about <strong>system performance</strong>.</p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📊
+                                Examples:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>CPU</strong> usage</li>
+                                <li><strong>Memory</strong> usage</li>
+                                <li><strong>Request count</strong></li>
+                                <li><strong>Error rate</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">💡
+                                Example:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Requests per second</strong> = 10,000</li>
+                                <li><strong>Error rate</strong> = 2%</li>
+                                <li><strong>Latency</strong> = 200ms</li>
+                            </ul>
+                        </div>
+
+                        <!-- Image 2 -->
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/Observability_Img2.png" alt="Metrics Dashboard"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                📊 Metrics Dashboard Example</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. Logs -->
+                    <div id="topic-4" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">2️⃣ Logs (
+                            Logging )</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Detailed
+                                    records</strong> of <strong>events</strong>.</p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📝 Logs
+                                are:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Detailed</strong></li>
+                                <li><strong>Text-based</strong></li>
+                                <li><strong>Event-specific</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📋
+                                Examples:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Error messages</strong></li>
+                                <li><strong>Warning</strong></li>
+                                <li><strong>Exceptions</strong></li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">💡
+                                Example:</p>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">2026-04-09 10:21:33 INFO UserService User 123 logged in<br>2026-04-09 10:21:35 ERROR PaymentService Payment failed: insufficient funds</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Traces -->
+                    <div id="topic-5" style="margin-top: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1rem;">3️⃣ Traces
+                            (Distributed Tracing)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Tracks a
+                                <strong>request</strong> across <strong>multiple services</strong>.</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">Shows <strong>full request
+                                    journey</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                            <h4 style="color: #A855F7; margin-bottom: 1rem;">📖 Example (Microservices)</h4>
+                            <div style="text-align: left; margin: 1rem 0;">
+                                <div style="display: inline-block; text-align: left;">
+                                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>User
+                                            Request</strong></p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>API
+                                            Gateway</strong></p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>User
+                                            Service</strong></p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Order
+                                            Service</strong></p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;"><strong>Payment
+                                            Service</strong></p>
+                                </div>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0;">
+                                <strong>Tracing</strong> shows:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>👉 <strong>Where</strong> time was spent</li>
+                                <li>👉 <strong>Where</strong> failure happened</li>
+                            </ul>
+                        </div>
+
+                        <!-- Image 3 -->
+                        <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                            <img src="images/Observability_Img3.png" alt="Distributed Tracing Example"
+                                style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                                🔗 Distributed Tracing Visualization</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(20, 184, 166, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #14B8A6; margin-bottom: 1.5rem;">
+                            <h4 style="color: #14B8A6; margin-bottom: 1rem;">📖 Explanation of Image</h4>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">📊 Top
+                                Section</p>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">Trace
+                                Summary → 46 spans → 45.84ms</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Meaning:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>One request</li>
+                                <li>Passed through 46 operations</li>
+                                <li>Took 45ms total = TOTAL time taken by the entire request</li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔗 Middle
+                                Section (Timeline)</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Colored bars =
+                                spans (service calls)</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Each block =
+                                Span</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Span contains:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Service name</li>
+                                <li>Duration</li>
+                                <li>Operation (GET/POST)</li>
+                                <li>Status (success/error)</li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">💡
+                                Example:</p>
+                            <div style="text-align: center; margin: 1rem 0;">
+                                <div style="display: inline-block; text-align: left;">
+                                    <p style="color: var(--color-text-secondary); margin: 0;">HTTP POST
+                                        (frontend)</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">→
+                                        CheckoutService</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">→
+                                        CartService</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">→
+                                        ProductService</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">→
+                                        CurrencyService</p>
+                                </div>
+                            </div>
+
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0.5rem 0;">Each bar
+                                shows:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Which service handled request</li>
+                                <li>How much time it took</li>
+                            </ul>
+
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0.5rem 0;">We have
+                                different operations inside the same service</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">Inside Checkout
+                                Service, there are multiple steps:</p>
+                            <div style="text-align: center; margin: 1rem 0;">
+                                <div style="display: inline-block; text-align: left;">
+                                    <p style="color: var(--color-text-secondary); margin: 0;">Checkout Service</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0 0.25rem 1rem;">├──
+                                        prepareOrderItems → 27.95 ms</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0 0.25rem 1rem;">├──
+                                        getCart → 2.928 ms</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0 0.25rem 1rem;">└──
+                                        currency convert → 3 ms</p>
+                                </div>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0.5rem 0;">These are
+                                internal function calls.</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>👉 Some calls happen in parallel (async)</li>
+                                <li>👉 Some happen sequentially (sync)</li>
+                            </ul>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">⏱️
+                                Latency Analysis</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">You can see:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Frontend: 45ms</li>
+                                <li>Checkout: 40ms</li>
+                                <li>Cart: 2ms</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0.5rem 0;">👉 This
+                                helps identify slow services</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Look at longest
+                                bars</p>
+                            <p style="color: var(--color-text-secondary); margin: 0;">👉 Those are
+                                bottlenecks</p>
+                            <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0;">Example:
+                                prepareOrderItems = 27 ms 🔥 (slow)</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Example (Real System –
+                                PayPal)</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;">User makes payment.</p>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🔄 Flow:
+                            </p>
+                            <div style="text-align: left; margin: 1rem 0;">
+                                <div style="display: inline-block; text-align: left;">
+                                    <p style="color: var(--color-text-secondary); margin: 0;">Client
+                                    </p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">API Gateway</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">Auth Service</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">Payment Service</p>
+                                    <p style="color: var(--color-text-muted); margin: 0.25rem 0; text-align: center;">↓
+                                    </p>
+                                    <p style="color: var(--color-text-secondary); margin: 0;">Database
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p style="color: var(--color-primary); margin: 1.5rem 0 1rem 0; font-weight: 600;">🚨 If
+                                payment
+                                fails:</p>
+                            <p style="color: var(--color-text-secondary); margin: 0 0 0.5rem 0;">Observability
+                                tells:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Auth OK?</li>
+                                <li>Payment failed?</li>
+                                <li>DB slow?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Observability vs Monitoring -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🆚 Observability
+                        vs
+                        Monitoring</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(59, 130, 246, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: #3B82F6; font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Monitoring</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Observability</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Goal</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Detect known issues</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Understand unknown issues</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Focus</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Alerts</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Deep insights</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Example</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        CPU > 90% alert</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Why CPU increased</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 7. Tools Used -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🛠️ Tools Used
+                    </h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0;"><strong>Popular tools:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Metrics</strong> → <strong>Prometheus</strong>, <strong>Grafana</strong></li>
+                            <li><strong>Logs</strong> → <strong>ELK Stack</strong> (Elasticsearch, Logstash, Kibana)</li>
+                            <li><strong>Tracing</strong> → <strong>Jaeger</strong>, <strong>Zipkin</strong></li>
+                            <li><strong>Datadog</strong> → All-in-one</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 8. Correlation ID -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔗 What is
+                        Correlation ID?</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;">A <strong>correlation
+                                ID</strong> is a unique identifier assigned to a request to trace it across
+                            multiple services in a distributed system.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>Correlation ID</strong>
+                                is a
+                                simple identifier used to <strong>track requests</strong> across services through logs, while
+                            <strong>distributed tracing</strong> tools like <strong>Jaeger</strong> or <strong>Zipkin</strong> provide detailed visibility
+                            into <strong>request flow</strong>, <strong>latency</strong>, and <strong>service interactions</strong>. <strong>Correlation IDs</strong> are often used
+                                alongside tracing to simplify log correlation.</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(20, 184, 166, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #14B8A6;">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>👉 <strong>Correlation ID</strong> = identify request</li>
+                            <li>👉 <strong>Tracing</strong> = understand journey of request</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 9. Why in Microservices -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏗️ Why
+                        <strong>Observability</strong> Matters in <strong>Microservices</strong>?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Without observability:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>Hard to <strong>debug</strong></li>
+                                <li>No <strong>visibility</strong></li>
+                                <li><strong>Slow</strong> issue resolution</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ With observability:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Faster</strong> debugging</li>
+                                <li>Better <strong>reliability</strong></li>
+                                <li>Improved <strong>performance</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Analogy -->
+                <div style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠 Simple Analogy
+                    </h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🚗 Think of a car dashboard:</h4>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Speed meter</strong> → <strong>Metrics</strong></li>
+                            <li><strong>Warning lights</strong> → <strong>Logs</strong></li>
+                            <li><strong>GPS route</strong> → <strong>Traces</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0;"><strong>Together</strong>, they tell
+                                you <strong>everything</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- 10. Summary -->
+                <div id="topic-10" style="margin-top: 3rem;">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Observability</strong> is the ability to <strong>monitor</strong> and <strong>understand</strong> a system's internal state
+                                using <strong>metrics</strong>, <strong>logs</strong>, and <strong>traces</strong> to <strong>debug</strong> and <strong>analyze behavior</strong>.</li>
+                            <li>It enables <strong>faster debugging</strong> and <strong>root cause analysis</strong> in <strong>distributed microservices</strong>.</li>
+                            <li>Unlike <strong>monitoring</strong>, it provides <strong>deep insights</strong> into <strong>why</strong> issues occur, not just
+                                <strong>alerts</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Microservices_Architecture.html" class="next-topic-link">
+                    <span class="next-topic-text">Previous Topic</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">🧩 Microservices Architecture</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Observability 🔍', 'success');
+        });
+    </script>
+</body>
+
+</html>

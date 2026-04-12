@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synchronous vs Asynchronous - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Synchronous vs Asynchronous</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">⚔️ Synchronous vs Asynchronous</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Synchronous?</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Asynchronous?</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Key
+                                        Differences</a></li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">When
+                                        to Use What?</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="5"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real
+                                        System Example</a></li>
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Common
+                                        Mistake</a></li>
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Interview-Ready
+                                        Answer</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. What is Synchronous? -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 1. What is
+                        Synchronous?</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin-bottom: 1.5rem;">
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Caller waits for response
+                                before moving forward</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Flow:</h4>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #a5b4fc; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">Service A → Service B → Response → Continue</code>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-accent); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-accent); margin-bottom: 1rem;">📌 Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Login API</strong></li>
+                            <li><strong>OTP verification</strong> → Sync (instant response needed)</li>
+                            <li><strong>Order confirmation</strong> → Sync (user is waiting)</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">💡 Key Point:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 User is waiting → must
+                                respond immediately</strong></p>
+                    </div>
+
+                    <!-- Image 2: Synchronous -->
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <img src="images/Synchronous_vs_Asynchronous_Img2.png" alt="Synchronous Communication Flow"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Figure 1:
+                            Synchronous Communication Flow</p>
+                    </div>
+                </div>
+
+                <!-- 2. What is Asynchronous? -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 2. What is
+                        Asynchronous?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Caller does NOT wait for
+                                response</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Flow:</h4>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                            <code
+                                style="color: #86efac; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">Service A → Queue/Event → Service B processes later</code>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">📌 Example:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Email notification</strong> → Async (background task)</li>
+                            <li><strong>Update analytics</strong></li>
+                            <li><strong>Generate invoice</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">💡 Key Point:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 Happens in
+                                background</strong></p>
+                    </div>
+
+                    <!-- Image 1: Asynchronous -->
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <img src="images/Synchronous_vs_Asynchronous_Img1.png" alt="Asynchronous Communication Flow"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                        <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">Figure 2:
+                            Asynchronous Communication Flow</p>
+                    </div>
+                </div>
+
+                <!-- Key Differences Table -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🆚 Key
+                        Differences</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(59, 130, 246, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: #ef4444; font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Synchronous</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Asynchronous</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Response</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Immediate
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Delayed
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Coupling</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Tight
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Loose
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Latency</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Higher (waiting)
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Lower (non-blocking)
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Failure Impact</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High (cascade)
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low (isolated)
+                                    </td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Complexity</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Simple
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Complex
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- When to Use What -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 When to Use
+                        What?</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">✅ Use Synchronous when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>User is waiting</strong></li>
+                                <li><strong>Immediate consistency required</strong></li>
+                                <li><strong>Critical operations</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>👉
+                                    Example:</strong><br>Payment<br>Order confirmation
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Use Asynchronous when:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Task can happen later</strong></li>
+                                <li><strong>No need to block user</strong></li>
+                                <li><strong>High scalability needed</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>👉
+                                    Example:</strong><br>Email<br>Data processing
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real System Example -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧩 Real System
+                        Example (E-commerce)</h3>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🛒 Order Flow</h4>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <h4 style="color: #dc2626; margin-bottom: 1rem;">Synchronous:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Validate user</strong></li>
+                                <li><strong>Check inventory</strong></li>
+                                <li><strong>Process payment</strong></li>
+                                <li><strong>Confirm order</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">Asynchronous:</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>Send email</strong></li>
+                                <li><strong>Update analytics</strong></li>
+                                <li><strong>Notify warehouse</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Mistake -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🚨 Common Mistake
+                    </h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Everything synchronous</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Let say
+                                have services such as A, B, C, D</strong></p>
+                        <div
+                            style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto; margin-bottom: 1rem;">
+                            <code
+                                style="color: #fca5a5; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">A → B → C → D</code>
+                        </div>
+
+                        <div
+                            style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h4 style="color: #F97316; margin-bottom: 0.75rem;">👉 Problem in above case :</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>High latency</strong></li>
+                                <li><strong>One failure breaks everything</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 0.75rem;">✅ Better Design</h4>
+                            <div
+                                style="background: #1e293b; padding: 1rem; border-radius: var(--radius-sm); margin: 0.5rem 0; overflow-x: auto;">
+                                <code
+                                    style="color: #86efac; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9rem; line-height: 1.6;">A → Event (Kafka) → B, C, D independently</code>
+                            </div>
+                            <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0;"><strong>👉 Scalable +
+                                    resilient 🚀</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interview-Ready Answer -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠
+                        Interview-Ready
+                        Answer</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>Synchronous
+                                communication</strong> is used when an <strong>immediate response is required</strong>
+                            and
+                            the <strong>user is waiting</strong>, while <strong>asynchronous communication</strong> is
+                            used for <strong>background processing</strong> to improve <strong>scalability</strong> and
+                            reduce <strong>coupling</strong>.</p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0; line-height: 2;">A good
+                            system design often <strong>combines both</strong>, using <strong>synchronous calls for
+                                critical paths</strong> and <strong>asynchronous events for non-blocking tasks</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- One-Line Summary -->
+                <div
+                    style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--color-primary); font-size: 1.3rem; margin-bottom: 1.5rem;">🚀 One-Line
+                        Summary</h3>
+                    <ul style="color: var(--color-text-secondary); line-height: 2.2; margin-left: 1.5rem; margin: 1;">
+                        <li><strong>Use Sync for "need now"</strong></li>
+                        <li><strong>Use Async for "can happen later"</strong></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="message-queues.html" class="next-topic-link">
+                    <span class="next-topic-text">Previous Topic</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">📬 Message Queues</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Synchronous vs Asynchronous ⚔️', 'success');
+        });
+    </script>
+</body>
+
+</html>

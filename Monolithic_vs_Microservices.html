@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monolithic vs Microservices - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="Microservices_Architecture.html"
+                        aria-label="Go to Microservices Architecture page">Microservices
+                        Architecture</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Monolithic vs Microservices</span>
+                </nav>
+
+                <!-- Title -->
+                <h2 style="color: var(--color-text-primary); margin: 0;">🏗️ Monolithic vs Microservices</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-1"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Monolithic?</a></li>
+                                <li><a href="#topic-2"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What
+                                        is Microservices?</a></li>
+                                <li><a href="#topic-3"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Key
+                                        Differences</a></li>
+                                <li><a href="#topic-4"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">When
+                                        to Use Monolithic?</a></li>
+                            </ol>
+                        </div>
+                        <div>
+                            <ol start="5"
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                                <li><a href="#topic-5"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">When
+                                        to Use Microservices?</a></li>
+                                <li><a href="#topic-6"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Real
+                                        Example</a></li>
+                                <li><a href="#topic-7"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Strangler
+                                        Pattern</a></li>
+                                <li><a href="#topic-8"
+                                        style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Interview-Ready
+                                        Answer</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. What is Monolithic? -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 1. What is
+                        Monolithic Architecture?</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Entire application is built
+                                and deployed together as single unit</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Structure:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>One codebase</strong></li>
+                            <li><strong>One deployment</strong></li>
+                            <li><strong>One backend service</strong></li>
+                            <li><strong>One database</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316; margin-bottom: 1.5rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">📌 Example: E-commerce Monolith</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;"><strong>Inside
+                                one application:</strong></p>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>User module</strong></li>
+                            <li><strong>Order module</strong></li>
+                            <li><strong>Payment module</strong></li>
+                            <li><strong>Inventory module</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>👉 All tightly
+                                connected</strong></p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Monolithic_vs_Microservices_Img1.png" alt="Monolithic Architecture Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🏗️ Monolithic Architecture Structure</p>
+                    </div>
+
+                    <!-- Advantages -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Advantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Simple to build & deploy</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 One codebase, one deployment</span>
+                            </li>
+                            <li><strong>Easy debugging & testing</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Everything is in one place</span>
+                            </li>
+                            <li><strong>Better performance (initially)</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 No network calls between
+                                    services</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Disadvantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Tight coupling</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 One change can affect entire
+                                    system</span>
+                            </li>
+                            <li><strong>Hard to scale</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Must scale whole app, not parts</span>
+                            </li>
+                            <li><strong>Slow deployments</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Small change = full redeploy</span>
+                            </li>
+                            <li><strong>Single point of failure</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 One bug can crash entire system</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. What is Microservices? -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔹 2. What is
+                        Microservices Architecture?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+
+                        <p style="color: var(--color-text-secondary); margin: 0;"><strong>Application is split into
+                                multiple independent services</strong></p>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Structure:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Multiple services (User, Payment, Order, etc.)</strong></li>
+                            <li><strong>Each service:</strong>
+                                <ul
+                                    style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                    <li>Has its own logic</li>
+                                    <li>Can be deployed independently</li>
+                                    <li>Often has its own database</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Advantages -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Advantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Independent scaling</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Scale only what is needed</span>
+                            </li>
+                            <li><strong>Loose coupling</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Services are independent</span>
+                            </li>
+                            <li><strong>Fault isolation</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 One service failure doesn't break
+                                    entire system</span>
+                            </li>
+                            <li><strong>Technology flexibility</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Different services can use different
+                                    stacks</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Disadvantages -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                        <h4 style="color: #dc2626; margin-bottom: 1rem;">❌ Disadvantages</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>High complexity</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Distributed system challenges</span>
+                            </li>
+                            <li><strong>Network latency</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Service-to-service calls add
+                                    delay</span>
+                            </li>
+                            <li><strong>Hard debugging</strong><br>
+                                <span style="color: var(--color-text-muted);">👉 Issues span multiple services</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Monolithic_vs_Microservices_Img2.png" alt="Microservices Architecture Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🧩 Microservices Architecture Structure</p>
+                    </div>
+                </div>
+
+                <!-- Key Differences -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🆚 Key
+                        Differences</h3>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: rgba(59, 130, 246, 0.1);">
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Feature</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: #3B82F6; font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Monolithic</th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-primary); font-weight: 600; border: 1px solid var(--glass-border);">
+                                        Microservices</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Codebase</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Single</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Multiple services</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Deployment</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        One unit</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Independent deployments</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Scaling</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Whole app</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Per service</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Complexity</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Low (initial)</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Failure Impact</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Entire app</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Isolated</td>
+                                </tr>
+                                <tr style="border: 1px solid var(--glass-border);">
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        <strong>Tech Flexibility</strong>
+                                    </td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        Limited</td>
+                                    <td
+                                        style="padding: 1rem; border: 1px solid var(--glass-border); color: var(--color-text-secondary);">
+                                        High</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- When to Use Monolithic -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 When to Use
+                        Monolithic?</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem;">✅ Best for:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Small projects</strong></li>
+                            <li><strong>Startups / MVPs</strong></li>
+                            <li><strong>Simple systems</strong></li>
+                            <li><strong>Small teams</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Faster to build & deploy</strong></p>
+                    </div>
+                </div>
+
+                <!-- When to Use Microservices -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎯 When to Use
+                        Microservices?</h3>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">✅ Best for:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>Large-scale systems</strong></li>
+                            <li><strong>High traffic applications</strong></li>
+                            <li><strong>Multiple teams</strong></li>
+                            <li><strong>Need independent scaling</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;"><strong>👉
+                                Better scalability & flexibility</strong></p>
+                    </div>
+                </div>
+
+                <!-- Real Example -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧩 Real Example
+                        (E-commerce)</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6;">
+                            <h4 style="color: #3B82F6; margin-bottom: 1rem;">🛒 Monolithic</h4>
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">
+                                <strong>Single
+                                    app handles:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li>User</li>
+                                <li>Orders</li>
+                                <li>Payments</li>
+                                <li>Inventory</li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>👉
+                                    One change → redeploy entire app</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🧩 Microservices</h4>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                                <li><strong>User Service</strong></li>
+                                <li><strong>Order Service</strong></li>
+                                <li><strong>Payment Service</strong></li>
+                                <li><strong>Inventory Service</strong></li>
+                            </ul>
+                            <p style="color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0;">
+                                <strong>👉
+                                    Each service is independently developed, deployed, and scaled without impacting
+                                    other
+                                    services.</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #F97316;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem;">🚀 Most companies follow:</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.1rem;"><strong>Start
+                                Monolith → Move to Microservices</strong></p>
+                    </div>
+                </div>
+
+                <!-- Strangler Pattern -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌿 We Move to
+                        Microservices from Monolith using Strangler Pattern</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #A855F7; margin-bottom: 1.5rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem;">📖 What is the Strangler Pattern?</h4>
+                        <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 1rem;">The
+                            <strong>Strangler Pattern</strong> is a way to <strong>gradually replace</strong> a
+                            monolithic
+                            system with microservices <strong>without breaking everything at once</strong>.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">🌿 Inspired by a plant called
+                            Strangler Fig</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li>It <strong>grows around a tree</strong></li>
+                            <li><strong>Slowly replaces it</strong></li>
+                            <li><strong>Eventually the old tree disappears</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem;">👉 Same idea in software:</h4>
+                        <ul style="color: var(--color-text-secondary); line-height: 2; margin-left: 1.5rem; margin: 1;">
+                            <li><strong>New services grow around the monolith</strong></li>
+                            <li><strong>Gradually replace it</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3B82F6; margin-bottom: 1.5rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem;">⚙️ How It Works</h4>
+                        <div style="margin-top: 1rem;">
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>1️⃣
+                                    Start with Monolith</strong></p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 1rem 1.5rem;">Everything is in one app
+                            </p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>2️⃣
+                                    Add a Router / API Gateway</strong></p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 1rem 1.5rem;">Controls traffic</p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>3️⃣
+                                    Extract One Feature</strong></p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 0.5rem 1.5rem;">Example:</p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 1rem 2rem;">Move User Service out</p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>4️⃣
+                                    Route Requests</strong></p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 0.5rem 1.5rem;">User requests → new
+                                service</p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 1rem 1.5rem;">Others → still go to
+                                monolith</p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>5️⃣
+                                    Repeat Gradually</strong></p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 0.5rem 1.5rem;">Order service</p>
+                            <p style="color: var(--color-text-muted); margin: 0 0 1rem 1.5rem;">Payment service</p>
+
+                            <p style="color: var(--color-text-secondary); margin: 0; margin-bottom: 0.5rem;"><strong>6️⃣
+                                    Remove Monolith</strong></p>
+                            <p style="color: var(--color-primary); margin: 0 0 0 1.5rem;"><strong>👉 Once everything is
+                                    migrated</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Image 3 -->
+                    <div style="margin-top: 2rem; text-align: center; margin-bottom: 2rem;">
+                        <img src="images/Monolithic_vs_Microservices_Img3.jpeg" alt="Strangler Pattern Diagram"
+                            style="max-width: 80%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); border: 1px solid var(--glass-border);">
+                        <p
+                            style="color: var(--color-text-muted); font-size: 0.9rem; margin-top: 1rem; font-style: italic;">
+                            🌿 Strangler Pattern - Gradual Migration Process</p>
+                    </div>
+                </div>
+
+                <!-- Interview-Ready Answer -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🧠
+                        Interview-Ready
+                        Answer</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <p style="color: var(--color-text-secondary); margin: 0; line-height: 2;"><strong>Monolithic
+                                architecture</strong> is a <strong>single unified application</strong>, best suited for
+                            <strong>small and simple systems</strong> due to its simplicity.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0; line-height: 2;">
+                            <strong>Microservices architecture</strong> splits the system into <strong>independent
+                                services</strong>, enabling <strong>scalability</strong>, <strong>flexibility</strong>,
+                            and
+                            <strong>fault isolation</strong>, but introduces complexity in communication, deployment,
+                            and
+                            monitoring.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1.5rem 0 0 0; line-height: 2;">
+                            Microservices are not just about splitting services—they are about <strong>independently
+                                scaling</strong>, <strong>deploying</strong>, and <strong>reducing failure
+                                impact</strong>.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="Microservices_Architecture.html" class="next-topic-link">
+                    <span class="next-topic-text">Previous Topic</span>
+                    <span class="next-topic-arrow">←</span>
+                    <span class="next-topic-title">🧩 Microservices Architecture</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Monolithic vs Microservices 🏗️', 'success');
+        });
+    </script>
+</body>
+
+</html>
