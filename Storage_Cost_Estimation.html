@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Cost Estimation - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Storage Cost Estimation</span>
+                </nav>
+
+                <h2>💾 Storage Cost Estimation — A Complete Guide</h2>
+
+
+                <!-- Topic 1: Bandwidth vs Throughput -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌐 Bandwidth vs
+                        Throughput (Real Meaning)</h3>
+
+                    <!-- Bandwidth Section -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">📦 1️⃣ Bandwidth = Maximum
+                            Capacity</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                Definition:
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">The
+                                <strong>maximum amount of data</strong> that can be transferred per second
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">💡
+                                Example:
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">Your internet
+                                plan = <strong>100 Mbps</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: #F97316; margin-bottom: 1rem; font-size: 1.3rem;">📐 <strong>Standard
+                                    Formula</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                                <strong>Bandwidth</strong> = Total Data / Time
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                Units:
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li><strong>Data</strong> → bits / bytes (MB, GB, TB)</li>
+                                <li><strong>Time</strong> → seconds</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">✅
+                                Result:
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li>bps (bits per second)</li>
+                                <li>Mbps, Gbps</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h5 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.3rem;">⚡ <strong>Important
+                                    Conversion</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 1rem;">👉
+                                <strong>Always convert:</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;"><strong>1
+                                    Byte = 8 bits</strong></p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                So:</p>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                                <strong>Bandwidth (bps)</strong> = (Data (Bytes) × 8) / Time (seconds)
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Throughput Section -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">⚡ 2️⃣
+                            Throughput = Actual Speed You Get</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                Definition:
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">The
+                                <strong>real amount of data</strong> actually transferred per second
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">💡
+                                Example:
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">You get only
+                                <strong>60 Mbps</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Key Difference Table -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">⚖️ <strong>Key
+                                Difference</strong></h4>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; color: var(--color-text-secondary);">
+                                <thead>
+                                    <tr style="background: rgba(168, 85, 247, 0.1);">
+                                        <th
+                                            style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                            <strong>Feature</strong>
+                                        </th>
+                                        <th
+                                            style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                            <strong>Bandwidth</strong>
+                                        </th>
+                                        <th
+                                            style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                            <strong>Throughput</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">
+                                            <strong>Meaning</strong>
+                                        </td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Max
+                                            capacity</td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Actual
+                                            speed</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">
+                                            <strong>Controlled by</strong>
+                                        </td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Network
+                                            capability</td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Real
+                                            conditions</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">
+                                            <strong>Example</strong>
+                                        </td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">100 Mbps
+                                        </td>
+                                        <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">60 Mbps
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Real Example -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;">🌍 Real
+                            Example</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>👉 <strong>You have:</strong> 100 Mbps connection</li>
+                            <li>👉 <strong>But:</strong> Watching video from slow server</li>
+                            <li>👉 <strong>Result:</strong> You get only <strong>20 Mbps</strong></li>
+                            <li>👉 <strong>That 20 Mbps</strong> = <strong>throughput</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Summary -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">🧠 Summary
+                        </h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>👉 <strong>Bandwidth</strong> is what system <strong>can handle</strong></li>
+                            <li>👉 <strong>Throughput</strong> is what system <strong>actually delivers</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Interview One-Liner -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">⚡
+                            Interview One-Liner
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">👉
+                            <strong>Bandwidth</strong> is the <strong>maximum data transfer capacity</strong> of a
+                            network, while <strong>throughput</strong> is the <strong>actual rate of successful data
+                                transfer</strong>, which is usually lower due to real-world constraints.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Topic 2: Cost Breakdown Overview -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💸 Cost Breakdown
+                        Overview</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">👉 We consider
+                            only:</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>🖥️ <strong>Compute</strong> (Servers)</li>
+                            <li>💾 <strong>Storage</strong></li>
+                            <li>⚖️ <strong>Load balancers</strong></li>
+                            <li>🌐 <strong>Bandwidth</strong></li>
+                            <li>📊 <strong>Database</strong></li>
+                            <li>⚡ <strong>Caching</strong> (Redis)</li>
+                            <li>📡 <strong>CDN</strong></li>
+                            <li>📈 <strong>Logging / Monitoring</strong></li>
+                            <li>🔁 <strong>Replication infra</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 3: Storage Cost -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💾 1️⃣ Storage
+                        Cost (Per 1 TB)</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">☁️ Using cloud like
+                            Amazon Web Services S3:
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.2rem; margin-bottom: 1.5rem;">👉
+                            <strong>~$20–25 per TB/month</strong>
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                <strong>So:</strong>
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li><strong>1 TB</strong> ≈ <strong>$20/month</strong></li>
+                                <li><strong>Yearly</strong> ≈ <strong>$240</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h5 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.3rem;">🔁 <strong>With
+                                    Replication (Very Important)</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 1rem;">Most
+                                systems use: <strong>2x or 3x replication</strong></p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                                <strong>Cost becomes:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li><strong>2x</strong> → <strong>$40/month</strong></li>
+                                <li><strong>3x</strong> → <strong>$60/month</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">💾
+                            Backups
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">Backup storage
+                            (~cheap tier): <strong>~$5–10/TB/month</strong></p>
+                    </div>
+                </div>
+
+                <!-- Topic 4: Compute Cost -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🖥️ 2️⃣ Compute
+                        Cost (Servers)</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.2rem;">👉Server
+                            cost is mainly monthly rent for computing power, NOT depending on storage.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                Handles:
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li>Redirect requests</li>
+                                <li><strong>API calls</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">📌
+                                Typical setup:
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                <strong>Small scale:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li><strong>2–3 servers</strong> → <strong>$50–100/month each</strong></li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉
+                                <strong>Total: $150–300/month</strong>
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2);">
+                            <h5 style="color: #F97316; margin-bottom: 1rem; font-size: 1.3rem;">🔥 <strong>At Scale
+                                    (Millions of requests)</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li>Auto-scaling servers</li>
+                                <li><strong>Load balancers</strong></li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉
+                                <strong>Cost: $1,000 – $5,000/month</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 5: CDN Cost -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌐 3️⃣ CDN Cost
+                        (Very Important)</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.2rem;">👉 For fast
+                            redirection globally</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">☁️ Using
+                                CDN (like <strong>CloudFront</strong>):</h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.2rem; margin: 0;">👉 <strong>1 TB
+                                    data transfer ≈ $80–$82</strong></p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem;">Higher
+                                usage → cheaper (volume discount)</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                Example CDN providers:
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li><strong>Amazon CloudFront</strong></li>
+                                <li><strong>Cloudflare</strong></li>
+                                <li><strong>Akamai</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2);">
+                            <h5 style="color: #F97316; margin-bottom: 1rem; font-size: 1.3rem;">⚠️ But real
+                                systems :</h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                                Analytics + metadata + logs</p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;">👉 <strong>CDN cost:
+                                    $50 – $500/month</strong> (scale dependent)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 6: Database Cost -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📊 4️⃣ Database
+                        Cost</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.2rem;">👉 Database
+                            cost is mainly based on storage + compute + scaling features</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">👉
+                                1 TB storage cost ≈ $20 – $256 per month
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">👉
+                                <strong>Stores:</strong> Short URL → Long URL mapping
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">📌
+                                <strong>Options:</strong>
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li>SQL / NoSQL DB</li>
+                                <li>Managed DB: <strong>$100–500/month</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2);">
+                            <h5 style="color: #F97316; margin-bottom: 1rem; font-size: 1.3rem;">🔥 <strong>At
+                                    Scale:</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                                <li>Sharding</li>
+                                <li>Replication</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉
+                                <strong>Cost: $500 – $5,000/month</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.4rem;">🔁 5️⃣ Replication
+                            (DB Level)</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">Multi-region
+                            replication</p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉 <strong>Doubles
+                                or triples DB cost</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">📚 6️⃣ Indexing
+                            Cost</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Needed for:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>Fast lookup</li>
+                            <li>Analytics</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉 <strong>Adds:
+                                $100–1000/month</strong></p>
+                    </div>
+                </div>
+
+                <!-- Topic 7: Other Costs -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📦 7️⃣ Logging &
+                        Analytics Infra</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">👉 For:
+                        </h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>Click tracking</li>
+                            <li>User behavior</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">🔧
+                            Tools :
+                        </h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li><strong>Kafka</strong> / <strong>ELK</strong> / <strong>BigQuery</strong></li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉 <strong>Cost:
+                                $500 – $5,000/month</strong> based on traffic</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2);">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;">🌐 8. Bandwidth Cost
+                            (Biggest Cost)</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">👉 Cloud data
+                            transfer cost of <strong>1 TB bandwidth ≈ $50 – $52</strong> (rough avg of 720p quality)</p>
+                    </div>
+                </div>
+
+                <!-- Topic 8: Complete System Cost Breakdown -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💰 Complete
+                        System Cost Breakdown (Storage, Compute, CDN, DB, etc.)</h3>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem; overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; color: var(--color-text-secondary);">
+                            <thead>
+                                <tr style="background: rgba(168, 85, 247, 0.1);">
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                        <strong>Component</strong>
+                                    </th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                        <strong>Small Company (Monthly)</strong>
+                                    </th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                        <strong>Large Company (Monthly)</strong>
+                                    </th>
+                                    <th
+                                        style="padding: 0.75rem; text-align: left; border: 1px solid var(--glass-border);">
+                                        <strong>1 TB Reference Cost</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">💾
+                                        <strong>Storage (S3)</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$20 – $50</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$500 – $5,000+
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">~$20 – $25</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">🔁
+                                        <strong>Replication (Storage)</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$40 – $100</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 –
+                                        $10,000</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">2x → $40, 3x →
+                                        $60</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">💾
+                                        <strong>Backup Storage</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$5 – $20</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$200 – $2,000
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">~$5 – $10</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">🖥️
+                                        <strong>Compute (Servers)</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$150 – $300
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 – $5,000
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">❌ Not TB-based
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">🌐 <strong>CDN
+                                            (Data Transfer)</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$50 – $500</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 –
+                                        $20,000</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">~$80 per TB
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">📊
+                                        <strong>Database (DB)</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$100 – $500
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$500 – $5,000+
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$20 – $256</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">🔁 <strong>DB
+                                            Replication</strong></td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$200 – $800
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 –
+                                        $10,000</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Depends on
+                                        copies</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">📚
+                                        <strong>Indexing</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$100 – $300
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$500 – $1,000
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">❌ Not TB-based
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">📦
+                                        <strong>Logging & Analytics</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$500 – $1,000
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 –
+                                        $5,000+</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">Depends on logs
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">🌐
+                                        <strong>Bandwidth</strong>
+                                    </td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$50 – $300</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">$1,000 –
+                                        $50,000+</td>
+                                    <td style="padding: 0.75rem; border: 1px solid var(--glass-border);">~$50 per TB
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Topic 9: Zoom Example Calculation -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🎥 Example: Zoom
+                        Cost Calculation</h3>
+
+                    <!-- Given Data -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">🎥 Given
+                            Data</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li><strong>Users</strong> = 300 Million (300M)</li>
+                            <li>Each user uses <strong>20 minutes/day</strong></li>
+                            <li><strong>1 hour recording = 300 MB</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;"> 🧠Step
+                            1: Convert Usage Time </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0;">👉 <strong>20
+                                minutes = 1/3 hour</strong></p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">💾 Step 2: Storage
+                            per User per Day</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>If 1 hour = 300 MB</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Then 20 min:</strong>
+                        </p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>300 × (1/3) = 100
+                                MB per user/day</strong></p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;">💾 Step 3: Total
+                            Daily Storage</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                            <strong>300M users × 100 MB = 30,000,000 MB</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Convert:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>= 30,000 GB</li>
+                            <li>= <strong>30 TB per day</strong></li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">📅 Step 4: Monthly
+                            Storage</h4>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>30 TB × 30 days =
+                                900 TB/month</strong></p>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">💰 Step 5: Storage
+                            Cost</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Using ~$20/TB:</strong>
+                        </p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;"><strong>900 ×
+                                $20 = $18,000/month</strong></p>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1rem; border-radius: var(--radius-md);">
+                            <p style="color: #ef4444; font-size: 1.1rem; margin: 0;">🔁 <strong>With Replication
+                                    (3x):</strong></p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>$18,000 × 3 =
+                                    $54,000/month</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">🌐 Step
+                            6: Bandwidth Calculation</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Each user sends + receives data</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                            <strong>Per user: 100 MB/day</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                            <strong>Total: 300M × 100 MB = 30 TB/day</strong>
+                        </p>
+                    </div>
+
+                    <!-- Monthly Bandwidth -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;">📅 <strong>Monthly
+                                Bandwidth</strong></h4>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;"><strong>30 TB ×
+                                30 = 900 TB/month</strong></p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">💰
+                            <strong>Bandwidth Cost (~$50/TB)</strong>
+                        </p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>900 × $50 =
+                                $45,000/month</strong></p>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;">🌐 Step 7: CDN Cost
+                            (~$80/TB)</h4>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>900 × $80 =
+                                $72,000/month</strong></p>
+                    </div>
+
+                    <!-- Step 8 -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">🖥️ Step 8: Compute
+                            Cost</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Massive scale:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>Video processing</li>
+                            <li>Routing</li>
+                            <li>Encoding</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉
+                            <strong>Estimated: $50,000 – $200,000/month</strong>
+                        </p>
+                    </div>
+
+                    <!-- Step 9 -->
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">📊 Step
+                            9: Database Cost</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Stores:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 2; font-size: 1.1rem;">
+                            <li>Users</li>
+                            <li>Meetings metadata</li>
+                        </ul>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem;">👉
+                            <strong>Estimated: $10,000 – $50,000/month</strong>
+                        </p>
+                    </div>
+
+                    <!-- Step 10 -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;">📦 Step 10: Logging
+                            & Analytics</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem;">👉
+                            <strong>Huge traffic logs:</strong>
+                        </p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>$20,000 –
+                                $100,000/month</strong></p>
+                    </div>
+
+                    <!-- Total Cost -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 2px solid rgba(239, 68, 68, 0.3);">
+                        <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.5rem;">💵 🔥 Total
+                            Cost</h4>
+                        <p
+                            style="color: var(--color-primary); font-size: 1.8rem; margin: 0; text-align: center; font-weight: 700;">
+                            ≈ <strong>$250K – $500K+ per month</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="API_Architecture_Styles.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">🌐 API Architecture Styles</span>
+                </a>
+            </div>
+        </section>
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
