@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design URL Shortener - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>System Design Mastery</h1>
+                <p>Master scalable systems with premium insights</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="design-problems.html" aria-label="Go to Design Problems">Design Problems</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">URL Shortener</span>
+                </nav>
+
+                <h2>🔗 Design URL Shortener — System Design Deep Dive</h2>
+
+                <!-- Table of Contents -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
+                    <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
+                    </h3>
+                    <ol style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
+                        <li><a href="#topic-1"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">What is
+                                URL Shortener</a></li>
+                        <li><a href="#topic-2"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Requirements</a>
+                        </li>
+                        <li><a href="#topic-3"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Data
+                                Estimation</a></li>
+                        <li><a href="#topic-4"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">CAP
+                                Theorem</a></li>
+                        <li><a href="#topic-5"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Needed
+                                Components</a></li>
+                        <li><a href="#topic-6"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Data
+                                Model</a></li>
+                        <li><a href="#topic-7"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Design API
+                                Endpoints</a></li>
+                        <li><a href="#topic-8"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">High Level
+                                Design</a></li>
+                        <li><a href="#topic-9"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">How to
+                                Create Short URL</a></li>
+                        <li><a href="#topic-10"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Scaling
+                                Considerations</a></li>
+                        <li><a href="#topic-11"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Health
+                                Checks & Monitoring</a></li>
+                        <li><a href="#topic-12"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">Security</a>
+                        </li>
+                        <li><a href="#topic-13"
+                                style="color: var(--color-primary); text-decoration: none; font-weight: 500;">How URL
+                                Shorteners Make Money</a></li>
+                    </ol>
+                </div>
+
+                <!-- Topic 1: What is URL Shortener -->
+                <div id="topic-1" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌐 What is URL
+                        Shortener</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0; line-height: 1.8;">A
+                            <strong>URL Shortener</strong> is a service that takes a long URL and converts it into a
+                            shorter, more manageable link that redirects to the original URL when accessed.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img1.png" alt="URL Shortener Overview"
+                            style="max-width: 85%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">📺
+                            <strong>Checkout this YouTube video:</strong>
+                        </h4>
+                        <div
+                            style="position: relative; padding-bottom: 50.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg);">
+                            <iframe width="560" height="315"
+                                src="https://www.youtube.com/embed/16d35un5a9Q?si=yrsWwxkkuHx7imAz"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 2: Requirements -->
+                <div id="topic-2" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📋 Requirements
+                    </h3>
+
+                    <!-- Functional Requirements -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;">✅ <strong>1. Functional
+                                Requirements</strong> (What system should do)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    URL Shortening</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                Convert a <strong>long URL</strong> into a <strong>short, unique URL</strong>.</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 <strong>Input:</strong> Long URL</li>
+                                <li>👉 <strong>Output:</strong> Short URL</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    URL Redirection</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">When
+                                user clicks the short URL, <strong>redirect to the original long URL</strong>.</p>
+                            <p style="color: var(--color-primary); font-size: 1.05rem; margin: 0;">👉 <strong>Core
+                                    feature</strong> (most traffic comes here)</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Link Analytics</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                <strong>Link analytics</strong> is the process of tracking and analyzing how many times
+                                a short URL is accessed and related usage details.
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">👉
+                                <strong>It tracks:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Number of clicks</strong> by user</li>
+                                <li>When the link was clicked <strong>(Time)</strong></li>
+                                <li>From which location <strong>🌍</strong></li>
+                                <li>From which device <strong>(mobile/laptop) 📱💻</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                                💡 <strong>Used Mainly for:</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Monitoring popularity</li>
+                                <li style="text-decoration: underline;">Improving caching <strong>(hot URLs)</strong>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>4.
+                                    Link Expiration</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                                The system should support <strong>link expiration</strong>, where a short URL becomes
+                                invalid after a specified time, and expired links are periodically cleaned up using
+                                <strong>background jobs</strong>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Non-Functional Requirements -->
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1.5rem; font-size: 1.4rem;">⚡ <strong>Non-Functional
+                                Requirements</strong> (How system should behave)</h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    Low Latency ⚡</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                <strong>Redirection must be very fast.</strong> <br>URL redirection should be low
+                                latency,
+                                ideally completing within a few milliseconds so that the user is instantly redirected to
+                                the original long URL without noticeable delay.
+                            </p>
+                            <p style="color: var(--color-primary); font-size: 1.1rem; margin: 0;">👉 <strong>Target: <
+                                        100ms–300ms</strong> (ideal) <span
+                                            style="color: var(--color-text-secondary);">(not 3 sec — that's too
+                                            slow)</span></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    High Availability 🟢</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                System should be available <strong>almost always (99.9%+)</strong>. <br> Even if some
+                                servers
+                                fail, redirects must work.</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">💡
+                                <strong>Because:</strong> Users clicking links expect instant response
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Scalability 📈</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Should handle <strong>millions to billions</strong> of URLs</li>
+                                <li><strong>Read-heavy system</strong> (more redirects than writes)</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0;">
+                                💡 <strong>You can say:</strong> "System should scale horizontally using load balancers
+                                and distributed storage."</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>4.
+                                    Durability 💾</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">Once a short
+                                URL is created, it <strong>should not be lost</strong>. Data must be safely stored.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>5.
+                                    Consistency vs Availability</strong> (CAP Thinking)</h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                <strong>Prefer Availability over strict Consistency</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">💡
+                                <strong>Example:</strong> It's okay if analytics is slightly delayed, but redirects must
+                                always work
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>6.
+                                    Security</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Prevent <strong>malicious URLs</strong></li>
+                                <li><strong>Rate limiting</strong> (avoid abuse/spam)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img2.png" alt="URL Shortener Requirements"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 3: Data Estimation -->
+                <div id="topic-3" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📊 2. Data
+                        Estimation</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>1. Traffic
+                                Assumption</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 1.5rem; font-style: italic;">
+                            "Let's assume the system generates <strong>1000 URLs per second</strong>."</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                <strong>Writes = 1000/sec</strong> → creating short URLs
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                Assuming <strong>10x more reads than writes</strong></p>
+                            <p style="color: var(--color-primary); font-size: 1.1rem; margin: 0;">👉 <strong>So: Reads =
+                                    10,000/sec, Writes = 1,000/sec</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>What is Read vs Write?</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                <strong>Write (Create URL)</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 When user submits a long URL and system stores it</li>
+                                <li>👉 Example: creating <strong>short.ly/abc123</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 1rem;">
+                                <strong>Read (Redirect URL)</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 When user clicks short URL and gets redirected</li>
+                                <li>👉 This is the <strong>most frequent operation</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin: 0; font-style: italic;">
+                                💡 <strong>Interview line:</strong> "Reads are significantly higher because each short
+                                URL can be accessed multiple times after creation."</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img3.png" alt="Data Estimation"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>We use Base62
+                                Encoding</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.1rem;">
+                                <li><strong>[a–z]</strong> = 26 characters </li>
+                                <li><strong>[A–Z]</strong> = 26 characters</li>
+                                <li><strong>[0–9]</strong> = 10 digits</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-primary); font-size: 1.3rem; margin-top: 1rem; margin-bottom: 0;">
+                                <strong>Total = 62 characters</strong>
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin: 0;">
+                                👉 So each position in short URL has <strong>62 possibilities</strong></p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>1.
+                                Yearly Estimation</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                <strong>Seconds in a year</strong> ≈ 60×60×24×365 = <strong>31.5 million</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>URLs per year:</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">👉
+                                <strong>1000 × 31.5M = 31.5 Billion URLs in year</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Reads per year:</strong>
+                            </p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;">👉 <strong>10,000 ×
+                                    31.5M = 315 Billion reads in year</strong></p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img4.png" alt="Yearly Estimation"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>2. Capacity of
+                                Short URLs</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">If
+                                <strong>length = 7 characters</strong>:
+                            </p>
+                            <p style="color: var(--color-primary); font-size: 1.4rem; margin-bottom: 1rem;"><strong>62^7
+                                    ≈ 3.5 Trillion unique URLs</strong></p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">👉
+                                This is enough for:</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                                <strong>315 Billion URLs</strong> (your 10-year estimate)
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-style: italic;">
+                                💡 <strong>Interview line:</strong> "Using Base62 with 7 characters gives ~3.5 trillion
+                                combinations, which comfortably supports our scale."</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>3. Storage Per
+                                URL</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Short URL</strong> → ~7 bytes</li>
+                                <li><strong>Long URL</strong> → ~100 bytes</li>
+                                <li><strong>Metadata</strong> → ~500 bytes</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-top: 1rem; margin: 0;">👉
+                                <strong>Total storage per request ≈ ~1000 bytes (≈ 1 KB)</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>4. Total Storage
+                                Calculation</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">We
+                                already calculated: <strong>Total URLs in 10 years for reads = 315 Billion</strong></p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                Now:</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>315 Billion × 1 KB</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">=
+                                315 Billion KB</p>
+                            <p style="color: var(--color-primary); font-size: 1.4rem; margin: 0;">👉 <strong>Total
+                                    Storage for reads ≈ 315 Terabytes</strong></p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;">
+                            <strong>Bandwidth</strong>
+                        </h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                Since we expect about <strong>1000 URLs every second</strong>, and if we assume each
+                                request is of size <strong>1000 bytes</strong> then the total incoming data for write
+                                requests would be:</p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">
+                                <strong>1000×1000 bytes = 1MB/second</strong> for each write request
+                            </p>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                Similarly, for the read requests, since we expect about <strong>10K
+                                    redirections</strong>, the total outgoing data would be:</p>
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>10000
+                                    URLs/second × 1000 bytes = ~10 MB/second</strong> for each read request</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-top: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;">💡 <strong>Remember: Caching
+                                Strategy</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                            For caching, we will follow the classic <strong>Pareto principle</strong> also known as the
+                            <strong>80/20 rule</strong>. This means that <strong>80% of the requests are for 20% of the
+                                data</strong>, so we can cache around <strong>20%</strong> of our requests.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img5.png" alt="Bandwidth and Caching"
+                            style="max-width: 50%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 4: CAP Theorem -->
+                <div id="topic-4" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">⚖️ CAP Theorem
+                    </h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Q1. Do we prefer
+                                Consistency or Availability?</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">👉
+                                <strong>Choose: Availability (AP system)</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Redirect should always work (even if slightly stale data)</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                                <strong>Use BASE principles:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>B</strong>asically <strong>A</strong>vailable</li>
+                                <li><strong>S</strong>oft State</li>
+                                <li><strong>E</strong>ventual Consistency</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Q2.
+                                Is this system global?</strong></h4>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>Yes</strong> →
+                                Need <strong>CDN + geo-distributed servers</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 5: Needed Components -->
+                <div id="topic-5" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏗️ 3. Needed
+                        Components</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;"><strong>1. Client</strong>
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">User
+                            (browser/mobile app) sends request to create or access short URL</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;"><strong>2. API
+                                Gateway</strong></h4>
+                        <p><strong>Entry point</strong> to the system</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+
+                            <li>Handles <strong>authentication</strong></li>
+                            <li><strong>Routes requests</strong> to services</li>
+                            <li>Applies <strong>rate limiting</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;"><strong>3. Load
+                                Balancer</strong></h4>
+                        <p><strong>Distributes traffic</strong> across multiple servers</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Ensures <strong>high availability</strong></li>
+                            <li>Prevents <strong>overload</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>4. Core Services
+                                (3 Services)</strong></h4>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    URL Shortening Service</strong></h5>
+                            <p>Converts <strong>long URL → short URL</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+
+                                <li>Generates <strong>unique ID</strong></li>
+                                <li>Stores in <strong>database</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    URL Redirection Service</strong></h5>
+                            <p>Redirects <strong>short URL → long URL</strong></p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+
+                                <li>Most frequent <strong>(read-heavy)</strong></li>
+                                <li>Uses <strong>cache</strong> for fast response</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Link Analytics Service</strong></h5>
+                            <p>Tracks <strong>number of clicks</strong> and usage data</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+
+                                <li>Stores metrics for <strong>analysis</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.4rem;"><strong>5. Cache (Redis)
+                                ⚡</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">uses
+                            <strong>LRU (Least Recently Used)</strong> + <strong>TTL (Time to Live)</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Stores <strong>frequently accessed URLs</strong></li>
+                            <li>Reduces <strong>database load</strong></li>
+                            <li>Improves <strong>latency</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>6. Database
+                                💾</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">Stores
+                            mapping <strong>(short URL → long URL)</strong></p>
+                        <p style="color: var(--color-primary); font-size: 1.1rem; margin-bottom: 1.5rem;">Use
+                            <strong>NoSQL</strong> for large scale
+                        </p>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>Why
+                                    NoSQL?</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                We use <strong>NoSQL</strong> because the data is simple <strong>key-value (short URL →
+                                    long URL)</strong>, and the system needs to handle <strong>very large scale</strong>
+                                and <strong>high traffic</strong>. NoSQL makes it easy to <strong>scale
+                                    horizontally</strong> and handle millions of requests with <strong>No joins, no
+                                    complex relations</strong>.</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;"><strong>NoSQL
+                                    databases support built-in partitioning</strong></p>
+                        </div>
+
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 1.5rem;">
+                            <h5 style="color: #F97316; margin-bottom: 1rem; font-size: 1.2rem;"><strong>When NOT to use
+                                    NoSQL?</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">👉
+                                If system needs:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Strong consistency</strong> than Availability</li>
+                                <li><strong>Complex joins</strong></li>
+                                <li><strong>Transactions (ACID)</strong></li>
+                            </ul>
+                        </div>
+
+                        <p
+                            style="text-decoration:underline ;color: var(--color-primary); font-size: 1.1rem; margin: 0;">
+                            Uses <strong>Client -
+                                Server Architecture</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;"><strong>7. Read
+                                Replicas 🟢</strong></h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Handle <strong>heavy read traffic</strong></li>
+                            <li>Improve <strong>performance</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;"><strong>8. Sharding
+                                🧩</strong> (Key based Sharding)</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Split data across <strong>multiple databases</strong></li>
+                            <li>Handles <strong>large-scale data</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.4rem;"><strong>9. Rate Limiting
+                                🚫</strong></h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Prevents <strong>abuse</strong> (too many requests)</li>
+                            <li>Applied at <strong>API Gateway</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 6: Data Model -->
+                <div id="topic-6" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📊 4. Data Model
+                    </h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                            The <strong>URL Shortening Service</strong> owns <strong>URLMapping</strong> to ensure
+                            unique ID generation. <br> The <strong>Analytics Service</strong> owns
+                            <strong>Analytics</strong>
+                            to handle high-volume write traffic without impacting redirection performance.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img6.png" alt="Data Model 1"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img7.png" alt="Data Model 2"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">
+                            <strong>Relationship</strong>
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                            <strong>URLMapping and Analytics</strong> have a <strong>one-to-one relationship</strong>.
+                            Each shortened URL has exactly one analytics record. The relationship is optional - URLs can
+                            exist without analytics if tracking is disabled.
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img8.png" alt="Data Model Relationship"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 7: Design API Endpoints -->
+                <div id="topic-7" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🌐 5. Design API
+                        Endpoints</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>POST
+                                /api/urls/shorten</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">Shorten
+                            a given long URL and return the shortened URL.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Request Body</strong>
+                            </h5>
+                            <pre
+                                style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md); color: var(--color-text-secondary); overflow-x: auto; font-family: monospace; font-size: 0.95rem;">{
+  "longUrl": "http://example.com"
+}</pre>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Response Body</strong>
+                            </h5>
+                            <pre
+                                style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md); color: var(--color-text-secondary); overflow-x: auto; font-family: monospace; font-size: 0.95rem;">{
+  "shortUrl": "http://urlshort.ly/abcd"
+}</pre>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>GET
+                                /api/urls/{shortUrl}</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">Redirect
+                            to the original long URL using the shortened URL.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Response Body</strong>
+                            </h5>
+                            <pre
+                                style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md); color: var(--color-text-secondary); overflow-x: auto; font-family: monospace; font-size: 0.95rem;">{
+  "longUrl": "http://example.com"
+}</pre>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img9.png" alt="API Endpoints"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 8: High Level Design -->
+                <div id="topic-8" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🏗️ 6. High Level
+                        Design</h3>
+
+                    <!-- URL Shortening -->
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>1. URL
+                                Shortening</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.8;">
+                            Users should be able to input a long URL and receive a unique, shortened alias. The
+                            shortened URL should use a compact format with English letters and digits to save space and
+                            ensure uniqueness.</p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.8;">
+                            The design for URL shortening follows a <strong>basic two-tier architecture</strong> that
+                            processes requests quickly and scales to handle high volumes:</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    Client</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">The frontend
+                                application sends <strong>HTTP POST requests</strong> containing long URLs to the URL
+                                Shortening service.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    URL Shortening Service</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                The backend receives requests and is responsible for creating and returning shortened
+                                URLs. It performs these <strong>key functions</strong>:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Generates a <strong>unique, short alias</strong> by encoding the URL or using
+                                    hashing techniques to ensure uniqueness.</li>
+                                <li>Stores the <strong>mapping of long URLs to short aliases</strong> in the database.
+                                </li>
+                                <li>Manages errors and ensures <strong>each short URL is unique</strong> across all
+                                    users.</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Database</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">A
+                                <strong>highly available database</strong> (e.g., DynamoDB or Cassandra) is used to
+                                persist mappings between long URLs and short aliases.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 1.5rem;">
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-style: italic;">
+                                This design supports efficient and quick URL shortening with minimal data storage
+                                requirements per URL entry.</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img10.jpeg" alt="URL Shortening Design"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <!-- URL Redirection -->
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>2. URL
+                                Redirection</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.8;">
+                            When users access a shortened URL, the service should redirect them seamlessly to the
+                            original URL with minimal delay.
+                            <br>The URL redirection service ensures that users accessing a
+                            shortened URL are <strong>quickly redirected</strong> to the original URL with minimal
+                            delay. This design focuses on <strong>high read throughput and low latency</strong>, as the
+                            read traffic will be significantly higher than URL creation.
+                        </p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    API Gateway</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                                As we now have two request types, we need an <strong>API Gateway</strong>. This acts as
+                                the entry point for all incoming requests, routing POST requests to the <strong>URL
+                                    Shortening Service</strong> and GET requests to the <strong>URL Redirection
+                                    Handler</strong>.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    URL Redirection Request Handler</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; line-height: 1.8;">
+                                Accepts GET requests with the shortened URL, queries the cache for the original URL, and
+                                responds with a <strong>302 Found</strong> status and the original URL in the Location
+                                header to facilitate seamless redirection.</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>301</strong> → browser caches redirect (Acts like cache, no request next
+                                    time)</li>
+                                <li><strong>302</strong> → not cached (Every request hits server, good for analytics)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Caching Layer</strong></h5>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; line-height: 1.8;">
+                                To reduce latency and offload read requests from the database, we implement a
+                                <strong>read-through caching layer</strong> (e.g., Redis with cache libraries) that
+                                stores frequently accessed URL mappings in memory. When a URL is not found in the cache,
+                                the cache itself automatically retrieves it from the database and stores it for future
+                                requests, making the process transparent to the Request Handler.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>4.
+                                    Database</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">The database
+                                stores all URL mappings. The cache layer automatically queries the database when needed,
+                                without requiring the Request Handler to manage cache misses directly.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.2); margin-top: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Indexing</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">We
+                                use indexing on:</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>1. short_code</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                short_code → long_url</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 Used during redirection (read-heavy)</li>
+                                <li>👉 Should be <strong>PRIMARY KEY / INDEXED</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: rgba(168, 85, 247, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.2); margin-top: 1.5rem;">
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-style: italic;">
+                                This setup ensures efficient and reliable URL redirection at scale by combining the API
+                                Gateway, Request Handler, Caching Layer, and Database.</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img11.png" alt="URL Redirection Design"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <!-- Link Analytics -->
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <h4 style="color: #A855F7; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>3. Link
+                                Analytics</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.8;">
+                            The system should be able to track the number of times each shortened URL is accessed to
+                            provide insights into link usage. <br> To track the number of accesses for each shortened
+                            URL, we
+                            introduce an <strong>Analytics Service</strong> that counts and stores access events in real
+                            time. This setup provides useful insights into link usage patterns and is designed to scale
+                            for high traffic.</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    API Gateway</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">Routes GET
+                                requests to both the <strong>URL Redirection Handler</strong> (for redirection) and the
+                                <strong>Analytics Service</strong> (for tracking access).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    Analytics Service</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">Tracks each
+                                URL access by <strong>incrementing a counter</strong> associated with the short URL.
+                                This service logs access events and can be optimized by using a lightweight in-memory
+                                counter before periodically updating the database.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    In-Memory Database</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">For high-speed
+                                access counting, we use an <strong>in-memory data store like Redis</strong> to cache the
+                                counters for each short URL. This enables real-time tracking and reduces the load on the
+                                main database.</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>4.
+                                    Database</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">Periodically,
+                                the Analytics Service <strong>flushes the in-memory counters</strong> to the main
+                                database to ensure persistent storage of access counts.</p>
+                        </div>
+
+                        <div
+                            style="background: rgba(59, 130, 246, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.2); margin-top: 1.5rem;">
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-style: italic;">
+                                This architecture enables efficient, real-time analytics collection, combining the speed
+                                of in-memory storage with the durability of a database.</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img12.png" alt="Link Analytics Design"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 9: How to Create Short URL -->
+                <div id="topic-9" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔧 7. How to
+                        Create Short URL from Long URL</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Step 1: Take Long
+                                URL</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.1rem; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                            https://example.com/very/long/url</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Step
+                                2: Apply Hash Function</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">Use:</p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;"><strong>MD5 /
+                                SHA-256</strong></p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">👉 These convert
+                            any length input → <strong>fixed length output</strong></p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img13.png" alt="Hash Function"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Step 3: Take First
+                                7 Characters</strong></h4>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h5 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;">🔴 <strong>Problem:
+                                    Collision</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">Two different
+                                URLs may generate same first 7 characters</p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img14.png" alt="Collision Problem"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.4rem;">
+                            <strong>Solution: Add Predefined String (Salt)</strong>
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">👉
+                            <strong>If collision happens:</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                            new_input = longURL + "random_string"</p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">Then
+                            hash again:</p>
+                        <p
+                            style="color: var(--color-primary); font-size: 1.1rem; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                            hash(new_input) → new short code</p>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img15.png" alt="Salt Solution"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;"><strong>Flow:</strong>
+                        </h4>
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Take <strong>long URL</strong></li>
+                            <li>Apply <strong>hash function</strong></li>
+                            <li>Generate <strong>short URL</strong></li>
+                            <li><strong>Check:</strong> "Does this already exist in DB?"</li>
+                        </ol>
+                        <div
+                            style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>If NO</strong> (no collision) → Store and return short URL ✅
+                            </p>
+                        </div>
+                        <div
+                            style="background: rgba(249, 115, 22, 0.08); padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>If YES</strong> (collision) → Do this:
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>new_longURL = longURL + predefined_string</li>
+                                <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom:
+                                    0rem; margin-top: 0.2rem; margin-left: -1rem;">
+                                    <strong>Repeat:</strong>
+                                </p>
+                                <li> Hash again</li>
+                                <li>Generate new short code</li>
+                                <li>Check DB again</li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.05rem; margin-top: 1rem; margin: 0;">🔁
+                                <strong>Loop until unique</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1.5rem; font-size: 1.4rem;">⚠️ <strong>Failure
+                                Scenario</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">👉
+                            <strong>Problem with predefined string:</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">If we
+                            always use same string like:</p>
+                        <p
+                            style="color: var(--color-primary); font-size: 1.1rem; margin-bottom: 1rem; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                            + "123"</p>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Example:</strong>
+                            </p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                URL1 → hash → collision → URL1 + "123" → new_hash1</p>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">URL2
+                                → hash → collision → URL2 + "123" → new_hash2</p>
+                            <p style="color: #ef4444; font-size: 1.05rem; margin-bottom: 0.5rem;">👉 Still possible:</p>
+                            <p style="color: var(--color-primary); font-size: 1.1rem; margin: 0;">new_hash1 and
+                                new_hash2 may again collide ❌</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #A855F7; margin-bottom: 1.5rem; font-size: 1.4rem;">😬 <strong>Worse
+                                Case</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">
+                            <strong>If:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Same predefined string used repeatedly</li>
+                            <li>High traffic system</li>
+                        </ul>
+                        <p style="color: #ef4444; font-size: 1.1rem; margin-top: 1rem; margin-bottom: 1rem;">👉 Multiple
+                            retries → performance issue</p>
+                        <p style="color: var(--color-primary); font-size: 1.2rem; margin: 0;"><strong>This is not best
+                                way</strong></p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;">📺
+                            <strong>Checkout best way here — watch this video:</strong>
+                        </h4>
+                        <div
+                            style="position: relative; padding-bottom: 50%; height: 0; overflow: hidden; border-radius: var(--radius-lg);">
+                            <iframe width="560" height="315"
+                                src="https://www.youtube.com/embed/HHUi8F_qAXM?si=H4FCB-MfDvL7FdYp"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 10: Scaling Considerations -->
+                <div id="topic-10" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">📈 8. Scaling
+                        Considerations</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #3B82F6; margin-bottom: 1rem; font-size: 1.4rem;"><strong>1. Horizontal
+                                Scaling 📈</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; font-style: italic;">
+                            "A single server cannot handle this scale of traffic."</p>
+                        <p style="color: var(--color-primary); font-size: 1.1rem; margin: 0;">👉 So we
+                            <strong>distribute load across multiple servers</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: rgba(16, 185, 129, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.4rem;"><strong>2. Read
+                                Replicas 🟢</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; font-style: italic;">
+                            "Since reads are very high, we use read replicas."</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li><strong>Master DB</strong> → Handles writes</li>
+                            <li><strong>Replica DBs</strong> → Handle reads</li>
+                        </ul>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                            💡 <strong>Benefit:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Improves <strong>performance</strong></li>
+                            <li>Reduces <strong>load on primary DB</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: rgba(249, 115, 22, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(249, 115, 22, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #F97316; margin-bottom: 1rem; font-size: 1.4rem;"><strong>3. Caching
+                                ⚡</strong> (here we use LRU+TTL cache)</h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; font-style: italic;">
+                            "We use caching to reduce database hits for frequent URLs."</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li>Store <strong>popular (hot) URLs</strong> in cache (like Redis)</li>
+                            <li>Most redirects served from <strong>cache instead of DB</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                            💡 <strong>Especially useful because:</strong></p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0; font-style: italic;">
+                            "Same short URL is accessed multiple times."</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2);">
+                        <h4 style="color: #A855F7; margin-bottom: 1rem; font-size: 1.4rem;"><strong>4. Sharding (If
+                                Required) 🧩</strong></h4>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem; font-style: italic;">
+                            "If a single database cannot handle the load, we use sharding."</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li><strong>Split data</strong> across multiple DBs</li>
+                            <li>Use <strong>key-based sharding</strong> (based on short URL hash)</li>
+                        </ul>
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Example flow :</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                When user clicks : <strong>short.ly/kjsd0fd</strong></p>
+                            <ol
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Extract key → <strong>kjsd0fd</strong></li>
+                                <li>Compute shard : <strong>hash(kjsd0fd) % N</strong></li>
+                                <li>Directly go to that shard</li>
+                                <li>Fetch long URL → redirect</li>
+                            </ol>
+                        </div>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0; font-style: italic;">
+                            💡 <strong>Interview line:</strong> "We can shard based on the short URL key to distribute
+                            data evenly."</p>
+                        <div
+                            style="background: rgba(239, 68, 68, 0.08); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.2); margin-top: 1.5rem;">
+                            <h5 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.2rem;"><strong>Key
+                                    points:</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>If a shard fails, we use <strong>consistent hashing</strong> to redistribute data
+                                    with minimal impact</li>
+                                <li>When a shard is full, we <strong>scale horizontally</strong> by adding new shards
+                                    and rebalance data using consistent hashing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 11: Health Checks & Monitoring -->
+                <div id="topic-11" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">❤️ 9. Health
+                        Checks & Monitoring</h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 2rem;">
+                        <h4 style="color: #ef4444; margin-bottom: 1.5rem; font-size: 1.4rem;">❤️ <strong>Health
+                                Checks</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">🔹
+                            <strong>Q: How do we monitor health?</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; font-style: italic;">
+                            "We use health checks to ensure all services and servers are working properly."</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>How:</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Heartbeats ❤️</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 Each service <strong>periodically sends a signal</strong></li>
+                                <li>👉 If missing → service is down</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Health Endpoints (/health)</strong>
+                            </h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 Each service <strong>exposes an API</strong></li>
+                                <li>👉 Load balancer checks:</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-primary); font-size: 1.1rem; margin-top: 1rem; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--radius-md);">
+                                /health → OK / FAIL</p>
+                        </div>
+
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0;">
+                            💡 <strong>In URL Shortener:</strong> Check URL service, DB, cache availability</p>
+                    </div>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2);">
+                        <h4 style="color: #3B82F6; margin-bottom: 1.5rem; font-size: 1.4rem;">📊 <strong>Logging &
+                                Monitoring</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">🔹
+                            <strong>Q: How do we track system behavior?</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; font-style: italic;">
+                            "We use logging and monitoring to track requests, errors, and performance."</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Logs 📜</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Store:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>API requests</li>
+                                <li>Errors</li>
+                                <li>Redirect failures</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                                👉 <strong>Tools:</strong></p>
+                            <p style="color: var(--color-primary); font-size: 1.05rem; margin: 0;"><strong>ELK
+                                    (Elasticsearch, Logstash, Kibana)</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;">
+                                <strong>Metrics 📈</strong>
+                            </h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Track:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>Requests per second</li>
+                                <li>Latency</li>
+                                <li>Error rate</li>
+                                <li>Cache hit/miss</li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin-bottom: 0.5rem;">
+                                👉 <strong>Tools:</strong></p>
+                            <p style="color: var(--color-primary); font-size: 1.05rem; margin: 0;"><strong>Grafana +
+                                    Prometheus</strong></p>
+                        </div>
+
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1.5rem; margin: 0; font-style: italic;">
+                            💡 <strong>In URL Shortener:</strong> "We monitor redirect latency and cache hit ratio since
+                            reads are critical."</p>
+                    </div>
+                </div>
+
+                <!-- Topic 12: Security -->
+                <div id="topic-12" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔐 10. Security
+                    </h3>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <h4 style="color: #ef4444; margin-bottom: 1.5rem; font-size: 1.4rem;">🔐
+                            <strong>Security</strong>
+                        </h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">🔹
+                            <strong>Q: How to secure system?</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem; font-style: italic;">
+                            "We secure the system to prevent abuse and protect users."</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>1.
+                                    Rate Limiting 🚫</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 Prevent <strong>spam URL creation</strong></li>
+                                <li>👉 Example: limit requests per IP</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>2.
+                                    HTTPS 🔒</strong></h5>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li>👉 <strong>Encrypt communication</strong></li>
+                                <li>👉 Prevent data leaks</li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h5 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.2rem;"><strong>3.
+                                    Input Validation</strong></h5>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin: 0;">👉 Prevent
+                                <strong>invalid or dangerous URLs</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <img src="images/URL_Shortener_Img16.png" alt="Security"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <!-- Topic 13: How URL Shorteners Make Money -->
+                <div id="topic-13" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">💰 How URL
+                        Shorteners Make Money</h3>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 2rem;">
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1.5rem;">Let's
+                            take <strong>Bitly</strong> as example</p>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">🧾
+                                <strong>1. SaaS (Primary Revenue)</strong>
+                            </h4>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                Businesses pay for:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Custom links</strong> (brand.ly/...)</li>
+                                <li><strong>Analytics</strong> (click tracking, location, device)</li>
+                                <li><strong>Campaign tracking</strong></li>
+                            </ul>
+                            <p style="color: var(--color-primary); font-size: 1.1rem; margin-top: 1rem; margin: 0;">👉
+                                This is the <strong>main revenue</strong></p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">📊
+                                <strong>2. Analytics Platform</strong>
+                            </h4>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                <strong>Sell:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>User behavior data</strong></li>
+                                <li><strong>Marketing insights</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin: 0;">
+                                👉 Very valuable for companies</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">📢
+                                <strong>3. Ads / Interstitial Pages</strong>
+                            </h4>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                Some shorteners show:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Ads before redirect</strong></li>
+                            </ul>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.05rem; margin-top: 1rem; margin: 0;">
+                                👉 Earn per click</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border);">
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.3rem;">🔗
+                                <strong>4. Enterprise API Access</strong>
+                            </h4>
+                            <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">
+                                Companies pay for:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                                <li><strong>Bulk link generation</strong></li>
+                                <li><strong>Integration APIs</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: rgba(239, 68, 68, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(239, 68, 68, 0.2);">
+                        <h4 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.4rem;">⚠️ <strong>But Real Cost of
+                                companies is NOT just Storage</strong></h4>
+                        <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 0.5rem;">👉
+                            <strong>Biggest costs are:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                            <li><strong>Compute</strong> (servers handling redirects)</li>
+                            <li><strong>Read-heavy traffic</strong> (millions of clicks)</li>
+                            <li><strong>CDN usage</strong></li>
+                            <li><strong>Database scaling</strong></li>
+                            <li><strong>Replication</strong> (×2 or ×3)</li>
+                            <li><strong>Backups</strong></li>
+                            <li><strong>Indexing DB</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- References -->
+                <div
+                    style="background: rgba(168, 85, 247, 0.08); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(168, 85, 247, 0.2); margin-top: 3rem;">
+                    <h4 style="color: #A855F7; margin-bottom: 1.5rem; font-size: 1.4rem;">📚 <strong>References</strong>
+                    </h4>
+                    <p style="color: var(--color-text-secondary); font-size: 1.05rem; margin-bottom: 1rem;">Checkout
+                        these resources for detailed approach explaining different approaches:</p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin-left: 1.5rem; margin: 1; font-size: 1.05rem;">
+                        <li><a href="https://systemdesignschool.io/problems/url-shortener/solution" target="_blank"
+                                style="color: var(--color-primary);">System Design School — URL Shortener Solution</a>
+                        </li>
+                        <li><a href="https://youtu.be/qSJAvd5Mgio?si=v4kHE9riaeWT2nJN" target="_blank"
+                                style="color: var(--color-primary);">YouTube — URL Shortener System Design</a></li>
+                    </ul>
+                </div>
+
+                <!-- Next Topic CTA -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Next Topic</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Continue learning about system
+                        design case studies.</p>
+                    <a href="design-problems.html"
+                        style="display: inline-block; background: var(--color-primary); color: white; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
+                        🎯 Back to Design Problems →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
