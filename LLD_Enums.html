@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enums - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Enums in Java</h1>
+                <p>Type-safe constants for better code</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Enums</span>
+                </nav>
+
+                <h2>📋 Enums</h2>
+
+                <!-- What is an Enum -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🎯</span> What is an Enum?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">An <strong>enum</strong> (short for enumeration)
+                        is a special data type that defines a fixed set of named constants.<br>
+                        Unlike strings or integers,
+                        enums are <strong>type-safe</strong>, meaning the compiler ensures you can only use values that
+                        actually exist in your defined set.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">They ensure that a
+                            variable can only take <strong>one out of a predefined set of valid options.</strong></p>
+                    </div>
+
+                    <!-- Image 1 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Enums_Img1.png" alt="Enum Structure Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 1: Visual representation of Enum as fixed constant set</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Example Enums</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Enums are perfect for defining categories or
+                        states that rarely change:</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <ul style="line-height: 2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin: 1rem;"><span
+                                    style="background: rgba(139, 92, 246, 0.25); color: #a78bfa; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Order
+                                    States</span> - PENDING, IN_PROGRESS, COMPLETED</li>
+                            <li style="margin: 1rem;"><span style=" background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 0.35rem
+                                0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">User
+                                    Roles</span> - ADMIN, CUSTOMER, DRIVER</li>
+                            <li style="margin: 1rem;"><span style=" background: rgba(245, 158, 11, 0.25); color: #fbbf24; padding: 0.35rem
+                                0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Vehicle
+                                    Types</span> - CAR, BIKE, TRUCK</li>
+                            <li style="margin: 1rem;"><span style=" background: rgba(236, 72, 153, 0.25); color: #f472b6; padding: 0.35rem
+                                0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Directions</span>
+                                - NORTH, SOUTH, EAST, WEST</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">By using enums
+                            instead of raw strings, you make your system <strong>easier to understand</strong> and
+                            <strong>harder to misuse</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Image 2 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Enums_Img2.png" alt="Enum Benefits Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 2: Enums vs Strings - Type Safety Comparison</p>
+                    </div>
+                </div>
+
+                <!-- Enum Examples -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💻</span> Enum Examples
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Simple Enum</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The most basic form of an enum defines a list of
+                        named constants under a single type:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">enum</span> <span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">,</span>
+    <span style="color: #9cdcfe;">CONFIRMED</span><span style="color: #ffd700;">,</span>
+    <span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">,</span>
+    <span style="color: #9cdcfe;">DELIVERED</span><span style="color: #ffd700;">,</span>
+    <span style="color: #9cdcfe;">CANCELLED</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8b5cf6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">This enum defines a
+                            <strong>finite set of valid states</strong> an order can have. Nothing else is allowed.
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Using it in code</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">) {</span>
+    <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Your package is on the way!"</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Enums with Properties and Methods -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Enums with Properties and Methods</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's consider a Coin enum that represents U.S.
+                        <strong>coins</strong> and their denominations. <br>Each coin has a name <strong> (PENNY,
+                            NICKEL,
+                            DIME, QUARTER)
+                        </strong>and a value
+                        in
+                        cents <strong>(1, 5, 10, 25)</strong>.<br>
+                        Instead of maintaining a separate lookup table for
+                        coin
+                        values, you can
+                        embed the value directly in the enum.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">enum</span> <span style="color: #4ec9b0;">Coin</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #9cdcfe;">PENNY</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">1</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">NICKEL</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">5</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">DIME</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">10</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">QUARTER</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">25</span><span style="color: #ffd700;">);</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #dcdcaa;">Coin</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">value</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getValue</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Using It in Code</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">Coin</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">DIME</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getValue</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #4ec9b0;">Coin</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">QUARTER</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getValue</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// 35</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">This is far more
+                            <strong>elegant and safe</strong> than maintaining separate arrays or lookup maps. The data
+                            lives right next to the constant it belongs to, so there's no risk of the value and the name
+                            getting out of sync.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Why Enum -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">❓</span> Why Enum?
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);">
+                        <h4 style="color: #ef4444; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-times-circle"></i> Problem: Using Magic Numbers</h4>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 1.5rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <div
+                                style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i
+                                        class="fab fa-java" style="margin-right: 0.5rem;"></i>Java</span>
+                                <button onclick="copyCode(this)"
+                                    style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                    onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                    onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i
+                                        class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <pre
+                                style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">;</span> <span style="color: #6a9955;">// 1 = placed, 2 = shipped, 3 = delivered</span>
+
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">updateStatus</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStatus</span><span style="color: #ffd700;">() {</span>
+       <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #b5cea8;">1</span><span style="color: #ffd700;">) {</span>
+           <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order placed"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #b5cea8;">2</span><span style="color: #ffd700;">) {</span>
+           <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order shipped"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #b5cea8;">3</span><span style="color: #ffd700;">) {</span>
+           <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order delivered"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+           <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Unknown status"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #4ec9b0;">Order</span> <span style="color: #9cdcfe;">order</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Order</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">updateStatus</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">2</span><span style="color: #ffd700;">);</span> <span style="color: #6a9955;">// What is 2??</span>
+       <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printStatus</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <p style="color: #fca5a5; font-weight: 600; margin-bottom: 0.75rem;">🚫 Problems here:</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin: 0; padding-left: 1.5rem;">
+                                <li><strong>2 is unclear</strong> (reader must remember meaning)</li>
+                                <li>Any number like <strong>99 is allowed</strong> → bug risk</li>
+                                <li><strong>Hard to maintain</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-check-circle"></i> Solution: Using Enum (Clean LLD Approach)</h4>
+
+                        <h5 style="color: var(--color-text); margin: 1.5rem 0 1rem 0; font-size: 1rem;">Step 1: Define
+                            Enum</h5>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 1rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <pre
+                                style="padding: 1rem 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">enum</span> <span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">,</span>
+   <span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">,</span>
+   <span style="color: #9cdcfe;">DELIVERED</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+
+                        <h5 style="color: var(--color-text); margin: 1.5rem 0 1rem 0; font-size: 1rem;">Step 2: Use
+                            Enum in Class</h5>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 1rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <pre
+                                style="padding: 1rem 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">updateStatus</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStatus</span><span style="color: #ffd700;">() {</span>
+       <span style="color: #c586c0;">switch</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">) {</span>
+           <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">:</span>
+               <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order placed"</span><span style="color: #ffd700;">);</span>
+               <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+           <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">:</span>
+               <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order shipped"</span><span style="color: #ffd700;">);</span>
+               <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+           <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">DELIVERED</span><span style="color: #ffd700;">:</span>
+               <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order delivered"</span><span style="color: #ffd700;">);</span>
+               <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+       <span style="color: #ffd700;">}</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+
+                        <h5 style="color: var(--color-text); margin: 1.5rem 0 1rem 0; font-size: 1rem;">Step 3: Main
+                            Method</h5>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 1rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <pre
+                                style="padding: 1rem 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #4ec9b0;">Order</span> <span style="color: #9cdcfe;">order</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Order</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">updateStatus</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">);</span> <span style="color: #6a9955;">// clear</span>
+       <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printStatus</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-top: 1.5rem;">
+                            <p style="color: #fbbf24; font-weight: 600; margin: 0;">🔥 Output: Order shipped</p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #fbbf24;">🔥 Simple Rule to Remember</strong><br>If a value has limited
+                            fixed options → use enum</p>
+                    </div>
+                </div>
+
+                <!-- Practical Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🛒</span> Practical
+                        Example: Order Processing System
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's build a small order processing system that
+                        uses two enums: <strong>OrderStatus</strong> (which we've already seen) and
+                        <strong>PaymentMethod</strong>. Together, they demonstrate how enums bring structure and safety
+                        to a real domain model.
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The Order class tracks an order's status,
+                        payment method, and total amount. It provides methods to advance the status through its
+                        lifecycle, cancel the order, and display order information.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8b5cf6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">The key insight is
+                            that <strong>enums control the valid transitions</strong>: an order can only move forward
+                            through the status chain (PLACED to CONFIRMED to SHIPPED to DELIVERED), and cancellation is
+                            only allowed before shipping.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">OrderStatus Enum</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">enum</span> <span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">CONFIRMED</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">DELIVERED</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">CANCELLED</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">PaymentMethod Enum</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">enum</span> <span style="color: #4ec9b0;">PaymentMethod</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #9cdcfe;">CREDIT_CARD</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Credit Card"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">2.5</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">DEBIT_CARD</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Debit Card"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">1.0</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">UPI</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"UPI"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">0.0</span><span style="color: #ffd700;">),</span>
+    <span style="color: #9cdcfe;">NET_BANKING</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Net Banking"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">1.5</span><span style="color: #ffd700;">);</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">displayName</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">feePercent</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #dcdcaa;">PaymentMethod</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">displayName</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">feePercent</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">displayName</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">displayName</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">feePercent</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">feePercent</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDisplayName</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">displayName</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">double</span> <span style="color: #dcdcaa;">getFeePercent</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">feePercent</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Order Class</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">OrderStatus</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">PaymentMethod</span> <span style="color: #9cdcfe;">paymentMethod</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Order</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">PaymentMethod</span> <span style="color: #9cdcfe;">paymentMethod</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">orderId</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">paymentMethod</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">paymentMethod</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">advanceStatus</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">switch</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">PLACED</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">CONFIRMED</span><span style="color: #ffd700;">;</span>
+                <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">CONFIRMED</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">;</span>
+                <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #9cdcfe;">SHIPPED</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">DELIVERED</span><span style="color: #ffd700;">;</span>
+                <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">default</span><span style="color: #ffd700;">:</span>
+                <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">cancel</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">PLACED</span> <span style="color: #ffd700;">||</span> <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">==</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">CONFIRMED</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">OrderStatus</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">CANCELLED</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span> <span style="color: #6a9955;">// Can't cancel after shipping</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">double</span> <span style="color: #dcdcaa;">getTotalWithFees</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">*</span> <span style="color: #9cdcfe;">paymentMethod</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getFeePercent</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">/</span> <span style="color: #b5cea8;">100</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">displayInfo</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order %s | Status: %s | Payment: %s | Amount: $%.2f (with fees: $%.2f)%n"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">paymentMethod</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDisplayName</span><span style="color: #ffd700;">(),</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #dcdcaa;">getTotalWithFees</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Usage</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #6a9955;">// Usage</span>
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">Order</span> <span style="color: #9cdcfe;">order</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Order</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"ORD-001"</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">PaymentMethod</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">CREDIT_CARD</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">99.99</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayInfo</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">advanceStatus</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// PLACED -> CONFIRMED</span>
+        <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">advanceStatus</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// CONFIRMED -> SHIPPED</span>
+        <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayInfo</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Cancel after shipping: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">cancel</span><span style="color: #ffd700;">());</span> <span style="color: #6a9955;">// false</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <!-- Practice Link -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-code"></i> Practice Exercise</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Ready to
+                            test
+                            your understanding of Enums?</p>
+                        <a href="https://algomaster.io/learn/lld/enums-exercise" target="_blank"
+                            style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(16, 185, 129, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <i class="fas fa-external-link-alt"></i>
+                            Try Enums Exercise
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📝</span> Key Takeaways
+                    </h2>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #8b5cf6;">Enum</strong> = Type-safe set of named constants</li>
+                            <li><strong style="color: #10b981;">Type Safety</strong> = Compiler prevents invalid
+                                values</li>
+                            <li><strong style="color: #3b82f6;">Can have properties & methods</strong> = More than
+                                just constants</li>
+                            <li><strong style="color: #f59e0b;">Use for fixed options</strong> = States, roles, types,
+                                directions</li>
+                            <li><strong style="color: #ec4899;">Better than magic numbers</strong> = Self-documenting
+                                code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Topic CTA -->
+            <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                <div
+                    style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(196, 128, 255, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(168, 85, 247, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(168, 85, 247, 0.2);">
+                    <a href="LLD_Interfaces.html"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(168, 85, 247, 0.1)'"
+                        onmouseout="this.style.background='transparent'">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div
+                                style="background: linear-gradient(135deg, #A855F7 0%, #9333ea 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">
+                                🔌</div>
+                            <div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                    Continue Learning</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #A855F7;">Interfaces in Java
+                                </div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                    Learn how contracts define what a class can do</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1rem; color: #A855F7; font-weight: 600;">Next Topic</span>
+                            <div
+                                style="background: #A855F7; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">
+                                →</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div
+                    style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <a href="LLD_Classes_Objects.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>←</span>
+                        <span>Classes & Objects</span>
+                    </a>
+                    <a href="LLD_Interfaces.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(168, 85, 247, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>Next to Interfaces</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Enums', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaces - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Interfaces in Java</h1>
+                <p>Contracts that define behavior without implementation</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Interfaces</span>
+                </nav>
+
+                <h2>🔌 Interfaces</h2>
+
+                <!-- What is an Interface -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📋</span> What is an
+                        Interface?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">An <strong>interface is a contract</strong>: a
+                        list of methods that any implementing class must provide.<br> It specifies a set of behaviors
+                        that a class agrees to implement but leaves the details of those behaviors up to each
+                        implementation.</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem; text-align: left;">
+                            <strong>Interface defines:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.5; margin: 0; padding-left: 1.5rem;">
+                            <li><span
+                                    style="background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">What
+                                    operations are available</span>
+                            </li>
+                            <li><span
+                                    style="background: rgba(239, 68, 68, 0.25); color: #f87171; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">but
+                                    NOT how they are implemented</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Real-World Analogy</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Consider a <strong>remote control</strong>. It
+                        exposes a standard set of buttons:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 0; padding-left: 1.5rem; list-style: none;">
+                            <li><code style="color: #60a5fa;">play()</code></li>
+                            <li><code style="color: #60a5fa;">pause()</code></li>
+                            <li><code style="color: #60a5fa;">volumeUp()</code></li>
+                            <li><code style="color: #60a5fa;">powerOff()</code></li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The person using the remote <strong>doesn't
+                            care</strong> if it controls a <strong>TV</strong>, a <strong>soundbar</strong>, or a
+                        <strong>projector</strong>, they all understand the same set of commands.
+                    </p>
+
+                    <!-- Image 1 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Interface_Img1.png" alt="Remote Control Interface Analogy"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 1: The remote is the interface. The devices (TV, soundbar, projector) are the
+                            implementations.</p>
+                    </div>
+                </div>
+
+                <!-- Key Properties -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🗝️</span> Key Properties of
+                        Interfaces
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Here are their most important characteristics:
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">a) Defines Behavior Without Dictating
+                        Implementation</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">An interface <strong>only declares</strong> what
+                        operations are expected. It <strong>doesn't define</strong> how they are carried out. <br>This
+                        gives
+                        freedom to implementers to provide their own version of the logic, while still honoring the same
+                        contract.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">b) Enables Polymorphism</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Different classes can <strong>implement the same
+                            interface in different ways</strong>. This allows your code to work with multiple
+                        implementations interchangeably.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">c) Promotes Decoupling</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Code that depends on interfaces is
+                        <strong>insulated from changes</strong> in the concrete classes that implement them. This makes
+                        your code easier to:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #10b981;">Extend</strong> (add new implementations without
+                                modifying existing ones)</li>
+                            <li><strong style="color: #10b981;">Test</strong> (mock interfaces in unit tests)</li>
+                            <li><strong style="color: #10b981;">Maintain</strong> (fewer ripple effects from code
+                                changes)</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Example: Payment Gateway Abstraction
+                    </h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">As long as all payment providers implement the
+                        <strong>PaymentGateway</strong> interface, the <strong>CheckoutService</strong> can use any of
+                        them without changing its own code.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">The service depends
+                            on an <strong>abstraction (PaymentGateway)</strong>, allowing multiple interchangeable
+                            implementations like <strong>Stripe</strong>, <strong>Razorpay</strong>, or
+                            <strong>PayPal</strong>, ensuring loose coupling and extensibility.
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">We can add a new payment implementation without
+                        modifying <strong>CheckoutService</strong>. The only requirement is that the new class
+                        implements the <strong>PaymentGateway interface</strong>. This ensures that changes are isolated
+                        to implementations and do not impact the high-level service.</p>
+
+                    <!-- Image 2 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Interface_Img2.png" alt="Payment Gateway Abstraction Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 2: CheckoutService depends on abstraction, multiple providers implement the interface
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Code Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💻</span> Code Example:
+                        Payment Gateway Interface
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's say you're designing a <strong>payment
+                            processing module</strong> that supports multiple providers like Stripe, Razorpay, and
+                        PayPal. <br>You <strong>don't want</strong> your business logic to depend on a specific
+                        provider.
+                        You just want a common way to initiate a payment.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">PaymentGateway Interface</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Implementations</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">StripePayment</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment via Stripe: $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RazorpayPayment</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment via Razorpay: ₹"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">CheckoutService</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">paymentGateway</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setPaymentGateway</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">paymentGateway</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">paymentGateway</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Main Usage</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">stripeGateway</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">StripePayment</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #9cdcfe;">service</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">stripeGateway</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">service</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">120.50</span><span style="color: #ffd700;">);</span>  <span style="color: #6a9955;">// Output: Processing payment via Stripe: $120.5</span>
+
+       <span style="color: #6a9955;">// Switch to Razorpay</span>
+        <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">razorpayGateway</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RazorpayPayment</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">service</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setPaymentGateway</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">razorpayGateway</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">service</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">150.50</span><span style="color: #ffd700;">);</span>  <span style="color: #6a9955;">// Output: Processing payment via Razorpay: ₹150.5</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin: 2rem 0;">
+                        <p style="color: #fbbf24; font-weight: 600; margin: 0;">Output:</p>
+                        <p style="color: var(--color-text-secondary); margin: 0.5rem 0 0 0;">Processing payment via
+                            Stripe: $120.5</p>
+                        <p style="color: var(--color-text-secondary); margin: 0;">Processing payment via Razorpay:
+                            ₹150.5</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Explanation</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Here's the <strong>PaymentGateway
+                            interface</strong> that defines a single operation: <strong>initiate a payment</strong> with
+                        a given amount.</p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">We created two classes that fulfill this
+                        contract: one for <strong>Stripe</strong> and one for <strong>Razorpay</strong>. Each processes
+                        payments differently, but both satisfy the <strong>PaymentGateway interface</strong>.</p>
+
+                    <!-- Image 3 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Interface_Img3.png" alt="Interface Implementation Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 3: Both classes implement the same interface with different internal logic</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Both classes (<strong>StripePayment</strong>,
+                        <strong>RazorpayPayment</strong>) implement the same interface, but their internal logic is
+                        completely different. <strong>StripePayment</strong> talks to the Stripe API,
+                        <strong>RazorpayPayment</strong> talks to Razorpay. The interface guarantees that both provide
+                        the <strong>initiatePayment()</strong> method, so any code that depends on
+                        <strong>PaymentGateway</strong> can work with either one.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Instead of having
+                        <strong>CheckoutService</strong> depend on <strong>StripePayment</strong> or
+                        <strong>RazorpayPayment</strong>, it depends on the <strong>PaymentGateway interface</strong>.
+                        It doesn't know or care which implementation it's using.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Look at the <strong>CheckoutService
+                            constructor</strong>. It takes a <strong>PaymentGateway</strong>, not a
+                        <strong>StripePayment</strong>. This single decision is what <strong>decouples</strong> the
+                        service from any specific provider.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The <strong>checkout()</strong> method calls
+                        <strong>initiatePayment()</strong> on whatever gateway was injected. It could be Stripe,
+                        Razorpay, a mock for testing, or a provider that doesn't even exist yet.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8b5cf6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">This pattern is
+                            called <strong>dependency injection</strong>: instead of creating its own dependencies, the
+                            class receives them from the outside. And it only works because the dependency is typed as
+                            an <strong>interface</strong>, not a concrete class.</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The <strong>CheckoutService</strong> didn't
+                        change between the two calls. The only thing that changed was which implementation was
+                        <strong>plugged in</strong>.
+                    </p>
+                </div>
+
+                <!-- Notification Service Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Example 2: Notification Service</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>AlertService</strong> depends only on
+                        the <strong>NotificationService interface</strong>, not on specific implementations like
+                        <strong>Email</strong> or <strong>Slack</strong>.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">So we can add new notification types (like
+                        <strong>Webhook</strong> or <strong>PagerDuty</strong>) <strong>without changing
+                            AlertService</strong> — just implement the interface.
+                    </p>
+
+                    <!-- Image 4 -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Interface_Img4.png" alt="Notification Service Interface Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 4: AlertService depends on interface, multiple notification types can be added
+                            without modification</p>
+                    </div>
+                </div>
+
+                <!-- Without Interface -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);">
+                        <h4 style="color: #ef4444; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-times-circle"></i> Without Interface (Tightly Coupled Design)</h4>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 1.5rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <div
+                                style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i
+                                        class="fab fa-java" style="margin-right: 0.5rem;"></i>Java</span>
+                                <button onclick="copyCode(this)"
+                                    style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                    onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                    onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i
+                                        class="fas fa-copy"></i> Copy</button>
+                            </div>
+                            <pre
+                                style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">StripePayment</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment via Stripe: $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RazorpayPayment</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment via Razorpay: ₹"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">StripePayment</span> <span style="color: #9cdcfe;">stripePayment</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">RazorpayPayment</span> <span style="color: #9cdcfe;">razorpayPayment</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">CheckoutService</span><span style="color: #ffd700;">() {</span>
+       <span style="color: #9cdcfe;">stripePayment</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">StripePayment</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">razorpayPayment</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RazorpayPayment</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">checkoutWithStripe</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #9cdcfe;">stripePayment</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">checkoutWithRazorpay</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #9cdcfe;">razorpayPayment</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">initiatePayment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+       <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #9cdcfe;">service</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #9cdcfe;">service</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkoutWithStripe</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">120.50</span><span style="color: #ffd700;">);</span>
+       <span style="color: #9cdcfe;">service</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkoutWithRazorpay</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">150.50</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <p style="color: #fca5a5; font-weight: 600; margin-bottom: 0.75rem;">🚫 Problems in This
+                                Approach</p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2; margin: 0; padding-left: 1.5rem;">
+                                <li><strong>Tight Coupling</strong> - CheckoutService directly depends on StripePayment
+                                    and RazorpayPayment</li>
+                                <li><strong>Violates Open/Closed Principle</strong> - Every new payment → modify
+                                    existing class ❌</li>
+                                <li><strong>Not Scalable</strong> - If you add PayPal, you must modify CheckoutService
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- When to Use Interfaces -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🚀</span> When to Use
+                        Interfaces in LLD
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Use interfaces when:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #10b981;">Multiple interchangeable implementations</strong> of the
+                                same behavior (e.g., different payment methods, storage systems, or notification
+                                channels)</li>
+                            <li><strong style="color: #10b981;">Flexibility and scalability</strong></li>
+                            <li><strong style="color: #10b981;">Decouple high-level logic from low-level
+                                    details</strong>, so your system remains flexible and easy to extend without
+                                modifying existing code</li>
+                            <li><strong style="color: #10b981;">Applying SOLID principles</strong>, especially the
+                                <strong>Dependency Inversion Principle (DIP)</strong> — where code depends on
+                                abstractions, not concrete classes
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Practice Link -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-code"></i> Practice Exercise</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Ready to
+                            test
+                            your understanding of Interfaces?</p>
+                        <a href="https://algomaster.io/learn/lld/interfaces-exercise" target="_blank"
+                            style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(16, 185, 129, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <i class="fas fa-external-link-alt"></i>
+                            Try Interfaces Exercise
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📝</span> Key Takeaways
+                    </h2>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #3b82f6;">Interface</strong> = Contract that defines behavior
+                                without implementation</li>
+                            <li><strong style="color: #10b981;">Polymorphism</strong> = Multiple implementations, same
+                                interface</li>
+                            <li><strong style="color: #f59e0b;">Decoupling</strong> = Code depends on abstractions, not
+                                concrete classes</li>
+                            <li><strong style="color: #8b5cf6;">Dependency Injection</strong> = Receive dependencies
+                                from outside</li>
+                            <li><strong style="color: #ec4899;">SOLID Principles</strong> = DIP - Depend on abstractions
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Topic CTA -->
+            <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                <div
+                    style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(244, 114, 182, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(236, 72, 153, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(236, 72, 153, 0.2);">
+                    <a href="LLD_Encapsulation.html"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(236, 72, 153, 0.1)'"
+                        onmouseout="this.style.background='transparent'">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div
+                                style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                                🔒</div>
+                            <div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                    Continue Learning</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #ec4899;">Encapsulation in Java
+                                </div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                    Learn how to hide internal details and protect data</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1rem; color: #ec4899; font-weight: 600;">Next Topic</span>
+                            <div
+                                style="background: #ec4899; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                                →</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div
+                    style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <a href="LLD_Enums.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(168, 85, 247, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>←</span>
+                        <span>Enums</span>
+                    </a>
+                    <a href="LLD_Encapsulation.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(236, 72, 153, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>Next: Encapsulation</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Interfaces', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

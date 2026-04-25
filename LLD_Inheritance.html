@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Inheritance in Java</h1>
+                <p>Create new classes from existing ones</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Inheritance</span>
+                </nav>
+
+                <h2>🌳 Inheritance</h2>
+
+                <!-- What is Inheritance -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🌳</span> What is
+                        Inheritance?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Inheritance</strong> means:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">👉
+                            <strong>Inheritance</strong> allows one class (called the <strong>subclass</strong> or
+                            <strong>child class</strong>) to inherit the properties and behaviors of another class
+                            (called the <strong>superclass</strong> or <strong>parent class</strong>).
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">In simple words:
+                            <strong>"Create a new class from an existing class"</strong>
+                        </p>
+                    </div>
+                    <div style=" padding-left:2.5rem; border:#dbf119 solid 2px; border-radius:20px;">
+                        <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🧠 Real-Life Analogy</h3>
+                        <p style="line-height: 1.8; margin-bottom: 1.5rem;">Think: <strong>(Parent → Child)</strong></p>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                                <li><strong>Parent:</strong> Vehicle</li>
+                                <li><strong>Children:</strong> Car, Bike</li>
+                                <li>So <strong>Car inherits Vehicle</strong> (Vehicle → Car)</li>
+                                <li><strong>Car IS-A Vehicle</strong></li>
+                            </ul>
+                        </div>
+
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-lg); padding: 1.5rem; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15);">
+                            <code
+                                style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #c586c0;">class</code>
+                            <code
+                                style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #4ec9b0;"> Car</code>
+                            <code
+                                style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #c586c0;"> extends</code>
+                            <code
+                                style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #4ec9b0;"> Vehicle</code>
+                            <code
+                                style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace; color: #ffd700;"> { }</code>
+                        </div>
+
+                        <p style="line-height: 1.8; margin-bottom: 1.5rem;">👉 <strong>All vehicles have:</strong></p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 0 0 1.5rem 0; padding-left: 1.5rem;">
+                            <li><code>speed</code></li>
+                            <li><code>start()</code></li>
+                        </ul>
+                        <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>But each has its own behavior
+                                too</strong></p>
+                    </div>
+                </div>
+                <!-- Why Inheritance Matters -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 2rem;  border:#77e768 solid 2px; border-radius:20px;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Why Inheritance
+                        Matters
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">1. Code Reusability</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">It represents the <strong>DRY (Don't Repeat
+                            Yourself)</strong> principle. <br>Common logic is written once in the parent class and
+                        shared
+                        across all subclasses reducing redundancy.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">2. Logical Hierarchy</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">It creates a clear and intuitive hierarchy that
+                        model real-world <strong>"is-a"</strong> relationships like <strong>ElectricCar is a
+                            Car</strong> or <strong>Admin is a User</strong>.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">3. Ease of Maintenance</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">If a bug is found or a change is needed in the
+                        shared logic, you only need to fix it in one place, <strong>the superclass</strong>. All
+                        subclasses automatically inherit the fix.</p>
+                </div>
+
+                <!-- How Inheritance Works -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">⚙️</span> How Inheritance
+                        Works
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">When a class inherits from another:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>The <strong>subclass</strong> inherits all non-private fields and methods of the
+                                <strong>superclass</strong>
+                            </li>
+                            <li>The <strong>subclass</strong> can <strong>override</strong> inherited methods to provide
+                                a different implementation</li>
+                            <li>The <strong>subclass</strong> can also <strong>extend</strong> the superclass by adding
+                                new fields and methods</li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">This allows for both <strong>reuse</strong> and
+                        <strong>customization</strong>.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Inheritance_Img1.png" alt="Vehicle Inheritance Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 1: Vehicle inheritance hierarchy showing ElectricCar and GasCar extending Vehicle</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Parent Class</h3>
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Vehicle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Vehicle</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">make</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">model</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">year</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">startEngine</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine started"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">stopEngine</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine stopped"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">displayInfo</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">year</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">make</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Child Classes</h3>
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ElectricCar</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Vehicle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">batteryCapacity</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">ElectricCar</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">batteryCapacity</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">batteryCapacity</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">batteryCapacity</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">chargeBattery</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Charging "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">batteryCapacity</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"kWh battery"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">GasCar</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Vehicle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">fuelTankSize</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">GasCar</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">fuelTankSize</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">make</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">year</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">fuelTankSize</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">fuelTankSize</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">fillTank</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Filling "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">fuelTankSize</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"L fuel tank"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Types of Inheritance -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📊</span> Types of
+                        Inheritance
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Single Inheritance</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The simplest form: <strong>one child class
+                            extends one parent class</strong>. The <code>ElectricCar extends Vehicle</code> relationship
+                        is single inheritance.<br> This is the most common pattern and the one supported by all major
+                        languages.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Multi-level Inheritance</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">When a <strong>child class itself becomes a
+                            parent</strong>. For example, <strong>Vehicle → Car → ElectricCar</strong>. Each level adds
+                        more specialization. <br> This is fine in moderation, but deep chains (5+ levels) become fragile
+                        and
+                        hard to understand.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Hierarchical Inheritance</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">When <strong>multiple child classes extend the
+                            same parent</strong>. Our vehicle example, where both <code>ElectricCar</code> and
+                        <code>GasCar</code> extend <code>Vehicle</code>, is hierarchical inheritance. <br>This is
+                        extremely
+                        common and perfectly natural.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Multiple Inheritance</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">When a <strong>child class extends more than one
+                            parent</strong>. This is where things get complicated.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Only <strong>C++ and
+                                Python</strong> support multiple inheritance directly. <strong>Java, C#, and TypeScript
+                                do not</strong>.</p>
+                        <p style="color: #fca5a5; font-weight: 600; margin: 0;">The reason? <strong>The diamond
+                                problem</strong>.</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Imagine <code>ElectricCar</code> extends both
+                        <code>Vehicle</code> and <code>Machine</code>.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Inheritance_Img2.png" alt="Diamond Problem Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 2: The Diamond Problem - when a class inherits from two classes that share a common
+                            parent</p>
+                    </div>
+                </div>
+
+                <!-- When to Use Inheritance -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: #10b981;">✅ Use inheritance when:</h3>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>There is a clear <strong>"is-a"</strong> relationship (e.g., <strong>Dog is an
+                                    Animal</strong>, <strong>Car is a Vehicle</strong>). If you can't say <strong>"X is
+                                    a Y"</strong> naturally, inheritance is probably the wrong tool. These relationships
+                                belong in composition.</li>
+                            <li>The <strong>parent class defines common behavior</strong> or data that children should
+                                share. For example, all vehicles have a <code>startEngine()</code> method, so putting it
+                                in the parent avoids duplicating it across every vehicle type.</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: #ef4444;">❌ Avoid inheritance when:</h3>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <ol
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>The relationship is <strong>"has-a"</strong> or <strong>"uses-a"</strong> rather than
+                                <strong>"is-a"</strong>. <strong>A Car has an Engine</strong>, it is not an Engine
+                            </li>
+                            <li><strong>Only for Code Reuse</strong> <br>👉 <strong>Don't use inheritance just to reuse
+                                    code</strong> <br>Instead use <strong>composition (Has-A)</strong></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Practical Example: Notification System -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔔</span> Practical Example:
+                        Notification System
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Imagine you're building a <strong>notification
+                            system</strong> that can send messages through different channels: <strong>email</strong>,
+                        <strong>SMS</strong>, and <strong>push notifications</strong>.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">All notification types share common properties:
+                        a <strong>recipient</strong>, a <strong>message</strong>, and a <strong>timestamp</strong>.<br>
+                        They
+                        all need a <code>formatHeader()</code> method that produces a consistent header format.<br> But
+                        the
+                        <code>send()</code> method works differently for each channel, email needs a <strong>subject
+                            line</strong>, SMS has a <strong>character limit</strong>, and push notifications have a
+                        <strong>device token</strong> and <strong>priority level</strong>.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">time</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">LocalDateTime</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">time</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">format</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">DateTimeFormatter</span><span style="color: #ffd700;">;</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Notification</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">timestamp</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Notification</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">recipient</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">message</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">timestamp</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">LocalDateTime</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">now</span><span style="color: #ffd700;">()</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">format</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">DateTimeFormatter</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">ofPattern</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"yyyy-MM-dd HH:mm:ss"</span><span style="color: #ffd700;">));</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">formatHeader</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"["</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">timestamp</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"] To: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #dcdcaa;">formatHeader</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Message: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">EmailNotification</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Notification</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">subject</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">EmailNotification</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">subject</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">subject</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">subject</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #ffd700;">@</span><span style="color: #4ec9b0;">Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #dcdcaa;">formatHeader</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Subject: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">subject</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Body: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Status: Email delivered"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SMSNotification</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Notification</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">phoneNumber</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">final</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">MAX_LENGTH</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">160</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">SMSNotification</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">phoneNumber</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">phoneNumber</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">phoneNumber</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #ffd700;">@</span><span style="color: #4ec9b0;">Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #dcdcaa;">formatHeader</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Phone: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">phoneNumber</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">smsBody</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">length</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">MAX_LENGTH</span>
+            <span style="color: #ffd700;">?</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">substring</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">0</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">MAX_LENGTH</span> <span style="color: #ffd700;">-</span> <span style="color: #b5cea8;">3</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"..."</span>
+            <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"SMS: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">smsBody</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Status: SMS sent ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">smsBody</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">length</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"/"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">MAX_LENGTH</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" chars)"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PushNotification</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Notification</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">deviceToken</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">priority</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">PushNotification</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">,</span>
+                            <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">deviceToken</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">priority</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">recipient</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">deviceToken</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">deviceToken</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">priority</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">priority</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #ffd700;">@</span><span style="color: #4ec9b0;">Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #dcdcaa;">formatHeader</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Device: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">deviceToken</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">substring</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">0</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">8</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"..."</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Priority: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">priority</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Alert: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">message</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Status: Push notification delivered"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">EmailNotification</span> <span style="color: #9cdcfe;">email</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">EmailNotification</span><span style="color: #ffd700;">(</span>
+            <span style="color: #ce9178;">"alice@example.com"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Your order has been shipped!"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Order Update"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">SMSNotification</span> <span style="color: #9cdcfe;">sms</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SMSNotification</span><span style="color: #ffd700;">(</span>
+            <span style="color: #ce9178;">"Bob"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Your verification code is 482910."</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"+1-555-0123"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">sms</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">PushNotification</span> <span style="color: #9cdcfe;">push</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">PushNotification</span><span style="color: #ffd700;">(</span>
+            <span style="color: #ce9178;">"Charlie"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"New message from Alice"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #ce9178;">"d8a3f4b2c1e5a9b7"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"high"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">push</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">send</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <!-- Practice Link -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-code"></i> Practice Exercise</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Ready to
+                            test
+                            your understanding of Inheritance?</p>
+                        <a href="https://algomaster.io/learn/lld/inheritance-exercise" target="_blank"
+                            style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(16, 185, 129, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <i class="fas fa-external-link-alt"></i>
+                            Try Inheritance Exercise
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📝</span> Key Takeaways
+                    </h2>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #3b82f6;">Inheritance</strong> = Create new class from existing
+                                class (IS-A relationship)</li>
+                            <li><strong style="color: #10b981;">extends</strong> = Keyword to inherit from parent class
+                            </li>
+                            <li><strong style="color: #8b5cf6;">super()</strong> = Call parent constructor</li>
+                            <li><strong style="color: #f59e0b;">@Override</strong> = Override inherited methods</li>
+                            <li><strong style="color: #ec4899;">Single Inheritance</strong> = Most common pattern</li>
+                            <li><strong style="color: #ef4444;">Diamond Problem</strong> = Why Java doesn't support
+                                multiple inheritance</li>
+                            <li><strong style="color: #10b981;">Use when</strong> = Clear "is-a" relationship exists
+                            </li>
+                            <li><strong style="color: #ef4444;">Avoid when</strong> = "has-a" relationship (use
+                                composition instead)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Topic CTA -->
+            <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                <div
+                    style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(167, 139, 250, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(139, 92, 246, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);">
+                    <a href="LLD_Polymorphism.html"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                        onmouseout="this.style.background='transparent'">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div
+                                style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                                🔄</div>
+                            <div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                    Continue Learning</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;">Polymorphism in Java
+                                </div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                    Learn how objects can take many forms and behave differently</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1rem; color: #8b5cf6; font-weight: 600;">Next Topic</span>
+                            <div
+                                style="background: #8b5cf6; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                                →</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div
+                    style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <a href="LLD_Abstraction.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(245, 158, 11, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>←</span>
+                        <span>Abstraction</span>
+                    </a>
+                    <a href="LLD_Polymorphism.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>Next: Polymorphism</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Inheritance', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encapsulation - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Encapsulation in Java</h1>
+                <p>Hide internal data and control access</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Encapsulation</span>
+                </nav>
+
+                <h2>🔒 Encapsulation</h2>
+
+                <!-- What is Encapsulation -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔒</span> What is
+                        Encapsulation?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Encapsulation</strong> means:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong>Grouping data (variables) and behavior (methods) together</strong></li>
+                            <li><strong>Restricting direct access to data</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">In simple words:
+                            <strong>"Hide internal data and control how it is accessed using methods"</strong>
+                        </p>
+                    </div>
+                    <div style=" padding-left:2.5rem; border:#dbf119 solid 2px; border-radius:20px;">
+                        <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Real-World Analogy</h3>
+                        <p style="line-height: 1.8; margin-bottom: 1.5rem;">Think of an <strong>ATM machine</strong> 🏧
+                        </p>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin: 1rem 0;">
+                            <p style="color: #fca5a5; margin: 0;">❌ You can't access bank database directly</p>
+                        </div>
+
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 1rem 0;">
+                            <p style="color: #6ee7b7; margin: 0;">✅ You interact through buttons (withdraw, deposit)</p>
+                        </div>
+
+                        <div
+                            style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem; text-align: left;">
+                                <strong>Same idea:</strong>
+                            </p>
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.5; margin: 0; padding-left: 1.5rem;">
+                                <li><span
+                                        style="background: rgba(239, 68, 68, 0.25); color: #f87171; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Data
+                                        = hidden</span>
+                                </li>
+                                <li><span
+                                        style="background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Access
+                                        = controlled via methods</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Encapsulation Matters -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 2rem; border:#77e768 solid 2px; border-radius:20px;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">❓</span> Why Encapsulation
+                        Matters
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">1. Data Hiding</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Sensitive data</strong> (like a bank
+                        balance or password) should not be exposed directly. <br>Encapsulation keeps this data
+                        <strong>private</strong> and accessible only through <strong>controlled methods</strong>.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">2. Controlled Access and Validation
+                    </h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">It ensures that data can only be modified in
+                        <strong>controlled, predictable ways</strong>. For example, you can prevent invalid deposits or
+                        withdrawals by <strong>validating input inside methods</strong>.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">3. Improved Maintainability</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Because internal details are hidden, you can
+                        change the <strong>implementation</strong> (e.g., how data is stored or validated)
+                        <strong>without affecting</strong> the code that depends on it.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">4. Security and Stability</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">By preventing external tampering, encapsulation
+                        <strong>reduces the risk</strong> of inconsistent or invalid system states.
+                    </p>
+                </div>
+
+                <!-- How Encapsulation is Achieved -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🛠️</span> How Encapsulation
+                        is Achieved
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Encapsulation is primarily implemented using two
+                        language features: <strong>access modifiers</strong> that control visibility, and
+                        <strong>getters/setters</strong> that provide controlled access to private data.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">1. Access Modifiers</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Access modifiers are keywords that control which
+                        parts of your code can see and interact with a class's fields and methods. The three most common
+                        are:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #10b981;">private</strong>: Accessible only within the same class.
+                                This is the primary tool for hiding data.</li>
+                            <li><strong style="color: #f59e0b;">protected</strong>: Accessible within the same class and
+                                its subclasses. Useful when child classes need access to parent data.</li>
+                            <li><strong style="color: #3b82f6;">public</strong>: Accessible from anywhere. This is what
+                                you use for the controlled interface.</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">⚡ <strong>The
+                                general rule is simple</strong>: make everything private by default, then selectively
+                            expose what needs to be public.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Example: Product Class with Access
+                        Modifiers</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Product</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>         <span style="color: #6a9955;">// Only this class can access</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>        <span style="color: #6a9955;">// Only this class can access</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Product</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">price</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span>    <span style="color: #6a9955;">// Anyone can read the name</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">double</span> <span style="color: #dcdcaa;">getPrice</span><span style="color: #ffd700;">() {</span>   <span style="color: #6a9955;">// Anyone can read the price</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">2. Getters and Setters</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">These are public methods that provide
+                        <strong>controlled, indirect access</strong> to private attributes.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #3b82f6;">Getter</strong> (e.g., <code>getBalance()</code>):
+                                Provides read-only access to an attribute.</li>
+                            <li><strong style="color: #3b82f6;">Setter</strong> (e.g., <code>setAmount()</code>): Allows
+                                modifying an attribute, often with <strong>validation logic</strong> built-in.</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Example: Product with Validation</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Product</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Product</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #dcdcaa;">setPrice</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">);</span> <span style="color: #6a9955;">// Use the setter for validation</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">double</span> <span style="color: #dcdcaa;">getPrice</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setPrice</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">price</span> <span style="color: #ffd700;">&lt;</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">IllegalArgumentException</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Price cannot be negative"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">price</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);">
+                        <h4 style="color: #ef4444; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-exclamation-triangle"></i> Common Mistakes In Encapsulation</h4>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong>❌ Making all variables public</strong></li>
+                            <li><strong>❌ Using getters/setters without validation</strong></li>
+                            <li><strong>❌ Breaking encapsulation via direct access</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Encapsulation in Practice -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🏦</span> Encapsulation in
+                        Practice: BankAccount
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">The <strong>BankAccount</strong> class keeps
+                        <strong>balance private</strong> and only allows modifications through
+                        <strong>deposit()</strong> and <strong>withdraw()</strong>, each of which enforces its own
+                        rules.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">BankAccount</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">accountHolder</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">balance</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">BankAccount</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">accountHolder</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">accountHolder</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">accountHolder</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">balance</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">0.0</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">deposit</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">&lt;=</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">IllegalArgumentException</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Deposit amount must be positive"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #9cdcfe;">balance</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">withdraw</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">&lt;=</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">IllegalArgumentException</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Withdrawal amount must be positive"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">balance</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">IllegalArgumentException</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Insufficient funds"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #9cdcfe;">balance</span> <span style="color: #ffd700;">-=</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">double</span> <span style="color: #dcdcaa;">getBalance</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">balance</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getAccountHolder</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">accountHolder</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Practical Example: PaymentProcessor -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💳</span> Practical Example:
+                        PaymentProcessor
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">We're building a
+                        <strong>PaymentProcessor</strong> class that handles credit card transactions. The <strong>raw
+                            card number must never be stored or visible</strong> anywhere in the system.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">PaymentProcessor</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">cardNumber</span> <span style="color: #ffd700;">=</span> <span style="color: #dcdcaa;">maskCardNumber</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">maskCardNumber</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"****-****-****-"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">substring</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">length</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">-</span> <span style="color: #b5cea8;">4</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment of $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" for card "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">cardNumber</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">payment</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">PaymentProcessor</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"1234567812345678"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">250.00</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">payment</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Why This Design Works</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>The <strong>raw card number is never stored</strong></li>
+                            <li><strong>Masking is handled internally</strong> via a private method</li>
+                            <li>The caller <strong>doesn't need to know</strong> how masking works — they pass the full
+                                card number, and the class handles the rest</li>
+                        </ul>
+                    </div>
+
+                    <!-- Practice Link -->
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-code"></i> Practice Exercise</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Ready to
+                            test
+                            your understanding of Encapsulation?</p>
+                        <a href="https://algomaster.io/learn/lld/encapsulation-exercise" target="_blank"
+                            style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; transition: all 0.3s ease;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(16, 185, 129, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <i class="fas fa-external-link-alt"></i>
+                            Try Encapsulation Exercise
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Key Takeaways -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📝</span> Key Takeaways
+                    </h2>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong style="color: #ec4899;">Encapsulation</strong> = Hide data, control access</li>
+                            <li><strong style="color: #10b981;">Access Modifiers</strong> = private, protected, public
+                            </li>
+                            <li><strong style="color: #3b82f6;">Getters/Setters</strong> = Controlled access with
+                                validation</li>
+                            <li><strong style="color: #f59e0b;">Data Hiding</strong> = Keep sensitive data private</li>
+                            <li><strong style="color: #8b5cf6;">Default Rule</strong> = Make everything private, expose
+                                selectively</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Topic CTA -->
+            <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                <div
+                    style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(167, 139, 250, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(139, 92, 246, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);">
+                    <a href="LLD_Abstraction.html"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                        onmouseout="this.style.background='transparent'">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div
+                                style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                                🎭</div>
+                            <div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                    Continue Learning</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;">Abstraction in Java
+                                </div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                    Learn how to hide complexity and show only essential details</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1rem; color: #8b5cf6; font-weight: 600;">Next Topic</span>
+                            <div
+                                style="background: #8b5cf6; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                                →</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div
+                    style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <a href="LLD_Interfaces.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(168, 85, 247, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>←</span>
+                        <span>Interfaces</span>
+                    </a>
+                    <a href="LLD_Abstraction.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>Next: Abstraction</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Encapsulation', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

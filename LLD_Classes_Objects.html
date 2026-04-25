@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes and Objects - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Classes and Objects</h1>
+                <p>The foundation of Object-Oriented Programming</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Classes & Objects</span>
+                </nav>
+
+                <h2>🧩 Classes and Objects</h2>
+
+                <!-- Introduction -->
+                <div style="margin-bottom:0rem; padding: 1.5rem 0;">
+                    <p style="line-height: 1.8; margin-bottom: 1rem;">This is where design truly begins. You identify
+                        the main entities and their roles within the system:</p>
+                    <ul style="line-height: 2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>What are the key classes?</strong></li>
+                        <li><strong>What are their responsibilities?</strong></li>
+                        <li><strong>What data do they hold (attributes)?</strong></li>
+                        <li><strong>What operations do they perform (methods)?</strong></li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.1);">
+                        <h4 style="color: #f59e0b; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-lightbulb"></i> Example: Food Delivery System</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">In a food
+                            delivery system, we can have classes like <strong>Restaurant</strong>,
+                            <strong>Order</strong>, <strong>Customer</strong>, and <strong>DeliveryAgent</strong>:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 1rem 0; padding-left: 1.5rem;">
+                            <li><strong>Customer</strong> places orders</li>
+                            <li><strong>Restaurant</strong> prepares food</li>
+                            <li><strong>DeliveryAgent</strong> delivers it</li>
+                            <li><strong>Order</strong> encapsulates the transaction</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top: 1rem;">An
+                            <strong>Order</strong> class would have:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 1rem 0; padding-left: 1.5rem;">
+                            <li><strong>Attributes:</strong> orderId, customerId, items, totalAmount, status</li>
+                            <li><strong>Methods:</strong> calculateTotal(), addItem(Item item), updateStatus(newStatus)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- What is a Class -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📐</span> What is a Class?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">A <strong>class</strong> is a blueprint, a
+                        template for creating objects. It defines what an object will contain (its data) and what it
+                        will be able to do (its behavior).</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #3b82f6;">Important:</strong> A class is not an object itself - it's a
+                            template used to create many objects with similar structure but independent state.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Key Characteristics of a Class:</h3>
+                    <ul style="line-height: 2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li>It groups related data (<strong>attributes</strong>) and actions (<strong>methods</strong>)
+                            together</li>
+                        <li>Defines <strong>attributes</strong> to represent the state or data of an object</li>
+                        <li>Defines <strong>methods</strong> (functions inside a class) to represent the behavior or
+                            actions the object can perform</li>
+                    </ul>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem; text-align: left;">
+                            <strong>Simply put:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.5; margin: 0; padding-left: 1.5rem;">
+                            <li><span
+                                    style="background: rgba(139, 92, 246, 0.25); color: #a78bfa; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Attributes</span>
+                                = what the class has (state)</li>
+                            <li><span
+                                    style="background: rgba(16, 185, 129, 0.25); color: #34d399; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Methods</span>
+                                = what the class does (behavior)</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);">
+                        <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-car"></i> Example: Car Class</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1rem;">Think of a
+                            "Car" class:</p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2; margin: 1rem 0; padding-left: 1.5rem;">
+                            <li><strong>Properties (Attributes):</strong> color, speed, model</li>
+                            <li><strong>Behaviors (Methods):</strong> start(), stop(), accelerate()</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;"></span>{</span>
+    <span style="color: #6a9955;">// Attributes</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">brand</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">speed</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #6a9955;">// Constructor</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Car</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">brand</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">brand</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">brand</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">model</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">speed</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #6a9955;">// Method to accelerate</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">accelerate</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">increment</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">speed</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">increment</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #6a9955;">// Method to display info</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">displayStatus</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">brand</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" is running at "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">speed</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" km/h."</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <!-- Image 1: Class Diagram/Illustration -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Classes_Objects_Img1.png" alt="Class Structure Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 1: Visual representation of a Class as a blueprint</p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);">
+                        <h4 style="color: #8b5cf6; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                class="fas fa-user-graduate"></i> Another Example: Student Class</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 0.75rem;">
+                            <strong>Attributes:</strong> roll_number, name, age, marks, email, phone number, address,
+                            cgpa
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8;"><strong>Methods:</strong>
+                            displayDetails(), calculateCGPA(), ...</p>
+                    </div>
+                </div>
+
+                <!-- What is an Object -->
+                <div style="margin-bottom:0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔧</span> What is an Object?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">An <strong>object</strong> is an instance of a
+                        class. It's the actual thing you can interact with, store data in, and invoke methods on.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">When you create an
+                            object, you're essentially saying: <em style="color: #60a5fa;">"Take this blueprint (class)
+                                and build one actual thing (object) out of it."</em></p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Each object:</h3>
+                    <ul style="line-height: 2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li>Gets its own copy of the data defined in the class</li>
+                        <li>Shares the same structure and behavior</li>
+                        <li>Operates independently of every other object created from that same class</li>
+                    </ul>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Creating Objects</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's create a few car objects using our Car
+                        class:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// Creating objects of the Car class</span>
+        <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">corolla</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Toyota"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Corolla"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">mustang</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Ford"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Mustang"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #9cdcfe;">corolla</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">accelerate</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">20</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">mustang</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">accelerate</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">40</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #6a9955;">// Displaying status of each car</span>
+        <span style="color: #9cdcfe;">corolla</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayStatus</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"-----------------"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">mustang</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayStatus</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(148, 163, 184, 0.25); margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                        <h4 style="color: #94a3b8; margin-bottom: 1.25rem; font-size: 1rem;"><i class="fas fa-terminal"
+                                style="margin-right: 0.5rem;"></i>Output:</h4>
+                        <pre
+                            style="color: #e2e8f0; margin: 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; line-height: 1.8; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">Toyota is running at 20 km/h.
+-----------------
+Ford is running at 40 km/h.</pre>
+                    </div>
+
+                    <!-- Image 2: Object Instance Diagram -->
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Classes_Objects_Img2.png" alt="Object Instance Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 2: Multiple objects created from the same class blueprint</p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #10b981;"><i class="fas fa-lightbulb"
+                                    style="margin-right: 0.5rem;"></i>Key Insight:</strong> Notice how <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace; color: #ff79c6;">corolla</code>
+                            and <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace; color: #ff79c6;">mustang</code>
+                            are both <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace; color: #8be9fd;">Car</code>
+                            objects, but they maintain completely independent state. When we called <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace; color: #50fa7b;">corolla.accelerate(20)</code>,
+                            only the Corolla's speed changed. The Mustang stayed at 0 until we explicitly accelerated it
+                            to 40.</p>
+                    </div>
+                </div>
+
+                <!-- Real-Life Understanding -->
+                <div style="margin-bottom:0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🏠</span> Simple Real-Life
+                        Understanding</h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Think like this:</p>
+                    <div
+                        style="display: flex; align-items: stretch; justify-content: flex-start; gap: 2rem; margin: 2rem 0; flex-wrap: wrap;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(96, 165, 250, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); text-align: left; flex: 1; min-width: 250px; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+                            <h4 style="color: #3b82f6; margin-bottom: 0.75rem; font-size: 1.2rem;">Class</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem; line-height: 1.6;">
+                                "House Plan" 🏠</p>
+                            <small style="color: var(--color-text-secondary); opacity: 0.8; font-size: 0.9rem;">The
+                                blueprint/template</small>
+                        </div>
+                        <div
+                            style="display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--color-primary);">
+                            →</div>
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); text-align: left; flex: 1; min-width: 250px; box-shadow: 0 8px 32px rgba(16, 185, 129, 0.15);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🏡</div>
+                            <h4 style="color: #10b981; margin-bottom: 0.75rem; font-size: 1.2rem;">Object</h4>
+                            <p
+                                style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 0.5rem; line-height: 1.6;">
+                                "Actual House built using that plan"</p>
+                            <small style="color: var(--color-text-secondary); opacity: 0.8; font-size: 0.9rem;">The real
+                                instance</small>
+                        </div>
+                    </div>
+                    <p
+                        style="color: var(--color-text-secondary); font-size: 1.1rem; margin-top: 1.5rem; line-height: 1.8; text-align: left;">
+                        <i class="fas fa-info-circle" style="color: #3b82f6; margin-right: 0.5rem;"></i>You can create
+                        <strong>many houses</strong> from <strong>one plan</strong>.
+                    </p>
+                </div>
+
+                <!-- Key Concepts -->
+                <div style="margin-bottom:0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">⚡</span> Key Concepts You
+                        Must Understand</h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">1️⃣</div>
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.1rem;">Attributes
+                                (Variables)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+                                These store the data/state of an object</p>
+                            <div style="background: #1e1e2e; padding: 1.25rem; border-radius: var(--radius-md);">
+                                <pre
+                                    style="margin: 0; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.6;"><code><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+<span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">speed</span><span style="color: #ffd700;">;</span></code></pre>
+                            </div>
+                        </div>
+                        <div
+                            style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                            <div style="font-size: 2.5rem; margin-bottom: 1rem;">2️⃣</div>
+                            <h4 style="color: var(--color-primary); margin-bottom: 1rem; font-size: 1.1rem;">Methods
+                                (Functions)</h4>
+                            <p style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+                                These define the behavior/actions</p>
+                            <div style="background: #1e1e2e; padding: 1.25rem; border-radius: var(--radius-md);">
+                                <pre
+                                    style="margin: 0; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.6;"><code><span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">() { }</span></code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🔒</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <h4 style="color: #8b5cf6; margin-bottom: 0.75rem; font-size: 1.2rem;">Constructor</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+                                    Special method used to initialize objects when they are created</p>
+                                <div
+                                    style="background: #1e1e2e; padding: 1.25rem; border-radius: var(--radius-lg); max-width: 450px;">
+                                    <pre
+                                        style="margin: 0; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.7;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #dcdcaa;">Car</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">c</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">c</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">car1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Red"</span><span style="color: #ffd700;">);</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practical Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🍕</span> Practical Example:
+                        Online Food Order</h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's apply classes and objects to a real-world
+                        problem: building an order management system for a food delivery platform.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">The Scenario</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">A food delivery app needs to manage orders. Each
+                        order belongs to a customer, contains a list of food items with prices, and tracks whether it
+                        has been placed. Customers build their order by adding items one at a time, and once they're
+                        satisfied, they place the order. After that, no more items can be added.</p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 2rem 0;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);">
+                            <h4 style="color: #ef4444; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                    class="fas fa-times-circle" style="margin-right: 0.5rem;"></i>Without Classes</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">You'd have separate arrays
+                                for order IDs, customer names, item lists, and totals with <strong>no clean way to
+                                    enforce rules</strong> like "don't add items after placing."</p>
+                        </div>
+                        <div
+                            style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);">
+                            <h4 style="color: #10b981; margin-bottom: 1.25rem; font-size: 1.1rem;"><i
+                                    class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>With Classes</h4>
+                            <p style="color: var(--color-text-secondary); line-height: 1.8;">The <strong>Order owns its
+                                    data</strong> and enforces invariants: <code
+                                    style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace;">addItem()</code>
+                                works only before <code
+                                    style="background: rgba(139, 92, 246, 0.2); color: #a78bfa; padding: 0.2rem 0.5rem; border-radius: 4px; font-family: monospace;">place()</code>,
+                                so <strong>invalid states are prevented by design</strong>.</p>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Code Implementation</h3>
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">import</span> java<span style="color: #ffd700;"></span>.</span><span style="color: #4ec9b0;">util</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> java<span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">util</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">FoodOrder</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">customerName</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">items</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">totalAmount</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">boolean</span> <span style="color: #9cdcfe;">isPlaced</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">FoodOrder</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">customerName</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">orderId</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">orderId</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">customerName</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">customerName</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">items</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">&lt;&gt;();</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">totalAmount</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">0.0</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">isPlaced</span> <span style="color: #ffd700;">=</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #6a9955;">// Only allows adding items before the order is placed</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">isPlaced</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Cannot modify a placed order."</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #9cdcfe;">items</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">totalAmount</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">price</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #6a9955;">// Places the order if it has at least one item and hasn't been placed yet</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">placeOrder</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">isPlaced</span> <span style="color: #ffd700;">||</span> <span style="color: #9cdcfe;">items</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">isEmpty</span><span style="color: #ffd700;">()) {</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #9cdcfe;">isPlaced</span> <span style="color: #ffd700;">=</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getItemCount</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">items</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">size</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">displayOrder</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">status</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">isPlaced</span> <span style="color: #ffd700;">?</span> <span style="color: #ce9178;">"PLACED"</span> <span style="color: #ffd700;">:</span> <span style="color: #ce9178;">"PENDING"</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">orderId</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">customerName</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;")" - "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">status</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">items</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"  - "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"  Total: $%.2f%n"</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">totalAmount</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Usage Example</h3>
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">FoodApp</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">FoodOrder</span> <span style="color: #9cdcfe;">order1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">FoodOrder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"ORD-101"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Alice"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Pizza"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">12.99</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Garlic Bread"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">4.99</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Coke"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">2.49</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">placeOrder</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">FoodOrder</span> <span style="color: #9cdcfe;">order2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">FoodOrder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"ORD-102"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Bob"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Burger"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">9.99</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Fries"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">3.99</span><span style="color: #ffd700;">);</span>
+        <span style="color: #6a9955;">// Bob hasn't placed his order yet</span>
+
+        <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayOrder</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">displayOrder</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(148, 163, 184, 0.25); margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                        <h4 style="color: #94a3b8; margin-bottom: 1.25rem; font-size: 1rem;"><i class="fas fa-terminal"
+                                style="margin-right: 0.5rem;"></i>Output:</h4>
+                        <pre
+                            style="color: #e2e8f0; margin: 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; line-height: 1.8; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">Order ORD-101 (Alice) - PLACED
+  - Pizza
+  - Garlic Bread
+  - Coke
+  Total: $20.47
+
+Order ORD-102 (Bob) - PENDING
+  - Burger
+  - Fries
+  Total: $13.98</pre>
+                    </div>
+                </div>
+
+                <!-- Practice Section -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of Classes and Objects:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/classes-and-objects-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📚</span> Summary</h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem; font-size: 1.05rem;">
+                            <li><strong style="color: #f59e0b;">Class</strong> = Blueprint/Template (defines structure
+                                and behavior)</li>
+                            <li><strong style="color: #10b981;">Object</strong> = Instance (actual entity with its own
+                                state)</li>
+                            <li><strong style="color: #a78bfa;">Attributes</strong> = Data/State of the object</li>
+                            <li><strong style="color: #3b82f6;">Methods</strong> = Behavior/Actions the object can
+                                perform</li>
+                            <li><strong style="color: #8b5cf6;">Constructor</strong> = Special method to initialize
+                                objects</li>
+                            <li><strong style="color: #ec4899;">Each object is independent</strong> - changing one
+                                doesn't affect others</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Topic CTA - Improved Design -->
+            <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                <div
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(16, 185, 129, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);">
+                    <a href="LLD_Enums.html"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                        onmouseout="this.style.background='transparent'">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div
+                                style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                📋</div>
+                            <div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                    Continue Learning</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">Enums in Java</div>
+                                <div
+                                    style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                    Learn how to define constant sets with type safety</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 1rem; color: #10b981; font-weight: 600;">Next Topic</span>
+                            <div
+                                style="background: #10b981; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                →</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Footer -->
+                <div
+                    style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <a href="LLD.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>←</span>
+                        <span>Back to LLD Hub</span>
+                    </a>
+                    <a href="LLD_Enums.html"
+                        style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                        onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                        onmouseout="this.style.background='var(--glass-bg)'">
+                        <span>Next: Enums</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Classes and Objects', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

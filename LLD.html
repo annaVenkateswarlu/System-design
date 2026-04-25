@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low-Level Design (LLD) - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems & Case Studies</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Low-Level Design (LLD)</h1>
+                <p>Master Object-Oriented Design, UML, Design Patterns & SOLID Principles</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Low-Level Design</span>
+                </nav>
+
+                <h2>📐 Low-Level Design (LLD) Mastery</h2>
+                <p
+                    style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
+                    Low-Level Design focuses on the detailed design of system components, classes, and their
+                    interactions.
+                    Master OOP concepts, UML diagrams, SOLID principles, and design patterns to excel in machine coding
+                    rounds and object-oriented design interviews.
+                </p>
+
+                <!-- Quick Navigation -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-bottom: 3rem;">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; font-size: 1.3rem;">🧭 Quick
+                        Navigation</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <a href="#oop-fundamentals"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(59, 130, 246, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(59, 130, 246, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.2)'"
+                            onmouseout="this.style.background='rgba(59, 130, 246, 0.1)'">OOP Fundamentals</a>
+                        <a href="#class-relationships"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(16, 185, 129, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'"
+                            onmouseout="this.style.background='rgba(16, 185, 129, 0.1)'">Class Relationships</a>
+                        <a href="#design-principles"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(168, 85, 247, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(168, 85, 247, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(168, 85, 247, 0.2)'"
+                            onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'">Design Principles</a>
+                        <a href="#solid-principles"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(239, 68, 68, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(239, 68, 68, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(239, 68, 68, 0.2)'"
+                            onmouseout="this.style.background='rgba(239, 68, 68, 0.1)'">SOLID Principles</a>
+                        <a href="#uml-diagrams"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(249, 115, 22, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(249, 115, 22, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.2)'"
+                            onmouseout="this.style.background='rgba(249, 115, 22, 0.1)'">UML Diagrams</a>
+                        <a href="#design-patterns"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(14, 165, 233, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(14, 165, 233, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(14, 165, 233, 0.2)'"
+                            onmouseout="this.style.background='rgba(14, 165, 233, 0.1)'">Design Patterns</a>
+                        <a href="#interview-tips"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(34, 197, 94, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(34, 197, 94, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(34, 197, 94, 0.2)'"
+                            onmouseout="this.style.background='rgba(34, 197, 94, 0.1)'">Interview Tips</a>
+                        <a href="#examples"
+                            style="color: var(--color-primary); text-decoration: none; padding: 0.75rem 1rem; background: rgba(236, 72, 153, 0.1); border-radius: var(--radius-md); border: 1px solid rgba(236, 72, 153, 0.3); text-align: center; font-weight: 500; transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(236, 72, 153, 0.2)'"
+                            onmouseout="this.style.background='rgba(236, 72, 153, 0.1)'">Examples</a>
+                    </div>
+                </div>
+
+                <!-- OOP Fundamentals Section -->
+                <div id="oop-fundamentals" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #3B82F6; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #3B82F6;">
+                        🧱 OOP Fundamentals
+                    </h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">
+                        Object-Oriented Programming (OOP) is the foundation of LLD. Master these core concepts to build
+                        robust, maintainable systems.
+                    </p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <!-- Classes & Objects -->
+                        <a href="LLD_Classes_Objects.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🧩</div>
+                                <h4 style="color: #3B82F6; font-size: 1.2rem; margin-bottom: 0.75rem;">Classes & Objects
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Building blocks of OOP. Learn to define blueprints and create instances.</p>
+                            </div>
+                        </a>
+
+                        <!-- Enums -->
+                        <a href="LLD_Enums.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📋</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">Enums</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Fixed set of constants. Type-safe values for states, types, and options.</p>
+                            </div>
+                        </a>
+
+                        <!-- Interfaces -->
+                        <a href="LLD_Interfaces.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔌</div>
+                                <h4 style="color: #A855F7; font-size: 1.2rem; margin-bottom: 0.75rem;">Interfaces</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Contracts defining what a class can do. Enable polymorphism and loose coupling.</p>
+                            </div>
+                        </a>
+
+                        <!-- Encapsulation -->
+                        <a href="LLD_Encapsulation.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔒</div>
+                                <h4 style="color: #EF4444; font-size: 1.2rem; margin-bottom: 0.75rem;">Encapsulation
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Hide internal state, expose controlled access. Data protection & abstraction.</p>
+                            </div>
+                        </a>
+
+                        <!-- Abstraction -->
+                        <a href="LLD_Abstraction.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎭</div>
+                                <h4 style="color: #F97316; font-size: 1.2rem; margin-bottom: 0.75rem;">Abstraction</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Show essential features, hide complexity. Focus on what, not how.</p>
+                            </div>
+                        </a>
+
+                        <!-- Inheritance -->
+                        <a href="LLD_Inheritance.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(14, 165, 233, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(14, 165, 233, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🌳</div>
+                                <h4 style="color: #0EA5E9; font-size: 1.2rem; margin-bottom: 0.75rem;">Inheritance</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    IS-A relationship. Reuse code from parent classes. Extend functionality.</p>
+                            </div>
+                        </a>
+
+                        <!-- Polymorphism -->
+                        <a href="LLD_Polymorphism.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(236, 72, 153, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔄</div>
+                                <h4 style="color: #EC4899; font-size: 1.2rem; margin-bottom: 0.75rem;">Polymorphism</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Many forms. Same interface, different implementations. Runtime flexibility.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Class Relationships Section -->
+                <div id="class-relationships" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #10B981; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #10B981;">
+                        🔗 Class Relationships</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Understanding
+                        how classes interact and relate to each other is crucial for designing flexible and maintainable
+                        systems.</p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <a href="LLD_Association.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🤝</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">Association</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    A uses B. Loose connection between classes.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Aggregation.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📦</div>
+                                <h4 style="color: #3B82F6; font-size: 1.2rem; margin-bottom: 0.75rem;">Aggregation</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    HAS-A relationship. Parts can exist independently.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Composition.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏗️</div>
+                                <h4 style="color: #EF4444; font-size: 1.2rem; margin-bottom: 0.75rem;">Composition</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Strong HAS-A. Parts cannot exist without whole.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Dependency.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">➡️</div>
+                                <h4 style="color: #F97316; font-size: 1.2rem; margin-bottom: 0.75rem;">Dependency</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    USES relationship. Temporary usage between classes.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Realization.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎯</div>
+                                <h4 style="color: #A855F7; font-size: 1.2rem; margin-bottom: 0.75rem;">Realization</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    IMPLEMENTS relationship. Interface implementation.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Design Principles Section -->
+                <div id="design-principles" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #A855F7; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #A855F7;">
+                        📐 Design Principles</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Core
+                        principles that guide software design decisions. Following these leads to cleaner, more
+                        maintainable code.</p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <a href="LLD_DRY_Principle.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔄</div>
+                                <h4 style="color: #A855F7; font-size: 1.2rem; margin-bottom: 0.75rem;">DRY Principle
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Don't Repeat Yourself. Eliminate code duplication.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_KISS_Principle.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">😘</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">KISS Principle
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Keep It Simple, Stupid. Simplicity is key.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_YAGNI_Principle.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🚫</div>
+                                <h4 style="color: #EF4444; font-size: 1.2rem; margin-bottom: 0.75rem;">YAGNI Principle
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    You Aren't Gonna Need It. Don't add until needed.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Law_of_Demeter.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⚖️</div>
+                                <h4 style="color: #F97316; font-size: 1.2rem; margin-bottom: 0.75rem;">Law of Demeter
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Principle of Least Knowledge. Talk to friends only.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Separation_of_Concerns.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(14, 165, 233, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(14, 165, 233, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🗂️</div>
+                                <h4 style="color: #0EA5E9; font-size: 1.2rem; margin-bottom: 0.75rem;">Separation of
+                                    Concerns</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Divide responsibilities across different modules.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Coupling_Cohesion.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(236, 72, 153, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🧲</div>
+                                <h4 style="color: #EC4899; font-size: 1.2rem; margin-bottom: 0.75rem;">Coupling &
+                                    Cohesion</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Low coupling, high cohesion. Independent yet focused.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Composition_Over_Inheritance.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(74, 222, 128, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(34, 197, 94, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(34, 197, 94, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏗️</div>
+                                <h4 style="color: #22C55E; font-size: 1.2rem; margin-bottom: 0.75rem;">Composition Over
+                                    Inheritance</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Favor composition for flexibility. HAS-A beats IS-A.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SOLID Principles Section -->
+                <div id="solid-principles" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #EF4444; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #EF4444;">
+                        🧱 SOLID Principles</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">The five
+                        foundational principles of object-oriented design by Robert C. Martin (Uncle Bob). Essential for
+                        writing maintainable and scalable software.</p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <a href="LLD_SRP.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎯</div>
+                                <h4 style="color: #EF4444; font-size: 1.2rem; margin-bottom: 0.75rem;">Single
+                                    Responsibility Principle (SRP)</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    A class should have one, and only one, reason to change.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_OCP.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔓</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">Open/Closed
+                                    Principle (OCP)</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Open for extension, closed for modification.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_LSP.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔄</div>
+                                <h4 style="color: #3B82F6; font-size: 1.2rem; margin-bottom: 0.75rem;">Liskov
+                                    Substitution Principle (LSP)</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Derived classes must be substitutable for their base classes.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_ISP.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">✂️</div>
+                                <h4 style="color: #F97316; font-size: 1.2rem; margin-bottom: 0.75rem;">Interface
+                                    Segregation Principle (ISP)</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Clients shouldn't depend on interfaces they don't use.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_DIP.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📉</div>
+                                <h4 style="color: #A855F7; font-size: 1.2rem; margin-bottom: 0.75rem;">Dependency
+                                    Inversion Principle (DIP)</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Depend on abstractions, not concretions.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- UML Diagrams Section -->
+                <div id="uml-diagrams" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #F97316; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #F97316;">
+                        📊 UML Diagrams</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Unified
+                        Modeling Language (UML) provides a standardized way to visualize system design. Essential for
+                        communicating architecture.</p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <a href="LLD_Class_Diagram.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏛️</div>
+                                <h4 style="color: #F97316; font-size: 1.2rem; margin-bottom: 0.75rem;">Class Diagram
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Static structure. Classes, attributes, methods, and relationships.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_UseCase_Diagram.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎭</div>
+                                <h4 style="color: #3B82F6; font-size: 1.2rem; margin-bottom: 0.75rem;">Use Case Diagram
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    User interactions. Actors, use cases, and system boundaries.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Sequence_Diagram.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⏱️</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">Sequence Diagram
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Object interactions over time. Message flow between objects.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Activity_Diagram.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔄</div>
+                                <h4 style="color: #A855F7; font-size: 1.2rem; margin-bottom: 0.75rem;">Activity Diagram
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Workflow and business processes. Flow from activity to activity.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_State_Diagram.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔴🟡🟢</div>
+                                <h4 style="color: #EF4444; font-size: 1.2rem; margin-bottom: 0.75rem;">State Diagram
+                                </h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Object lifecycle. States and transitions. Event-driven behavior modeling.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Design Patterns Section -->
+                <div id="design-patterns" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #0EA5E9; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #0EA5E9;">
+                        🎨 Design Patterns</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Proven
+                        solutions to common design problems. Categorized into Creational, Behavioral, and Structural
+                        patterns by the Gang of Four (GoF).</p>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <a href="LLD_Creational_Patterns.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(14, 165, 233, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(14, 165, 233, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏭</div>
+                                <h4 style="color: #0EA5E9; font-size: 1.2rem; margin-bottom: 0.75rem;">Creational
+                                    Patterns</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Object creation mechanisms. Singleton, Factory, Builder, Prototype, Abstract
+                                    Factory.</p>
+                            </div>
+                        </a>
+                        <a href="LLD_Behavioral_Patterns.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(244, 114, 182, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(236, 72, 153, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🎭</div>
+                                <h4 style="color: #EC4899; font-size: 1.2rem; margin-bottom: 0.75rem;">Behavioral
+                                    Patterns</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Object interaction & communication. Observer, Strategy, Command, Iterator, State.
+                                </p>
+                            </div>
+                        </a>
+                        <a href="LLD_Structural_Patterns.html" style="text-decoration: none;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.75rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; height: 100%;"
+                                onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏗️</div>
+                                <h4 style="color: #10B981; font-size: 1.2rem; margin-bottom: 0.75rem;">Structural
+                                    Patterns</h4>
+                                <p
+                                    style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                                    Class & object composition. Adapter, Decorator, Facade, Proxy, Bridge, Composite.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Interview Tips Section -->
+                <div id="interview-tips" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #22C55E; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #22C55E;">
+                        💬 How to Talk in LLD Interviews</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Communication
+                        is key in LLD interviews. Learn how to structure your approach, explain your design decisions,
+                        and collaborate with the interviewer effectively.</p>
+                    <a href="LLD_Interview_Tips.html" style="text-decoration: none;">
+                        <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(74, 222, 128, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(34, 197, 94, 0.3); transition: all 0.3s ease;"
+                            onmouseover="this.style.boxShadow='0 15px 35px rgba(34, 197, 94, 0.15)'; this.style.transform='translateY(-5px)'"
+                            onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                            <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                                <div style="font-size: 4rem;">🗣️</div>
+                                <div style="flex: 1;">
+                                    <h4 style="color: #22C55E; font-size: 1.4rem; margin-bottom: 1rem;">LLD Interview
+                                        Communication Guide</h4>
+                                    <p
+                                        style="color: var(--color-text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 1rem;">
+                                        Master the art of explaining your design, asking clarifying questions, handling
+                                        requirements, and demonstrating your thought process during machine coding and
+                                        system design rounds.</p>
+                                    <ul
+                                        style="color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.8; margin-left: 1.5rem; margin: 1;">
+                                        <li>Requirements gathering techniques</li>
+                                        <li>Explaining class relationships clearly</li>
+                                        <li>Justifying design decisions</li>
+                                        <li>Handling feedback and constraints</li>
+                                        <li>Time management in coding rounds</li>
+                                    </ul>
+                                </div>
+                                <div style="font-size: 2rem; color: #22C55E;">→</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Examples Section -->
+                <div id="examples" style="margin-bottom: 4rem;">
+                    <h3
+                        style="color: #EC4899; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 3px solid #EC4899;">
+                        🎯 LLD Examples & Practice Problems</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 2rem; line-height: 1.7;">Practical
+                        examples and commonly asked interview problems. Practice these to master LLD interviews at top
+                        tech companies.</p>
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.4rem; margin-bottom: 1rem;">🎮 Games</h4>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <a href="LLD_Chess.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">♟️</div>
+                                    <h5 style="color: #EF4444; font-size: 1.1rem; margin-bottom: 0.5rem;">Chess Game
+                                    </h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Board,
+                                        pieces, moves, rules, game state</p>
+                                </div>
+                            </a>
+                            <a href="LLD_TicTacToe.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭕❌</div>
+                                    <h5 style="color: #3B82F6; font-size: 1.1rem; margin-bottom: 0.5rem;">Tic Tac Toe
+                                    </h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Grid,
+                                        players, win conditions, AI opponent</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.4rem; margin-bottom: 1rem;">🏢 Management
+                            Systems</h4>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <a href="LLD_Elevator.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(196, 128, 255, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(168, 85, 247, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(168, 85, 247, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛗</div>
+                                    <h5 style="color: #A855F7; font-size: 1.1rem; margin-bottom: 0.5rem;">Elevator
+                                        System</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">
+                                        Multiple lifts, scheduling, requests, floors</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Parking_Lot.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🅿️</div>
+                                    <h5 style="color: #F97316; font-size: 1.1rem; margin-bottom: 0.5rem;">Parking Lot
+                                    </h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Spots,
+                                        vehicles, pricing, entry/exit, multiple floors</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Hotel_Management.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(14, 165, 233, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(14, 165, 233, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏨</div>
+                                    <h5 style="color: #0EA5E9; font-size: 1.1rem; margin-bottom: 0.5rem;">Hotel
+                                        Management</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Rooms,
+                                        bookings, guests, services, payments</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.4rem; margin-bottom: 1rem;">🚗 Ride &
+                            Delivery Apps</h4>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <a href="LLD_Swiggy.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍔</div>
+                                    <h5 style="color: #EF4444; font-size: 1.1rem; margin-bottom: 0.5rem;">Swiggy</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Food
+                                        delivery, restaurants, orders, delivery partners</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Zomato.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(239, 68, 68, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍕</div>
+                                    <h5 style="color: #EF4444; font-size: 1.1rem; margin-bottom: 0.5rem;">Zomato</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">
+                                        Restaurant discovery, reviews, delivery, dining</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Uber.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(50, 50, 50, 0.1) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(100, 100, 100, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(0, 0, 0, 0.2)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🚕</div>
+                                    <h5 style="color: #000000; font-size: 1.1rem; margin-bottom: 0.5rem;">Uber</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Ride
+                                        booking, drivers, pricing, tracking, payments</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Ola.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛺</div>
+                                    <h5 style="color: #10B981; font-size: 1.1rem; margin-bottom: 0.5rem;">Ola</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Cab
+                                        booking, auto, rentals, outstation, payments</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: var(--color-primary); font-size: 1.4rem; margin-bottom: 1rem;">💰 Financial &
+                            Other Systems</h4>
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                            <a href="LLD_Zerodha.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(74, 222, 128, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(34, 197, 94, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(34, 197, 94, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📈</div>
+                                    <h5 style="color: #22C55E; font-size: 1.1rem; margin-bottom: 0.5rem;">Zerodha</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Stock
+                                        trading, orders, portfolio, Kite platform</p>
+                                </div>
+                            </a>
+                            <a href="LLD_ATM.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(96, 165, 250, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(59, 130, 246, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏧</div>
+                                    <h5 style="color: #3B82F6; font-size: 1.1rem; margin-bottom: 0.5rem;">ATM</h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Card,
+                                        PIN, transactions, cash dispensing, balance</p>
+                                </div>
+                            </a>
+                            <a href="LLD_Ticket_Booking.html" style="text-decoration: none;">
+                                <div style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border: 1px solid rgba(249, 115, 22, 0.3); transition: all 0.3s ease; text-align: center;"
+                                    onmouseover="this.style.boxShadow='0 15px 35px rgba(249, 115, 22, 0.15)'; this.style.transform='translateY(-5px)'"
+                                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)'">
+                                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎫</div>
+                                    <h5 style="color: #F97316; font-size: 1.1rem; margin-bottom: 0.5rem;">Ticket Booking
+                                    </h5>
+                                    <p style="color: var(--color-text-secondary); font-size: 0.9rem; margin: 0;">Movies,
+                                        trains, buses, seats, pricing, cancellation</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid var(--color-primary); text-align: center;">
+                    <p style="color: var(--color-text-secondary); font-size: 1rem; margin: 0; line-height: 1.8;">🚀
+                        <strong style="color: var(--color-primary);">Master LLD step by step:</strong> Start with OOP
+                        fundamentals, then UML diagrams, SOLID principles, Design Patterns, and finally practice with
+                        real-world examples.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Next Topic CTA -->
+        <section class="next-topic-cta">
+            <div class="container">
+                <a href="caching.html" class="next-topic-link">
+                    <span class="next-topic-text">Next Topic</span>
+                    <span class="next-topic-arrow">→</span>
+                    <span class="next-topic-title">💾 Caching</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Low Level Design ', 'success');
+        });
+    </script>
+</body>
+
+</html>
