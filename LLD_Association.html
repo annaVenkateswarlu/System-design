@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Association - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Association in Java</h1>
+                <p>Understanding relationships between classes</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Association</span>
+                </nav>
+
+
+                <!-- What is Association -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔗</span> What is
+                        Association?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Association</strong> means:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">👉
+                            <strong>A relationship between two classes</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">In simple words:
+                            <strong>"Objects of one class use or are connected to objects of another class"</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #8b5cf6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>"One object need to know about the existence of another object to perform its
+                                responsibilities"</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">If <strong>Class A</strong> must interact with
+                        <strong>Class B</strong> to fulfill its purpose, then <strong>Class A is associated with Class
+                            B</strong>.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🧠 Real-World Analogy</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Think of a <strong>Student</strong> and a
+                        <strong>Teacher</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>A student <strong>has-a</strong> teacher who teaches them.</li>
+                            <li>A teacher <strong>teaches</strong> multiple students.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img1.png" alt="Student-Teacher Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 1: Student-Teacher association relationship</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>However:</strong></p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2; margin: 0 0 1.5rem 0; padding-left: 1.5rem;">
+                        <li>A student can still exist <strong>without a teacher</strong>.</li>
+                        <li>A teacher can still exist <strong>without any specific student</strong>.</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">This is a real-world
+                            association: <strong>These are associations (they are related, but independent)</strong></p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">⚡ Key Characteristics of Association:
+                    </h3>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li>Association reflects a <strong>"has-a"</strong> or <strong>"uses-a"</strong> relationship.
+                        </li>
+                        <li>Associated objects are <strong>loosely coupled</strong> and can exist independently of one
+                            another.</li>
+                        <li>The association can be <strong>unidirectional or bidirectional</strong>, and can follow
+                            different multiplicity patterns (<strong>1-to-1, 1-to-many</strong>, etc.).</li>
+                    </ul>
+                </div>
+
+                <!-- UML Representation -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📊</span> UML Representation
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">In UML class diagrams, association is
+                        represented by a <strong>solid line</strong> between two classes.</p>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Symbol
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Meaning
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Example
+                                        Scenario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Solid line (---)</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">An association
+                                        between classes</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Student --- Teacher
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Arrowhead (-->)</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Directionality (who
+                                        knows whom)</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Order -->
+                                        PaymentGateway</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">No arrowhead</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Bidirectional
+                                        association</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Team --- Developer
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">1</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Exactly one</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Each User has one
+                                        Profile</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">0..1</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Zero or one
+                                        (optional)</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">An Employee may have
+                                        a Manager</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">*</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Many (zero or more)
+                                    </td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">A Project can have
+                                        many Tasks</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">1..*</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">At least one</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Each Course has one
+                                        or more Students</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Multiplicity</strong> defines how many
+                        instances of one class can be associated with another. It is written near the class ends in UML
+                        diagrams.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #3b82f6;"><i class="fas fa-lightbulb"
+                                    style="margin-right: 0.5rem;"></i>Summary:</strong> The solid line is the key.
+                            <strong>Inheritance</strong> uses a solid line with a hollow triangle.
+                            <strong>Aggregation</strong> adds a hollow diamond. <strong>Composition</strong> adds a
+                            filled diamond. Plain association is just the line, optionally with an arrowhead for
+                            direction and multiplicity labels at each end.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Types of Association -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📋</span> Types of
+                        Association
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Associations between classes can vary depending
+                        on how objects are connected and in which direction information flows.</p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">In Object-Oriented Design, associations are
+                        primarily defined by two key properties:</p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>Directionality</strong> — Who knows about whom?</li>
+                        <li><strong>Multiplicity</strong> — How many objects are connected?</li>
+                    </ul>
+
+                    <!-- Based on Direction -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">3.1 Based on Direction (Directionality)
+                    </h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Directionality determines which class holds a
+                        reference to the other and whether communication is one-way or two-way.</p>
+
+                    <h4 style="margin: 2rem 0 1rem 0; color: var(--color-text);">a. Unidirectional Association</h4>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">In a unidirectional association, only one class
+                        is aware of or holds a reference to the other class. The referenced class has no knowledge of
+                        who is referencing it.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img2.png" alt="Unidirectional Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 2: Unidirectional association - Order knows about PaymentGateway</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Example:</strong> An
+                        <strong>Order</strong> object uses a <strong>PaymentGateway</strong> to process transactions,
+                        but the PaymentGateway doesn't keep track of any orders. The order knows about the gateway. The
+                        gateway doesn't know about the order.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Processing payment of $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">gateway</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Order</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">PaymentGateway</span> <span style="color: #9cdcfe;">gateway</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">gateway</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">gateway</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #9cdcfe;">gateway</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">100.0</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Order</strong> holds a reference to
+                        <strong>PaymentGateway</strong> and calls its method. But <strong>PaymentGateway</strong> has no
+                        field or reference pointing back to <strong>Order</strong>. This is the simplest and most common
+                        form of association.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #f59e0b;"><i class="fas fa-lightbulb"
+                                    style="margin-right: 0.5rem;"></i>Tip:</strong> When in doubt, start with
+                            unidirectional. You can always add the reverse direction later if needed.</p>
+                    </div>
+
+                    <h4 style="margin: 2rem 0 1rem 0; color: var(--color-text);">b. Bidirectional Association</h4>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">In a bidirectional association, both classes are
+                        aware of each other. Each class holds a reference to the other, enabling two-way communication.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img3.png" alt="Bidirectional Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 3: Bidirectional association - Team and Developer know about each other</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Example:</strong> A
+                        <strong>Team</strong> has a list of <strong>Developers</strong>, and each
+                        <strong>Developer</strong> knows which <strong>Team</strong> they belong to. Either side can
+                        navigate to the other.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Developer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Team</span> <span style="color: #9cdcfe;">team</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setTeam</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Team</span> <span style="color: #9cdcfe;">team</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">team</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">team</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Team</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Developer</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">developers</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addDeveloper</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Developer</span> <span style="color: #9cdcfe;">dev</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">developers</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">dev</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">dev</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setTeam</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Notice how <code>addDeveloper()</code> updates
+                        both sides of the relationship: it adds the developer to the team's list and sets the team
+                        reference on the developer. This is important. In a bidirectional association, both references
+                        must stay in sync. If you add a developer to the team but forget to set the developer's team
+                        reference, you'll get inconsistent state where the team thinks it has the developer, but the
+                        developer doesn't know which team it belongs to.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #ef4444;"><i class="fas fa-exclamation-triangle"
+                                    style="margin-right: 0.5rem;"></i>Important:</strong> Bidirectional associations are
+                            more complex to maintain than unidirectional ones. You need to keep both sides synchronized,
+                            which means more code and more opportunities for bugs. Use them only when both sides
+                            genuinely need to navigate to the other.</p>
+                    </div>
+
+                    <!-- Based on Multiplicity -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">3.2 Based on Multiplicity</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Multiplicity defines how many instances of one
+                        class can be associated with instances of another class. It describes the quantity and nature of
+                        the connections.</p>
+
+                    <h4 style="margin: 2rem 0 1rem 0; color: var(--color-text);">a. One-to-One Association</h4>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Each object of one class is linked to exactly
+                        one object of the other class.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img4.png" alt="One-to-One Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 4: One-to-one association between User and Profile</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Example:</strong> Each
+                        <strong>User</strong> has exactly one <strong>Profile</strong>, and each
+                        <strong>Profile</strong> belongs to one <strong>User</strong>. This is a bidirectional
+                        one-to-one relationship.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Profile</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setUser</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">user</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">User</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Profile</span> <span style="color: #9cdcfe;">profile</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setProfile</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Profile</span> <span style="color: #9cdcfe;">profile</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">profile</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">profile</span><span style="color: #ffd700;">;</span>
+        <span style="color: #9cdcfe;">profile</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setUser</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">One-to-one associations make sense when you want
+                        to separate concerns even though the objects are tightly paired. A <strong>User</strong> handles
+                        authentication (login, password, roles), while a <strong>Profile</strong> handles display
+                        information (avatar, bio, preferences). Merging them into one class would work, but separating
+                        them keeps each class focused on a single responsibility.</p>
+
+                    <h4 style="margin: 2rem 0 1rem 0; color: var(--color-text);">b. One-to-Many Association</h4>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">One object of a class is linked to multiple
+                        objects of another class. This is one of the most common patterns in software design.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img5.png" alt="One-to-Many Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 5: One-to-many association between Project and Issues</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Example:</strong> Each
+                        <strong>Project</strong> can have many <strong>Issues</strong> (bug reports, feature requests),
+                        but each <strong>Issue</strong> belongs to one <strong>Project</strong>. The project holds a
+                        list of issues, and each issue holds a back-reference to its project.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Issue</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Project</span> <span style="color: #9cdcfe;">project</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setProject</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Project</span> <span style="color: #9cdcfe;">project</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">project</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">project</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Project</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Issue</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">issues</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addIssue</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Issue</span> <span style="color: #9cdcfe;">issue</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">issues</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">issue</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">issue</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setProject</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin: 2rem 0 1rem 0; color: var(--color-text);">c. Many-to-Many Association</h4>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Multiple objects from one class are associated
+                        with multiple objects from another class. This is common in scenarios involving memberships,
+                        enrollments, or tagging systems.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img6.png" alt="Many-to-Many Association"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 6: Many-to-many association between Users and Groups</p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;"><strong>Example:</strong> A
+                        <strong>User</strong> can be a member of multiple <strong>Groups</strong> (WhatsApp groups,
+                        Slack channels), and a <strong>Group</strong> can have multiple <strong>Users</strong>. Both
+                        sides hold a list of the other. The <code>joinGroup()</code> and <code>addUser()</code> methods
+                        keep both sides in sync.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">User</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Group</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">groups</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">User</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">joinGroup</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Group</span> <span style="color: #9cdcfe;">group</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(!</span><span style="color: #9cdcfe;">groups</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">contains</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">group</span><span style="color: #ffd700;">)) {</span>
+            <span style="color: #9cdcfe;">groups</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">group</span><span style="color: #ffd700;">);</span>
+            <span style="color: #9cdcfe;">group</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addUser</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Group</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getGroups</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">groups</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Group</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">users</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Group</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addUser</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(!</span><span style="color: #9cdcfe;">users</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">contains</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">)) {</span>
+            <span style="color: #9cdcfe;">users</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">);</span>
+            <span style="color: #9cdcfe;">user</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">joinGroup</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getUsers</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">users</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Usage</span>
+<span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">alice</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Alice"</span><span style="color: #ffd700;">);</span>
+<span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">bob</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Bob"</span><span style="color: #ffd700;">);</span>
+
+<span style="color: #4ec9b0;">Group</span> <span style="color: #9cdcfe;">backend</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Group</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Backend"</span><span style="color: #ffd700;">);</span>
+<span style="color: #4ec9b0;">Group</span> <span style="color: #9cdcfe;">devOps</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Group</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"DevOps"</span><span style="color: #ffd700;">);</span>
+
+<span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">joinGroup</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">backend</span><span style="color: #ffd700;">);</span>
+<span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">joinGroup</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">devOps</span><span style="color: #ffd700;">);</span>
+<span style="color: #9cdcfe;">bob</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">joinGroup</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">backend</span><span style="color: #ffd700;">);</span>
+
+<span style="color: #6a9955;">// Alice is in: Backend, DevOps</span>
+<span style="color: #6a9955;">// Bob is in: Backend</span>
+<span style="color: #6a9955;">// Backend has: Alice, Bob</span>
+<span style="color: #6a9955;">// DevOps has: Alice</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #ef4444;"><i class="fas fa-exclamation-triangle"
+                                    style="margin-right: 0.5rem;"></i>Important:</strong> Notice the guard clause in
+                            both <code>joinGroup()</code> and <code>addUser()</code>. Without it, calling
+                            <code>alice.joinGroup(backend)</code> would add backend to Alice's groups, then
+                            <code>backend.addUser(alice)</code> would add Alice to backend's users, then it would call
+                            <code>alice.joinGroup(backend)</code> again, and you'd be stuck in an infinite loop. The
+                            <code>contains</code> check breaks the recursion.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practical Example: Hospital Appointment System -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🏥</span> Practical Example:
+                        Hospital Appointment System
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Let's build a system that combines multiple
+                        association types in a realistic domain. A hospital manages doctors, patients, rooms, and
+                        appointments. The relationships between these entities demonstrate unidirectional,
+                        bidirectional, one-to-many, and many-to-many associations working together.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">Here's how the classes connect:</p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>Appointment</strong> holds a reference to a <strong>Room</strong> (unidirectional,
+                            the room doesn't know about its appointments).</li>
+                        <li><strong>Doctor</strong> has a list of <strong>Appointment</strong> objects, and each
+                            <strong>Appointment</strong> points back to its <strong>Doctor</strong> (bidirectional
+                            one-to-many).
+                        </li>
+                        <li><strong>Patient</strong> has a list of <strong>Appointment</strong> objects, and each
+                            <strong>Appointment</strong> points back to its <strong>Patient</strong> (bidirectional
+                            one-to-many).
+                        </li>
+                        <li><strong>Doctor</strong> and <strong>Patient</strong> are connected many-to-many through
+                            <strong>Appointment</strong> as an intermediary. A doctor sees many patients, and a patient
+                            can visit many doctors, but they don't reference each other directly.
+                        </li>
+                    </ul>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Association_Img7.png" alt="Hospital Appointment System"
+                            style="max-width: 100%; border-radius: var(--radius-lg); box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <p
+                            style="color: var(--color-text-secondary); margin-top: 0.75rem; font-size: 0.9rem; font-style: italic;">
+                            Figure 7: Hospital appointment system showing multiple association types</p>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: #2a2a3c; padding: 0.875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #7c3aed; font-size: 0.9rem; font-weight: 600;"><i class="fab fa-java"
+                                    style="margin-right: 0.5rem;"></i>Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #a0a0a0; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="padding: 1.5rem; margin: 0; overflow-x: auto; font-size: 0.9rem; line-height: 1.7; background: #1e1e2e;"><code style="font-family: 'Consolas', 'Monaco', 'Courier New', monospace;"><span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">util</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">util</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">util</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">stream</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">Collectors</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Room</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">number</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">floor</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Room</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">number</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">floor</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">number</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">number</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">floor</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">floor</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getNumber</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">number</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getFloor</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">floor</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Appointment</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Doctor</span> <span style="color: #9cdcfe;">doctor</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Patient</span> <span style="color: #9cdcfe;">patient</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Room</span> <span style="color: #9cdcfe;">room</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">time</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Appointment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Doctor</span> <span style="color: #9cdcfe;">doctor</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Patient</span> <span style="color: #9cdcfe;">patient</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Room</span> <span style="color: #9cdcfe;">room</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">time</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">doctor</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">doctor</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">patient</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">patient</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">room</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">room</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">time</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">time</span><span style="color: #ffd700;">;</span>
+        <span style="color: #9cdcfe;">doctor</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addAppointment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">patient</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addAppointment</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Doctor</span> <span style="color: #dcdcaa;">getDoctor</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">doctor</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Patient</span> <span style="color: #dcdcaa;">getPatient</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">patient</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Room</span> <span style="color: #dcdcaa;">getRoom</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">room</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getTime</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">time</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Doctor</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">specialization</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">appointments</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Doctor</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">specialization</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">specialization</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">specialization</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addAppointment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Appointment</span> <span style="color: #9cdcfe;">appt</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">appt</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Patient</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getPatients</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">stream</span><span style="color: #ffd700;">()</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">map</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">::</span><span style="color: #dcdcaa;">getPatient</span><span style="color: #ffd700;">)</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">distinct</span><span style="color: #ffd700;">()</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">collect</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Collectors</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">toList</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getSpecialization</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">specialization</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getAppointments</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Patient</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">appointments</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Patient</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addAppointment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Appointment</span> <span style="color: #9cdcfe;">appt</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">appt</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Doctor</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getDoctors</span><span style="color: #ffd700;">() {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">stream</span><span style="color: #ffd700;">()</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">map</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">::</span><span style="color: #dcdcaa;">getDoctor</span><span style="color: #ffd700;">)</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">distinct</span><span style="color: #ffd700;">()</span>
+            <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">collect</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Collectors</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">toList</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">></span> <span style="color: #dcdcaa;">getAppointments</span><span style="color: #ffd700;">() {</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">appointments</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Usage</span>
+<span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">Doctor</span> <span style="color: #9cdcfe;">drSmith</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Doctor</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Dr. Smith"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Cardiology"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Doctor</span> <span style="color: #9cdcfe;">drPatel</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Doctor</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Dr. Patel"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Neurology"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Patient</span> <span style="color: #9cdcfe;">alice</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Patient</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Alice"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Patient</span> <span style="color: #9cdcfe;">bob</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Patient</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Bob"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Room</span> <span style="color: #9cdcfe;">room101</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Room</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"101"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">1</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Room</span> <span style="color: #9cdcfe;">room205</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Room</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"205"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">2</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">room101</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"9:00 AM"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">bob</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">room101</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"10:00 AM"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Appointment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">drPatel</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">room205</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"2:00 PM"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"'s patients:"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Patient</span> <span style="color: #9cdcfe;">p</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getPatients</span><span style="color: #ffd700;">()) {</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"  - "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">p</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">());</span>
+        <span style="color: #ffd700;">}</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"'s doctors:"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Doctor</span> <span style="color: #9cdcfe;">d</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">alice</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDoctors</span><span style="color: #ffd700;">()) {</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"  - "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">d</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">d</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSpecialization</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"'s schedule:"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Appointment</span> <span style="color: #9cdcfe;">a</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">drSmith</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getAppointments</span><span style="color: #ffd700;">()) {</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"  - "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">a</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTime</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" with "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">a</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getPatient</span><span style="color: #ffd700;">()</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getName</span><span style="color: #ffd700;">()</span>
+                <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" in Room "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">a</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getRoom</span><span style="color: #ffd700;">()</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getNumber</span><span style="color: #ffd700;">());</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Why This Design Works</h3>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong>The Appointment class is the intermediary.</strong> Instead of Doctor and
+                                Patient holding direct references to each other (which would create a tangled
+                                many-to-many), they connect through Appointment. This is a common pattern for modeling
+                                many-to-many relationships in code, analogous to a join table in a relational database.
+                            </li>
+                            <li><strong>Navigation works both ways.</strong> A doctor can find all their patients by
+                                walking their appointments. A patient can find all their doctors the same way. Neither
+                                class needs to maintain a separate list of the other.</li>
+                            <li><strong>Room stays simple.</strong> The room doesn't need to know about appointments.
+                                It's just a location. This keeps the relationship unidirectional and avoids unnecessary
+                                coupling.</li>
+                            <li><strong>Adding data to the relationship is natural.</strong> Because Appointment is a
+                                full object, you can add fields like time, status, notes, or diagnosis without modifying
+                                Doctor or Patient. Try doing that with a direct many-to-many reference.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Practice Section -->
+                    <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                        <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice
+                            Exercise
+                        </h2>
+                        <div
+                            style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                            <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                                <div style="font-size: 3rem;">🚀</div>
+                                <div style="flex: 1; min-width: 250px;">
+                                    <p
+                                        style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                        <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                        exercise to reinforce your understanding of Association:
+                                    </p>
+                                    <a href="https://algomaster.io/learn/lld/association-exercise" target="_blank"
+                                        style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                        <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 📝 Key Takeaways -->
+                    <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                        <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📚</span> Key Takeaways
+                        </h2>
+                        <div
+                            style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                            <ul
+                                style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem; font-size: 1.05rem;">
+                                <li><strong style="color: #f59e0b;">Association</strong> = Relationship between two
+                                    classes where objects use or are connected to each other</li>
+                                <li><strong style="color: #10b981;">Directionality</strong> = Unidirectional (one-way)
+                                    or Bidirectional (two-way) knowledge</li>
+                                <li><strong style="color: #a78bfa;">Multiplicity</strong> = One-to-One, One-to-Many, or
+                                    Many-to-Many connections</li>
+                                <li><strong style="color: #3b82f6;">Loose Coupling</strong> = Associated objects can
+                                    exist independently</li>
+                                <li><strong style="color: #8b5cf6;">UML Representation</strong> = Solid line between
+                                    classes, optionally with arrowheads and multiplicity labels</li>
+                                <li><strong style="color: #ec4899;">Practical Use</strong> = Essential for modeling
+                                    real-world relationships in object-oriented design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(16, 185, 129, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);">
+                        <a href="LLD_Aggregation.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                    🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">Aggregation in
+                                        Java</div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about "has-a" relationships with ownership semantics</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #10b981; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #10b981; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_Polymorphism.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to Polymorphism</span>
+                        </a>
+                        <a href="LLD_Aggregation.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: Aggregation</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Association in Java', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realization - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Realization in Java</h1>
+                <p>"Implements-a" relationships between classes and interfaces</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Realization</span>
+                </nav>
+
+
+                <!-- What is Realization -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔗</span> What is
+                        Realization?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Realization
+                            means:</strong>
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>👉 A class implements an interface.</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>In simple
+                            words:</strong>
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            "Interface defines contract → class realizes (implements) it"
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Meaning:</strong>
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li>Interface says <strong>WHAT to do</strong></li>
+                            <li>Class provides <strong>HOW to do</strong></li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Realization represents a
+                        contract
+                        fulfillment relationship. Think of it as a promise: the interface declares "these methods must
+                        exist,"
+                        and the implementing class promises to provide them.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Realization is an
+                        <strong>"implements"</strong>
+                        relationship where a class fulfills a contract defined by an interface.
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🧠 Real-world analogy</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Think of a job description.
+                        The job
+                        description (interface) defines what skills and responsibilities are required. Different
+                        employees
+                        (classes) can fulfill that job description in their own way, but they all meet the requirements.
+                    </p>
+                </div>
+
+                <!-- UML Representation -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📊</span> UML Representation
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">In UML class diagrams,
+                        realization is represented by a <strong>dashed line with a hollow (unfilled) triangle</strong>
+                        pointing
+                        to the interface.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Realization_Img1.png" alt="Realization UML Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                            Figure 1: Realization represented by dashed line with hollow triangle pointing to interface
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Multiple Interfaces</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A class can implement
+                        multiple
+                        interfaces, gaining multiple capabilities. This is one of realization's biggest advantages over
+                        single
+                        inheritance.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Realization_Img2.png" alt="Multiple Interfaces UML Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                            Figure 2: FileHandler implementing multiple interfaces (Readable, Writable, Closeable)
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            FileHandler can read, write, and be closed. Each interface represents a single, focused
+                            capability.
+                            A method that only needs to read can accept Readable, a method that needs to close resources
+                            can
+                            accept Closeable. The caller doesn't need to know it's working with a FileHandler at all.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Code Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💻</span> Code Example
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Let's implement the Flyable
+                        scenario from the class diagram. Three completely unrelated classes, <strong>Bird</strong>,
+                        <strong>Airplane</strong>, and <strong>Drone</strong>, all realize the same Flyable interface.
+                        Each has
+                        different internal state and different behavior, but they all fulfill the same contract.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.List</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.ArrayList</span><span style="color: #ffd700;">;</span>
+
+
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Flyable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">fly</span><span style="color: #ffd700;">();</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getFlightInfo</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Bird</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Flyable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">species</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">wingSpan</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Bird</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">species</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">wingSpan</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">species</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">species</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">wingSpan</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">wingSpan</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">fly</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">species</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" flaps its wings and takes off."</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getFlightInfo</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">species</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" (wingspan: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">wingSpan</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"m, powered by muscle)"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Airplane</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Flyable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">maxAltitude</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Airplane</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">maxAltitude</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">model</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">model</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">maxAltitude</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">maxAltitude</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">fly</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">model</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" engines roar as it accelerates down the runway."</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getFlightInfo</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">model</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" (max altitude: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">maxAltitude</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"ft, powered by jet engines)"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Drone</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Flyable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">batteryLevel</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">maxRange</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Drone</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">int</span> <span style="color: #9cdcfe;">batteryLevel</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">maxRange</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">batteryLevel</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">batteryLevel</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">maxRange</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">maxRange</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">fly</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Drone propellers spin up. Battery at "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">batteryLevel</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"."</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getFlightInfo</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Drone (range: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">maxRange</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"km, battery: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">batteryLevel</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">Flyable</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">flyingThings</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;"><>();</span>
+        <span style="color: #9cdcfe;">flyingThings</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Bird</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Eagle"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">2.3</span><span style="color: #ffd700;">));</span>
+        <span style="color: #9cdcfe;">flyingThings</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Airplane</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Boeing 737"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">41000</span><span style="color: #ffd700;">));</span>
+        <span style="color: #9cdcfe;">flyingThings</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Drone</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">85</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">10.0</span><span style="color: #ffd700;">));</span>
+
+
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Flyable</span> <span style="color: #9cdcfe;">flyer</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">flyingThings</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">flyer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getFlightInfo</span><span style="color: #ffd700;">());</span>
+            <span style="color: #9cdcfe;">flyer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">fly</span><span style="color: #ffd700;">();</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🔍 Pay attention to four things that
+                        make this
+                        realization:
+                    </h3>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>The interface defines the contract, not the implementation.</strong> Flyable
+                            declares fly()
+                            and getFlightInfo(), but provides zero code. Each class writes its own version from scratch.
+                            This is
+                            fundamentally different from inheritance, where the child gets the parent's code for free.
+                        </li>
+                        <li><strong>The three classes are completely unrelated.</strong> Bird, Airplane, and Drone share
+                            no parent
+                            class, no common fields, no shared behavior.</li>
+                        <li><strong>Calling code depends only on the interface.</strong></li>
+                        <li><strong>Adding a new flying thing requires zero changes to existing code.</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Realization vs Inheritance -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔁</span> Realization vs
+                        Inheritance
+                    </h2>
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Feature
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">
+                                        Inheritance</th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">
+                                        Realization</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Keyword</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">extends</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">implements</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Relation</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Class → Class</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Class → Interface
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Purpose</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Reuse behavior</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Fulfill contract</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Realization_Img3.png" alt="Realization vs Inheritance Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                            Figure 3: Visual comparison of Inheritance vs Realization
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Simple Examples -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🧠</span> Simple Examples
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #10b981;">✅ Inheritance</strong><br>
+                            Dog <strong>IS-A</strong> Animal<br>
+                            class Dog extends Animal<br>
+                            <strong>👉 Dog inherits:</strong><br>
+                            name<br>
+                            eat()<br>
+                            sleep()
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #3b82f6;">✅ Realization</strong><br>
+                            Bird <strong>CAN fly</strong><br>
+                            Airplane <strong>CAN fly</strong><br>
+                            Drone <strong>CAN fly</strong><br>
+                            class Bird implements Flyable<br>
+                            class Airplane implements Flyable<br>
+                            <strong>👉 They are unrelated objects</strong><br>
+                            But share same capability :
+                            fly()
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Easy Memory Trick -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Easy Memory Trick
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Concept
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Meaning
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Inheritance</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">IS-A</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Association</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">HAS-A / RELATED-TO
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Aggregation</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">HAS-A (Weak
+                                        Ownership)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Composition</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">HAS-A (Strong
+                                        Ownership)</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Dependency</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">USES-A</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Realization</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">IMPLEMENTS-A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Practice Section -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of Realization:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/realization-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📚</span> Key Takeaways
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem; font-size: 1.05rem;">
+                            <li><strong style="color: #f59e0b;">Realization</strong> = "Implements-a" relationship,
+                                class fulfills interface contract</li>
+                            <li><strong style="color: #10b981;">Interface</strong> = Defines WHAT to do (contract)</li>
+                            <li><strong style="color: #a78bfa;">Class</strong> = Provides HOW to do (implementation)
+                            </li>
+                            <li><strong style="color: #3b82f6;">Multiple Interfaces</strong> = A class can implement
+                                multiple interfaces</li>
+                            <li><strong style="color: #8b5cf6;">Polymorphism</strong> = Different classes can be treated
+                                as the same interface type</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(16, 185, 129, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);">
+                        <a href="LLD_DRY_Principle.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                    🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">Design Principles
+                                        : DRY Principle
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about Don't Repeat Yourself design principle</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #10b981; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #10b981; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_Dependency.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to Dependency</span>
+                        </a>
+                        <a href="LLD_DRY_Principle.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(16, 185, 129, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: DRY Principle</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Realization in Java', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

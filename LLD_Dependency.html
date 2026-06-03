@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dependency - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="design-problems.html">🎯 Design Problems</a></li>
+            <li><a href="LLD.html" class="active">💻 LLD</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Dependency in Java</h1>
+                <p>"Uses-a" relationships between classes</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Dependency</span>
+                </nav>
+
+
+                <!-- What is Dependency -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔗</span> What is
+                        Dependency?
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>👉 One class
+                            temporarily uses another class to perform some work.</strong>
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>In simple words:</strong><br>
+                            "Class A depends on Class B for some functionality"
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Unlike association,
+                        aggregation, or composition, a dependency isn't a structural <strong>"we belong
+                            together"</strong>
+                        relationship. There's no shared lifecycle and no long-term connection.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Instead, it reflects a
+                        one-time interaction, often through method parameters, local variables, or return types.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom:1rem;">
+                            A <strong>Dependency</strong> exists when one class relies on another to fulfill a
+                            responsibility,
+                            but does so without retaining a permanent reference to it.
+                        </p>
+                        <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">This typically happens
+                            when:
+                        </p>
+
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                            <li>A class accepts another class as a method parameter.</li>
+                            <li>A class instantiates or uses another class inside a method.</li>
+                            <li>A class returns an object of another class from a method.</li>
+                        </ul>
+                    </div>
+
+
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">⚡ Key Characteristics of Dependency
+                    </h3>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin:1rem 0 0.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>Short-lived:</strong> The relationship exists only during method execution.</li>
+                        <li><strong>No ownership:</strong> The dependent class does not store the other as a field.</li>
+                        <li><strong>"Uses-a" relationship:</strong> The class uses another to accomplish a task, but
+                            does
+                            not retain it.</li>
+                    </ul>
+                </div>
+
+                <!-- Real-World Analogy -->
+                <div style="margin-bottom: 0rem; padding:0.5rem 0 1.5rem 0;">
+                    <h3 style="margin: 0.75rem 0 1rem 0; color: var(--color-text);">🧠 Real-World Analogy</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Think:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Customer → Payment Service</strong><br>
+                            Customer uses payment service temporarily to make payment.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li><strong>👉 Customer does NOT own payment service</strong></li>
+                            <li><strong>👉 Just uses it when needed</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- UML Representation -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📊</span> UML Representation
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">In UML class diagrams,
+                        dependency is represented by a <strong>dashed arrow (..>)</strong> pointing from the dependent
+                        class to the class it depends on. This is the lightest notation in UML, reflecting the fact that
+                        dependency is the lightest relationship.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Dependency_Img1.png" alt="Dependency UML Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                            Figure 1: Dependency represented by dashed arrow from Printer to Document
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            This diagram reads: <strong>"Printer depends on Document."</strong> The Printer uses a
+                            Document
+                            during its print() method, but doesn't store it as a field.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Code Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💻</span> Code Example
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Let's model a simple
+                        <strong>Printer</strong> that depends on a <strong>Document</strong> to print. The Printer
+                        receives
+                        the document as a method parameter, uses it, and doesn't store it.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Document</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">content</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Document</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">content</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">content</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">content</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getContent</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">content</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Printer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">print</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Document</span> <span style="color: #9cdcfe;">document</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Printing: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">document</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getContent</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">Document</span> <span style="color: #9cdcfe;">doc</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Document</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hello, World!"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Printer</span> <span style="color: #9cdcfe;">printer</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Printer</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #9cdcfe;">printer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">print</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">doc</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #6a9955;">// After print() returns, the printer has no reference to the document.</span>
+        <span style="color: #6a9955;">// The document can be garbage collected independently of the printer.</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🔍 Pay attention to what makes this a
+                        dependency and not an association:
+                    </h3>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>Printer has no fields referencing Document.</strong> The Printer class has zero
+                            instance
+                            variables pointing to Document. The document exists only as a parameter inside the print()
+                            method.</li>
+                        <li><strong>The relationship is scoped to one method call.</strong> Once print() returns, the
+                            Printer
+                            object has no knowledge that a Document was ever involved.</li>
+                        <li><strong>The Document is created externally and passed in.</strong> The Printer doesn't
+                            construct,
+                            own, or manage the document's lifecycle.</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">If the Printer
+                            stored a
+                            Document reference as a field (private Document lastPrinted), it would become an
+                            association.
+                            The structural link would persist beyond the method call.</p>
+                    </div>
+                </div>
+
+                <!-- Recognizing Dependencies in Code -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔍</span> Recognizing
+                        Dependencies in Code
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Dependencies can appear in
+                        several common forms within a class:
+                    </p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">As Method Parameters</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">This is the most common and
+                        most
+                        recognizable form of dependency. The dependent class receives another class as a parameter, uses
+                        it during the method, and lets it go.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ReportGenerator</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">generate</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">DataSource</span> <span style="color: #9cdcfe;">source</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">data</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">source</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">fetchAll</span><span style="color: #ffd700;">();</span>
+        <span style="color: #6a9955;">// Format data into report...</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">formattedReport</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">ReportGenerator
+                            depends on
+                            DataSource, but doesn't store it. The DataSource comes in, gets used, and is gone once
+                            generate() returns.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">As Local Variables</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Sometimes a class creates
+                        another class inside a method, uses it, and discards it. The created object never escapes the
+                        method
+                        scope.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">OrderProcessor</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">process</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Order</span> <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">JsonFormatter</span> <span style="color: #9cdcfe;">formatter</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">JsonFormatter</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">json</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">formatter</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">format</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">);</span>
+        <span style="color: #6a9955;">// Send json to external API...</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">OrderProcessor
+                            depends on
+                            JsonFormatter, but the formatter is a local variable. It's created inside the method and
+                            disappears when the method ends. No field, no structural link.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">As Return Types</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A method can return an
+                        object of
+                        another class, creating a dependency on that type even if the class doesn't store it.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">UserFactory</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">User</span> <span style="color: #dcdcaa;">createUser</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">UserFactory depends
+                            on User because
+                            it creates and returns User objects, but it doesn't store any User as a field. The factory's
+                            job is to produce users, not to hold onto them.</p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🔥 Main Difference</h3>
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Feature
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">
+                                        Association</th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Dependency
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Relationship</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Long-term</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Temporary</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Object stored?</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Yes</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Usually No</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Strength</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Stronger</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Weaker</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">💡 Easy Memory Trick</h3>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Concept
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Meaning
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Association</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">HAS-A</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Dependency</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">USES-A</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Dependency Injection -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💉</span> Dependency
+                        Injection
+                        (DI)
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Dependency
+                            Injection</strong> is a
+                        design technique where a class receives the objects it depends on, instead of creating them
+                        itself.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.3rem;">This leads to:
+                    </p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>Better testability:</strong> You can inject mock dependencies during unit tests.
+                        </li>
+                        <li><strong>Easy to Extend:</strong> Tomorrow adding new class:
+                            <br>Code will look like this : <strong>class HybridEngine
+                                implements Engine</strong>
+                        </li>
+                        <li><strong>Loose coupling:</strong> Classes only depend on abstract contracts (interfaces), not
+                            concrete implementations.</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #8b5cf6;">🧠 Golden Rule</strong><br>
+                            <strong>👉 "Depend on abstractions, not concrete classes"</strong>
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🎯 First Understand the Problem</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>❌ Without
+                            Dependency
+                            Injection</strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Engine</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">drive</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Car driving"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #ef4444;">⚠️ Problem Here</strong><br>
+                            Car is directly creating Engine<br>
+                            <strong>👉 Tight coupling ❌</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 1rem 0;">
+                            <strong>Meaning:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 1rem 0; padding-left: 1.5rem;">
+                            <li>Car depends heavily on Engine</li>
+                            <li>Hard to replace engine</li>
+                            <li>Hard to test</li>
+                            <li>Hard to extend</li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>🔥 Imagine
+                            Later</strong>
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">You want:
+                    </p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li>PetrolEngine</li>
+                        <li>ElectricEngine</li>
+                        <li>DieselEngine</li>
+                    </ul>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now Car becomes messy.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #10b981;">✅ Solution = Dependency Injection</strong>
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">🚀 Dependency Injection Example
+                    </h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Step 1: Create
+                            Interface</strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Step 2: Implement
+                            Engines</strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PetrolEngine</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Petrol Engine Started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ElectricEngine</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Electric Engine Started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Step 3: Inject
+                            Dependency into Car</strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #6a9955;">// Dependency Injection</span>
+   <span style="color: #dcdcaa;">Car</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">drive</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Car Driving"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Step 4: Use
+                            It</strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public static void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ElectricEngine</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">car</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">);</span>
+
+       <span style="color: #9cdcfe;">car</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">drive</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong style="color: #10b981;">🎯 What Happened Here?</strong><br>
+                            <strong>👉 Car no longer creates Engine.</strong><br>
+                            Instead:<br>
+                            Engine is injected from outside.<br>
+                            This is: <strong>💉 Dependency Injection</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practical Example -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🎯</span> Practical Example:
+                        Event Ticketing System
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Let's put dependency into
+                        practice
+                        with a realistic scenario. A <strong>TicketBookingService</strong> handles the complete flow of
+                        booking
+                        an event ticket. During the bookTicket() method, it needs to validate that seats are available,
+                        process
+                        a payment, generate a QR code for the ticket, and send a confirmation email. Each of these
+                        responsibilities belongs to a separate class, and the booking service depends on all four of
+                        them, but
+                        only during the booking method.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Dependency_Img2.png" alt="Event Ticketing System Dependency Diagram"
+                            style="max-width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <p style="color: var(--color-text-secondary); margin-top: 1rem; font-size: 0.9rem;">
+                            Figure 2: TicketBookingService depends on multiple services during booking
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(167, 139, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            All four dashed arrows point outward from TicketBookingService. None of these classes are
+                            stored as
+                            fields. They're all received as method parameters, used during booking, and released.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SeatValidator</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public boolean</span> <span style="color: #dcdcaa;">isAvailable</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Checking seat "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">seatNumber</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" for event "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span> <span style="color: #6a9955;">// Simulated: seat is available</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public boolean</span> <span style="color: #dcdcaa;">charge</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Charging $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" to "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span> <span style="color: #6a9955;">// Simulated: payment succeeds</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">QRCodeGenerator</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">generate</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">qrCode</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"QR-"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">eventId</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"-"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Generated QR code: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">qrCode</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">qrCode</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">EmailService</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public void</span> <span style="color: #dcdcaa;">sendConfirmation</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">qrCode</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Sending confirmation to "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">email</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" with code "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">qrCode</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">TicketBookingService</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public boolean</span> <span style="color: #dcdcaa;">bookTicket</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">,</span>
+                              <span style="color: #c586c0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">SeatValidator</span> <span style="color: #9cdcfe;">validator</span><span style="color: #ffd700;">,</span>
+                              <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">payment</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">QRCodeGenerator</span> <span style="color: #9cdcfe;">qrGenerator</span><span style="color: #ffd700;">,</span>
+                              <span style="color: #4ec9b0;">EmailService</span> <span style="color: #9cdcfe;">emailService</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(!</span><span style="color: #9cdcfe;">validator</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">isAvailable</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Seat not available."</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(!</span><span style="color: #9cdcfe;">payment</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">charge</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Payment failed."</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">qrCode</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">qrGenerator</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">generate</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">eventId</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">seatNumber</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">emailService</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">sendConfirmation</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">email</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">qrCode</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Booking confirmed!"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">TicketBookingService</span> <span style="color: #9cdcfe;">bookingService</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">TicketBookingService</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #6a9955;">// All dependencies are created externally and passed in</span>
+        <span style="color: #4ec9b0;">SeatValidator</span> <span style="color: #9cdcfe;">validator</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SeatValidator</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">payment</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">PaymentProcessor</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">QRCodeGenerator</span> <span style="color: #9cdcfe;">qrGenerator</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">QRCodeGenerator</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">EmailService</span> <span style="color: #9cdcfe;">emailService</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">EmailService</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #9cdcfe;">bookingService</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">bookTicket</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CONF-2025"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"A12"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"alice@example.com"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #b5cea8;">99.99</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">validator</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">payment</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">qrGenerator</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">emailService</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Why This Design Works</h3>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem;">
+                        <li><strong>All dependencies are method parameters.</strong> TicketBookingService has zero
+                            fields. Every
+                            collaborator comes in through bookTicket() and disappears when the method returns. This is
+                            pure
+                            dependency with no structural coupling.</li>
+                        <li><strong>Each class has a single responsibility.</strong> SeatValidator validates seats.
+                            PaymentProcessor handles payments. QRCodeGenerator generates codes. EmailService sends
+                            emails. The
+                            booking service just coordinates the flow.</li>
+                        <li><strong>Testing is straightforward.</strong> You can pass mock implementations of any
+                            dependency
+                            without touching the booking service. Want to test what happens when payment fails? Pass a
+                            mock
+                            PaymentProcessor that returns false.</li>
+                        <li><strong>Swapping implementations is trivial.</strong> Need to switch from email to SMS
+                            notifications?
+                            Pass an SmsService instead of EmailService. The booking service doesn't care, it just calls
+                            the
+                            method on whatever it receives.</li>
+                    </ul>
+                </div>
+
+                <!-- Practice Section -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of Dependency:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/dependency-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1.5rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📚</span> Key Takeaways
+                    </h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem; font-size: 1.05rem;">
+                            <li><strong style="color: #f59e0b;">Dependency</strong> = "Uses-a" relationship, temporary
+                                and short-lived</li>
+                            <li><strong style="color: #10b981;">No Ownership</strong> = Dependent class doesn't store
+                                the other as a field</li>
+                            <li><strong style="color: #a78bfa;">Method Parameters</strong> = Most common form of
+                                dependency</li>
+                            <li><strong style="color: #3b82f6;">Dependency Injection</strong> = Pass dependencies
+                                instead of creating them</li>
+                            <li><strong style="color: #8b5cf6;">Loose Coupling</strong> = Depend on abstractions, not
+                                concrete classes</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(167, 139, 250, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(139, 92, 246, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);">
+                        <a href="LLD_Realization.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                                    🎭</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color:#8b5cf6;">Realization in
+                                        Java
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about interface implementation relationships</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #8b5cf6; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #8b5cf6; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_Composition.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(168, 85, 247, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to Composition</span>
+                        </a>
+                        <a href="LLD_Realization.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(139, 92, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: Realization</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Dependency in Java', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
