@@ -9,24 +9,6 @@ A comprehensive learning platform designed to help software engineers, students,
 
 ---
 
-## ✨ Why This Platform?
-
-Most resources teach **what** a concept is.
-
-This platform teaches:
-
-- Why it exists
-- What problem it solves
-- What happens if we don't use it
-- When to use it
-- When not to use it
-- Common mistakes engineers make
-- How real-world companies use it
-
-The goal is to build deep intuition rather than memorizing definitions.
-
----
-
 # 📚 Our Learning Approach
 
 Every major HLD topic follows a structured learning framework:
@@ -65,86 +47,6 @@ This approach helps learners understand the reasoning behind every system design
 
 ---
 
-# 🏗️ High-Level Design (HLD)
-
-Learn distributed systems and scalable architecture concepts through structured explanations.
-
-### Topics Covered
-
-- Scalability
-- Load Balancing
-- Caching
-- Databases
-- API Design
-- Message Queues
-- CDN
-- Rate Limiting
-- Replication
-- Sharding
-- CAP Theorem
-- PACELC Theorem
-- Consistent Hashing
-- Circuit Breaker Pattern
-- Saga Pattern
-- CQRS
-- Microservices
-- Monolithic Architecture
-- Service Discovery
-- Gossip Protocol
-- Connection Pooling
-- And many more...
-
----
-
-# 💻 Low-Level Design (LLD)
-
-Master object-oriented design and machine coding concepts with detailed explanations and code examples.
-
-### Topics Covered
-
-- OOP Fundamentals
-- SOLID Principles
-- Design Principles
-- UML Diagrams
-- Class Relationships
-- Association
-- Aggregation
-- Composition
-- Dependency
-- Design Patterns
-- Interview Communication
-- Practical Coding Examples
-- Machine Coding Concepts
-
-Each concept is explained with practical examples and implementation-focused understanding.
-
----
-
-# 🎯 Interview-Focused Learning
-
-This platform is specifically designed for **System Design Interviews**.
-
-### HLD Interview Preparation
-
-- Requirement Clarification
-- Scale Estimation
-- Capacity Planning
-- Trade-Off Analysis
-- Component Selection
-- Communication Strategy
-- Architecture Discussions
-
-### LLD Interview Preparation
-
-- Object Modeling
-- Class Design
-- UML Understanding
-- Design Pattern Selection
-- Machine Coding Discussions
-- Design Decision Explanations
-
----
-
 # 🌍 Real-World System Design Scenarios
 
 One of the most valuable sections of this platform.
@@ -167,39 +69,6 @@ These closely resemble actual interview questions asked by product-based compani
 
 ---
 
-# 🔍 Easy Navigation & Search
-
-The platform includes:
-
-- Searchable topic navigation
-- Quick topic discovery
-- Sidebar-based navigation
-- Topic categorization
-- Easy movement between related concepts
-- Structured learning paths
-
-This helps users quickly find and learn specific concepts.
-
----
-
-# 🎨 Modern Learning Experience
-
-The website includes:
-
-- Smooth Animations
-- Interactive UI Components
-- Responsive Design
-- Tooltips
-- Notification System
-- Scroll-To-Top Button
-- Modern Navigation Sidebar
-- Mobile-Friendly Layout
-- Interactive Learning Flow
-
-Designed to make learning system design enjoyable and engaging.
-
----
-
 # 📸 Platform Preview
 
 ## Home Page
@@ -214,32 +83,60 @@ Designed to make learning system design enjoyable and engaging.
 
 <img width="1517" height="900" alt="image" src="https://github.com/user-attachments/assets/c44b5a80-9d24-4584-ab6e-c987122a0941" />
 
-## HLD Learning Experience
+## Topic : Load Balancing Page 
 
 <img width="1236" height="881" alt="image" src="https://github.com/user-attachments/assets/03db1447-a9aa-4e3a-a0e6-dacb6e4c12f2" />
 
-## LLD Learning Experience
+## Topic : Scaling Page 
 
-<img width="1122" height="800" alt="image" src="https://github.com/user-attachments/assets/6798e0ec-6bf9-4666-983f-dd0e74961e5c" />
+<img width="1909" height="912" alt="image" src="https://github.com/user-attachments/assets/4adaad8e-ded1-435a-b42a-cad775e82aff" />
 
----
+## Topic : Bloom Filter Page 
 
-# 🚀 Future Roadmap
+<img width="1906" height="913" alt="image" src="https://github.com/user-attachments/assets/58e248ba-6271-4da3-9ddb-493f5748f805" />
 
-Planned upcoming improvements:
+## Topic : CAP Therom Page 
 
-- Additional HLD Topics
-- Advanced Distributed Systems Concepts
-- More LLD Design Patterns
-- Interactive Architecture Diagrams
-- More Real-World Case Studies
-- Additional Interview Question Banks
-- Cloud Architecture Modules
-- Advanced Machine Coding Problems
-- Performance Optimization Guides
-- Database Design Deep Dives
+<img width="1909" height="916" alt="image" src="https://github.com/user-attachments/assets/366dc7a6-bbb6-40fc-bcaf-eab29a745749" />
 
-The platform will continue to evolve with new content and features.
+## HLD Interview Presentation Page 
+
+<img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/fb19faac-0e46-4af4-a1b2-f43206ea1286" />
+
+<img width="1919" height="914" alt="Screenshot 2026-06-03 162247" src="https://github.com/user-attachments/assets/b342f7b4-8b9e-4476-bdd0-c8893dae0d17" />
+
+## Design Problem Page 
+
+<img width="1912" height="882" alt="image" src="https://github.com/user-attachments/assets/2621ca52-f5d8-4def-a8fa-16bcbaf2fef3" />
+
+<img width="1912" height="919" alt="image" src="https://github.com/user-attachments/assets/6245a786-d091-4146-80b6-2b6938e15a11" />
+
+## Example of design problem : URL Shortener Page 
+
+<img width="1907" height="918" alt="image" src="https://github.com/user-attachments/assets/ccb1075a-61ac-4c01-8580-b05b2e22fde4" />
+
+<img width="1914" height="913" alt="image" src="https://github.com/user-attachments/assets/47a9cd17-3c7c-4ee0-b37a-71af355a9794" />
+
+<img width="1911" height="910" alt="image" src="https://github.com/user-attachments/assets/a3011db8-9491-4f5a-ba0a-bfd2b1abe6c3" />
+
+## LLD Topic Page 
+
+<img width="1896" height="911" alt="Screenshot 2026-06-03 170151" src="https://github.com/user-attachments/assets/c05fdabc-e698-4f5b-b55e-6987a973f179" />
+
+<img width="1898" height="886" alt="Screenshot 2026-06-03 170216" src="https://github.com/user-attachments/assets/dfe0f312-31c4-41c8-9539-432bdb9e68a0" />
+
+## LLD Topic Classes and Objects Page 
+
+<img width="1910" height="918" alt="Screenshot 2026-06-03 170416" src="https://github.com/user-attachments/assets/3c517c99-6909-45e5-901d-2a6f671b4aad" />
+
+<img width="1915" height="914" alt="Screenshot 2026-06-03 170436" src="https://github.com/user-attachments/assets/c917955b-e9f5-4ea4-bf56-bae67e197a39" />
+
+## Interview Questions Page
+
+<img width="1915" height="878" alt="image" src="https://github.com/user-attachments/assets/0791651d-4c58-4801-93db-088bd2585eb5" />
+
+<img width="1907" height="912" alt="image" src="https://github.com/user-attachments/assets/a73410fe-25fb-4316-805e-177bdb95a26e" />
+
 
 ---
 
@@ -249,13 +146,8 @@ I am actively improving this platform and welcome collaboration from developers,
 
 If you would like to:
 
-- Add new topics
-- Improve explanations
-- Contribute examples
-- Add interview questions
 - Enhance UI/UX
 - Build new features
-- Improve documentation
 
 Feel free to open an issue or submit a pull request.
 
@@ -263,35 +155,8 @@ Feel free to open an issue or submit a pull request.
 
 ---
 
-# 👨‍💻 Author
-
-## Anna Venkateswarlu
-
-Passionate about building educational resources that simplify complex engineering concepts and make system design accessible to everyone.
-
----
-
-# ⭐ Support
-
-If you find this project useful:
-
-⭐ Star the repository
-
-🔄 Share it with others
-
-💡 Suggest improvements
-
-🤝 Contribute new ideas
-
----
-
 ## ⭐ Learn • Practice • Design • Scale
 
 **Master System Design through structured learning, real-world examples, interview-focused preparation, and practical engineering insights.**
 
-<img width="1912" height="919" alt="image" src="https://github.com/user-attachments/assets/6c9c6581-aff5-488e-a871-3cd8b40c7115" />
-<img width="1873" height="871" alt="image" src="https://github.com/user-attachments/assets/297c04d6-5b61-4d8f-99f3-ac1ee683cacf" />
-<img width="1517" height="900" alt="image" src="https://github.com/user-attachments/assets/c44b5a80-9d24-4584-ab6e-c987122a0941" />
-<img width="1236" height="881" alt="image" src="https://github.com/user-attachments/assets/03db1447-a9aa-4e3a-a0e6-dacb6e4c12f2" />
-<img width="1122" height="800" alt="image" src="https://github.com/user-attachments/assets/6798e0ec-6bf9-4666-983f-dd0e74961e5c" />
 
