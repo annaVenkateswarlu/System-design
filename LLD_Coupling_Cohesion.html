@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupling and Cohesion - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Coupling and Cohesion</h1>
+                <p>Key Concepts in LLD and OOP</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Coupling and Cohesion</span>
+                </nav>
+
+                <h2>🔷 Coupling and Cohesion</h2>
+
+                <!-- Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">These are two of the most
+                        important
+                        concepts in <strong>LLD</strong> and <strong>OOP</strong>.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Good Design = Low Coupling + High Cohesion</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Coupling Section -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔹</span> Coupling
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">What is it?</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Coupling</strong>
+                        measures how
+                        much one class depends on another class.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>👉 Lower coupling is better.</strong>
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">❌ High Coupling</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine started"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Engine</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// Tight coupling</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">startCar</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">car</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">car</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">startCar</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            <strong>Engine started</strong>
+                        </p>
+
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Car is tightly dependent on a specific Engine.
+                            <br>
+                            If Engine changes, Car may also need changes.
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">✅ Low Coupling</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">PetrolEngine</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Petrol Engine started"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ElectricEngine</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Electric Engine started"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Car</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">startCar</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">petrolEngine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">PetrolEngine</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">petrolCar</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">petrolEngine</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">petrolCar</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">startCar</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">electricEngine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ElectricEngine</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">electricCar</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">electricEngine</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">electricCar</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">startCar</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-size: 1.125rem;">
+                            <strong>Petrol Engine started</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            <strong>Electric Engine started</strong>
+                        </p>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Now Car depends on an <strong>Engine abstraction</strong>, not a concrete class Engine.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Cohesion Section -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔹</span> Cohesion
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">What is it?</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Cohesion</strong>
+                        measures how
+                        closely related the responsibilities of a class are.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>👉 Higher cohesion is better.</strong>
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">❌ Low Cohesion</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">UserService</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">registerUser</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sendEmail</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">generateReport</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            One class is doing many unrelated things.
+                        </p>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">✅ High Cohesion</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">UserService</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">registerUser</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">EmailService</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sendEmail</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ReportService</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">generateReport</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #10b981; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            Each class has one focused responsibility.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real-World Example -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🧠</span> Easy Real-World
+                        Example
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            <strong style="color: #3b82f6;">Coupling</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-size: 1.125rem;">
+                            A TV connected to a specific remote only.<br>
+                            <strong>High dependency → High Coupling</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            A universal remote works with many TVs.<br>
+                            <strong>Less dependency → Low Coupling</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            <strong style="color: #3b82f6;">Cohesion</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-size: 1.125rem;">
+                            A knife is designed only for cutting.<br>
+                            <strong>High Cohesion</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            A tool that is a knife, spoon, hammer, screwdriver, and torch all together.<br>
+                            <strong>Low Cohesion</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Difference Table -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📊</span> Difference
+                    </h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                                <div style="color: #9cdcfe; font-weight: 600;">Aspect</div>
+                                <div style="color: #9cdcfe; font-weight: 600;">Coupling</div>
+                                <div style="color: #9cdcfe; font-weight: 600;">Cohesion</div>
+                            </div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="color: #3b82f6; font-weight: 600;">Focus</div>
+                                <div style="color: white;">Relationship between classes</div>
+                                <div style="color: white;">Responsibilities within a class</div>
+                            </div>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="color: #3b82f6; font-weight: 600;">Measures</div>
+                                <div style="color: white;">Dependency</div>
+                                <div style="color: white;">Relatedness</div>
+                            </div>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="color: #3b82f6; font-weight: 600;">Good Design</div>
+                                <div style="color: white;">Low Coupling</div>
+                                <div style="color: white;">High Cohesion</div>
+                            </div>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="color: #3b82f6; font-weight: 600;">Question</div>
+                                <div style="color: white;">"How dependent are classes?"</div>
+                                <div style="color: white;">"How focused is a class?"</div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                                <div style="color: #3b82f6; font-weight: 600;">Example</div>
+                                <div style="color: white;">Car depends on Engine</div>
+                                <div style="color: white;">UserService only manages users</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For practice check out this
+                    </p>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of Coupling and Cohesion:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/coupling-and-cohesion-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🎤</span> Summary
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Coupling</strong> is the degree of dependency between classes, while
+                            <strong>cohesion</strong> is
+                            the degree to which the responsibilities within a class belong together.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top:0.5rem;">
+                            Good software
+                            design aims
+                            for <strong>low coupling</strong> and <strong>high cohesion</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Memory Trick -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🧠</span> Memory Trick
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(192, 132, 252, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #a855f7; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; font-size: 1.125rem;">
+                            <strong style="color: #a855f7;">Coupling → Between classes</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            <strong style="color: #a855f7;">Cohesion → Within a class</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 146, 60, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(249, 115, 22, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2);">
+                        <a href="LLD_Composition_Over_Inheritance.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                                    🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #f97316;">Composition Over
+                                        Inheritance
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about Composition vs Inheritance principle</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #f97316; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #f97316; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_Separation_of_Concerns.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to Separation of Concerns</span>
+                        </a>
+                        <a href="LLD_Composition_Over_Inheritance.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: Composition Over Inheritance</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Coupling and Cohesion', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

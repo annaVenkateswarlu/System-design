@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Law of Demeter - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Law of Demeter</h1>
+                <p>Principle of Least Knowledge</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Law of Demeter</span>
+                </nav>
+
+                <h2>🔷 Law of Demeter (LoD)</h2>
+
+                <!-- What is Law of Demeter -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Law of
+                            Demeter</strong>,
+                        also called the <strong>Principle of Least Knowledge</strong>, states:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>"A class should only talk to its immediate friends and not to strangers."</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">In simple words:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>👉 An object should only interact with objects it directly owns or receives, not
+                                with
+                                objects deep inside another object.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real-Life Analogy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🧠</span> Real-Life Analogy
+                    </h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Imagine you want to talk to
+                        your
+                        friend's mother.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #f59e0b; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.125rem;">
+                            <strong style="color: #f59e0b;">❌ Instead of:</strong><br><br>
+                            <span style="color: var(--color-text);">You → Friend → Friend's Mother</span><br>
+                            and directly dealing with your friend's family details,<br><br>
+                            <strong style="color: #10b981;">✅ You ask your friend:</strong><br><br>
+                            <span style="color: var(--color-text);">You → Friend</span><br>
+                            and let your friend handle the rest.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example 1 Violation -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">❌</span> Example 1
+                        (Violation
+                        of LoD)
+                    </h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Engine</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #dcdcaa;">getEngine</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Driver</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">car</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">drive</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #9cdcfe;">car</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getEngine</span><span style="color: #ffd700;">().</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// ❌ Reaching inside Car</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Problem</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            <strong style="color: #ef4444;">Driver knows:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Car</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Engine</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-top: 1rem; font-size: 1.125rem;">
+                            If Car's internal structure changes, Driver must change too.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example 1 Follows LoD -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">✅</span> Example 1 (Follows
+                        LoD)
+                    </h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engine started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Engine</span> <span style="color: #9cdcfe;">engine</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Engine</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #9cdcfe;">engine</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Driver</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Car</span> <span style="color: #9cdcfe;">car</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Car</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">drive</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #9cdcfe;">car</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// ✅ Talk only to Car</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Example 2 Violation -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Example 2
+                    </h2>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">❌ Violating Law of Demeter</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Customer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #4ec9b0;">Address</span> <span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">Customer</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #4ec9b0;">Customer</span> <span style="color: #dcdcaa;">getCustomer</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Usage:</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span>
+   <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCustomer</span><span style="color: #ffd700;">()</span>
+        <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">()</span>
+        <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">();</span></code></pre>
+                    </div>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">Problem:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(192, 132, 252, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border-left: 4px solid #a855f7; margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            <strong style="color: #a855f7;">🔍 What Happens Internally?</strong>
+                        </p>
+                        <div
+                            style="background: rgba(0, 0, 0, 0.2); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; text-align: center;">
+                            <div style="color: var(--color-text); font-weight: 600; margin-bottom: 0.5rem;">Order</div>
+                            <div style="color: #a855f7; font-size: 1.5rem;">↓</div>
+                            <div style="color: var(--color-text); font-weight: 600; margin-bottom: 0.5rem;">Customer
+                            </div>
+                            <div style="color: #a855f7; font-size: 1.5rem;">↓</div>
+                            <div style="color: var(--color-text); font-weight: 600; margin-bottom: 0.5rem;">Address
+                            </div>
+                            <div style="color: #a855f7; font-size: 1.5rem;">↓</div>
+                            <div style="color: var(--color-text); font-weight: 600;">City</div>
+                        </div>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; font-size: 1.125rem;">
+                            <strong>The caller knows:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Order contains Customer</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Customer contains Address</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Address contains City</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-top: 1rem; font-size: 1.125rem;">
+                            This means the caller knows too much about the internal structure.<br>
+                            This creates <strong>tight coupling</strong>.<br>
+                            If Address changes, Order may break.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example 2 Follows LoD -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">✅</span> Following LoD
+                    </h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #ffd700;">{</span>
+
+<span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Address</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+<span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span> 
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Customer</span> <span style="color: #ffd700;">{</span>
+
+<span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Customer</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">address</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span> 
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Order</span> <span style="color: #ffd700;">{</span>
+
+<span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Customer</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">Order</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Customer</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">customer</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">;</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getCustomerCity</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+<span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCity</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span> 
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Address</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hyderabad"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Customer</span> <span style="color: #9cdcfe;">customer</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Customer</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Order</span> <span style="color: #9cdcfe;">order</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Order</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">customer</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">order</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCustomerCity</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #3b82f6; margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;"><strong
+                                style="color: #3b82f6;">Important:</strong> Here we noticed Customer hides Address
+                            details,
+                            we hide Customer as well.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Easy Rule -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Easy Rule
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            If you see code like:<br><br>
+                            <code
+                                style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">a.getB().getC().getD().getE();</code><br><br>
+                            Ask yourself:<br>
+                            <strong>"Does this object know too much about another object's internals?"</strong><br><br>
+                            If yes, it's usually a <strong>Law of Demeter violation</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Easy Memory Trick -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Easy Memory Trick
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Imagine classes have a social rule:<br><br>
+                            <strong>Talk to your friends, not your friends' friends.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice Section -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For practice check out this
+                    </p>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of Law of Demeter Principle:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/lod" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🎤</span> Summary
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            The <strong>Law of Demeter</strong> states that an object should only communicate with its
+                            immediate collaborators and should not depend on the internal structure of other objects.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(244, 114, 182, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(236, 72, 153, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(236, 72, 153, 0.2);">
+                        <a href="LLD_Separation_of_Concerns.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(236, 72, 153, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                                    🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ec4899;">Separation of
+                                        Concerns
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about Separation of Concerns design principle</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #ec4899; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #ec4899; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_YAGNI_Principle.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to YAGNI Principle</span>
+                        </a>
+                        <a href="LLD_Separation_of_Concerns.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(236, 72, 153, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: Separation of Concerns</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2024 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Law of Demeter', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAGNI Principle - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>YAGNI Principle</h1>
+                <p>You Aren't Gonna Need It</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">YAGNI Principle</span>
+                </nav>
+
+                <h2>🔷 YAGNI Principle</h2>
+
+                <!-- What is YAGNI Principle -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>YAGNI = You Aren't
+                            Gonna Need It</strong>
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The principle says:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 1rem;"><strong>Don't build something today just because you think
+                                    you might need it in the future.</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Build it only when there is an actual
+                                    requirement.</strong></li>
+                            <li style="margin-bottom: 0;"><strong>Don't build features, code, or functionality until
+                                    they are actually needed.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Why YAGNI Exists -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🧠</span> Why YAGNI Exists
+                    </h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Many developers think:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>"What if someday we need this feature?"</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">So they add:</p>
+
+                    <ul style="line-height: 2.2; margin: 1.5rem 0; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Extra classes</strong></li>
+                        <li style="margin-bottom: 1rem;"><strong>Extra methods</strong></li>
+                        <li style="margin-bottom: 1rem;"><strong>Extra configurations</strong></li>
+                        <li style="margin-bottom: 0;"><strong>Extra design patterns</strong></li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Most of these features are never used.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💡</span> Example
+                    </h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose you are working on
+                        a
+                        project that involves uploading user profile pictures. Your current requirement is simple:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 1rem;"><strong>Accept an image</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Resize it to 300x300</strong></li>
+                            <li style="margin-bottom: 0;"><strong>Store it on the local filesystem</strong></li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Three steps.
+                        Straightforward. But then you start thinking ahead.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 1rem;"><strong>What if we need video uploads later?</strong>
+                                Better
+                                add a media handler interface.</li>
+                            <li style="margin-bottom: 1rem;"><strong>What if we switch to cloud storage?</strong> Better
+                                add a storage provider abstraction.</li>
+                            <li style="margin-bottom: 1rem;"><strong>What if users want 3D avatars?</strong> Better
+                                make the system extensible.</li>
+                            <li style="margin-bottom: 0;"><strong>What if other teams want to plug in their own
+                                    handlers?</strong> Better build a plugin system.</li>
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">So instead of writing a
+                        simple image uploader, you build something like this:</p>
+
+                    <!-- Overengineered Version -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">The Overengineered Version (YAGNI
+                        Violation)</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Interface for handling different media types</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">canHandle</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">);</span>
+    <span style="color: #4ec9b0;">File</span> <span style="color: #dcdcaa;">process</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Interface for storage providers</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">IStorageProvider</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">store</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">);</span>
+    <span style="color: #4ec9b0;">File</span> <span style="color: #dcdcaa;">retrieve</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">);</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Factory for creating media handlers</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MediaHandlerFactory</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;"><</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">IMediaHandler</span><span style="color: #ffd700;">></span> <span style="color: #9cdcfe;">handlers</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;"><>();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">register</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">type</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #9cdcfe;">handler</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #9cdcfe;">handlers</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">put</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">type</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">handler</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #dcdcaa;">getHandler</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #9cdcfe;">handler</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">handlers</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">get</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">handler</span> <span style="color: #ffd700;">==</span> <span style="color: #c586c0;">null</span><span style="color: #ffd700;">) {</span>
+            <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">UnsupportedOperationException</span><span style="color: #ffd700;">(</span>
+                <span style="color: #ce9178;">"No handler for type: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">fileType</span>
+            <span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">handler</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Cloud storage adapter (not needed yet)</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CloudStorageAdapter</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">IStorageProvider</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">bucketName</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">region</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">CloudStorageAdapter</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">bucketName</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">region</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">bucketName</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">bucketName</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">region</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">region</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">store</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// Cloud upload logic - not implemented, not needed</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">File</span> <span style="color: #dcdcaa;">retrieve</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// Cloud download logic - not implemented, not needed</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">null</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// Cloud delete logic - not implemented, not needed</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Image handler (the only one actually needed)</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ImageMediaHandler</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">canHandle</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">equals</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"image"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">File</span> <span style="color: #dcdcaa;">process</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// Resize logic</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #dcdcaa;">resize</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">File</span> <span style="color: #dcdcaa;">resize</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">width</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">height</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #6a9955;">// actual resize implementation</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// The bloated engine that ties it all together</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MediaProcessingEngine</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">MediaHandlerFactory</span> <span style="color: #9cdcfe;">handlerFactory</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">IStorageProvider</span> <span style="color: #9cdcfe;">storageProvider</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">MediaProcessingEngine</span><span style="color: #ffd700;">(</span>
+            <span style="color: #4ec9b0;">MediaHandlerFactory</span> <span style="color: #9cdcfe;">handlerFactory</span><span style="color: #ffd700;">,</span>
+            <span style="color: #4ec9b0;">IStorageProvider</span> <span style="color: #9cdcfe;">storageProvider</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">handlerFactory</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">handlerFactory</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">storageProvider</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">storageProvider</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">upload</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">IMediaHandler</span> <span style="color: #9cdcfe;">handler</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">handlerFactory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getHandler</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">fileType</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">processed</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">handler</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">process</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">file</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">storageProvider</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">store</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">processed</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">path</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            We've written <strong>dozens of lines of infrastructure code</strong> that serves no user
+                            and
+                            solves no problem.
+                        </p>
+                    </div>
+
+                    <!-- Simple Version -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">The Simple Version (YAGNI Applied)</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now here's what the code
+                        looks
+                        like when you apply YAGNI:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); overflow: hidden; margin: 2rem 0; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ImageUploader</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">ImageResizer</span> <span style="color: #9cdcfe;">resizer</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">LocalStorage</span> <span style="color: #9cdcfe;">storage</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #dcdcaa;">ImageUploader</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">ImageResizer</span> <span style="color: #9cdcfe;">resizer</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">LocalStorage</span> <span style="color: #9cdcfe;">storage</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">resizer</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">resizer</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">storage</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">storage</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">upload</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">imageFile</span><span style="color: #ffd700;">) {</span>
+        <span style="color: #4ec9b0;">File</span> <span style="color: #9cdcfe;">resized</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">resizer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">resize</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">imageFile</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">storage</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">save</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">resized</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                            <strong>This code:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 1rem;"><strong>Meets today's requirements completely</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Is easy to read, test, and debug</strong></li>
+                            <li style="margin-bottom: 1rem;"><strong>Can be extended later when a real need
+                                    arises</strong></li>
+                            <li style="margin-bottom: 0;"><strong>Has no dead code, no empty method stubs, no
+                                    speculative
+                                    abstractions</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Why Premature Work Is Harmful -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">⚠️</span> Why Premature Work
+                        Is
+                        Harmful (YAGNI)
+                    </h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Premature work means
+                        building
+                        features before they are actually needed.</p>
+
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--color-text);">❌ Problems</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 2.2; margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 1rem;"><strong>Wastes Time</strong> → You spend effort on features
+                                that may never be used.</li>
+                            <li style="margin-bottom: 1rem;"><strong>Increases Complexity</strong> → More code makes
+                                the system harder to understand and maintain.</li>
+                            <li style="margin-bottom: 1rem;"><strong>Creates More Bugs</strong> → Extra code means
+                                more chances for defects.</li>
+                            <li style="margin-bottom: 1rem;"><strong>Slows Development</strong> → Time spent on
+                                future possibilities delays current requirements.</li>
+                            <li style="margin-bottom: 0;"><strong>Higher Maintenance Cost</strong> → Unused code
+                                still needs testing, debugging, and updates.</li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Premature work is harmful because it adds <strong>unnecessary complexity</strong>, increases
+                            <strong>maintenance costs</strong>, and wastes <strong>development effort</strong> on
+                            features
+                            that may never be needed.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Common Mistake -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">⚠️</span> Common Mistake
+                    </h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Many beginners often think:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>"Think about scalability and might need this feature in the future."</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Then they,</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>"Build everything for the next 5 years."</strong> So they spend time building it
+                            now.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>That's not YAGNI.</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Design with extension in mind, but don't implement unused features.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- DRY vs KISS vs YAGNI -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🔥</span> DRY vs KISS vs
+                        YAGNI
+                    </h2>
+
+                    <div
+                        style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(255,255,255,0.1);">
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Principle
+                                    </th>
+                                    <th style="padding: 1rem; text-align: left; color: var(--color-primary);">Meaning
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">DRY</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Don't repeat yourself
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">KISS</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Keep it simple</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">YAGNI</td>
+                                    <td style="padding: 1rem; color: var(--color-text-secondary);">Don't build it until
+                                        it's
+                                        needed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Practice Section -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For practice check out this
+                    </p>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.8; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of YAGNI Principle:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/yagni-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">📝</span> Summary
+                    </h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>YAGNI (You Aren't Gonna Need It)</strong> means implementing functionality only when
+                            there is a real requirement for it, avoiding unnecessary features and over-engineering.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Improved Design -->
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(251, 146, 60, 0.1) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(249, 115, 22, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2);">
+                        <a href="LLD_Law_of_Demeter.html"
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 2rem 2.5rem; text-decoration: none; color: var(--color-text); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.1)'"
+                            onmouseout="this.style.background='transparent'">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div
+                                    style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                                    🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning</div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #f97316;">Law of Demeter
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about the Law of Demeter design principle</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #f97316; font-weight: 600;">Next Topic</span>
+                                <div
+                                    style="background: #f97316; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                                    →</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_KISS_Principle.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to KISS Principle</span>
+                        </a>
+                        <a href="LLD_Law_of_Demeter.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(249, 115, 22, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: Law of Demeter</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: YAGNI Principle', 'success');
+        });
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('[style*="#1e1e2e"]').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

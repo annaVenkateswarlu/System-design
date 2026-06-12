@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Segregation Principle - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .isp-hero {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(249, 115, 22, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.22);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .isp-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 255, 240, 0.88) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .isp-card h3,
+        .isp-card h2 {
+            margin-top: 0;
+        }
+
+        .isp-intro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .isp-point {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.1rem;
+        }
+
+        .isp-point strong {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: var(--color-text);
+        }
+
+        .isp-inline-code {
+            display: inline-block;
+            padding: 0.08rem 0.45rem;
+            border-radius: 0.35rem;
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--color-primary-dark);
+            font-family: monospace;
+            font-size: 0.95em;
+        }
+
+        .isp-code-card {
+            background: #1e1e2e;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .isp-code-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .isp-code-label {
+            color: #9cdcfe;
+            font-size: 0.9rem;
+        }
+
+        .isp-copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #d4d4d4;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .isp-copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .isp-code-card pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            line-height: 1.5;
+            font-size: 0.98rem;
+        }
+
+        .isp-code-card code {
+            display: block;
+        }
+
+        .isp-callout {
+            padding: 1.75rem 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid transparent;
+        }
+
+        .isp-callout p,
+        .isp-card p,
+        .isp-card li,
+        .isp-callout li {
+            line-height: 1.85;
+        }
+
+        .isp-callout--info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .isp-callout--warn {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .isp-callout--bad {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .isp-callout--good {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .isp-list {
+            color: var(--color-text-secondary);
+            margin: 0;
+            padding-left: 1.5rem;
+            font-size: 1.125rem;
+            line-height: 1.85;
+        }
+
+        .isp-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .isp-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .isp-benefit {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.1rem;
+        }
+
+        .isp-benefit strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--color-text);
+        }
+
+        .isp-summary-tree {
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: var(--color-text-secondary);
+            line-height: 1.85;
+            margin: 0;
+        }
+
+        .isp-next-cta {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.16) 0%, rgba(249, 115, 22, 0.14) 100%);
+            border: 2px solid rgba(236, 72, 153, 0.45);
+            box-shadow: 0 10px 40px rgba(236, 72, 153, 0.2);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .isp-next-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 2.5rem;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+
+        .isp-next-cta a:hover {
+            background: rgba(236, 72, 153, 0.08);
+        }
+
+        .isp-next-badge {
+            background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.35);
+        }
+
+        .isp-next-arrow {
+            background: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
+        }
+
+        @media (max-width: 768px) {
+
+            .isp-card,
+            .isp-hero,
+            .isp-callout {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .isp-intro-grid,
+            .isp-benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .isp-next-cta a {
+                padding: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Interface Segregation Principle</h1>
+                <p>ISP - Fourth Principle of SOLID</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Interface Segregation Principle</span>
+                </nav>
+
+                <div class="isp-hero">
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        <strong>Have you ever implemented an interface</strong>... only to realize you had to write
+                        empty methods just to make the compiler happy?
+                    </p>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        Or updated a shared interface... and suddenly watched multiple unrelated classes start breaking?
+                    </p>
+                    <p style="color: var(--color-text-secondary); line-height: 1.85; margin: 0; font-size: 1.125rem;">
+                        If so, you have probably run into a violation of one of the most misunderstood design principles
+                        in software engineering: the <strong>Interface Segregation Principle (ISP)</strong>.
+                    </p>
+                </div>
+
+                <h2>🔷 Interface Segregation Principle (ISP)</h2>
+
+                <div class="isp-card">
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        <strong>ISP</strong> is the fourth principle of <strong>SOLID</strong>.
+                    </p>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        It states:
+                    </p>
+                    <div class="isp-callout isp-callout--info">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0; font-size: 1.125rem;">
+                            Clients should not be forced to depend on methods (<strong>in interface</strong>) they do
+                            not use.
+                        </p>
+                    </div>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 1rem 0 1rem 0; font-size: 1.125rem;">
+                        In simple words:
+                    </p>
+                    <div class="isp-callout isp-callout--warn">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0; font-size: 1.125rem;">
+                            <strong>Don't create large interfaces with unrelated methods.</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0.75rem 0 0 0; font-size: 1.125rem;">
+                            <strong>Create small, focused interfaces instead.</strong>
+                        </p>
+                    </div>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 1rem; font-size: 1.125rem;">
+                        <strong>Prefer many small, focused interfaces over one large interface.</strong>
+                    </p>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">❌</span> Example 1 (Violates
+                        ISP)</h2>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        Suppose we create:
+                    </p>
+                    <div class="isp-code-card">
+                        <div class="isp-code-header">
+                            <span class="isp-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Worker</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">eat</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sleep</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <div class="isp-code-card">
+                        <div class="isp-code-header">
+                            <span class="isp-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HumanWorker</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Worker</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Working"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">eat</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Eating"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sleep</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Sleeping"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RobotWorker</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Worker</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Working"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div class="isp-callout isp-callout--bad">
+                        <h3 style="margin-bottom: 1rem; color: var(--color-text);">🚨 Problem Explanation</h3>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            A robot:
+                        </p>
+                        <ul class="isp-list">
+                            <li><strong>Can Work</strong> ✅</li>
+                            <li><strong>Can Eat</strong> ❌</li>
+                            <li><strong>Can Sleep</strong> ❌</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0; font-size: 1.125rem;">
+                            But the interface forces it to implement all methods.
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0; font-size: 1.125rem;">
+                            This is an <strong>ISP violation</strong>.
+                        </p>
+                    </div>
+
+                    <div class="isp-callout isp-callout--warn" style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem; color: var(--color-text);">Why This Is Bad</h3>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            The interface says:
+                        </p>
+                        <div class="isp-code-card" style="margin: 1rem 0;">
+                            <div class="isp-code-header">
+                                <span class="isp-code-label">Interface Tree</span>
+                                <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            </div>
+                            <pre><code><span style="color: #4ec9b0;">Worker</span>
+<span style="color: #ffd700;">├──</span> <span style="color: #dcdcaa;">work()</span>
+<span style="color: #ffd700;">├──</span> <span style="color: #dcdcaa;">eat()</span>
+<span style="color: #ffd700;">└──</span> <span style="color: #dcdcaa;">sleep()</span></code></pre>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            We know the rule of interfaces:
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            <strong>Every class implementation must support all methods mentioned in the
+                                interface.</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            But:
+                        </p>
+                        <div class="isp-intro-grid" style="margin-top: 0;">
+                            <div class="isp-point">
+                                <strong>Human</strong>
+                                work + eat + sleep
+                            </div>
+                            <div class="isp-point">
+                                <strong>Robot</strong>
+                                only work
+                            </div>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0; font-size: 1.125rem;">
+                            When you see <strong>throw new UnsupportedOperationException();</strong> inside interface
+                            implementations, it's often a sign that ISP is being violated.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">✅</span> Example 1 (Follows
+                        ISP)</h2>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        Split the interface into multiple small interfaces.
+                    </p>
+                    <div class="isp-code-card">
+                        <div class="isp-code-header">
+                            <span class="isp-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Workable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Eatable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">eat</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Sleepable</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sleep</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HumanWorker</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Workable</span>, <span style="color: #4ec9b0;">Eatable</span>, <span style="color: #4ec9b0;">Sleepable</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Working"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">eat</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Eating"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">sleep</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Sleeping"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RobotWorker</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Workable</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">work</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Working"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        <strong>Output</strong>
+                    </p>
+                    <div class="isp-callout isp-callout--good">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 0.5rem 0; font-family: monospace; font-size: 1rem;">
+                            Human is working
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 0.5rem 0; font-family: monospace; font-size: 1rem;">
+                            Human is eating
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 0.5rem 0; font-family: monospace; font-size: 1rem;">
+                            Human is sleeping
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0; font-family: monospace; font-size: 1rem;">
+                            Robot is working
+                        </p>
+                    </div>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Real-World Example</h2>
+                    <h3 style="margin-bottom: 1rem;">❌ Bad</h3>
+                    <div class="isp-callout isp-callout--bad">
+                        <div class="isp-code-card" style="margin-top: 0;">
+                            <div class="isp-code-header">
+                                <span class="isp-code-label">Java</span>
+                                <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                    Copy</button>
+                            </div>
+                            <pre><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">SmartDevice</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #dcdcaa;">call</span><span style="color: #ffd700;">();</span>
+    <span style="color: #dcdcaa;">takePhoto</span><span style="color: #ffd700;">();</span>
+    <span style="color: #dcdcaa;">printDocument</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                        </div>
+                        <ul class="isp-list">
+                            <li>Phone can do all three.</li>
+                            <li>Printer cannot make calls.</li>
+                            <li>Camera cannot print documents.</li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); margin: 1rem 0 0 0; font-size: 1.125rem;">
+                            Forced implementations are <strong>bad design</strong>.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 2rem; margin-top: 2rem;">✅ Good</h3>
+                    <div class="isp-callout isp-callout--good">
+                        <div class="isp-code-card" style="margin-top: 0;">
+                            <div class="isp-code-header">
+                                <span class="isp-code-label">Java</span>
+                                <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                    Copy</button>
+                            </div>
+                            <pre><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Callable</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">CameraCapable</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Printable</span></code></pre>
+                        </div>
+                        <p style="color: var(--color-text-secondary); margin: 0; font-size: 1.125rem;">
+                            Each device implements only what it needs.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;">ISP and LSP Connection</h2>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        Notice this code:
+                    </p>
+                    <div class="isp-code-card">
+                        <div class="isp-code-header">
+                            <span class="isp-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="isp-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">eat</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">throw</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">UnsupportedOperationException</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        You saw the same thing in <strong>LSP</strong>.
+                    </p>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        That's often a clue that:
+                    </p>
+                    <ul class="isp-list">
+                        <li><strong>ISP is violated</strong> (interface too big)</li>
+                        <li><strong>LSP may also be violated</strong> (child can't honor contract)</li>
+                    </ul>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Benefits</h2>
+                    <div class="isp-benefits-grid">
+                        <div class="isp-benefit">
+                            <strong>Smaller Interfaces</strong>
+                            Easier to understand
+                        </div>
+                        <div class="isp-benefit">
+                            <strong>Less Coupling</strong>
+                            Classes depend only on needed methods
+                        </div>
+                        <div class="isp-benefit">
+                            <strong>Better Flexibility</strong>
+                            Implement only required behavior
+                        </div>
+                        <div class="isp-benefit">
+                            <strong>Easier Maintenance</strong>
+                            Changes affect fewer classes
+                        </div>
+                    </div>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;">💪 Practice Exercise</h2>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                        For practice use this:
+                    </p>
+                    <div class="isp-callout isp-callout--info" style="box-shadow: 0 8px 24px rgba(59, 130, 246, 0.12);">
+                        <div style="display: flex; align-items: flex-start; gap: 1.25rem; flex-wrap: wrap;">
+                            <div style="font-size: 3rem;">🚀</div>
+                            <div style="flex: 1; min-width: 250px;">
+                                <p
+                                    style="color: var(--color-text-secondary); margin: 0 0 1.25rem 0; line-height: 1.85; font-size: 1.05rem;">
+                                    <strong style="color: #3b82f6;">Ready to practice?</strong> Try this hands-on
+                                    exercise to reinforce your understanding of ISP:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/isp-exercise" target="_blank"
+                                    style="display: inline-flex; align-items: center; gap: 0.75rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; padding: 1rem 2rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)';"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.3)';">
+                                    <i class="fas fa-external-link-alt"></i> Start Exercise on AlgoMaster
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="isp-card">
+                    <h2 style="margin-bottom: 1.5rem;">Summary</h2>
+                    <div class="isp-callout isp-callout--warn">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            We know <strong>Interface Rule</strong>: A class must implement all methods of the interface
+                            it implements.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            The <strong>Interface Segregation Principle</strong> states that no class should be forced
+                            to implement
+                            <strong>methods it does not use</strong>. Large interfaces should be split into
+                            <strong>smaller, focused interfaces</strong>.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.85; margin: 0; font-size: 1.125rem;">
+                            ISP says that we should keep <strong>interfaces small and focused</strong> so that classes
+                            are not forced to
+                            implement methods they don't need.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 0rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+                    <div class="isp-next-cta">
+                        <a href="LLD_DIP.html">
+                            <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                                <div class="isp-next-badge">🔗</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning
+                                    </div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #ec4899;">
+                                        Dependency Inversion Principle (DIP)
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn about the fifth principle of SOLID
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #f97316; font-weight: 600;">Next Topic</span>
+                                <div class="isp-next-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;">
+                        <a href="LLD_LSP.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(59, 130, 246, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>←</span>
+                            <span>Back to LSP</span>
+                        </a>
+                        <a href="LLD_DIP.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border); transition: all 0.3s ease;"
+                            onmouseover="this.style.background='rgba(236, 72, 153, 0.1)'"
+                            onmouseout="this.style.background='var(--glass-bg)'">
+                            <span>Next: DIP</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Interface Segregation Principle', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('.isp-code-card').querySelector('code');
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>
