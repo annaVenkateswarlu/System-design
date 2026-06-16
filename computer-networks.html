@@ -2872,22 +2872,264 @@
                     </div>
 
                     <!-- Next Topic CTA -->
-                    <div
-                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem;">
-                        <h3 style="color: var(--color-primary); margin-bottom: 1rem;">Next Topic</h3>
-                        <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Continue learning
-                            about
-                            system design fundamentals.</p>
-                        <a href="cloud-computing.html"
-                            style="display: inline-block; background: var(--color-primary); color: white; padding: 0.75rem 1.5rem; border-radius: var(--radius-md); text-decoration: none; font-weight: 500; transition: all 0.3s ease;">
-                            ☁️ Cloud Computing →
-                        </a>
+
+                    <div class="next-topic-card">
+
+                        <div class="cta-container cloud-cta">
+
+                            <a href="cloud-computing.html" class="cta-link">
+
+                                <div class="cta-content">
+
+                                    <div class="topic-icon cloud-icon">
+                                        🎭
+                                    </div>
+
+                                    <div>
+                                        <div class="topic-label">
+                                            Continue Learning
+                                        </div>
+
+                                        <div class="topic-title cloud-title">
+                                            ☁️ Cloud Computing
+                                        </div>
+
+                                        <div class="topic-description">
+                                            Learn how cloud platforms provide scalable, reliable, and on-demand
+                                            computing resources over the internet.
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="cta-action">
+
+                                    <span class="cta-action-text cloud-text">
+                                        Next Topic
+                                    </span>
+
+                                    <div class="cta-arrow cloud-arrow">
+                                        →
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <!-- Navigation Footer -->
+                        <div class="navigation-footer">
+
+                            <a href="index.html" class="nav-btn">
+                                <span>←</span>
+                                <span>🏠 Home</span>
+                            </a>
+
+                            <a href="cloud-computing.html" class="nav-btn">
+                                <span>Next: Cloud Computing</span>
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
                     </div>
+
+                    <style>
+                        .next-topic-card {
+                            margin-top: 0;
+                            padding: 1.5rem 0;
+                            border-top: 1px solid var(--glass-border);
+                        }
+
+                        .cloud-cta {
+                            background: linear-gradient(135deg,
+                                    rgba(14, 165, 233, 0.15) 0%,
+                                    rgba(6, 182, 212, 0.10) 100%);
+                            border-radius: var(--radius-xl);
+                            border: 2px solid rgba(14, 165, 233, 0.4);
+                            overflow: hidden;
+                            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.2);
+                        }
+
+                        .cta-link {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 2rem;
+                            padding: 2rem;
+                            text-decoration: none;
+                            color: var(--color-text);
+                            transition: all 0.3s ease;
+                        }
+
+                        .cta-link:hover {
+                            background: rgba(14, 165, 233, 0.08);
+                        }
+
+                        .cta-content {
+                            display: flex;
+                            align-items: center;
+                            gap: 1.5rem;
+                            flex: 1;
+                            min-width: 0;
+                        }
+
+                        .cloud-icon {
+                            width: 70px;
+                            height: 70px;
+                            flex-shrink: 0;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 2rem;
+                            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+                            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+                        }
+
+                        .topic-label {
+                            font-size: 0.9rem;
+                            color: var(--color-text-secondary);
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                            margin-bottom: 0.4rem;
+                            font-weight: 500;
+                        }
+
+                        .cloud-title {
+                            font-size: clamp(1.2rem, 2vw, 1.6rem);
+                            font-weight: 700;
+                            color: #0ea5e9;
+                            line-height: 1.3;
+                        }
+
+                        .topic-description {
+                            margin-top: 0.5rem;
+                            color: var(--color-text-secondary);
+                            line-height: 1.6;
+                            font-size: clamp(0.85rem, 1.5vw, 1rem);
+                        }
+
+                        .cta-action {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            flex-shrink: 0;
+                        }
+
+                        .cloud-text {
+                            color: #0ea5e9;
+                            font-weight: 600;
+                            white-space: nowrap;
+                        }
+
+                        .cloud-arrow {
+                            width: 52px;
+                            height: 52px;
+                            border-radius: 50%;
+                            background: #0ea5e9;
+                            color: white;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.5rem;
+                            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+                        }
+
+                        .navigation-footer {
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 1rem;
+                            margin-top: 2rem;
+                            flex-wrap: wrap;
+                        }
+
+                        .nav-btn {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            padding: 0.85rem 1.25rem;
+                            text-decoration: none;
+                            color: var(--color-text);
+                            background: var(--glass-bg);
+                            border: 1px solid var(--glass-border);
+                            border-radius: var(--radius-md);
+                            transition: all 0.3s ease;
+                        }
+
+                        .nav-btn:hover {
+                            background: rgba(14, 165, 233, 0.08);
+                        }
+
+                        @media (max-width: 900px) {
+                            .cta-link {
+                                flex-direction: column;
+                                align-items: stretch;
+                                gap: 1.5rem;
+                            }
+
+                            .cta-action {
+                                justify-content: space-between;
+                                width: 100%;
+                            }
+                        }
+
+                        @media (max-width: 600px) {
+                            .next-topic-card {
+                                padding: 1rem 0;
+                            }
+
+                            .cta-link {
+                                padding: 1.25rem;
+                            }
+
+                            .cta-content {
+                                align-items: flex-start;
+                                gap: 1rem;
+                            }
+
+                            .cloud-icon {
+                                width: 58px;
+                                height: 58px;
+                                font-size: 1.6rem;
+                            }
+
+                            .navigation-footer {
+                                flex-direction: column;
+                            }
+
+                            .nav-btn {
+                                width: 100%;
+                                justify-content: center;
+                                box-sizing: border-box;
+                            }
+                        }
+
+                        @media (max-width: 380px) {
+                            .cta-content {
+                                flex-direction: column;
+                                text-align: center;
+                                align-items: center;
+                            }
+
+                            .cta-action {
+                                flex-direction: column;
+                                gap: 0.75rem;
+                            }
+
+                            .cloud-arrow {
+                                width: 46px;
+                                height: 46px;
+                            }
+                        }
+                    </style>
+
                 </div>
         </section>
 
         <footer>
-            <p>&copy; 2025 System Design Mastery. All rights reserved.</p>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
         </footer>
     </div>
 

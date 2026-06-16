@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLID Principles - Quick Revision Notes</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .solid-hero {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 50%, rgba(249, 115, 22, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.24);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .solid-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem 4rem;
+            margin: 2rem 0;
+        }
+
+        .solid-card h2,
+        .solid-card h3 {
+            margin-top: 0;
+        }
+
+        .solid-principles-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .solid-principle-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-radius: var(--radius-lg);
+            padding: 1.35rem;
+        }
+
+        .solid-principle-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0;
+            color: var(--color-text);
+        }
+
+        .solid-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 3.2rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, 0.12);
+            color: #2563eb;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .solid-block {
+            border-left: 4px solid rgba(59, 130, 246, 0.55);
+            padding-left: 1rem;
+        }
+
+        .solid-block strong {
+            color: var(--color-text);
+        }
+
+        .solid-label {
+            display: block;
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        .solid-card p,
+        .solid-principle-card p,
+        .solid-card li {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .solid-code-line {
+            display: block;
+            width: fit-content;
+            max-width: 100%;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+            padding: 0.65rem 0.8rem;
+            border-radius: var(--radius-md);
+            background: #1e1e2e;
+            color: #d4d4d4;
+            font-family: monospace;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .solid-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .solid-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        .solid-table th,
+        .solid-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        .solid-table th {
+            color: var(--color-primary);
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .solid-table td {
+            color: var(--color-text-secondary);
+        }
+
+        .solid-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .solid-bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+
+        .solid-bottom-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .solid-bottom-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        @media (max-width: 768px) {
+
+            .solid-hero,
+            .solid-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .solid-principle-title {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client-Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>SOLID Principles</h1>
+                <p>Quick Revision Notes for LLD</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">SOLID Principles</span>
+                </nav>
+
+                <div class="solid-hero">
+                    <h2 style="margin-top: 0;">🚀 SOLID Principles - Quick Revision Notes</h2>
+                    <p>
+                        <strong>SOLID</strong> is a set of five object-oriented design principles that help make code
+                        <strong>easy to extend</strong>, <strong>easy to test</strong>, and <strong>safe to
+                            maintain</strong>.
+                    </p>
+                </div>
+
+                <div class="solid-principles-grid">
+                    <article class="solid-principle-card">
+                        <h2 class="solid-principle-title">
+                            <span>1. SRP - Single Responsibility Principle</span>
+                            <span class="solid-badge">SRP</span>
+                        </h2>
+                        <div class="solid-block">
+                            <span class="solid-label">Definition</span>
+                            <p>A class should have only <strong>one responsibility</strong> and therefore only
+                                <strong>one reason to change</strong>, leading to <strong>higher cohesion</strong> and
+                                <strong>better maintainability</strong>.
+                            </p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Solution</span>
+                            <p>✅ <strong>Separate different responsibilities</strong> into different classes.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Memory</span>
+                            <p><strong>One Class → One Job → One Reason to Change</strong></p>
+                        </div>
+                    </article>
+
+                    <article class="solid-principle-card">
+                        <h2 class="solid-principle-title">
+                            <span>2. OCP - Open-Closed Principle</span>
+                            <span class="solid-badge">OCP</span>
+                        </h2>
+                        <div class="solid-block">
+                            <span class="solid-label">Definition</span>
+                            <p><strong>Software entities</strong> should be <strong>open for extension</strong> but
+                                <strong>closed for modification</strong>.
+                            </p>
+                            <p style="margin-top: 0.75rem;">You should be able to <strong>add new functionality</strong>
+                                without changing existing code.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Solution</span>
+                            <p>✅ Use <strong>abstractions</strong>, such as <strong>interfaces</strong> or
+                                <strong>abstract classes</strong>, and add new implementations instead of modifying
+                                existing classes.
+                            </p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Memory</span>
+                            <p><strong>Add new code, don't modify old code.</strong></p>
+                        </div>
+                    </article>
+
+                    <article class="solid-principle-card">
+                        <h2 class="solid-principle-title">
+                            <span>3. LSP - Liskov Substitution Principle</span>
+                            <span class="solid-badge">LSP</span>
+                        </h2>
+                        <div class="solid-block">
+                            <span class="solid-label">Definition</span>
+                            <p>A <strong>child class</strong> should be able to completely replace its
+                                <strong>parent class</strong> without breaking the program's behavior.
+                            </p>
+                            <p style="margin-top: 0.75rem;">If a child cannot fulfill the <strong>contract</strong>
+                                promised by the parent, <strong>inheritance is the wrong relationship</strong>.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Solution</span>
+                            <p>✅ Use <strong>interfaces</strong> or redesign the hierarchy when some subclasses cannot
+                                support parent behavior.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Memory</span>
+                            <p><strong>If replacing Parent with Child breaks the code → LSP is violated.</strong></p>
+                        </div>
+                    </article>
+
+                    <article class="solid-principle-card">
+                        <h2 class="solid-principle-title">
+                            <span>4. ISP - Interface Segregation Principle</span>
+                            <span class="solid-badge">ISP</span>
+                        </h2>
+                        <div class="solid-block">
+                            <span class="solid-label">Interface Rule</span>
+                            <p>A class must implement <strong>all methods</strong> of the interface it implements.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Definition</span>
+                            <p>No class should be forced to implement <strong>methods it does not use</strong>. Large
+                                interfaces should be split into <strong>smaller, focused interfaces</strong>.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Solution</span>
+                            <p>✅ Create <strong>small, specific interfaces</strong> instead of one large interface.</p>
+                        </div>
+                        <div class="solid-block">
+                            <span class="solid-label">Memory</span>
+                            <p><strong>Many small interfaces are better than one fat interface.</strong></p>
+                        </div>
+                    </article>
+
+                    <article class="solid-principle-card"
+                        style="width:100%; max-width:100%; overflow:hidden; box-sizing:border-box;">
+
+                        <h2 class="solid-principle-title"
+                            style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+                            <span>5. DIP - Dependency Inversion Principle</span>
+                            <span class="solid-badge">DIP</span>
+                        </h2>
+
+                        <div class="solid-block">
+                            <span class="solid-label">Definition</span>
+                            <p>
+                                <strong>High-level modules</strong>, such as business logic or services,
+                                should depend on <strong>abstractions</strong>, such as interfaces,
+                                not concrete implementations.
+                            </p>
+                        </div>
+
+                        <div class="solid-block">
+                            <span class="solid-label">Instead of</span>
+                            <code class="solid-code-line"
+                                style="display:block; max-width:100%; overflow-x:auto; white-space:nowrap; padding:0.5rem 0;">
+            CheckoutService → StripePayment
+        </code>
+                        </div>
+
+                        <div class="solid-block">
+                            <span class="solid-label">Use</span>
+
+                            <code class="solid-code-line"
+                                style="display:block; max-width:100%; overflow-x:auto; white-space:nowrap; padding:0.5rem 0;">
+            CheckoutService → PaymentGateway ← StripePayment
+        </code>
+
+                            <code class="solid-code-line"
+                                style="display:block; max-width:100%; overflow-x:auto; white-space:nowrap; padding:0.5rem 0;">
+            PaymentGateway ← RazorpayPayment
+        </code>
+
+                            <code class="solid-code-line"
+                                style="display:block; max-width:100%; overflow-x:auto; white-space:nowrap; padding:0.5rem 0;">
+            PaymentGateway ← PayPalPayment
+        </code>
+                        </div>
+
+                        <div class="solid-block">
+                            <span class="solid-label">Solution</span>
+                            <p>
+                                ✅ <strong>Depend on interfaces</strong> and
+                                <strong>inject implementations</strong>.
+                            </p>
+                        </div>
+
+                        <div class="solid-block">
+                            <span class="solid-label">Memory</span>
+                            <p>
+                                <strong>Depend on abstractions, not implementations.</strong>
+                            </p>
+                        </div>
+
+                    </article>
+                </div>
+
+                <div class="solid-card">
+                    <h2>🚀 SOLID Principles - Quick Revision</h2>
+                    <div class="solid-table-wrap">
+                        <table class="solid-table">
+                            <thead>
+                                <tr>
+                                    <th>Principle</th>
+                                    <th>Problem</th>
+                                    <th>Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>SRP</strong></td>
+                                    <td>One class has <strong>multiple responsibilities</strong> and multiple reasons to
+                                        change.</td>
+                                    <td>Split responsibilities into <strong>separate classes</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OCP</strong></td>
+                                    <td>New features require <strong>modifying existing code</strong>.</td>
+                                    <td>Use <strong>abstractions</strong>, such as interfaces or abstract classes, plus
+                                        <strong>polymorphism</strong> to extend behavior.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>LSP</strong></td>
+                                    <td>Child cannot fully behave like parent.</td>
+                                    <td>Fix the hierarchy; use <strong>interfaces</strong> or
+                                        <strong>composition</strong>
+                                        when inheritance is invalid.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ISP</strong></td>
+                                    <td>Classes are forced to implement <strong>methods they don't need</strong>.</td>
+                                    <td>Split large interfaces into <strong>smaller focused interfaces</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>DIP</strong></td>
+                                    <td>High-level modules depend on <strong>concrete implementations</strong>.</td>
+                                    <td>Depend on <strong>abstractions</strong>, such as interfaces, and inject
+                                        implementations.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="solid-bottom-nav">
+                    <a class="solid-bottom-link" href="LLD_DIP.html">
+                        <span>←</span>
+                        <span>Back to DIP</span>
+                    </a>
+                    <a class="solid-bottom-link" href="LLD.html">
+                        <span>LLD Home</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: SOLID Principles Quick Revision', 'success');
+        });
+    </script>
+</body>
+
+</html>

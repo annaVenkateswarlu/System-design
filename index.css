@@ -914,7 +914,32 @@ footer {
 .topic-content p {
     font-size: var(--font-size-lg);
     line-height: 1.8;
-    max-width: 800px;
+    max-width: 900px;
+    text-wrap: pretty;
+}
+
+.topic-content h2,
+.topic-content h3 {
+    text-wrap: balance;
+}
+
+.topic-content .container>div[style*="margin-bottom: 0rem; padding: 1rem 0;"] {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(240, 255, 240, 0.88) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.16);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: 1.75rem 2rem !important;
+    margin-bottom: 1.75rem !important;
+}
+
+.topic-content .container>div[style*="margin-bottom: 0rem; padding: 1rem 0;"] h2,
+.topic-content .container>div[style*="margin-bottom: 0rem; padding: 1rem 0;"] h3 {
+    margin-top: 0;
+}
+
+.topic-content .container>div[style*="margin-bottom: 0rem; padding: 1rem 0;"] p,
+.topic-content .container>div[style*="margin-bottom: 0rem; padding: 1rem 0;"] li {
+    max-width: none;
 }
 
 @keyframes slideIn {
@@ -2055,13 +2080,19 @@ a:focus-visible {
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-lg);
 }
+
 .next-topic-link1 {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-md);
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     color: rgb(88, 84, 84);
     text-decoration: none;
-    padding: var(--space-lg) var(--space-2xl);
+    padding: 1rem 1.25rem;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(136, 124, 124, 0.95);
     border-radius: var(--radius-xl);
@@ -2070,7 +2101,18 @@ a:focus-visible {
     -webkit-backdrop-filter: blur(10px);
     font-weight: var(--font-weight-semibold);
     font-size: var(--font-size-lg);
+    text-align: center;
 }
+
+@media (max-width: 768px) {
+    .next-topic-link1 {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}
+
 .next-topic-link:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
@@ -2218,4 +2260,321 @@ a:focus-visible {
         max-width: 200px;
         overflow-wrap: break-word;
     }
+}
+
+
+/* When to use section styles */
+.usage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .usage-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .usage-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .usage-card {
+        padding: 1.25rem !important;
+    }
+}
+
+
+/* Api Gateway page css */
+
+.problem-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.problem-tag {
+    background: #dc2626;
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+
+    flex: 1 1 250px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .problem-tags {
+        flex-direction: column;
+    }
+
+    .problem-tag {
+        width: 100%;
+        flex: unset;
+        box-sizing: border-box;
+    }
+}
+
+.endpoint-box {
+    background: var(--glass-bg);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+
+    text-align: center;
+    margin-bottom: 1rem;
+
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.endpoint-url {
+    color: var(--color-primary);
+    font-weight: 600;
+    margin: 0;
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.endpoint-example {
+    color: var(--color-text-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .endpoint-box {
+        padding: 1rem;
+    }
+
+    .endpoint-url {
+        font-size: 0.9rem;
+    }
+}
+
+/* Serverless architecture CSS */
+
+.code-url {
+    color: var(--color-text-secondary);
+    margin: 0;
+
+    font-family: ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+
+    max-width: 100%;
+}
+
+/* Problems.htmls CSS */
+
+.problem-navigation {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+    text-align: center;
+}
+
+.nav-btn-prev {
+    background: var(--glass-bg);
+    color: var(--color-text-primary);
+    border: 1px solid var(--glass-border);
+}
+
+.nav-btn-next {
+    background: var(--color-accent);
+    color: white;
+}
+
+.nav-btn-prev:hover {
+    transform: translateX(-5px);
+}
+
+.nav-btn-next:hover {
+    transform: translateX(5px);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .problem-navigation {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-btn {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    .nav-btn-prev:hover,
+    .nav-btn-next:hover {
+        transform: none;
+    }
+}
+
+
+/* LLD_Association.html file table CSS */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-lg);
+}
+
+.uml-table {
+    width: 100%;
+    min-width: 700px;
+    /* prevents columns from getting squished */
+    border-collapse: collapse;
+}
+
+.uml-table th {
+    padding: 1rem;
+    text-align: left;
+    color: var(--color-primary);
+}
+
+.uml-table td {
+    padding: 1rem;
+    color: var(--color-text-secondary);
+}
+
+.uml-table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.uml-table thead tr {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* LLD Practice Exercise CSS */
+
+.practice-card {
+    background: linear-gradient(135deg,
+            rgba(59, 130, 246, 0.12) 0%,
+            rgba(96, 165, 250, 0.08) 100%);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    margin: 2rem 0;
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+}
+
+.practice-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.practice-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+}
+
+.practice-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.practice-description {
+    color: var(--color-text-secondary);
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    font-size: 1.05rem;
+}
+
+.practice-description strong {
+    color: #3b82f6;
+}
+
+.practice-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.practice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .practice-card {
+        padding: 1.5rem;
+    }
+
+    .practice-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .practice-icon {
+        font-size: 2.5rem;
+    }
+
+    .practice-description {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .practice-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.9rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* LLD_SOLID.html file DIP CSS */
+
+.solid-code-line {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.solid-principle-title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
 }

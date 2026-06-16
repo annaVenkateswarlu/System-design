@@ -2676,18 +2676,263 @@
                             </ul>
                         </div>
                     </div>
-                </div>
-        </section>
 
-        <!-- Next Topic CTA -->
-        <section class="next-topic-cta">
-            <div class="container">
-                <a href="system-design.html" class="next-topic-link">
-                    <span class="next-topic-text">Next Topic</span>
-                    <span class="next-topic-arrow">→</span>
-                    <span class="next-topic-title">📐 System Design Basics</span>
-                </a>
-            </div>
+                    <!-- Next Topic CTA -->
+
+                    <div class="next-topic-card">
+
+                        <div class="cta-container systemdesign-cta">
+
+                            <a href="system-design.html" class="cta-link">
+
+                                <div class="cta-content">
+
+                                    <div class="topic-icon systemdesign-icon">
+                                        🎭
+                                    </div>
+
+                                    <div>
+                                        <div class="topic-label">
+                                            Continue Learning
+                                        </div>
+
+                                        <div class="topic-title systemdesign-title">
+                                            System Design Basics
+                                        </div>
+
+                                        <div class="topic-description">
+                                            Learn the core principles of designing scalable, reliable, and
+                                            high-performance distributed systems.
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="cta-action">
+
+                                    <span class="cta-action-text systemdesign-text">
+                                        Next Topic
+                                    </span>
+
+                                    <div class="cta-arrow systemdesign-arrow">
+                                        →
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </div>
+
+                        <!-- Navigation Footer -->
+                        <div class="navigation-footer">
+
+                            <a href="computer-networks.html" class="nav-btn">
+                                <span>←</span>
+                                <span>🌐 Computer Networks</span>
+                            </a>
+
+                            <a href="system-design.html" class="nav-btn">
+                                <span>Next: System Design Basics</span>
+                                <span>→</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <style>
+                        .next-topic-card {
+                            margin-top: 0;
+                            padding: 1.5rem 0;
+                            border-top: 1px solid var(--glass-border);
+                        }
+
+                        .systemdesign-cta {
+                            background: linear-gradient(135deg,
+                                    rgba(99, 102, 241, 0.15) 0%,
+                                    rgba(139, 92, 246, 0.10) 100%);
+                            border-radius: var(--radius-xl);
+                            border: 2px solid rgba(99, 102, 241, 0.4);
+                            overflow: hidden;
+                            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+                        }
+
+                        .cta-link {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            gap: 2rem;
+                            padding: 2rem;
+                            text-decoration: none;
+                            color: var(--color-text);
+                            transition: all 0.3s ease;
+                        }
+
+                        .cta-link:hover {
+                            background: rgba(99, 102, 241, 0.08);
+                        }
+
+                        .cta-content {
+                            display: flex;
+                            align-items: center;
+                            gap: 1.5rem;
+                            flex: 1;
+                            min-width: 0;
+                        }
+
+                        .systemdesign-icon {
+                            width: 70px;
+                            height: 70px;
+                            flex-shrink: 0;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 2rem;
+                            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+                        }
+
+                        .topic-label {
+                            font-size: 0.9rem;
+                            color: var(--color-text-secondary);
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                            margin-bottom: 0.4rem;
+                            font-weight: 500;
+                        }
+
+                        .systemdesign-title {
+                            font-size: clamp(1.2rem, 2vw, 1.6rem);
+                            font-weight: 700;
+                            color: #6366f1;
+                            line-height: 1.3;
+                        }
+
+                        .topic-description {
+                            margin-top: 0.5rem;
+                            color: var(--color-text-secondary);
+                            line-height: 1.6;
+                            font-size: clamp(0.85rem, 1.5vw, 1rem);
+                        }
+
+                        .cta-action {
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            flex-shrink: 0;
+                        }
+
+                        .systemdesign-text {
+                            color: #6366f1;
+                            font-weight: 600;
+                            white-space: nowrap;
+                        }
+
+                        .systemdesign-arrow {
+                            width: 52px;
+                            height: 52px;
+                            border-radius: 50%;
+                            background: #6366f1;
+                            color: white;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.5rem;
+                            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+                        }
+
+                        .navigation-footer {
+                            display: flex;
+                            justify-content: space-between;
+                            gap: 1rem;
+                            margin-top: 2rem;
+                            flex-wrap: wrap;
+                        }
+
+                        .nav-btn {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            padding: 0.85rem 1.25rem;
+                            text-decoration: none;
+                            color: var(--color-text);
+                            background: var(--glass-bg);
+                            border: 1px solid var(--glass-border);
+                            border-radius: var(--radius-md);
+                            transition: all 0.3s ease;
+                        }
+
+                        .nav-btn:hover {
+                            background: rgba(99, 102, 241, 0.08);
+                        }
+
+                        @media (max-width: 900px) {
+                            .cta-link {
+                                flex-direction: column;
+                                align-items: stretch;
+                                gap: 1.5rem;
+                            }
+
+                            .cta-action {
+                                justify-content: space-between;
+                                width: 100%;
+                            }
+                        }
+
+                        @media (max-width: 600px) {
+                            .next-topic-card {
+                                padding: 1rem 0;
+                            }
+
+                            .cta-link {
+                                padding: 1.25rem;
+                            }
+
+                            .cta-content {
+                                align-items: flex-start;
+                                gap: 1rem;
+                            }
+
+                            .systemdesign-icon {
+                                width: 58px;
+                                height: 58px;
+                                font-size: 1.6rem;
+                            }
+
+                            .navigation-footer {
+                                flex-direction: column;
+                            }
+
+                            .nav-btn {
+                                width: 100%;
+                                justify-content: center;
+                                box-sizing: border-box;
+                            }
+                        }
+
+                        @media (max-width: 380px) {
+                            .cta-content {
+                                flex-direction: column;
+                                text-align: center;
+                                align-items: center;
+                            }
+
+                            .cta-action {
+                                flex-direction: column;
+                                gap: 0.75rem;
+                            }
+
+                            .systemdesign-arrow {
+                                width: 46px;
+                                height: 46px;
+                            }
+                        }
+                    </style>
+
+
+                </div>
         </section>
 
         <footer>

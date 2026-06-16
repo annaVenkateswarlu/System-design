@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Patterns - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .pattern-hero {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(249, 115, 22, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.22);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pattern-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .pattern-card h2,
+        .pattern-card h3 {
+            margin-top: 0;
+        }
+
+        .pattern-card p,
+        .pattern-card li {
+            color: var(--color-text-secondary);
+            line-height: 1.85;
+            font-size: 1.125rem;
+        }
+
+        .pattern-card p {
+            margin: 0 0 1rem 0;
+        }
+
+        .pattern-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pattern-list {
+            margin: 1rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+
+        .pattern-list li {
+            margin-bottom: 0.1rem;
+        }
+
+        .pattern-impact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .pattern-impact-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            min-height: 100%;
+        }
+
+        .pattern-impact-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .pattern-impact-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .pattern-impact-card--bad {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.06) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.24);
+        }
+
+        .pattern-impact-card--good {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(52, 211, 153, 0.06) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.24);
+        }
+
+        .pattern-impact-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            color: var(--color-text);
+            margin: 0 0 1rem 0;
+        }
+
+        .pattern-impact-heading h3 {
+            margin: 0;
+        }
+
+        .pattern-impact-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            color: white;
+            font-weight: 800;
+        }
+
+        .pattern-impact-card--bad .pattern-impact-badge {
+            background: #ef4444;
+        }
+
+        .pattern-impact-card--good .pattern-impact-badge {
+            background: #10b981;
+        }
+
+        .pattern-impact-list {
+            display: grid;
+            gap: 0.75rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .pattern-impact-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            margin: 0;
+            padding: 0.8rem 0.9rem;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.65);
+        }
+
+        .pattern-impact-list span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 50%;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-top: 0.15rem;
+        }
+
+        .pattern-impact-card--bad .pattern-impact-list span {
+            background: #ef4444;
+        }
+
+        .pattern-impact-card--good .pattern-impact-list span {
+            background: #10b981;
+        }
+
+        .pattern-code-line {
+            display: block;
+            width: fit-content;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 0.7rem 0.85rem;
+            border-radius: var(--radius-md);
+            background: #1e1e2e;
+            color: #d4d4d4;
+            font-family: monospace;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .pattern-types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .pattern-type {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(249, 115, 22, 0.18);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+        }
+
+        .pattern-type h3 {
+            margin-bottom: 0.65rem;
+            color: var(--color-text);
+        }
+
+        .pattern-next-cta {
+            margin-top: 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .pattern-next-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.1) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.4);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .pattern-next-card a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 2rem 2.5rem;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+
+        .pattern-next-card a:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .pattern-next-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pattern-next-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .pattern-next-arrow {
+            background: #10b981;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .pattern-bottom-links {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .pattern-bottom-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .pattern-bottom-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        @media (max-width: 768px) {
+
+            /* Main containers */
+            .pattern-hero,
+            .pattern-card {
+                padding: 1.25rem;
+                margin: 1.25rem 0;
+            }
+
+            /* Typography */
+            .pattern-card p,
+            .pattern-card li {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .pattern-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .pattern-card h3 {
+                font-size: 1.2rem;
+            }
+
+            /* Stack grids */
+            .pattern-impact-grid,
+            .pattern-types-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            /* Impact cards */
+            .pattern-impact-card {
+                padding: 1.25rem;
+            }
+
+            .pattern-impact-heading {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .pattern-impact-heading h3 {
+                font-size: 1.1rem;
+            }
+
+            .pattern-impact-list li {
+                padding: 0.75rem;
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            /* Code blocks */
+            .pattern-code-line {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                white-space: nowrap;
+                font-size: 0.9rem;
+                padding: 0.75rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Next topic card */
+            .pattern-next-card a {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+
+            .pattern-next-content {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .pattern-next-badge {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+
+            .pattern-next-arrow {
+                width: 42px;
+                height: 42px;
+                font-size: 1.2rem;
+            }
+
+            /* Bottom navigation */
+            .pattern-bottom-links {
+                flex-direction: column;
+            }
+
+            .pattern-bottom-link {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client-Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Design Patterns</h1>
+                <p>Reusable solutions for common software design problems</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Design Patterns</span>
+                </nav>
+
+                <div class="pattern-hero">
+                    <h2 style="margin-top: 0;">What Are Design Patterns?</h2>
+                    <p>
+                        A <strong>design pattern</strong> is a <strong>reusable solution</strong> to a commonly
+                        occurring problem in <strong>software design</strong>.
+                    </p>
+                    <p>
+                        It is <strong>not a finished piece of code</strong> you can copy-paste. It is more like a
+                        <strong>template</strong> or <strong>blueprint</strong> that describes how to solve a problem in
+                        a way that can be adapted to many different situations.
+                    </p>
+                    <p>
+                        Think of them as <strong>best practices</strong> collected from experienced software engineers.
+                    </p>
+                </div>
+
+                <div class="pattern-card">
+                    <h2>Why Design Patterns?</h2>
+                    <p>
+                        Design patterns give common design problems a <strong>shared structure</strong>, so the code is
+                        easier to understand, extend, and discuss with other developers.
+                    </p>
+                    <div class="pattern-impact-grid">
+                        <div class="pattern-impact-card pattern-impact-card--bad">
+                            <div class="pattern-impact-heading">
+                                <h3>Without Design Patterns</h3>
+                                <span class="pattern-impact-badge">!</span>
+                            </div>
+                            <ul class="pattern-impact-list">
+                                <li><span>!</span>Code becomes <strong>tightly coupled</strong>.</li>
+                                <li><span>!</span>Features become <strong>difficult to extend</strong>.</li>
+                                <li><span>!</span>Code becomes <strong>hard to maintain</strong>.</li>
+                                <li><span>!</span><strong>Repeated code</strong> appears everywhere.</li>
+                            </ul>
+                        </div>
+                        <div class="pattern-impact-card pattern-impact-card--good">
+                            <div class="pattern-impact-heading">
+                                <h3>With Design Patterns</h3>
+                                <span class="pattern-impact-badge">✓</span>
+                            </div>
+                            <ul class="pattern-impact-list">
+                                <li><span>✓</span><strong>Better code organization</strong>.</li>
+                                <li><span>✓</span><strong>Easier maintenance</strong>.</li>
+                                <li><span>✓</span><strong>Reusable solutions</strong>.</li>
+                                <li><span>✓</span><strong>Improved communication</strong> among developers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-card">
+                    <h2>Example</h2>
+                    <p><strong>Instead of saying:</strong></p>
+                    <code
+                        class="pattern-code-line">"I created an object that ensures only one instance exists globally."</code>
+
+                    <p style="margin-top: 1.5rem;"><strong>You can simply say:</strong></p>
+                    <code class="pattern-code-line">"I used the Singleton Pattern."</code>
+
+                    <p style="margin-top: 1.5rem;">
+                        Everyone immediately understands the design because <strong>Singleton Pattern</strong>
+                        communicates
+                        the intent clearly.
+                    </p>
+                </div>
+
+                <div class="pattern-card">
+                    <h2>Types of Design Patterns</h2>
+                    <p>
+                        There are <strong>23 GoF (Gang of Four) Design Patterns</strong> divided into
+                        <strong>3 categories</strong>.
+                    </p>
+
+                    <div class="pattern-types-grid">
+                        <div class="pattern-type">
+                            <h3>1. Creational Patterns</h3>
+                            <p>Deal with <strong>object creation</strong>.</p>
+                        </div>
+                        <div class="pattern-type">
+                            <h3>2. Structural Patterns</h3>
+                            <p>Deal with <strong>relationships between classes and objects</strong>.</p>
+                        </div>
+                        <div class="pattern-type">
+                            <h3>3. Behavioral Patterns</h3>
+                            <p>Deal with <strong>communication between objects</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pattern-next-cta">
+                    <div class="pattern-next-card">
+                        <a href="LLD_Creational_Patterns.html">
+                            <div class="pattern-next-content">
+                                <div class="pattern-next-badge">+</div>
+                                <div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500;">
+                                        Continue Learning
+                                    </div>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">
+                                        Creational Patterns
+                                    </div>
+                                    <div
+                                        style="font-size: 0.95rem; color: var(--color-text-secondary); margin-top: 0.5rem;">
+                                        Learn how design patterns help create objects flexibly.
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1rem; color: #10b981; font-weight: 600;">Next Topic</span>
+                                <div class="pattern-next-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="pattern-bottom-links">
+                        <a class="pattern-bottom-link" href="LLD_State_Diagram.html">
+                            <span>←</span>
+                            <span>Back to State Diagram</span>
+                        </a>
+                        <a class="pattern-bottom-link" href="LLD_Creational_Patterns.html">
+                            <span>Next: Creational Patterns</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Design Patterns', 'success');
+        });
+    </script>
+</body>
+
+</html>

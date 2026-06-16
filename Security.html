@@ -127,7 +127,7 @@
                     style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin: 2rem 0 3rem 0;">
                     <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1.5rem;">📚 Quick Navigation
                     </h3>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="usage-grid">
                         <div>
                             <ol
                                 style="color: var(--color-text-secondary); line-height: 2.2; margin: 1; padding-left: 1.5rem;">
@@ -663,7 +663,7 @@
                 </div>
 
                 <!-- Interview Tip -->
-                <div style="margin-top: 3rem;">
+                <div style="margin-top: 3rem; margin-bottom: 3rem;">
                     <h3 style="color: var(--color-primary); font-size: 1.5rem; margin-bottom: 1.5rem;">🔥 Pro tip
                         (Interview)</h3>
 
@@ -680,17 +680,255 @@
                     </div>
                 </div>
 
-            </div>
-        </section>
+                <!-- Next Topic CTA -->
+                <div class="next-topic-card">
 
-        <!-- Next Topic CTA -->
-        <section class="next-topic-cta">
-            <div class="container">
-                <a href="index.html" class="next-topic-link">
-                    <span class="next-topic-text">Back to Home</span>
-                    <span class="next-topic-arrow">←</span>
-                    <span class="next-topic-title">🏠 Home</span>
-                </a>
+                    <div class="cta-container">
+
+                        <a href="Interview_Tips.html" class="cta-link">
+
+                            <div class="cta-content">
+
+                                <div class="topic-icon">
+                                    💡
+                                </div>
+
+                                <div>
+                                    <div class="topic-label">
+                                        Continue Learning
+                                    </div>
+
+                                    <div class="topic-title">
+                                        Interview Tips
+                                    </div>
+
+                                    <div class="topic-description">
+                                        Learn practical system design interview Tips.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="cta-action">
+
+                                <span class="cta-action-text">
+                                    Next Topic
+                                </span>
+
+                                <div class="cta-arrow">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="navigation-footer">
+
+                        <a href="Observability.html" class="nav-btn">
+                            <span>←</span>
+                            <span>📊 Observability</span>
+                        </a>
+
+                        <a href="Interview_Tips.html" class="nav-btn">
+                            <span>Next: Interview Tips</span>
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <style>
+                    .next-topic-card {
+                        margin-top: 0;
+                        padding: 1.5rem 0;
+                        border-top: 1px solid var(--glass-border);
+                    }
+
+                    .cta-container {
+                        background: linear-gradient(135deg,
+                                rgba(245, 158, 11, 0.15) 0%,
+                                rgba(251, 191, 36, 0.10) 100%);
+                        border-radius: var(--radius-xl);
+                        border: 2px solid rgba(245, 158, 11, 0.4);
+                        overflow: hidden;
+                        box-shadow: 0 10px 40px rgba(245, 158, 11, 0.2);
+                    }
+
+                    .cta-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        transition: all 0.3s ease;
+                    }
+
+                    .cta-link:hover {
+                        background: rgba(245, 158, 11, 0.08);
+                    }
+
+                    .cta-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .topic-icon {
+                        width: 70px;
+                        height: 70px;
+                        flex-shrink: 0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+                        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+                    }
+
+                    .topic-title {
+                        font-size: clamp(1.2rem, 2vw, 1.6rem);
+                        font-weight: 700;
+                        color: #f59e0b;
+                        line-height: 1.3;
+                    }
+
+                    .topic-label {
+                        font-size: 0.9rem;
+                        color: var(--color-text-secondary);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        margin-bottom: 0.4rem;
+                    }
+
+                    .topic-description {
+                        margin-top: 0.5rem;
+                        color: var(--color-text-secondary);
+                        line-height: 1.6;
+                        font-size: clamp(0.85rem, 1.5vw, 1rem);
+                    }
+
+                    .cta-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .cta-action-text {
+                        color: #f59e0b;
+                        font-weight: 600;
+                        white-space: nowrap;
+                    }
+
+                    .cta-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        background: #f59e0b;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+                    }
+
+                    .navigation-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 2rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .nav-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.85rem 1.25rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        background: var(--glass-bg);
+                        border: 1px solid var(--glass-border);
+                        border-radius: var(--radius-md);
+                        transition: all 0.3s ease;
+                    }
+
+                    .nav-btn:hover {
+                        background: rgba(245, 158, 11, 0.08);
+                    }
+
+                    @media (max-width: 900px) {
+                        .cta-link {
+                            flex-direction: column;
+                            align-items: stretch;
+                            gap: 1.5rem;
+                        }
+
+                        .cta-action {
+                            justify-content: space-between;
+                            width: 100%;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+                        .next-topic-card {
+                            padding: 1rem 0;
+                        }
+
+                        .cta-link {
+                            padding: 1.25rem;
+                        }
+
+                        .cta-content {
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .topic-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .navigation-footer {
+                            flex-direction: column;
+                        }
+
+                        .nav-btn {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    @media (max-width: 380px) {
+                        .cta-content {
+                            flex-direction: column;
+                            text-align: center;
+                            align-items: center;
+                        }
+
+                        .cta-action {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+
+                        .cta-arrow {
+                            width: 46px;
+                            height: 46px;
+                        }
+                    }
+                </style>
             </div>
         </section>
 

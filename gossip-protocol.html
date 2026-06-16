@@ -240,7 +240,7 @@
                     <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">Without gossip protocol in large clusters:</p>
 
                     <ul
-                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem;">
+                        style="background: rgba(239, 68, 68, 0.05); padding: 1.5rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444; color: var(--color-text-secondary); line-height: 2.2; margin-left: 0; margin-bottom: 2rem; padding-left:2.5rem;">
                         <li>🔴 <strong>Nodes don't know who is alive</strong> in the cluster</li>
                         <li>🔴 <strong>Hard to detect failures</strong> quickly and reliably</li>
                         <li>🔴 <strong>Slow consistency</strong> across the cluster</li>
@@ -484,18 +484,260 @@
                             log(N) rounds)</li>
                     </ul>
                 </div>
+                <!-- Next Topic CTA -->
 
-            </div>
-        </section>
+                <div class="next-topic-card">
 
-        <!-- Next Topic CTA -->
-        <section class="next-topic-cta">
-            <div class="container">
-                <a href="idempotent.html" class="next-topic-link">
-                    <span class="next-topic-text">Next Topic</span>
-                    <span class="next-topic-arrow">→</span>
-                    <span class="next-topic-title">🔁 Idempotency</span>
-                </a>
+                    <div class="cta-container replication-cta">
+
+                        <a href="replication.html" class="cta-link">
+
+                            <div class="cta-content">
+
+                                <div class="topic-icon replication-icon">
+                                    🎭
+                                </div>
+
+                                <div>
+                                    <div class="topic-label">
+                                        Continue Learning
+                                    </div>
+
+                                    <div class="topic-title replication-title">
+                                        Replication
+                                    </div>
+
+                                    <div class="topic-description">
+                                        Learn how distributed systems duplicate data across multiple nodes to improve
+                                        availability, reliability, and fault tolerance.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="cta-action">
+
+                                <span class="cta-action-text replication-text">
+                                    Next Topic
+                                </span>
+
+                                <div class="cta-arrow replication-arrow">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="navigation-footer">
+
+                        <a href="consistent-hashing.html" class="nav-btn">
+                            <span>←</span>
+                            <span>🔄 Consistent Hashing</span>
+                        </a>
+
+                        <a href="replication.html" class="nav-btn">
+                            <span>Next: Replication</span>
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <style>
+                    .next-topic-card {
+                        margin-top: 0;
+                        padding: 1.5rem 0;
+                        border-top: 1px solid var(--glass-border);
+                    }
+
+                    .replication-cta {
+                        background: linear-gradient(135deg,
+                                rgba(37, 99, 235, 0.15) 0%,
+                                rgba(6, 182, 212, 0.10) 100%);
+                        border-radius: var(--radius-xl);
+                        border: 2px solid rgba(37, 99, 235, 0.4);
+                        overflow: hidden;
+                        box-shadow: 0 10px 40px rgba(37, 99, 235, 0.2);
+                    }
+
+                    .cta-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        transition: all 0.3s ease;
+                    }
+
+                    .cta-link:hover {
+                        background: rgba(37, 99, 235, 0.08);
+                    }
+
+                    .cta-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .replication-icon {
+                        width: 70px;
+                        height: 70px;
+                        flex-shrink: 0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+                        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+                    }
+
+                    .topic-label {
+                        font-size: 0.9rem;
+                        color: var(--color-text-secondary);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        margin-bottom: 0.4rem;
+                        font-weight: 500;
+                    }
+
+                    .replication-title {
+                        font-size: clamp(1.2rem, 2vw, 1.6rem);
+                        font-weight: 700;
+                        color: #2563eb;
+                        line-height: 1.3;
+                    }
+
+                    .topic-description {
+                        margin-top: 0.5rem;
+                        color: var(--color-text-secondary);
+                        line-height: 1.6;
+                        font-size: clamp(0.85rem, 1.5vw, 1rem);
+                    }
+
+                    .cta-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .replication-text {
+                        color: #2563eb;
+                        font-weight: 600;
+                        white-space: nowrap;
+                    }
+
+                    .replication-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        background: #2563eb;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+                    }
+
+                    .navigation-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 2rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .nav-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.85rem 1.25rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        background: var(--glass-bg);
+                        border: 1px solid var(--glass-border);
+                        border-radius: var(--radius-md);
+                        transition: all 0.3s ease;
+                    }
+
+                    .nav-btn:hover {
+                        background: rgba(37, 99, 235, 0.08);
+                    }
+
+                    @media (max-width: 900px) {
+                        .cta-link {
+                            flex-direction: column;
+                            align-items: stretch;
+                            gap: 1.5rem;
+                        }
+
+                        .cta-action {
+                            justify-content: space-between;
+                            width: 100%;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+                        .next-topic-card {
+                            padding: 1rem 0;
+                        }
+
+                        .cta-link {
+                            padding: 1.25rem;
+                        }
+
+                        .cta-content {
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .replication-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .navigation-footer {
+                            flex-direction: column;
+                        }
+
+                        .nav-btn {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    @media (max-width: 380px) {
+                        .cta-content {
+                            flex-direction: column;
+                            text-align: center;
+                            align-items: center;
+                        }
+
+                        .cta-action {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+
+                        .replication-arrow {
+                            width: 46px;
+                            height: 46px;
+                        }
+                    }
+                </style>
+
             </div>
         </section>
 
