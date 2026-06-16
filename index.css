@@ -1221,6 +1221,7 @@ button,
 /* ===================================
    Toast Notifications
    =================================== */
+
 .toast {
     position: fixed;
     top: var(--space-xl);
@@ -2210,33 +2211,51 @@ a:focus-visible {
     padding-bottom: 2px;
 }
 
+/* Tooltip Box */
+
 .tooltip-trigger:hover::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 125%;
+    bottom: 130%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--color-primary);
+
+    background: var(--color-primary);
     color: white;
-    padding: 0.5rem 0.75rem;
+
+    padding: 0.75rem 1rem;
     border-radius: var(--radius-sm);
+
     font-size: 0.85rem;
     font-weight: var(--font-weight-medium);
-    white-space: nowrap;
+    line-height: 1.5;
+
+    min-width: 120px;
+    max-width: 280px;
+
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    text-align: center;
+
     z-index: 1000;
     box-shadow: var(--shadow-lg);
     pointer-events: none;
+
     animation: tooltipFadeIn 0.2s ease-in;
 }
 
+/* Arrow */
 .tooltip-trigger:hover::before {
     content: '';
     position: absolute;
-    bottom: 115%;
+    bottom: 118%;
     left: 50%;
     transform: translateX(-50%);
+
     border: 6px solid transparent;
     border-top-color: var(--color-primary);
+
     z-index: 1000;
     pointer-events: none;
 }
@@ -2253,12 +2272,24 @@ a:focus-visible {
     }
 }
 
-/* Mobile tooltip adjustments */
+/* Mobile */
 @media (max-width: 768px) {
-    .tooltip-trigger:hover::after {
-        white-space: normal;
-        max-width: 200px;
-        overflow-wrap: break-word;
+
+    .tooltip-trigger:hover::after,
+    .tooltip-trigger:focus::after,
+    .tooltip-trigger:active::after {
+        max-width: min(240px, calc(100vw - 32px));
+        font-size: 0.8rem;
+        padding: 0.65rem 0.85rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .tooltip-trigger:hover::before,
+    .tooltip-trigger:focus::before,
+    .tooltip-trigger:active::before {
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 

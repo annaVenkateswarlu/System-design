@@ -390,7 +390,7 @@ const welcomeMessages = [
 document.addEventListener('DOMContentLoaded', () => {
     // Load default topic after a short delay
     setTimeout(() => {
-        loadTopic('scalability');
+        loadTopic('Welcome to Home');
     }, 500);
 
     // Show random welcome message
