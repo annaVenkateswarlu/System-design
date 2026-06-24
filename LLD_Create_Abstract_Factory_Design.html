@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstract Factory Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Abstract Factory Design Pattern</h1>
+                <p>Creational Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Abstract Factory Design Pattern</span>
+                </nav>
+
+                <!-- Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Abstract Factory Design Pattern</h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Abstract
+                            Factory
+                            Pattern</strong> is a <strong>Creational Design Pattern</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It states:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Provide an interface for creating families of related objects without specifying
+                                their
+                                concrete classes.</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🧠 First Understand the Problem</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose you are building a
+                        <strong>UI framework</strong>.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Platform supports :</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Windows UI</strong></li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Mac UI</strong></li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For each platform you need:
+                    </p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Button</strong></li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Checkbox</strong></li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>For Windows:</strong><br>
+                            Windows Button<br>
+                            Windows Checkbox
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>For Mac:</strong><br>
+                            Mac Button<br>
+                            Mac Checkbox
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            These are <strong>related products</strong>. ( The products must belong to the same family.
+                            )
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bad Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">2. Bad Code</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A beginner writes:</p>
+
+                    <h3 style="margin-bottom: 1rem;">Button</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WindowsButton</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+<span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Windows Button"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MacButton</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+<span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Mac Button"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Checkbox</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WindowsCheckbox</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+<span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Windows Checkbox"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MacCheckbox</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+<span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Mac Checkbox"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Client code :</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">os</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"WINDOWS"</span><span style="color: #ffd700;">;</span>
+
+        <span style="color: #4ec9b0;">Button</span> <span style="color: #9cdcfe;">button</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #9cdcfe;">checkbox</span><span style="color: #ffd700;">;</span>
+
+        <span style="color: #c586c0;">if</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">os</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">equals</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"WINDOWS"</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">button</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WindowsButton</span><span style="color: #ffd700;">();</span>
+            <span style="color: #9cdcfe;">checkbox</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WindowsCheckbox</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span> 
+        <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">button</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MacButton</span><span style="color: #ffd700;">();</span>
+            <span style="color: #9cdcfe;">checkbox</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MacCheckbox</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #9cdcfe;">button</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">checkbox</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Output :</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">Windows Button</span>
+<span style="color: #ce9178;">Windows Checkbox</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Issues -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🚨 Issues in Bad code :</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <h4
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>1. Violation of Open/Closed Principle</strong>
+                        </h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Suppose adding new Platform "<strong>Linux</strong>"<br>
+                            Every new platform or component forces you to modify existing code. You cannot extend the
+                            system
+                            without editing files that already work.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            So Need modifications in many places.
+                        </p>
+                        <h4
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>2. Tight coupling to concrete classes</strong>
+                        </h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            The client knows all concrete classes:<br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">new WindowsButton()</code><br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">new WindowsCheckbox()</code><br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">new MacButton()</code><br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">new MacCheckbox()</code>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            So the client is tightly coupled to every implementation.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <h4
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>3. Easy To Mix Families</strong>
+                        </h4>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>By mistake:</strong><br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">Button button = new WindowsButton();</code><br>
+                            <code
+                                style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 0.3rem;">Checkbox checkbox = new MacCheckbox();</code>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Now:</strong><br>
+                            Windows Button<br>
+                            Mac Checkbox
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Now you've mixed two different families so Which results <strong>Invalid UI
+                                combination</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">✅ Solution</h2>
+
+                    <h3 style="margin-bottom: 1rem;">3️⃣ Abstract Factory Solution</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Create an entire family
+                        together.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-family: monospace;">
+                            WindowsFactory<br>
+                            &nbsp;&nbsp;&nbsp;├── WindowsButton<br>
+                            &nbsp;&nbsp;&nbsp;└── WindowsCheckbox<br>
+                            <br>
+                            MacFactory<br>
+                            &nbsp;&nbsp;&nbsp;├── MacButton<br>
+                            &nbsp;&nbsp;&nbsp;└── MacCheckbox
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">So Client chooses the
+                        factory.</p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Factory creates the
+                        matching family.</p>
+                </div>
+
+                <!-- Complete Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Complete Code</h2>
+
+                    <h3 style="margin-bottom: 1rem;">Step 1: Product Interfaces</h3>
+                    <br>
+                    <h4 style="margin-bottom: 0.5rem;">Button</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 0.5rem;">Checkbox</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Step 2: Windows Products</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WindowsButton</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Windows Button"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WindowsCheckbox</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Windows Checkbox"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Step 3: Mac Products</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MacButton</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Mac Button"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MacCheckbox</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Mac Checkbox"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Step 4: Abstract Factory</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">UIFactory</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #4ec9b0;">Button</span> <span style="color: #dcdcaa;">createButton</span><span style="color: #ffd700;">();</span>
+   <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #dcdcaa;">createCheckbox</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Step 5: Concrete Factories</h3>
+
+                    <h4 style="margin-bottom: 0.5rem;">Windows Factory</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WindowsFactory</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">UIFactory</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #dcdcaa;">createButton</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WindowsButton</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #dcdcaa;">createCheckbox</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WindowsCheckbox</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 0.5rem;">Mac Factory</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MacFactory</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">UIFactory</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Button</span> <span style="color: #dcdcaa;">createButton</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MacButton</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #dcdcaa;">createCheckbox</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MacCheckbox</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Step 6: Client</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">os</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getProperty</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"os.name"</span><span style="color: #ffd700;">);</span>
+
+       <span style="color: #4ec9b0;">UIFactory</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">;</span>
+       <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">os</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">contains</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Windows"</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">factory</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WindowsFactory</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">factory</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MacFactory</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+
+       <span style="color: #4ec9b0;">Button</span> <span style="color: #9cdcfe;">button</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">createButton</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">Checkbox</span> <span style="color: #9cdcfe;">checkbox</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">createCheckbox</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #9cdcfe;">button</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">checkbox</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">render</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Output (on Windows)</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">Windows Button</span>
+<span style="color: #ce9178;">Windows Checkbox</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Output (on macOS)</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">Mac Button</span> 
+<span style="color: #ce9178;">Mac Checkbox</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- How It Solves Problem -->
+                <div style="margin-bottom:0; padding:1rem 0;">
+
+                    <h2 style="margin-bottom:1.5rem;">
+                        6. How It Solves Problem
+                    </h2>
+
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
+
+                        <!-- Card 1 -->
+
+                        <div
+                            style="background:linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(52,211,153,0.08) 100% ); padding:clamp(1.25rem,3vw,2rem); border-radius:var(--radius-lg); border:1px solid rgba(16,185,129,0.3);">
+
+                            <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+                                <strong>1. Centralized Object Creation</strong>
+                            </p>
+                            <div
+                                style="background:rgba(255,255,255,0.7); border-radius:12px; padding:1rem; margin-bottom:1rem;">
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+
+                                    <strong>Before</strong><br>
+                                    Client decides:<br>
+
+                                    <code
+                                        style="display:inline-block; margin-top:0.5rem; background:rgba(255,255,255,0.9); padding:0.35rem 0.6rem; border-radius:6px;">
+                        new WindowsButton();
+                    </code>
+
+                                    <br>
+
+                                    <code
+                                        style="display:inline-block; margin-top:0.5rem; background:rgba(255,255,255,0.9); padding:0.35rem 0.6rem; border-radius:6px;">
+                        new WindowsCheckbox();
+                    </code>
+                                </p>
+                            </div>
+
+                            <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+                                Client manages everything.
+                            </p>
+
+                            <div
+                                style="background:rgba(255,255,255,0.7); border-radius:12px; padding:1rem; margin-bottom:1rem;">
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+
+                                    <strong>After</strong><br>
+                                    Client decides only Factory:<br>
+
+                                    <code
+                                        style=" display:inline-block; margin-top:0.5rem; background:rgba(255,255,255,0.9); padding:0.35rem 0.6rem; border-radius:6px;">
+                        GUIFactory factory = new WindowsFactory();
+                    </code>
+                                </p>
+
+                            </div>
+
+                            <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+                                Factory handles all related products.
+                            </p>
+
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div
+                            style="background:linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(52,211,153,0.08) 100% ); padding:clamp(1.25rem,3vw,2rem); border-radius:var(--radius-lg); border:1px solid rgba(16,185,129,0.3);">
+
+                            <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+                                <strong>2. Family Consistency Guaranteed</strong>
+                            </p>
+
+                            <div
+                                style="background:rgba(255,255,255,0.7); border-radius:12px; padding:1rem; margin-bottom:1rem; line-height:1.8; color:var(--color-text-secondary);">
+
+                                <strong>Windows Factory always returns:</strong><br>
+                                WindowsButton<br>
+                                WindowsCheckbox
+
+                            </div>
+
+                            <div
+                                style="background:rgba(255,255,255,0.7); border-radius:12px; padding:1rem; margin-bottom:1rem; line-height:1.8; color:var(--color-text-secondary);">
+
+                                <strong>Mac Factory always returns:</strong><br>
+                                MacButton<br>
+                                MacCheckbox
+
+                            </div>
+
+                            <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+                                Resulting No mixing of UI.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom:0; padding:1rem 0;">
+
+                    <h2 style="margin-bottom:1.5rem;">
+                        4️⃣ When To Use
+                    </h2>
+
+                    <p style="line-height:1.8; margin-bottom:1.5rem; font-size:1.125rem;">
+                        Use Abstract Factory when:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg,rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100% ); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+
+                        <h3
+                            style="margin-top:0; margin-bottom:1.5rem; color:#059669; font-size:clamp(1.15rem,2vw,1.5rem);">
+                            ✅ When To Use Abstract Factory
+                        </h3>
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem;">
+
+                            <!-- Card 1 -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(16,185,129,0.15); border-radius:12px; padding:clamp(1rem,2vw,1.25rem);">
+
+                                <h4
+                                    style="margin-top:0; margin-bottom:0.75rem; color:#059669; font-size:clamp(1rem,1.8vw,1.2rem); line-height:1.5;">
+                                    🏭 When Multiple Products Come In Families Use Abstract Factory Pattern
+                                </h4>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+                                    Related products belong to the same family.
+                                </p>
+
+                                <div
+                                    style="background:rgba(16,185,129,0.06); border-radius:10px; padding:1rem; line-height:1.8; color:var(--color-text-secondary);">
+
+                                    • Windows UI Components<br>
+                                    • Mac UI Components<br>
+                                    • Linux UI Components
+
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(16,185,129,0.15); border-radius:12px; padding:clamp(1rem,2vw,1.25rem);">
+
+                                <h4
+                                    style="margin-top:0; margin-bottom:0.75rem; color:#059669; font-size:clamp(1rem,1.8vw,1.2rem); line-height:1.5;">
+                                    🎨 Product Family Changes At Runtime
+                                </h4>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+                                    The entire family of related objects can be switched dynamically.
+                                </p>
+
+                                <div
+                                    style="background:rgba(16,185,129,0.06); border-radius:10px; padding:1rem; line-height:1.8; color:var(--color-text-secondary);">
+
+                                    • Dark Theme Factory<br>
+                                    • Light Theme Factory
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- When NOT To Use -->
+                <div style="margin-bottom:0; padding:1rem 0;">
+                    <h2 style="margin-bottom:1.5rem;">5️⃣ When NOT To Use</h2>
+
+                    <p style="line-height:1.8; margin-bottom:1.5rem; font-size:1.125rem;">
+                        Don't use Abstract Factory when:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient( 135deg, rgba(239,68,68,0.12) 0%, rgba(248,113,113,0.08) 100% ); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(239,68,68,0.3); margin: 2rem 0;">
+
+                        <h3
+                            style="margin-top:0; margin-bottom:1.5rem; color:#dc2626; font-size:clamp(1.15rem, 2vw, 1.5rem);">
+                            ❌ When NOT To Use Abstract Factory
+                        </h3>
+
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem;">
+
+                            <!-- Card 1 -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(239,68,68,0.15); border-radius:12px; padding:1.25rem;">
+
+                                <h4 style="margin-top:0; margin-bottom:0.75rem; color:#dc2626;">
+                                    1️⃣ Only One Product Exists
+                                </h4>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+                                    Use the normal <strong>Factory Pattern</strong>.
+                                </p>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(239,68,68,0.15); border-radius:12px; padding:1.25rem;">
+
+                                <h4 style="margin-top:0; margin-bottom:0.75rem; color:#dc2626;">
+                                    2️⃣ Small Applications
+                                </h4>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin:0;">
+                                    Abstract Factory introduces multiple factories and product
+                                    classes, which can become
+                                    <strong>over-engineering</strong>
+                                    for simple applications.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real World Usage -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">6️⃣ Real World Usage</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>GUI Toolkits</strong><br>
+                            Most UI frameworks internally use Abstract Factory concepts.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Database Drivers</strong><br>
+                            Different database providers create families of related objects.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Cloud SDKs</strong><br>
+                            AWS, Azure, GCP clients.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Spring</strong><br>
+                            Bean families and environment-specific configurations often resemble Abstract Factory ideas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Simple Meaning -->
+                <div style="margin-bottom:0; padding:1rem 0;">
+                    <h2 style="margin-bottom:1.5rem;">🧠 Simple Meaning</h2>
+
+                    <div
+                        style="background: linear-gradient( 135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100% ); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+
+                        <div
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.25rem;">
+
+                            <!-- Factory Pattern -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(245,158,11,0.2); border-radius:12px; padding:1.25rem;">
+
+                                <h3
+                                    style="margin-top:0; margin-bottom:1rem; color:#d97706; font-size:clamp(1.1rem,2vw,1.35rem);">
+                                    🏭 Factory Pattern
+                                </h3>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+
+                                    Creates <strong>one type of object</strong>.
+                                </p>
+
+                                <div
+                                    style="background:rgba(0,0,0,0.05); border-radius:10px; padding:1rem; font-family:monospace; line-height:1.8; color:var(--color-text-secondary); overflow-x:auto;">
+
+                                    PaymentFactory<br>
+                                    ↓<br>
+                                    UPI Payment<br>
+                                    Card Payment
+
+                                </div>
+
+                            </div>
+
+                            <!-- Abstract Factory Pattern -->
+                            <div
+                                style="background:rgba(255,255,255,0.8); border:1px solid rgba(245,158,11,0.2); border-radius:12px; padding:1.25rem;">
+
+                                <h3
+                                    style="margin-top:0; margin-bottom:1rem; color:#d97706; font-size:clamp(1.1rem,2vw,1.35rem);">
+                                    🏢 Abstract Factory Pattern
+                                </h3>
+
+                                <p style="color:var(--color-text-secondary); line-height:1.8; margin-bottom:1rem;">
+
+                                    Creates <strong>multiple related objects together</strong>.
+                                </p>
+
+                                <div
+                                    style="background:rgba(0,0,0,0.05); border-radius:10px; padding:1rem; font-family:monospace; line-height:1.8; color:var(--color-text-secondary); overflow-x:auto;">
+
+                                    Windows Factory<br>
+                                    ├─ Windows Button<br>
+                                    └─ Windows Checkbox<br><br>
+
+                                    Mac Factory<br>
+                                    ├─ Mac Button<br>
+                                    └─ Mac Checkbox
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Factory vs Abstract Factory -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Factory vs Abstract Factory</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">This is the most important
+                        interview question.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0; overflow-x: auto;">
+
+                        <table
+                            style="width: 100%; border-collapse: collapse; min-width: 600px; color: var(--color-text-secondary);">
+
+                            <thead>
+                                <tr>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-text); border-bottom: 2px solid rgba(139, 92, 246, 0.3);">
+                                        Factory Method
+                                    </th>
+                                    <th
+                                        style="padding: 1rem; text-align: left; color: var(--color-text); border-bottom: 2px solid rgba(139, 92, 246, 0.3);">
+                                        Abstract Factory
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Creates one product
+                                    </td>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Creates multiple related products
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        One factory method
+                                    </td>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Multiple factory methods
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Returns one object
+                                    </td>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Returns a family of objects
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        Simpler
+                                    </td>
+                                    <td style="padding: 1rem; border-bottom: 1px solid rgba(139, 92, 246, 0.15);">
+                                        More complex
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 1rem;">
+                                        Example: PaymentFactory
+                                    </td>
+                                    <td style="padding: 1rem;">
+                                        Example: GUIFactory
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Abstract Factory
+                                    Design
+                                    Pattern :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/abstract-factory-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Creational Differences Link -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">📚 Understand the Differences Between Creational Patterns</h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(244, 114, 182, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Check out this comparison guide to understand their differences, use cases, and when each
+                            pattern should be applied.
+                        <div style="margin-top: 1.5rem;">
+                            <a href="LLD_Creational_diff.html" target="_blank"
+                                style=" display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1.4rem; background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white; text-decoration: none; font-weight: 600; border-radius: 12px; box-shadow: 0 6px 18px rgba(236, 72, 153, 0.3);">
+                                📖 View Creational Pattern Comparison →
+                            </a>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Abstract Factory Pattern</strong> is a <strong>Creational Design Pattern</strong>
+                            that provides an interface for creating families of related objects without exposing their
+                            concrete implementations. It solves the problem of creating compatible product families
+                            (such as Windows UI components, Mac UI components, or AWS services) while keeping client
+                            code independent of concrete classes. The client interacts only with abstract factories and
+                            abstract products, making the system flexible, extensible, and compliant with OCP and DIP.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Use Abstract Factory when you need to create multiple related objects that belong to the
+                            same family, such as Windows UI components, Mac UI components, or cloud-provider-specific
+                            services.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Pink/Purple Theme -->
+                <style>
+                    .pattern-cta-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        transition: all 0.3s ease;
+                    }
+
+                    .pattern-cta-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .pattern-cta-icon {
+                        width: 70px;
+                        height: 70px;
+                        flex-shrink: 0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+                        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+                    }
+
+                    .pattern-cta-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .pattern-cta-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        background: #ec4899;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+                    }
+
+                    .pattern-nav-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 2rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .pattern-nav-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.75rem 1.5rem;
+                        background: var(--glass-bg);
+                        border-radius: var(--radius-md);
+                        text-decoration: none;
+                        color: var(--color-text);
+                        border: 1px solid var(--glass-border);
+                        transition: all 0.3s ease;
+                    }
+
+                    @media (max-width: 900px) {
+
+                        .pattern-cta-link {
+                            flex-direction: column;
+                            align-items: stretch;
+                            gap: 1.5rem;
+                        }
+
+                        .pattern-cta-action {
+                            width: 100%;
+                            justify-content: space-between;
+                        }
+
+                        .pattern-nav-footer {
+                            flex-direction: column;
+                        }
+
+                        .pattern-nav-btn {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+
+                        .pattern-cta-link {
+                            padding: 1.25rem;
+                        }
+
+                        .pattern-cta-content {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .pattern-cta-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .pattern-cta-arrow {
+                            width: 46px;
+                            height: 46px;
+                            font-size: 1.25rem;
+                        }
+                    }
+
+                    @media (max-width: 400px) {
+
+                        .pattern-cta-content {
+                            align-items: center;
+                            text-align: center;
+                        }
+
+                        .pattern-cta-action {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+                    }
+                </style>
+
+                <div style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(168, 85, 247, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(236, 72, 153, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(236, 72, 153, 0.2);">
+
+                        <a href="LLD_Structural_Adapter_Design.html" class="pattern-cta-link">
+
+                            <div class="pattern-cta-content">
+
+                                <div class="pattern-cta-icon">
+                                    🧩
+                                </div>
+
+                                <div>
+                                    <div
+                                        style="font-size: 0.9rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem;">
+                                        Continue Learning
+                                    </div>
+
+                                    <div
+                                        style="font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; color: #ec4899; line-height: 1.3;">
+                                        Adapter Design Pattern
+                                    </div>
+
+                                    <div
+                                        style="margin-top: 0.5rem; color: var(--color-text-secondary); line-height: 1.6; font-size: clamp(0.85rem, 1.5vw, 1rem);">
+                                        Learn how the Adapter pattern allows incompatible interfaces to work together
+                                        without modifying their existing code.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="pattern-cta-action">
+
+                                <span style="color: #ec4899; font-weight: 600; white-space: nowrap;">
+                                    Next Topic
+                                </span>
+
+                                <div class="pattern-cta-arrow">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="pattern-nav-footer">
+                        <a href="LLD_Create_Prototype_Design.html" class="pattern-nav-btn">
+                            <span>←</span>
+                            <span>Back to Prototype Pattern</span>
+                        </a>
+
+                        <a href="LLD_Structural_Adapter_Design.html" class="pattern-nav-btn">
+                            <span>Next: Adapter Pattern</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Abstract Factory Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

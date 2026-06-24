@@ -86,34 +86,7 @@ function ensureSidebarTopicLinks() {
     if (!list) return;
 
     const requiredTopics = [
-        {
-            href: 'Stateless_VS_StatefulArchitecture.html',
-            text: '🧠 Stateless vs Stateful Architecture'
-        },
-        {
-            href: 'Partitioning_VS_Sharding.html',
-            text: '🧩 Partitioning vs Sharding'
-        },
-        {
-            href: 'Fault_Tolerance.html',
-            text: '🛡️ Fault Tolerance'
-        },
-        {
-            href: 'Polling.html',
-            text: '🔄 Polling'
-        },
-        {
-            href: 'API_Architecture_Styles.html',
-            text: '🌐 API Architecture Styles'
-        },
-        {
-            href: 'Service_Mesh.html',
-            text: '🕸️ Service Mesh'
-        },
-        {
-            href: 'Service_Discovery.html',
-            text: '🔎 Service Discovery'
-        }
+
     ];
 
     const existingHrefs = new Set(
@@ -836,41 +809,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-// ===================================
-// Copy Code Function
-// ===================================
-function copyCode(button) {
-    // Find the code block - navigate up to the container and find pre code
-    const container = button.closest('div[style*="background: #1e1e2e"]');
-    if (!container) {
-        console.error('Could not find code container');
-        return;
-    }
+    // ===================================
+    // Copy Code Function
+    // ===================================
+    function copyCode(button) {
+        // Find the code block - navigate up to the container and find pre code
+        const container = button.closest('div[style*="background: #1e1e2e"]');
+        if (!container) {
+            console.error('Could not find code container');
+            return;
+        }
 
-    const codeBlock = container.querySelector('pre code');
-    if (!codeBlock) {
-        console.error('Could not find code block');
-        return;
-    }
+        const codeBlock = container.querySelector('pre code');
+        if (!codeBlock) {
+            console.error('Could not find code block');
+            return;
+        }
 
-    const textToCopy = codeBlock.textContent;
-    
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        const originalText = button.innerHTML;
-        button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-        button.style.background = 'rgba(16, 185, 129, 0.3)';
-        
-        setTimeout(() => {
-            button.innerHTML = originalText;
-            button.style.background = 'rgba(255,255,255,0.1)';
-        }, 2000);
-        
-        showToast('Code copied to clipboard!', 'success');
-    }).catch(err => {
-        console.error('Failed to copy code:', err);
-        showToast('Failed to copy code', 'error');
-    });
-}
+        const textToCopy = codeBlock.textContent;
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = 'rgba(255,255,255,0.1)';
+            }, 2000);
+
+            showToast('Code copied to clipboard!', 'success');
+        }).catch(err => {
+            console.error('Failed to copy code:', err);
+            showToast('Failed to copy code', 'error');
+        });
+    }
 
     // Add smooth scroll animation to all internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

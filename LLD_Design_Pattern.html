@@ -202,6 +202,106 @@
             color: var(--color-text);
         }
 
+        .pattern-comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .pattern-comparison-table th,
+        .pattern-comparison-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .pattern-comparison-table th {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .pattern-comparison-table td {
+            color: var(--color-text-secondary);
+        }
+
+        .pattern-comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pattern-analogy-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pattern-analogy-step {
+            margin-bottom: 1.5rem;
+        }
+
+        .pattern-analogy-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .pattern-analogy-step h4 {
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .pattern-analogy-step p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .pattern-analogy-step ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+
+        .pattern-analogy-step li {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.25rem;
+        }
+
+        .pattern-analogy-questions {
+            background: rgba(255, 255, 255, 0.6);
+            border-left: 3px solid rgba(139, 92, 246, 0.5);
+            padding: 1rem;
+            margin-top: 0.75rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        .pattern-analogy-questions strong {
+            color: var(--color-text);
+        }
+
+        .pattern-summary-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pattern-summary-box p {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .pattern-summary-box strong {
+            color: #10b981;
+        }
+
         .pattern-next-cta {
             margin-top: 0;
             padding: 1.5rem 0;
@@ -317,6 +417,36 @@
             .pattern-types-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+            }
+
+            /* Comparison table */
+            .pattern-comparison-table {
+                font-size: 0.9rem;
+            }
+
+            .pattern-comparison-table th,
+            .pattern-comparison-table td {
+                padding: 0.75rem;
+            }
+
+            /* Analogy section */
+            .pattern-analogy-section {
+                padding: 1.25rem;
+            }
+
+            .pattern-analogy-step h4 {
+                font-size: 1rem;
+            }
+
+            .pattern-analogy-questions {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            /* Summary box */
+            .pattern-summary-box {
+                padding: 1.25rem;
+                font-size: 0.95rem;
             }
 
             /* Impact cards */
@@ -573,17 +703,119 @@
 
                     <div class="pattern-types-grid">
                         <div class="pattern-type">
-                            <h3>1. Creational Patterns</h3>
+                            <h4>1. Creational Patterns</h4>
                             <p>Deal with <strong>object creation</strong>.</p>
                         </div>
                         <div class="pattern-type">
-                            <h3>2. Structural Patterns</h3>
+                            <h4>2. Structural Patterns</h4>
                             <p>Deal with <strong>relationships between classes and objects</strong>.</p>
                         </div>
                         <div class="pattern-type">
-                            <h3>3. Behavioral Patterns</h3>
+                            <h4>3. Behavioral Patterns</h4>
                             <p>Deal with <strong>communication between objects</strong>.</p>
                         </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Comparison</h3>
+                    <table class="pattern-comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Question Answered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Creational</strong></td>
+                                <td>How do I create objects?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Structural</strong></td>
+                                <td>How do I connect and organize objects?</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Behavioral</strong></td>
+                                <td>How do objects communicate and behave?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3 style="margin-top: 2rem;">🏗️ Simple Analogy</h3>
+                    <p>Imagine building a house.</p>
+
+                    <div class="pattern-analogy-section">
+                        <div class="pattern-analogy-step">
+                            <h4>Step 1: Creational Patterns</h4>
+                            <p>First create things:</p>
+                            <ul>
+                                <li>Door</li>
+                                <li>Window</li>
+                                <li>Chair</li>
+                                <li>Table</li>
+                            </ul>
+                            <div class="pattern-analogy-questions">
+                                <strong>Questions:</strong><br>
+                                How many objects?<br>
+                                Which object?<br>
+                                Complex object?<br>
+                                Copy object?
+                            </div>
+                            <p style="margin-top: 0.75rem;"><strong>This is Creational.</strong></p>
+                        </div>
+
+                        <div class="pattern-analogy-step">
+                            <h4>Step 2: Structural Patterns</h4>
+                            <p>Now connect them:</p>
+                            <div class="pattern-analogy-questions">
+                                <strong>House</strong><br>
+                                ├── Doors<br>
+                                ├── Windows<br>
+                                └── Rooms
+                            </div>
+                            <div class="pattern-analogy-questions">
+                                <strong>Questions:</strong><br>
+                                How do objects work together?<br>
+                                How do we organize them?<br>
+                                How do we add functionality?<br>
+                                Can we simplify them?<br>
+                                Can incompatible systems work together?
+                            </div>
+                            <p style="margin-top: 0.75rem;"><strong>This is Structural.</strong></p>
+                        </div>
+
+                        <div class="pattern-analogy-step">
+                            <h4>Step 3: Behavioral Patterns</h4>
+                            <p>Now objects start talking:</p>
+                            <p>Now the house is built.<br>People start living in it.</p>
+                            <ul>
+                                <li>Owner</li>
+                                <li>Family</li>
+                                <li>Guests</li>
+                                <li>Security</li>
+                                <li>Electric System</li>
+                            </ul>
+                            <div class="pattern-analogy-questions">
+                                <strong>Questions:</strong><br>
+                                How do objects communicate?<br>
+                                How do objects collaborate?<br>
+                                How does behavior change?<br>
+                                How are requests handled?
+                            </div>
+                            <p style="margin-top: 0.75rem;"><strong>This is Behavioral.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="pattern-summary-box">
+                        <p>
+                            <strong>One-Line Summary:</strong><br> Creational Patterns create objects, Structural
+                            Patterns
+                            organize objects, and Behavioral Patterns define how objects interact.
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            <strong>Creational Design Pattern</strong> → Object Creation<br>
+                            <strong>Structural Design Pattern</strong> → Object Relationships<br>
+                            <strong>Behavioral Design Pattern</strong> → Object Communication
+                        </p>
                     </div>
                 </div>
 

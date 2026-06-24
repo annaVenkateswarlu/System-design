@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creational Design Patterns - Comparison</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .creational-hero {
+            background: linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.12) 0%,
+                    rgba(16, 185, 129, 0.12) 50%,
+                    rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.24);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .creational-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem 4rem;
+            margin: 2rem 0;
+        }
+
+        .creational-card h2,
+        .creational-card h3 {
+            margin-top: 0;
+        }
+
+        .creational-patterns-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .creational-pattern-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-radius: var(--radius-lg);
+            padding: 1.35rem;
+        }
+
+        .creational-pattern-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0;
+            color: var(--color-text);
+        }
+
+        .creational-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 3.2rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, 0.12);
+            color: #2563eb;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .creational-block {
+            border-left: 4px solid rgba(59, 130, 246, 0.55);
+            padding-left: 1rem;
+            margin: 0.5rem;
+        }
+
+        .creational-block strong {
+            color: var(--color-text);
+        }
+
+        .creational-label {
+            display: block;
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        .creational-card p,
+        .creational-pattern-card p,
+        .creational-card li {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .creational-code-line {
+            overflow-x: auto;
+            white-space: pre;
+            margin-top: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            background: #1e1e2e;
+            color: #d4d4d4;
+            font-family: monospace;
+            line-height: 1.7;
+            display: block;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .creational-code-line code {
+            font-family: inherit;
+        }
+
+        .creational-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .creational-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        .creational-table th,
+        .creational-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        .creational-table th {
+            color: var(--color-primary);
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .creational-table td {
+            color: var(--color-text-secondary);
+        }
+
+        .creational-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .creational-bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+
+        .creational-bottom-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text);
+            border: 1px solid var(--glass-border);
+        }
+
+        .creational-bottom-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        @media (max-width: 768px) {
+
+            .creational-hero,
+            .creational-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .creational-pattern-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .creational-hero,
+            .creational-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .creational-pattern-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .creational-card {
+                padding: 1.25rem;
+            }
+
+            .creational-pattern-card {
+                width: 100%;
+            }
+
+            .creational-card ul,
+            .creational-pattern-card ul {
+                padding-left: 1.25rem !important;
+            }
+
+            .creational-card li,
+            .creational-pattern-card li {
+                word-break: break-word;
+            }
+
+            .creational-code-line {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+            }
+        }
+
+        .sidebar-heading {
+            padding: 0.9rem 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            color: #3b82f6;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Creational Design Patterns</h1>
+                <p>Quick Comparison & Reference</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Creational Patterns</span>
+                </nav>
+
+                <div class="creational-hero">
+                    <h2 style="margin-top: 0;">🚀 Creational Design Patterns</h2>
+                    <p>
+                        The purpose of all <strong>Creational Design Patterns</strong> is : <strong
+                            style="text-decoration:underline;">To control and
+                            simplify object creation.</strong>
+                    </p>
+                    <p>
+                        But each pattern solves a <strong>different problem</strong>.
+                    </p>
+                </div>
+
+                <div class="creational-card">
+                    <h2>🚀 Creational Design Patterns - Quick Comparison</h2>
+                    <div class="creational-table-wrap">
+                        <table class="creational-table">
+                            <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Purpose</th>
+                                    <th>Creates How?</th>
+                                    <th>Best Use Case</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Singleton</strong></td>
+                                    <td>Ensure only one object exists</td>
+                                    <td>Reuses the same instance</td>
+                                    <td>Logger, Config Manager, Cache Manager</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Factory</strong></td>
+                                    <td>Hide object creation logic</td>
+                                    <td>Creates one object based on input</td>
+                                    <td>Payment Gateway, Notification Service</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Builder</strong></td>
+                                    <td>Construct complex objects step-by-step</td>
+                                    <td>Builds object incrementally</td>
+                                    <td>User, Employee, House with many optional fields</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Prototype</strong></td>
+                                    <td>Create objects by copying existing objects</td>
+                                    <td>Cloning</td>
+                                    <td>Expensive object creation, Templates</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Abstract Factory</strong></td>
+                                    <td>Create families of related objects</td>
+                                    <td>Factory creates multiple related objects</td>
+                                    <td>UI Components, Furniture Families</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="creational-patterns-grid">
+
+                    <article class="creational-pattern-card">
+                        <h2 class="creational-pattern-title">
+                            <span>1️⃣ Singleton</span>
+                            <span class="creational-badge">S</span>
+                        </h2>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Problem</span>
+                            <p>Multiple objects are being created unnecessarily.</p>
+
+                            <pre class="creational-code-line"><code>Logger logger1 = new Logger();
+Logger logger2 = new Logger();
+Logger logger3 = new Logger();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Solution</span>
+                            <p>Allow only one object in the entire application.</p>
+
+                            <pre class="creational-code-line"><code>Logger logger = Logger.getInstance();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Real World Example</span>
+                            <ul style="padding-left:2rem;">
+                                <li>Logger</li>
+                                <li>Configuration Manager</li>
+                                <li>Cache Manager</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="creational-pattern-card">
+                        <h2 class="creational-pattern-title">
+                            <span>2️⃣ Factory Pattern</span>
+                            <span class="creational-badge">F</span>
+                        </h2>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Problem</span>
+                            <p>Client doesn't know which implementation to create.</p>
+
+                            <pre class="creational-code-line"><code>if(type.equals("UPI"))
+    return new UpiPayment();
+
+if(type.equals("CARD"))
+    return new CardPayment();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Solution</span>
+                            <p>Factory decides which object to create.</p>
+
+                            <pre
+                                class="creational-code-line"><code>Payment payment = PaymentFactory.getPayment(type);</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Real World Example</span>
+                            <ul style="padding-left:2rem;">
+                                <li>Payment Methods</li>
+                                <li>Notification Systems</li>
+                                <li>Vehicle Creation</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="creational-pattern-card">
+                        <h2 class="creational-pattern-title">
+                            <span>3️⃣ Builder Pattern</span>
+                            <span class="creational-badge">B</span>
+                        </h2>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Problem</span>
+                            <p>Object has many parameters and constructors become messy.</p>
+
+                            <pre class="creational-code-line"><code>Student student = new Student(
+    "Anna",
+    22,
+    "CSE",
+    "A",
+    "Hyderabad",
+    "9876543210"
+);</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Solution</span>
+                            <p>Build object step-by-step.</p>
+
+                            <pre class="creational-code-line"><code>Student student =
+    new Student.Builder()
+        .name("Anna")
+        .age(22)
+        .branch("CSE")
+        .build();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Real World Example</span>
+                            <ul style="padding-left:2rem;">
+                                <li>Student</li>
+                                <li>Employee</li>
+                                <li>HTTP Request</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="creational-pattern-card">
+                        <h2 class="creational-pattern-title">
+                            <span>4️⃣ Prototype Pattern</span>
+                            <span class="creational-badge">P</span>
+                        </h2>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Problem</span>
+                            <p>Creating objects is expensive or repetitive.</p>
+
+                            <pre class="creational-code-line"><code>Soldier soldier = new Soldier();
+
+// Creating thousands of soldiers is slow.</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Solution</span>
+                            <p>Clone an existing object.</p>
+
+                            <pre class="creational-code-line"><code>Soldier copy = original.clone();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Real World Example</span>
+                            <ul style="padding-left:2rem;">
+                                <li>Game Characters</li>
+                                <li>PowerPoint Duplicate Slide</li>
+                                <li>Figma Duplicate Frame</li>
+                                <li>Document Templates</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="creational-pattern-card">
+                        <h2 class="creational-pattern-title">
+                            <span>5️⃣ Abstract Factory Pattern</span>
+                            <span class="creational-badge">AF</span>
+                        </h2>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Problem</span>
+                            <p>Need to create multiple related objects together.</p>
+
+                            <pre class="creational-code-line"><code>WindowsButton
+WindowsCheckbox
+
+or
+
+MacButton
+MacCheckbox
+
+Need them together.</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Solution</span>
+                            <p>Factory creates an entire family of objects.</p>
+
+                            <pre class="creational-code-line"><code>GUIFactory factory = new WindowsFactory();
+
+Button button = factory.createButton();
+
+Checkbox checkbox = factory.createCheckbox();</code></pre>
+                        </div>
+
+                        <div class="creational-block">
+                            <span class="creational-label">Real World Example</span>
+                            <ul style="padding-left:2rem;">
+                                <li>Windows UI Components</li>
+                                <li>Mac UI Components</li>
+                                <br>
+                                <li>AWS Services</li>
+                                <li>Azure Services</li>
+                                <br>
+                                <li>MySQL Family</li>
+                                <li>Oracle Family</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                </div>
+
+
+                <div class="creational-bottom-nav">
+                    <a href="LLD_Create_Abstract_Factory_Design.html" class="creational-bottom-link">
+                        <span>←</span>
+                        <span>Back to Abstract Factory Design Pattern</span>
+                    </a>
+                    <a href="LLD.html" class="creational-bottom-link">
+                        <span>Back to LLD</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 System Design Notes. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Creational Design Patterns Quick Revision', 'success');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .builder-hero {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.22);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .builder-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 255, 240, 0.88) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .builder-card h2,
+        .builder-card h3,
+        .builder-card h4 {
+            margin-top: 0;
+        }
+
+        .builder-card p,
+        .builder-card li {
+            color: var(--color-text-secondary);
+            line-height: 1.85;
+            font-size: 1.125rem;
+        }
+
+        .builder-card p {
+            margin: 0 0 1rem 0;
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .builder-point {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.1rem;
+        }
+
+        .builder-point strong {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: var(--color-text);
+        }
+
+        .builder-inline-code {
+            display: inline-block;
+            padding: 0.08rem 0.45rem;
+            border-radius: 0.35rem;
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--color-primary-dark);
+            font-family: monospace;
+            font-size: 0.95em;
+        }
+
+        .builder-code-card {
+            background: #1e1e2e;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border);
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .builder-code-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .builder-code-label {
+            color: #9cdcfe;
+            font-size: 0.9rem;
+        }
+
+        .builder-copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #d4d4d4;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .builder-copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .builder-code-card pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            line-height: 1.5;
+            font-size: 0.98rem;
+        }
+
+        .builder-code-card code {
+            display: block;
+        }
+
+        .builder-callout {
+            padding: 1.75rem 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid transparent;
+        }
+
+        .builder-callout p,
+        .builder-card p,
+        .builder-card li,
+        .builder-callout li {
+            line-height: 1.85;
+        }
+
+        .builder-callout--info {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .builder-callout--warn {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .builder-callout--bad {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .builder-callout--good {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .builder-callout--purple {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .builder-list {
+            color: var(--color-text-secondary);
+            margin: 0;
+            padding-left: 1.5rem;
+            font-size: 1.125rem;
+            line-height: 1.85;
+        }
+
+        .builder-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .builder-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .builder-benefit {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.1rem;
+        }
+
+        .builder-benefit strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--color-text);
+        }
+
+
+        .practice-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(34, 197, 94, 0.12) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.12);
+        }
+
+        .practice-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .practice-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .practice-text {
+            flex: 1;
+        }
+
+        .practice-description {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin: 0 0 1rem 0;
+            font-size: 1.125rem;
+        }
+
+        .practice-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .practice-btn:hover {
+            background: rgba(59, 130, 246, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .navigation-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.25rem;
+            text-decoration: none;
+            color: var(--color-text);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        @media (max-width: 768px) {
+
+            .builder-hero,
+            .builder-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .builder-grid,
+            .pattern-impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .practice-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Builder Design Pattern</h1>
+                <p>Creational Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Bulider Design Pattern</span>
+                </nav>
+
+                <div class="builder-hero">
+                    <h2>🔷 Builder Design Pattern</h2>
+                    <p>
+                        The <strong>Builder Pattern</strong> is a <strong>Creational Design Pattern</strong>.
+                    </p>
+                    <p>
+                        It states:
+                    </p>
+                    <p>
+                        <strong>Construct a complex object step-by-step instead of using a large constructor with many
+                            parameters.</strong>
+                    </p>
+                    <div class="builder-callout builder-callout--info">
+                        <p>
+                            <strong>Simply:</strong> When an object has many optional fields, use a
+                            <strong>Builder</strong>
+                            to create it cleanly and readably.
+                        </p>
+                    </div>
+                    <p style="margin-top: 1rem">
+                        It's particularly useful in situations where:
+                    </p>
+                    <ul class="builder-list" style="margin:0.5rem;">
+                        <li>An object has many optional fields, and most callers only need a subset.</li>
+                        <li>You want to avoid telescoping constructors or long parameter lists.</li>
+                        <li>The object must be assembled through multiple steps, possibly in a specific order.</li>
+                    </ul>
+                    <div class="builder-callout builder-callout--info" style="margin-top: 1rem">
+                        <p>
+                            Without a builder, developers often end up with overloaded constructors or a wide set of
+                            setters. For example, a <strong>User</strong> object might include fields like
+                            <strong>name</strong>, <strong>email</strong>, <strong>phone</strong>,
+                            <strong>address</strong>,
+                            and <strong>preferences</strong>.
+                        </p>
+                        <p>
+                            As the number of fields grows, the API becomes harder to use correctly, easier to misuse,
+                            and
+                            more difficult to maintain.
+                        </p>
+                        <p>
+                            The <strong>Builder Pattern</strong> addresses this by introducing a dedicated builder that
+                            owns the creation logic. Clients configure the builder step by step and then build the final
+                            object, which can remain immutable, validated, and consistently constructed.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>1️⃣ The Problem: Building Complex HttpRequest Objects</h2>
+                    <p>
+                        Imagine you're building a system that needs to configure and create HTTP requests.
+                    </p>
+                    <p>
+                        Each <strong>HttpRequest</strong> can contain a mix of required and optional fields:
+                    </p>
+                    <ul class="builder-list">
+                        <li><strong>URL</strong> (required)</li>
+                        <li><strong>HTTP Method</strong> (e.g., GET, POST, PUT, defaults to GET)</li>
+                        <li><strong>Headers</strong> (optional, multiple key-value pairs)</li>
+                        <li><strong>Query Parameters</strong> (optional, multiple key-value pairs)</li>
+                        <li><strong>Request Body</strong> (optional, typically for POST/PUT)</li>
+                        <li><strong>Timeout</strong> (optional, default to 30 seconds)</li>
+                    </ul>
+                    <p>
+                        At first glance, it seems manageable. But as the number of optional fields increases, so does
+                        the
+                        complexity of object construction.
+                    </p>
+                </div>
+
+                <div class="builder-card">
+                    <h2>2️⃣ The Naive Approach: Telescoping Constructors</h2>
+                    <p>
+                        A common approach is constructor overloading, often called the <strong>telescoping constructor
+                            anti-pattern</strong>. You define multiple constructors with increasing numbers of
+                        parameters:
+                    </p>
+                    <div class="builder-code-card">
+                        <div class="builder-code-header">
+                            <span class="builder-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"GET"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #569cd6;">null</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span> <span style="color: #569cd6;">null</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span>
+                                  <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">,</span> <span style="color: #569cd6;">null</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span>
+                                  <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">30000</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">,</span>
+                                  <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">url</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">headers</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">headers</span> <span style="color: #ffd700;">==</span> <span style="color: #569cd6;">null</span> <span style="color: #ffd700;">?</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;()</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">queryParams</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">queryParams</span> <span style="color: #ffd700;">==</span> <span style="color: #569cd6;">null</span> <span style="color: #ffd700;">?</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;()</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">body</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">timeout</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span>
+
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"HttpRequest Created: URL="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">url</span> <span style="color: #ffd700;">+</span>
+            <span style="color: #ce9178;">", Method="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">+</span>
+            <span style="color: #ce9178;">", Headers="</span> <span style="color: #ffd700;">+</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">size</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span>
+            <span style="color: #ce9178;">", Params="</span> <span style="color: #ffd700;">+</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">size</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span>
+            <span style="color: #ce9178;">", Body="</span> <span style="color: #ffd700;">+</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">body</span> <span style="color: #ffd700;">!=</span> <span style="color: #569cd6;">null</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">+</span>
+            <span style="color: #ce9178;">", Timeout="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #6a9955;">// Getters could be added here</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <p>
+                        <strong>Example Client Code</strong>
+                    </p>
+                    <div class="builder-code-card">
+                        <div class="builder-code-header">
+                            <span class="builder-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">HttpAppTelescoping</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">HttpRequestTelescoping</span> <span style="color: #9cdcfe;">req1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"https://api.example.com/data"</span><span style="color: #ffd700;">);</span>
+
+
+        <span style="color: #4ec9b0;">HttpRequestTelescoping</span> <span style="color: #9cdcfe;">req2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span>
+            <span style="color: #ce9178;">"https://api.example.com/submit"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #ce9178;">"POST"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #569cd6;">null</span><span style="color: #ffd700;">,</span>
+            <span style="color: #569cd6;">null</span><span style="color: #ffd700;">,</span>
+            <span style="color: #ce9178;">"{\"key\":\"value\"}"</span>
+        <span style="color: #ffd700;">);</span>
+
+
+        <span style="color: #4ec9b0;">HttpRequestTelescoping</span> <span style="color: #9cdcfe;">req3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequestTelescoping</span><span style="color: #ffd700;">(</span>
+            <span style="color: #ce9178;">"https://api.example.com/config"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #ce9178;">"PUT"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">of</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"X-API-Key"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"secret"</span><span style="color: #ffd700;">),</span>
+            <span style="color: #569cd6;">null</span><span style="color: #ffd700;">,</span>
+            <span style="color: #ce9178;">"config_data"</span><span style="color: #ffd700;">,</span>
+            <span style="color: #b5cea8;">5000</span>
+        <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <h3>What's Wrong with This Approach?</h3>
+                    <div class="builder-callout builder-callout--bad" style="margin:1rem;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            <strong>1. Hard to Read and Write</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0 0 1rem 0; font-size: 1.125rem;">
+                            Multiple parameters of the same type (e.g., String, Map) make it easy to accidentally swap
+                            arguments. Code is difficult to understand at a glance, especially when most parameters are
+                            null.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--bad" style="margin:1rem;">
+                        <p>
+                            <strong>2. Error-Prone</strong>
+                        </p>
+                        <p>
+                            Clients must pass null for optional parameters they do not want to set, increasing the risk
+                            of
+                            bugs.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--bad" style="margin:1rem;">
+                        <p>
+                            <strong>3. Poor Scalability</strong>
+                        </p>
+                        <p>
+                            Adding a new optional parameter requires adding or changing constructors, which may break
+                            existing code. Testing and documentation become increasingly difficult to maintain.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>3️⃣ What is the Builder Pattern</h2>
+                    <p>
+                        The <strong>Builder pattern</strong> separates the construction of a complex object from its
+                        representation, allowing the same construction process to create different configurations.
+                    </p>
+                    <p>
+                        Two ideas define the pattern:
+                    </p>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>Step-by-step construction:</strong> Instead of passing everything to a constructor
+                            at
+                            once, you set each field through individual method calls. You only call the methods for the
+                            fields you need.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>Fluent interface:</strong> Each setter method returns the builder itself, allowing
+                            you
+                            to chain calls into a single readable expression that ends with <strong>build()</strong>.
+                        </p>
+                    </div>
+                    <h2 style="margin-top:2rem;">
+                        Complete code :
+                    </h2>
+                    <h3>Step 1: Create the Product (HttpRequest) and Builder</h3>
+                    <p>
+                        We start by creating the <strong>HttpRequest</strong> class, the product we want to build. It
+                        has
+                        multiple fields (some required, some optional), and its constructor will be private, forcing
+                        clients to construct it via the builder.
+                    </p>
+                    <p>
+                        The builder class will be defined as a static nested class within <strong>HttpRequest</strong>,
+                        and the constructor will accept an instance of that builder to initialize the fields.
+                    </p>
+                    <div class=" builder-code-card">
+                        <div class="builder-code-header">
+                            <span class="builder-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HttpRequest</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #6a9955;">// Required</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #6a9955;">// Optional</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span>
+
+
+    <span style="color: #6a9955;">// Private constructor - only the Builder can call this</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">HttpRequest</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Builder</span> <span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">url</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">headers</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">Collections</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">unmodifiableMap</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;(</span><span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">));</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">queryParams</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">Collections</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">unmodifiableMap</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;(</span><span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">));</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">body</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">timeout</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">builder</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getUrl</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getMethod</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #dcdcaa;">getHeaders</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #dcdcaa;">getQueryParams</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getBody</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getTimeout</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #c586c0;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">toString</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"HttpRequest{url='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">url</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"', method='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">+</span>
+               <span style="color: #ce9178;">"', headers="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">headers</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", queryParams="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">queryParams</span> <span style="color: #ffd700;">+</span>
+               <span style="color: #ce9178;">", body='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">body</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"', timeout="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">timeout</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"}"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+
+    <span style="color: #6a9955;">// Static nested Builder class</span>
+    <span style="color: #c586c0;">public static class</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">private final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span> <span style="color: #6a9955;">// required</span>
+        <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"GET"</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">headers</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;();</span>
+        <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">queryParams</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;();</span>
+        <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">timeout</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">30000</span><span style="color: #ffd700;">;</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">url</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">url</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #dcdcaa;">method</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">method</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">method</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #dcdcaa;">addHeader</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">headers</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">put</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #dcdcaa;">addQueryParam</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">queryParams</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">put</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">value</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #dcdcaa;">body</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">body</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">body</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Builder</span> <span style="color: #dcdcaa;">timeout</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">timeout</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">timeout</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+
+        <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HttpRequest</span> <span style="color: #dcdcaa;">build</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequest</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <h3>Step 2: Client code</h3>
+                    <div class="builder-code-card">
+                        <div class="builder-code-header">
+                            <span class="builder-code-label">Java</span>
+                            <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre><code><span style="color: #c586c0;">public class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #6a9955;">// Simple GET request - just the URL</span>
+        <span style="color: #4ec9b0;">HttpRequest</span> <span style="color: #9cdcfe;">get</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequest</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">Builder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"https://api.example.com/users"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">build</span><span style="color: #ffd700;">();</span>
+
+
+        <span style="color: #6a9955;">// POST with body and custom timeout</span>
+        <span style="color: #4ec9b0;">HttpRequest</span> <span style="color: #9cdcfe;">post</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequest</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">Builder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"https://api.example.com/users"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">method</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"POST"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addHeader</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Content-Type"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"application/json"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">body</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"{\"name\":\"Alice\",\"email\":\"alice@example.com\"}"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">timeout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">5000</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">build</span><span style="color: #ffd700;">();</span>
+
+
+        <span style="color: #6a9955;">// Authenticated PUT with query parameters</span>
+        <span style="color: #4ec9b0;">HttpRequest</span> <span style="color: #9cdcfe;">put</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HttpRequest</span><span style="color: #ffd700;">.</span><span style="color: #4ec9b0;">Builder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"https://api.example.com/config"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">method</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"PUT"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addHeader</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Authorization"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Bearer token123"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addHeader</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Content-Type"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"application/json"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addQueryParam</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"env"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"production"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addQueryParam</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"version"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"2"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">body</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"{\"feature_flag\":true}"</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">timeout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">10000</span><span style="color: #ffd700;">)</span>
+                <span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">build</span><span style="color: #ffd700;">();</span>
+
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">get</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">post</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">put</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <h3>What We Achieved</h3>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>1. No telescoping constructors or null arguments.</strong> Each field is set by name
+                            through a dedicated method.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>2. Readable, self-documenting code.</strong> The chain of method calls reads like a
+                            specification of the request.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>3. Immutable products.</strong> Once built, the <strong>HttpRequest</strong> cannot
+                            be
+                            modified. Thread-safe by design.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>4. Easy to extend.</strong> Adding a new optional field means adding one method to
+                            the
+                            Builder. No existing code breaks.
+                        </p>
+                    </div>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            <strong>5. Flexible ordering.</strong> Clients can call builder methods in any order. No
+                            positional coupling.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>4️⃣ When To Use</h2>
+                    <h4>1. Use Builder design pattern when Object has many fields</h4>
+                    <div class="builder-callout builder-callout--info" style="margin:1rem;">
+                        <p>
+                            When an object has many fields, especially optional ones, Builder makes construction clean
+                            and readable.
+                        </p>
+                    </div>
+                    <h4>2. Use Builder design pattern when we have Some fields are optional in class</h4>
+                    <div class="builder-callout builder-callout--good" style="margin:1rem;">
+                        <p>
+                            When some fields are optional and clients only need to set a subset, Builder avoids null
+                            parameters and telescoping constructors.
+                        </p>
+                    </div>
+                    <h4>3. Use when Complex object construction like HTTP Request, Database Configuration, API Request
+                    </h4>
+                    <div class="builder-callout builder-callout--warn" style="margin:1rem;">
+                        <p>
+                            When objects require complex construction with multiple steps, validation, or specific
+                            ordering, Builder provides a clean way to assemble them.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>5️⃣ When NOT To Use</h2>
+                    <h3>1. When we have Small objects</h3>
+                    <div class="builder-callout builder-callout--bad" style="margin:1rem;">
+                        <div class="builder-code-card">
+                            <div class="builder-code-header">
+                                <span class="builder-code-label">Java</span>
+                                <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                    Copy</button>
+                            </div>
+                            <pre><code><span style="color: #4ec9b0;">Book</span> <span style="color: #9cdcfe;">book</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Book</span><span style="color: #ffd700;">();</span></code></pre>
+                        </div>
+                        <p>
+                            No need for Builder.
+                        </p>
+                    </div>
+                    <h3>2. If we Only have 2-3 parameters in class</h3>
+                    <div class="builder-callout builder-callout--bad" style="margin:1rem;">
+                        <div class="builder-code-card">
+                            <div class="builder-code-header">
+                                <span class="builder-code-label">Java</span>
+                                <button onclick="copyCode(this)" class="builder-copy-btn"><i class="fas fa-copy"></i>
+                                    Copy</button>
+                            </div>
+                            <pre><code><span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">employee</span> <span style="color: #ffd700;">=</span>
+     <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Anna"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">22</span><span style="color: #ffd700;">);</span></code></pre>
+                        </div>
+                        <p>
+                            Builder is unnecessary.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>6️⃣ Practice Exercise</h2>
+                    <div class="practice-card">
+                        <div class="practice-content">
+                            <div class="practice-icon">🚀</div>
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong> Try this hands-on exercise to reinforce your
+                                    understanding of Builder Design Pattern:
+                                </p>
+                                <a href="https://algomaster.io/learn/lld/builder-exercise" target="_blank"
+                                    class="practice-btn">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>🎯 Summary</h2>
+                    <div class="builder-callout builder-callout--good">
+                        <p>
+                            <strong>Builder Pattern</strong> is a <strong>Creational Design Pattern</strong> used to
+                            construct complex objects step-by-step.
+                        </p>
+                        <p>
+                            It solves the problem of large constructors, optional parameters, and unreadable object
+                            creation code.
+                        </p>
+                        <p>
+                            Instead of passing many constructor arguments, a <strong>Builder</strong> provides fluent
+                            methods to set required and optional fields before creating the final object using
+                            <strong>build()</strong>.
+                        </p>
+                        <p>
+                            It is widely used for configuration objects, request objects, immutable classes, and APIs
+                            that require many optional parameters.
+                        </p>
+                        <p>
+                            Use Builder Pattern when an object has many fields, especially optional fields, and creating
+                            it
+                            through constructors becomes difficult and unreadable.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="builder-card">
+                    <h2>🧠 Memory Trick</h2>
+                    <div class="builder-callout builder-callout--purple">
+                        <ul class="builder-list">
+                            <li><strong>Singleton</strong> -> Need ONE object</li>
+                            <li><strong>Factory</strong> -> Need RIGHT object</li>
+                            <li><strong>Builder</strong> -> Need COMPLEX object</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Purple/Indigo Theme -->
+
+                <style>
+                    .next-topic-card {
+                        margin-top: 0;
+                        padding: 1.5rem 0;
+                        border-top: 1px solid var(--glass-border);
+                    }
+
+                    .cta-container {
+                        background: linear-gradient(135deg,
+                                rgba(168, 85, 247, 0.15) 0%,
+                                rgba(99, 102, 241, 0.10) 100%);
+                        border-radius: var(--radius-xl);
+                        border: 2px solid rgba(168, 85, 247, 0.4);
+                        overflow: hidden;
+                        box-shadow: 0 10px 40px rgba(168, 85, 247, 0.2);
+                    }
+
+                    .cta-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        transition: all 0.3s ease;
+                    }
+
+                    .cta-link:hover {
+                        background: rgba(168, 85, 247, 0.08);
+                    }
+
+                    .cta-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .topic-icon {
+                        width: 70px;
+                        height: 70px;
+                        flex-shrink: 0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+                        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+                    }
+
+                    .topic-label {
+                        font-size: 0.9rem;
+                        color: var(--color-text-secondary);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        margin-bottom: 0.4rem;
+                    }
+
+                    .topic-title {
+                        font-size: clamp(1.2rem, 2vw, 1.6rem);
+                        font-weight: 700;
+                        color: #a855f7;
+                        line-height: 1.3;
+                    }
+
+                    .topic-description {
+                        margin-top: 0.5rem;
+                        color: var(--color-text-secondary);
+                        line-height: 1.6;
+                        font-size: clamp(0.85rem, 1.5vw, 1rem);
+                    }
+
+                    .cta-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .cta-action-text {
+                        color: #a855f7;
+                        font-weight: 600;
+                        white-space: nowrap;
+                    }
+
+                    .cta-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        background: #a855f7;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+                    }
+
+                    .navigation-footer {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 2rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .nav-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        padding: 0.85rem 1.25rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                        background: var(--glass-bg);
+                        border: 1px solid var(--glass-border);
+                        border-radius: var(--radius-md);
+                        transition: all 0.3s ease;
+                    }
+
+                    .nav-btn:hover {
+                        background: rgba(168, 85, 247, 0.08);
+                        border-color: rgba(168, 85, 247, 0.25);
+                    }
+
+                    @media (max-width: 900px) {
+                        .cta-link {
+                            flex-direction: column;
+                            align-items: stretch;
+                            gap: 1.5rem;
+                        }
+
+                        .cta-action {
+                            justify-content: space-between;
+                            width: 100%;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+                        .next-topic-card {
+                            padding: 1rem 0;
+                        }
+
+                        .cta-link {
+                            padding: 1.25rem;
+                        }
+
+                        .cta-content {
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .topic-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .navigation-footer {
+                            flex-direction: column;
+                        }
+
+                        .nav-btn {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    @media (max-width: 380px) {
+                        .cta-content {
+                            flex-direction: column;
+                            text-align: center;
+                            align-items: center;
+                        }
+
+                        .cta-action {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+
+                        .cta-arrow {
+                            width: 46px;
+                            height: 46px;
+                        }
+                    }
+                </style>
+
+                <div class="next-topic-card">
+
+                    <div class="cta-container">
+
+                        <a href="LLD_Create_Prototype_Design.html" class="cta-link">
+
+                            <div class="cta-content">
+
+                                <div class="topic-icon">
+                                    🧬
+                                </div>
+
+                                <div>
+                                    <div class="topic-label">
+                                        Continue Learning
+                                    </div>
+
+                                    <div class="topic-title">
+                                        Prototype Design Pattern
+                                    </div>
+
+                                    <div class="topic-description">
+                                        Learn how the Prototype pattern creates new objects by cloning existing ones
+                                        instead of building them from scratch.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="cta-action">
+
+                                <span class="cta-action-text">
+                                    Next Topic
+                                </span>
+
+                                <div class="cta-arrow">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="navigation-footer">
+
+                        <a href="LLD_Create_Factory_Design.html" class="nav-btn">
+                            <span>←</span>
+                            <span>Back to Factory Pattern</span>
+                        </a>
+
+                        <a href="LLD_Create_Prototype_Design.html" class="nav-btn">
+                            <span>Next: Prototype Pattern</span>
+                            <span>→</span>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Creational Patterns - Builder Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                textarea.remove();
+            }
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Prototype Design Pattern</h1>
+                <p>Creational Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Prototype Design Pattern</span>
+                </nav>
+
+                <!-- Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Prototype Design Pattern</h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Prototype
+                            Pattern</strong> is a <strong>Creational Design Pattern</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It states:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Create new objects by cloning existing objects instead of creating them from
+                                scratch.</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It's particularly useful in
+                        situations where:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">Creating a new object is <strong>expensive</strong>,
+                            <strong>time-consuming</strong>, or <strong>resource-intensive</strong>.
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">You want to avoid duplicating <strong>complex initialization
+                                logic</strong>.</li>
+                        <li style="margin-bottom: 0.5rem;">You need <strong>many similar objects</strong> with only
+                            <strong>slight differences</strong>.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Simple Meaning -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Simple Meaning</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Instead of:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(...);</span>
+<span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(...);</span>
+<span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(...);</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">again and again,</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">we create one object:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">original</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">User</span><span style="color: #ffd700;">(...);</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">and then make copies:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">copy1</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">();</span>
+<span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">copy2</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">();</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">So as cloning object it
+                        solves problem Such as :</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0; padding-bottom:3rem;">
+                        <h2
+                            style="margin:0 0 0.5rem 0; color: var(--color-text); color:#4ec9b0; font-weight:600; margin-bottom:1.5rem;">
+                            Problem Faced :
+                        </h2>
+                        <div
+                            style="background: rgba(255,255,255,0.75); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; border-left: 4px solid #f59e0b;">
+                            <h3 style="margin:0 0 0.5rem 0; color: var(--color-text);">
+                                1️. Repeated Initialization
+                            </h3>
+                            <p style="margin:0; color: var(--color-text-secondary); line-height:1.8;">
+                                The same data and configuration are copied repeatedly whenever a new object is created.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255,255,255,0.75); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1rem; border-left: 4px solid #f59e0b;">
+                            <h3 style="margin:0 0 0.5rem 0; color: var(--color-text);">
+                                2️. Expensive Object Creation
+                            </h3>
+
+                            <p style="margin:0 0 0.75rem 0; color: var(--color-text-secondary); line-height:1.8;">
+                                Imagine object creation involves:
+                            </p>
+
+                            <ul
+                                style="margin:0; padding-left:1.5rem; color: var(--color-text-secondary); line-height:1.8;">
+                                <li><strong>Database Calls</strong></li>
+                                <li><strong>File Reading</strong></li>
+                                <li><strong>Network Requests</strong></li>
+                                <li><strong>Heavy Calculations</strong></li>
+                            </ul>
+
+                            <p style="margin-top:0.75rem; color: var(--color-text-secondary); line-height:1.8;">
+                                Creating objects from scratch every time can be expensive and slow.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255,255,255,0.75); border-radius: 12px; padding: 1rem 1.25rem; border-left: 4px solid #f59e0b;">
+                            <h3 style="margin:0 0 0.5rem 0; color: var(--color-text);">
+                                3️. Duplicate Setup Code
+                            </h3>
+                            <p style="margin:0; color: var(--color-text-secondary); line-height:1.8;">
+                                Initialization code gets repeated in multiple places, making the codebase harder to
+                                maintain.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Core Idea -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Core Idea</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: 1.25rem; text-align: center;">
+                            <strong>Create Once then Clone Many Times</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Shallow vs Deep Copy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem; font-size:1.7rem;">Before going to how to clone : Know difference
+                        between 2
+                        different copies</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>What is Shallow Copy?</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            A shallow copy duplicates the object itself but shares references to any objects it
+                            contains. Primitive fields (int, double, boolean) get copied by value. Reference fields
+                            (lists, maps, other objects) get copied by reference, meaning both the original and the
+                            clone point to the same underlying object.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(244, 114, 182, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>What is Deep Copy?</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            A deep copy duplicates everything: the object, all objects it references, all objects those
+                            reference, and so on recursively. The clone is completely independent.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Prototype_Img1.png" alt="Shallow Copy vs Deep Copy"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                        <img src="Images_LLD/LLD_Prototype_Img2.png" alt="Deep Copy Example"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            In real-world applications, <strong>Deep Copy</strong> is generally preferred for cloning
+                            because the cloned object gets its own independent copy of all nested objects.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top:0.5rem;">
+                            This
+                            allows
+                            us to modify the cloned object according to different requirements without affecting the
+                            original object, ensuring data isolation and preventing unintended side effects.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Implementing Prototype -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5. Implementing Prototype</h2>
+
+                    <h3 style="margin-bottom: 1rem;">Step 1: Define the Prototype Interface</h3>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The interface declares a
+                        single
+                        <strong>clone()</strong> method. Every cloneable object must implement it.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Prototype</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">Prototype</span> <span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Address class :</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Address</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">toString</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Implementing Employee Class using Shallow Copy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Employee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Prototype</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">id</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">address</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Prototype</span> <span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #6a9955;">// SHALLOW COPY</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span>
+                <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">,</span>
+                <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span>
+                <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">address</span>   <span style="color: #6a9955;">// SAME Address object</span>
+        <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">toString</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Employee{"</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"id="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">id</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", name='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">'\''</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", city='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">'\''</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"}"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Main Class</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">original</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span><span style="color: #ce9178;">"Anna"</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Address</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hyderabad"</span><span style="color: #ffd700;">));</span>
+       <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">clone</span> <span style="color: #ffd700;">=</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">();</span>
+      
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Before Change"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">);</span>
+
+       <span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">().</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"Bangalore"</span><span style="color: #ffd700;">;</span>
+
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\nAfter Change"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Output</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">Before Change</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Hyderabad'</span><span style="color: #ffd700;">}</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Hyderabad'</span><span style="color: #ffd700;">}</span>
+
+<span style="color: #ce9178;">After Change</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Bangalore'</span><span style="color: #ffd700;">}</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Bangalore'</span><span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Explanation :</strong> The original , cloned object has same address reference
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem; margin-top: 2rem;">Implementing Employee Class using Deep Copy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Employee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Prototype</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">,</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span><span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">id</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">address</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Address</span> <span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Prototype</span> <span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #6a9955;">// DEEP COPY</span>
+        <span style="color: #4ec9b0;">Address</span> <span style="color: #9cdcfe;">copiedAddress</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Address</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">,</span><span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span><span style="color: #9cdcfe;">copiedAddress</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">toString</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Employee{"</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"id="</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">id</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", name='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">'\''</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", city='"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">address</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">'\''</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"}"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Main Class</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">original</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Anna"</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Address</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hyderabad"</span><span style="color: #ffd700;">));</span>
+       <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">clone</span> <span style="color: #ffd700;">=</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clone</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Before Change"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">);</span>
+
+       <span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getAddress</span><span style="color: #ffd700;">().</span><span style="color: #9cdcfe;">city</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"Bangalore"</span><span style="color: #ffd700;">;</span>
+
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\nAfter Change"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">original</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">clone</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Output</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">Before Change</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Hyderabad'</span><span style="color: #ffd700;">}</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Hyderabad'</span><span style="color: #ffd700;">}</span>
+
+<span style="color: #ce9178;">After Change</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Hyderabad'</span><span style="color: #ffd700;">}</span>
+<span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">{</span><span style="color: #9cdcfe;">id</span><span style="color: #ffd700;">=</span><span style="color: #b5cea8;">101</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Anna'</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">city</span><span style="color: #ffd700;">=</span><span style="color: #ce9178;">'Bangalore'</span><span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Explanation :</strong> The original , cloned object has different address reference
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">7. When To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.75rem;">
+                            ✅ <strong>Object creation is expensive</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.75rem;">
+                            ✅ <strong>Many similar objects needed</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ✅ <strong>Need copies of existing objects</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When NOT To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">8. When NOT To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.75rem;">
+                            ❌ <strong>Object creation is cheap</strong><br>
+                            No need for Prototype.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.75rem;">
+                            ❌ <strong>Object has very little data</strong><br>
+                            Simple constructor is enough.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ❌ <strong>Copying is more complicated than creation</strong><br>
+                            Sometimes cloning becomes harder than simply creating a new object.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real World Examples -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">9. Real World Examples</h2>
+
+                    <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%);
+        padding: 2rem;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        margin: 2rem 0;">
+
+                        <!-- Example 1 -->
+                        <div style="
+            background: rgba(255,255,255,0.75);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;">
+
+                            <h3 style="margin:0 0 0.75rem 0; color: var(--color-text);">
+                                📊 Microsoft PowerPoint
+                            </h3>
+
+                            <p style="margin:0; color: var(--color-text-secondary); line-height:1.8;">
+                                You create a slide and later click
+                                <strong>Duplicate Slide</strong>.
+                                Instead of creating everything from scratch,
+                                PowerPoint creates a copy of the existing slide.
+                            </p>
+
+                            <p style="margin-top:0.75rem; color: var(--color-text-secondary); line-height:1.8;">
+                                This is a real-world example of the
+                                <strong>Prototype Design Pattern</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Example 2 -->
+                        <div style="
+            background: rgba(255,255,255,0.75);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            border-left: 4px solid #3b82f6;">
+
+                            <h3 style="margin:0 0 0.75rem 0; color: var(--color-text);">
+                                🎨 Figma
+                            </h3>
+
+                            <p style="margin:0; color: var(--color-text-secondary); line-height:1.8;">
+                                Figma allows users to create copies using:
+                            </p>
+
+                            <ul
+                                style="margin:0.75rem 0; padding-left:1.5rem; color: var(--color-text-secondary); line-height:1.8;">
+                                <li><strong>Duplicate Frame</strong></li>
+                                <li><strong>Duplicate Component</strong></li>
+                            </ul>
+
+                            <p style="margin:0; color: var(--color-text-secondary); line-height:1.8;">
+                                Instead of rebuilding the design from scratch,
+                                Figma clones the existing object and creates a new copy.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Prototype Design
+                                    Pattern :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/prototype-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Prototype Pattern</strong> is a <strong>Creational Design Pattern</strong> that
+                            creates new objects by cloning existing ones instead of constructing them from scratch. It
+                            is useful when object creation is expensive, repetitive, or complex. The pattern improves
+                            performance by reusing a pre-configured object as a template and producing copies from it.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Use Prototype Pattern when creating an object is costly and copying an existing object is
+                            faster than building a new one.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Orange/Yellow Theme -->
+                <!-- Next Topic CTA - Orange/Yellow Theme -->
+                <style>
+                    .next-topic-cta-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                        text-decoration: none;
+                        color: var(--color-text);
+                    }
+
+                    .next-topic-cta-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .next-topic-icon {
+                        width: 70px;
+                        height: 70px;
+                        flex-shrink: 0;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+                        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+                    }
+
+                    .next-topic-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .next-topic-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        background: #f59e0b;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+                    }
+
+                    .next-topic-nav {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        margin-top: 2rem;
+                        flex-wrap: wrap;
+                    }
+
+                    @media (max-width: 900px) {
+
+                        .next-topic-cta-link {
+                            flex-direction: column;
+                            align-items: stretch;
+                            gap: 1.5rem;
+                        }
+
+                        .next-topic-action {
+                            width: 100%;
+                            justify-content: space-between;
+                        }
+
+                        .next-topic-nav {
+                            flex-direction: column;
+                        }
+
+                        .next-topic-nav a {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+
+                        .next-topic-cta-link {
+                            padding: 1.25rem;
+                        }
+
+                        .next-topic-cta-content {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .next-topic-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .next-topic-arrow {
+                            width: 46px;
+                            height: 46px;
+                            font-size: 1.25rem;
+                        }
+                    }
+
+                    @media (max-width: 400px) {
+
+                        .next-topic-cta-content {
+                            align-items: center;
+                            text-align: center;
+                        }
+
+                        .next-topic-action {
+                            flex-direction: column;
+                            gap: 0.75rem;
+                        }
+                    }
+                </style>
+
+                <div style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(245, 158, 11, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(245, 158, 11, 0.2);">
+
+                        <a href="LLD_Create_Abstract_Factory_Design.html" class="next-topic-cta-link">
+
+                            <div class="next-topic-cta-content">
+
+                                <div class="next-topic-icon">
+                                    🏭
+                                </div>
+
+                                <div>
+                                    <div
+                                        style="font-size: 0.9rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem;">
+                                        Continue Learning
+                                    </div>
+
+                                    <div
+                                        style="font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; color: #f59e0b; line-height: 1.3;">
+                                        Abstract Factory Design Pattern
+                                    </div>
+
+                                    <div
+                                        style="margin-top: 0.5rem; color: var(--color-text-secondary); line-height: 1.6; font-size: clamp(0.85rem, 1.5vw, 1rem);">
+                                        Learn how the Abstract Factory pattern creates families of related objects
+                                        without specifying their concrete classes.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color: #f59e0b; font-weight: 600; white-space: nowrap;">
+                                    Next Topic
+                                </span>
+
+                                <div class="next-topic-arrow">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="next-topic-nav">
+
+                        <a href="LLD_Create_Builder_Design.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Builder Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Create_Abstract_Factory_Design.html"
+                            style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--glass-bg); border-radius: var(--radius-md); text-decoration: none; color: var(--color-text); border: 1px solid var(--glass-border);">
+
+                            <span>Next: Abstract Factory Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Prototype Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+    </script>
+</body>
+
+</html>
