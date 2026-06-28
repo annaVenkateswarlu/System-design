@@ -45,6 +45,34 @@ This approach helps learners understand the reasoning behind every system design
 - Microservices
 - And many more...
 
+# 🏗️ Our LLD Learning Approach
+
+Every major LLD concept follows a structured learning framework that focuses on **understanding the problem first, then the solution**.
+
+```text
+1️⃣ What is it?
+2️⃣ Beginner's Approach (The Problem)
+3️⃣ Best Approach (The Solution)
+4️⃣ How the Best Approach Solves the Problem
+5️⃣ Real-World Examples
+6️⃣ When to Use
+7️⃣ When NOT to Use
+8️⃣ Advantages & Disadvantages
+9️⃣ Summary
+```
+
+This approach helps learners understand **why a design pattern exists**, **what problem it solves**, and **how it is used in real-world software development** instead of simply memorizing definitions.
+
+### Example Concepts Explained This Way
+
+* OOPS Concepts
+* Design Principles
+* SOLID Principles
+* UML Diagrams
+* Design Patterns
+* And many more...
+
+
 ---
 
 # 🌍 Real-World System Design Scenarios
@@ -99,6 +127,12 @@ These closely resemble actual interview questions asked by product-based compani
 
 <img width="1909" height="916" alt="image" src="https://github.com/user-attachments/assets/366dc7a6-bbb6-40fc-bcaf-eab29a745749" />
 
+## Topic : HLD vs LLD Page 
+ 
+<img width="1913" height="912" alt="Screenshot 2026-06-28 133019" src="https://github.com/user-attachments/assets/4b8e9fd2-e2ac-4a7d-8867-2bd6c22195b6" />
+
+<img width="1906" height="908" alt="Screenshot 2026-06-28 133010" src="https://github.com/user-attachments/assets/a267c6fa-3afb-44b1-9de7-bb85bdf4f75e" />
+
 ## HLD Interview Presentation Page 
 
 <img width="1911" height="918" alt="image" src="https://github.com/user-attachments/assets/fb19faac-0e46-4af4-a1b2-f43206ea1286" />
@@ -130,6 +164,14 @@ These closely resemble actual interview questions asked by product-based compani
 <img width="1910" height="918" alt="Screenshot 2026-06-03 170416" src="https://github.com/user-attachments/assets/3c517c99-6909-45e5-901d-2a6f671b4aad" />
 
 <img width="1915" height="914" alt="Screenshot 2026-06-03 170436" src="https://github.com/user-attachments/assets/c917955b-e9f5-4ea4-bf56-bae67e197a39" />
+
+## LLD Design Patterns 
+
+<img width="1912" height="901" alt="image" src="https://github.com/user-attachments/assets/5495acad-05c5-4d8c-8de6-72b6c5d3bdc2" />
+
+<img width="1917" height="916" alt="image" src="https://github.com/user-attachments/assets/16f5f9f3-f68f-4ef0-ab88-a175fd70de63" />
+
+<img width="703" height="792" alt="image" src="https://github.com/user-attachments/assets/026e77f0-4b0d-4523-87af-72e5714e0415" />
 
 ## Interview Questions Page
 
