@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adapter Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        @media (max-width:768px) {
+
+            .adapter-wrapper {
+                padding: 1rem !important;
+            }
+
+            .adapter-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            .adapter-card {
+                padding: 1.15rem !important;
+            }
+
+            .adapter-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.75rem !important;
+            }
+
+            .adapter-icon {
+                width: 46px !important;
+                height: 46px !important;
+                font-size: 1.2rem !important;
+            }
+
+            .adapter-title {
+                font-size: 1.1rem !important;
+            }
+
+            .adapter-subtitle {
+                font-size: 0.85rem !important;
+            }
+
+            .adapter-content {
+                padding: 0.9rem !important;
+                font-size: 0.98rem !important;
+                line-height: 1.8 !important;
+            }
+        }
+
+        @media (max-width:480px) {
+
+            .adapter-wrapper {
+                padding: 0.9rem !important;
+            }
+
+            .adapter-card {
+                padding: 1rem !important;
+            }
+
+            .adapter-content {
+                padding: 0.8rem !important;
+            }
+
+            .adapter-title {
+                font-size: 1rem !important;
+            }
+
+            .adapter-subtitle {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        @media (max-width:768px) {
+
+            .adapter-participants {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            .adapter-participant-card {
+                padding: 1rem !important;
+            }
+
+            .adapter-participant-header {
+                gap: 0.75rem !important;
+            }
+
+            .adapter-participant-icon {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.2rem !important;
+            }
+
+            .adapter-participant-title {
+                font-size: 1.1rem !important;
+            }
+
+            .adapter-participant-content {
+                font-size: 1rem !important;
+            }
+        }
+
+        @media (max-width:480px) {
+
+            .adapter-work-wrapper {
+                padding: 1rem !important;
+            }
+
+            .adapter-participant-card {
+                padding: 0.9rem !important;
+            }
+
+            .adapter-image {
+                margin-top: 1rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Adapter Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Adapter Design Pattern</span>
+                </nav>
+
+                <!-- Introduction to Structural Patterns -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🚀 What are Structural Design Patterns?</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Structural Design Patterns
+                        focus on:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>How classes and objects are combined to form larger structures.</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Creational patterns answer:</strong><br>
+                            How are objects created?
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Structural patterns answer:</strong><br>
+                            How are objects connected together?
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Adapter Pattern Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Adapter Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Adapter
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            It allows incompatible interfaces to work together by <strong>Converting the interface of an
+                                existing class into another interface that the client expects</strong>.
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It's particularly useful in
+                        situations where:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">You're integrating with a <strong>legacy system</strong> or a
+                            <strong>third-party library</strong> that doesn't match your current interface.
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">You want to <strong>reuse existing functionality</strong>
+                            without
+                            modifying its source code.</li>
+                        <li style="margin-bottom: 0.5rem;">You need to <strong>bridge the gap</strong> between new and
+                            old code,
+                            or between systems built with different interface designs.</li>
+                    </ul>
+                </div>
+
+                <!-- Real-World Analogy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Real-World Analogy</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Imagine you're traveling
+                        from the
+                        United States to Europe. Your laptop charger uses a <strong>Type A plug</strong> (used in the
+                        US),
+                        but European wall sockets expect a <strong>Type C plug</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">You can't plug your charger
+                        in
+                        directly, the interfaces don't match.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Instead of buying a new
+                        charger,
+                        you use a <strong>travel plug adapter</strong>. This device accepts your Type A plug and
+                        converts
+                        it into a Type C shape that fits into the European socket.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            The <strong>Adapter pattern</strong> does the same thing for software interfaces.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Adapter_Img2.png" alt="Adapter Real World Analogy"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- The Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">1. The Problem: Incompatible Payment Interfaces</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Imagine you are building
+                        the
+                        checkout component of an e-commerce application. Your checkout service is designed to work with
+                        a
+                        <strong>PaymentProcessor interface</strong> for handling payments.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+    <span style="color: #4ec9b0;">boolean</span> <span style="color: #dcdcaa;">isPaymentSuccessful</span><span style="color: #ffd700;">();</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getTransactionId</span><span style="color: #ffd700;">();</span>
+
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">InHousePaymentProcessor</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">transactionId</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">boolean</span> <span style="color: #9cdcfe;">paymentSuccessful</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"InHouseProcessor: Processing "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">transactionId</span> <span style="color: #ffd700;">=</span> <span style="color: #ce9178;">"TXN_"</span> <span style="color: #ffd700;">+</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">currentTimeMillis</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">paymentSuccessful</span> <span style="color: #ffd700;">=</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"InHouseProcessor: Success. Txn ID: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">transactionId</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">boolean</span> <span style="color: #dcdcaa;">isPaymentSuccessful</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">paymentSuccessful</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getTransactionId</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">transactionId</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Your CheckoutService uses
+                        this interface
+                        and works beautifully with the in-house payment processor:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">paymentProcessor</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Checkout: Processing order for $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">isPaymentSuccessful</span><span style="color: #ffd700;">())</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Checkout: Order successful! Txn: "</span>
+                <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">paymentProcessor</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTransactionId</span><span style="color: #ffd700;">());</span>
+        <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Checkout: Order failed."</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Client :</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ECommerceAppV1</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">processor</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">InHousePaymentProcessor</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #9cdcfe;">checkout</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">processor</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">checkout</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">199.99</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"USD"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Everything works smoothly.
+                        You've decoupled your
+                        checkout business logic from the underlying payment implementation, allowing future flexibility.
+                        Great
+                        job so far.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now management drops a new
+                        requirement: integrate with a <strong>legacy third-party payment provider</strong>. Its SDK is
+                        battle-tested and reliable, but its interface looks nothing like yours.</p>
+
+                    <h3 style="margin-bottom: 1rem;">The Incompatible Legacy Gateway</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">LegacyGateway</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">long</span> <span style="color: #9cdcfe;">transactionReference</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">boolean</span> <span style="color: #9cdcfe;">paymentSuccessful</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">executeTransaction</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">totalAmount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"LegacyGateway: Executing "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">currency</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">totalAmount</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">transactionReference</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">nanoTime</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">paymentSuccessful</span> <span style="color: #ffd700;">=</span> <span style="color: #569cd6;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"LegacyGateway: Done. Ref: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">transactionReference</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">boolean</span> <span style="color: #dcdcaa;">checkStatus</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">long</span> <span style="color: #9cdcfe;">ref</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"LegacyGateway: Checking status for ref: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">ref</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">paymentSuccessful</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">long</span> <span style="color: #dcdcaa;">getReferenceNumber</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">transactionReference</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">You now have two interfaces
+                        that do the same
+                        thing but speak different languages:</p>
+
+                    <div style="margin-bottom:0; padding:1rem 0;">
+
+                        <div style="
+        background:linear-gradient(135deg,
+        rgba(239,68,68,.12) 0%,
+        rgba(248,113,113,.08) 100%);
+        border:1px solid rgba(239,68,68,.30);
+        border-radius:var(--radius-lg);
+        padding:clamp(1.25rem,3vw,2rem);
+        margin:2rem 0;">
+
+                            <h3 style="
+            margin-top:0;
+            margin-bottom:1.5rem;
+            color:#dc2626;
+            font-size:clamp(1.2rem,2vw,1.5rem);">
+                                ⚠ Interface Mismatch
+                            </h3>
+
+                            <p style="
+            color:var(--color-text-secondary);
+            line-height:1.8;
+            font-size:clamp(1rem,2vw,1.1rem);
+            margin-bottom:1.5rem;">
+
+                                <strong>Your Interface (PaymentProcessor)</strong> and
+                                <strong>Legacy Interface (LegacyGateway)</strong>
+                                provide similar functionality, but their method signatures do not match.
+
+                            </p>
+
+                            <div style="overflow-x:auto;">
+
+                                <table style="
+                width:100%;
+                min-width:650px;
+                border-collapse:collapse;
+                border-radius:12px;
+                overflow:hidden;
+                background:rgba(255,255,255,.75);">
+
+                                    <thead>
+
+                                        <tr style="background:rgba(239,68,68,.12);">
+
+                                            <th style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.15);
+                            text-align:left;">
+                                                PaymentProcessor
+                                            </th>
+
+                                            <th style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.15);
+                            text-align:left;">
+                                                LegacyGateway
+                                            </th>
+
+                                            <th style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.15);
+                            text-align:left;">
+                                                Mismatch
+                                            </th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                processPayment(double, String)
+                            </code>
+
+                                            </td>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                executeTransaction(double, String)
+                            </code>
+
+                                            </td>
+
+                                            <td style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.12);
+                            color:var(--color-text-secondary);">
+
+                                                Different method name
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                isPaymentSuccessful()
+                            </code>
+
+                                            </td>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                checkStatus(long)
+                            </code>
+
+                                            </td>
+
+                                            <td style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.12);
+                            color:var(--color-text-secondary);">
+
+                                                Different name + requires a parameter
+
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                getTransactionId()
+                            </code>
+
+                                                <br><br>
+
+                                                returns <strong>String</strong>
+
+                                            </td>
+
+                                            <td style="padding:1rem;border:1px solid rgba(239,68,68,.12);">
+
+                                                <code
+                                                    style="background:rgba(255,255,255,.6);padding:.3rem .5rem;border-radius:6px;">
+                                getReferenceNumber()
+                            </code>
+
+                                                <br><br>
+
+                                                returns <strong>long</strong>
+
+                                            </td>
+
+                                            <td style="
+                            padding:1rem;
+                            border:1px solid rgba(239,68,68,.12);
+                            color:var(--color-text-secondary);">
+
+                                                Different name + different return type
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                            <div style="
+            margin-top:1rem;
+            padding:1rem;
+            border-radius:10px;
+            background:rgba(239,68,68,.08);
+            border-left:4px solid #ef4444;
+            color:var(--color-text-secondary);
+            line-height:1.8;
+            font-size:clamp(.95rem,1.8vw,1rem);">
+
+                                💡 <strong>Problem:</strong> Both interfaces perform the same job, but their method
+                                names,
+                                parameters, and return types are incompatible. Because of these differences,
+                                <strong>CheckoutService cannot directly use LegacyGateway.</strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">And here is the constraint:
+                    </p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">You cannot change <strong>CheckoutService</strong>, it is
+                            used system-wide and
+                            depends on
+                            <strong>PaymentProcessor</strong>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">You cannot modify <strong>LegacyGateway</strong>, it is from
+                            an external
+                            vendor</li>
+                        <li style="margin-bottom: 0.5rem;">But you must make them work together</li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">What you need is a
+                        <strong>translator</strong>,
+                        a class that sits between <strong>CheckoutService</strong> and <strong>LegacyGateway</strong>,
+                        adapting the incompatible interface
+                        into
+                        one that works with your system.
+                    </p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Adapter_Img3.png" alt="Adapter Problem Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            This is exactly what the <strong>Adapter Design Pattern</strong> does.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Solution Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Solution Code :</h2>
+
+                    <h3 style="margin-bottom: 1rem;">The Adapter Implementation</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">LegacyGatewayAdapter</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">LegacyGateway</span> <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">long</span> <span style="color: #9cdcfe;">currentRef</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">LegacyGatewayAdapter</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">LegacyGateway</span> <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">legacyGateway</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">processPayment</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">double</span> <span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Adapter: Translating processPayment() for "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">amount</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">executeTransaction</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amount</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">currency</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">currentRef</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getReferenceNumber</span><span style="color: #ffd700;">();</span> <span style="color: #6a9955;">// Store for later use</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">boolean</span> <span style="color: #dcdcaa;">isPaymentSuccessful</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">legacyGateway</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkStatus</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">currentRef</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getTransactionId</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"LEGACY_TXN_"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">currentRef</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">client code</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ECommerceAppV2</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #6a9955;">// Modern processor</span>
+        <span style="color: #4ec9b0;">PaymentProcessor</span> <span style="color: #9cdcfe;">processor</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">InHousePaymentProcessor</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #9cdcfe;">modernCheckout</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">processor</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"--- Using Modern Processor ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">modernCheckout</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">199.99</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"USD"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #6a9955;">// Legacy gateway through adapter</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Using Legacy Gateway via Adapter ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">LegacyGateway</span> <span style="color: #9cdcfe;">legacy</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">LegacyGateway</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">processor</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">LegacyGatewayAdapter</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">legacy</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">CheckoutService</span> <span style="color: #9cdcfe;">legacyCheckout</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CheckoutService</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">processor</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">legacyCheckout</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">checkout</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">75.50</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"USD"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Expected Output:</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #ce9178;">--- Using Modern Processor ---</span>
+<span style="color: #ce9178;">Checkout: Processing order for $199.99, USD</span>
+<span style="color: #ce9178;">InHouseProcessor: Processing 199.99, USD</span>
+<span style="color: #ce9178;">InHouseProcessor: Success. Txn ID: TXN_1734567890123</span>
+<span style="color: #ce9178;">Checkout: Order successful! Txn: TXN_1734567890123</span>
+
+<span style="color: #ce9178;">--- Using Legacy Gateway via Adapter ---</span>
+<span style="color: #ce9178;">Checkout: Processing order for $75.5, USD</span>
+<span style="color: #ce9178;">Adapter: Translating processPayment() for 75.5, USD</span>
+<span style="color: #ce9178;">LegacyGateway: Executing USD, 75.5</span>
+<span style="color: #ce9178;">LegacyGateway: Done. Ref: 1734567890456789</span>
+<span style="color: #ce9178;">LegacyGateway: Checking status for ref: 1734567890456789</span>
+<span style="color: #ce9178;">Checkout: Order successful! Txn: LEGACY_TXN_1734567890456789</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- How it works -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">How it works :</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Adapter has four
+                        participants.</p>
+
+
+                    <div class="adapter-work-wrapper"
+                        style="background:linear-gradient(135deg,rgba(59,130,246,.12) 0%, rgba(96,165,250,.08) 100%); border:1px solid rgba(59,130,246,.3); border-radius:var(--radius-lg); padding:clamp(1.25rem,3vw,2rem); margin:2rem 0;">
+
+                        <div class="adapter-participants"
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.25rem;">
+
+                            <!-- Target -->
+
+                            <div class="adapter-participant-card"
+                                style="background:rgba(255,255,255,.78); border:1px solid rgba(59,130,246,.15); border-radius:14px; padding:1.4rem;">
+
+                                <div class="adapter-participant-header"
+                                    style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+
+                                    <div class="adapter-participant-icon"
+                                        style="width:50px; height:50px; border-radius:50%; background:#2563eb; color:white; display:flex; justify-content:center; align-items:center; font-size:1.3rem;">
+                                        🎯
+                                    </div>
+
+                                    <h3 class="adapter-participant-title"
+                                        style="margin:0; color:#2563eb; font-size:clamp(1.15rem,2vw,1.25rem);">
+
+                                        Target Interface
+
+                                    </h3>
+
+                                </div>
+
+                                <div class="adapter-participant-content"
+                                    style="line-height:1.9; color:var(--color-text-secondary);">
+
+                                    The interface that the client code depends on. Every method call from the client
+                                    goes through this interface.<br><br>
+
+                                    In our payment example, <strong>PaymentProcessor</strong> is the Target. The
+                                    checkout service only knows about <strong>processPayment()</strong>,
+                                    <strong>isPaymentSuccessful()</strong>, and <strong>getTransactionId()</strong>.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Adaptee -->
+
+                            <div class="adapter-participant-card"
+                                style="background:rgba(255,255,255,.78); border:1px solid rgba(59,130,246,.15); border-radius:14px; padding:1.4rem;">
+
+                                <div class="adapter-participant-header"
+                                    style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+
+                                    <div class="adapter-participant-icon"
+                                        style="width:50px; height:50px; border-radius:50%; background:#2563eb; color:white; display:flex; justify-content:center; align-items:center; font-size:1.3rem;">
+                                        🔌
+                                    </div>
+
+                                    <h3 class="adapter-participant-title"
+                                        style="margin:0; color:#2563eb; font-size:clamp(1.15rem,2vw,1.25rem);">
+
+                                        Adaptee
+
+                                    </h3>
+
+                                </div>
+
+                                <div class="adapter-participant-content"
+                                    style="line-height:1.9; color:var(--color-text-secondary);">
+
+                                    The existing class with a useful implementation but an incompatible
+                                    interface.<br><br>
+
+                                    In our example, <strong>LegacyGateway</strong> is the Adaptee. It can process
+                                    payments, but its methods (<strong>executeTransaction()</strong>,
+                                    <strong>checkStatus()</strong>, <strong>getReferenceNumber()</strong>) do not match
+                                    what the checkout service expects.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Adapter -->
+
+                            <div class="adapter-participant-card"
+                                style="background:rgba(255,255,255,.78); border:1px solid rgba(59,130,246,.15); border-radius:14px; padding:1.4rem;">
+
+                                <div class="adapter-participant-header"
+                                    style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+
+                                    <div class="adapter-participant-icon"
+                                        style="width:50px; height:50px; border-radius:50%; background:#2563eb; color:white; display:flex; justify-content:center; align-items:center; font-size:1.3rem;">
+                                        🔄
+                                    </div>
+
+                                    <h3 class="adapter-participant-title"
+                                        style="margin:0; color:#2563eb; font-size:clamp(1.15rem,2vw,1.25rem);">
+
+                                        Adapter
+
+                                    </h3>
+
+                                </div>
+
+                                <div class="adapter-participant-content"
+                                    style="line-height:1.9; color:var(--color-text-secondary);">
+
+                                    The translator. It implements the Target interface and holds a reference to the
+                                    Adaptee, delegating calls with the necessary translation.<br><br>
+
+                                    In our example, <strong>LegacyGatewayAdapter</strong> implements
+                                    <strong>PaymentProcessor</strong> and wraps <strong>LegacyGateway</strong>,
+                                    translating <strong>processPayment()</strong> into
+                                    <strong>executeTransaction()</strong> and converting the long reference number into
+                                    a String transaction ID.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Client -->
+
+                            <div class="adapter-participant-card"
+                                style="background:rgba(255,255,255,.78); border:1px solid rgba(59,130,246,.15); border-radius:14px; padding:1.4rem;">
+
+                                <div class="adapter-participant-header"
+                                    style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+
+                                    <div class="adapter-participant-icon"
+                                        style="width:50px; height:50px; border-radius:50%; background:#2563eb; color:white; display:flex; justify-content:center; align-items:center; font-size:1.3rem;">
+                                        👤
+                                    </div>
+
+                                    <h3 class="adapter-participant-title"
+                                        style="margin:0; color:#2563eb; font-size:clamp(1.15rem,2vw,1.25rem);">
+
+                                        Client
+
+                                    </h3>
+
+                                </div>
+
+                                <div class="adapter-participant-content"
+                                    style="line-height:1.9; color:var(--color-text-secondary);">
+
+                                    The code that uses the Target interface. It is completely unaware of the Adaptee or
+                                    the Adapter's internal workings.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="adapter-image" style="margin:2rem 0; text-align:center;">
+
+                        <img src="Images_LLD/LLD_Structural_Adapter_Img1.png" alt="Adapter Pattern Diagram"
+                            style="width:100%; max-width:950px; height:auto; border-radius:var(--radius-lg); border:1px solid var(--glass-border); box-shadow:0 8px 25px rgba(0,0,0,.12);">
+
+                    </div>
+                </div>
+
+                <!-- Two Types of Adapters -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+
+                    <h2 style="margin-bottom:1.5rem;">
+                        Two Types of Adapters
+                    </h2>
+
+                    <p
+                        style="line-height:1.8; margin-bottom:1.75rem; font-size:clamp(1rem,2vw,1.125rem); color:var(--color-text-secondary);">
+
+                        There are two primary ways to implement an adapter, depending on the language and use case.
+
+                    </p>
+
+                    <div class="adapter-wrapper"
+                        style="background:linear-gradient(135deg,rgba(245,158,11,.12) 0%,rgba(251,191,36,.08) 100%); border:1px solid rgba(245,158,11,.3); border-radius:var(--radius-lg); padding:clamp(1.25rem,3vw,2rem); margin:2rem 0;">
+
+                        <div class="adapter-grid"
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem;">
+
+                            <!-- Object Adapter -->
+
+                            <div class="adapter-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(245,158,11,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="adapter-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="adapter-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#f59e0b; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        🧩
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="adapter-title"
+                                            style="margin:0; color:#d97706; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            1. Object Adapter (Preferred)
+
+                                        </h3>
+
+                                        <div class="adapter-subtitle"
+                                            style="margin-top:4px; color:#b45309; font-size:.9rem; font-weight:600;">
+
+                                            ✅ Recommended Approach
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="adapter-content"
+                                    style="background:rgba(245,158,11,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    ✔ Uses <strong>composition</strong>: the adapter holds a reference to the adaptee
+                                    (the object it wraps).<br><br>
+
+                                    ✔ Allows flexibility and reuse across class hierarchies.<br><br>
+
+                                    ✔ This is the most common and recommended approach.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Class Adapter -->
+
+                            <div class="adapter-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(245,158,11,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="adapter-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="adapter-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#f59e0b; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        🏛️
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="adapter-title"
+                                            style="margin:0; color:#d97706; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            2. Class Adapter
+
+                                        </h3>
+
+                                        <div class="adapter-subtitle"
+                                            style="margin-top:4px; color:#b45309; font-size:.9rem; font-weight:600;">
+
+                                            ⚠ Language Dependent
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="adapter-content"
+                                    style="background:rgba(245,158,11,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    ✔ Uses <strong>inheritance</strong>: the adapter inherits from both the target
+                                    interface and the adaptee.<br><br>
+
+                                    ✔ Requires multiple inheritance, which languages like <strong>Java</strong> don't
+                                    support for classes.<br><br>
+
+                                    ✔ More suitable for languages like <strong>C++</strong>.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Practical Example -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5. Practical Example: Media Player Adapter</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Lets say you are building a
+                        media
+                        player that natively plays MP3 files. The product team wants to add support for VLC (can play
+                        both MP4
+                        and AVI) and MP4 formats. Rather than rewriting the player, you will use adapters to integrate
+                        external
+                        codec libraries.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_design_adapter_Img1.png" alt="Media Player Adapter"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Implementation</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Target interface</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">MediaPlayer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #6a9955;">// Native implementation</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Mp3Player</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">MediaPlayer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"MP3 Player: Playing "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #6a9955;">// External codec libraries (Adaptees)</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">VlcCodec</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">playVlc</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"VLC Codec: Decoding and playing "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Mp4Codec</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">playMp4</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"MP4 Codec: Decoding and playing "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #6a9955;">// Adapters</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">VlcPlayerAdapter</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">MediaPlayer</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">VlcCodec</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">VlcPlayerAdapter</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">VlcCodec</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">codec</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playVlc</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Mp4PlayerAdapter</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">MediaPlayer</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">Mp4Codec</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Mp4PlayerAdapter</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Mp4Codec</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">codec</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">codec</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playMp4</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Client</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">AudioPlayer</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">playFile</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #4ec9b0;">MediaPlayer</span> <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">extension</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">substring</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">lastIndexOf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">'.'</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">+</span> <span style="color: #b5cea8;">1</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">toLowerCase</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #c586c0;">switch</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">extension</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #ce9178;">"mp3"</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">player</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Mp3Player</span><span style="color: #ffd700;">();</span>
+                <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #ce9178;">"vlc"</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">player</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">VlcPlayerAdapter</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">VlcCodec</span><span style="color: #ffd700;">());</span>
+                <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">case</span> <span style="color: #ce9178;">"mp4"</span><span style="color: #ffd700;">:</span>
+                <span style="color: #9cdcfe;">player</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Mp4PlayerAdapter</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Mp4Codec</span><span style="color: #ffd700;">());</span>
+                <span style="color: #c586c0;">break</span><span style="color: #ffd700;">;</span>
+            <span style="color: #c586c0;">default</span><span style="color: #ffd700;">:</span>
+                <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Unsupported format: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">extension</span><span style="color: #ffd700;">);</span>
+                <span style="color: #c586c0;">return</span><span style="color: #ffd700;">;</span>
+        <span style="color: #ffd700;">}</span>
+
+        <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">filename</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Main</span>
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MediaPlayerDemo</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">AudioPlayer</span> <span style="color: #9cdcfe;">player</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">AudioPlayer</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playFile</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"song.mp3"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playFile</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"movie.mp4"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playFile</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"documentary.vlc"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">player</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">playFile</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"image.png"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        The <strong>AudioPlayer</strong> works exclusively with the
+                        <strong>MediaPlayer interface</strong>. <strong>MP3 files</strong> play natively.
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        <strong>MP4</strong> and <strong>VLC files</strong> play through
+                        <strong>adapters</strong> that translate the <strong>play()</strong> call into the
+                        codec-specific method. Adding a new format (say, <strong>FLAC</strong>) means
+                        writing a <strong>new adapter</strong>, not modifying the
+                        <strong>AudioPlayer</strong>.
+                    </p>
+                </div>
+
+                <!-- When to use -->
+
+                <div style="margin-bottom:0; padding:1rem 0;">
+
+                    <h2 style="margin-bottom:1.5rem;">
+                        🚀 When to Use the Adapter Pattern
+                    </h2>
+
+                    <div
+                        style="background:linear-gradient(135deg,rgba(59,130,246,0.12) 0%,rgba(16,185,129,0.08) 100%); border:1px solid rgba(59,130,246,.25); border-radius:var(--radius-xl); padding:clamp(1rem,3vw,2rem); margin-top:1.5rem;">
+
+                        <div style="display:flex; flex-wrap:wrap; gap:1.25rem; align-items:stretch;">
+
+                            <!-- Card 1 -->
+                            <div
+                                style="flex:1 1 350px; min-width:260px; background:rgba(255,255,255,.82); border:1px solid rgba(59,130,246,.15); border-radius:14px; padding:clamp(1rem,3vw,1.5rem); box-sizing:border-box;">
+
+                                <h3
+                                    style="margin-top:0; margin-bottom:1rem; color:#2563eb; font-size:clamp(1.15rem,2vw,1.35rem);">
+
+                                    🔌 Integrating Third-Party Libraries
+
+                                </h3>
+
+                                <p
+                                    style="margin:0; color:var(--color-text-secondary); line-height:1.9; font-size:clamp(.98rem,1.2vw,1.08rem); overflow-wrap:anywhere; word-break:break-word;">
+
+                                    Adapter Pattern is used when we want to integrate a
+                                    <strong>new or existing third-party class</strong>
+                                    into our application, but its interface does not match
+                                    what our application expects.
+
+                                    <br><br>
+
+                                    Suppose your application is designed around a common
+                                    <strong>PaymentGateway</strong> interface with a method like
+                                    <strong>pay()</strong>. Initially, you may have integrated
+                                    <strong>Razorpay</strong>, and everything works through that interface.
+
+                                    <br><br>
+
+                                    Later, the business decides to add
+                                    <strong>PayPal</strong> or
+                                    <strong>Paytm</strong>. However, those third-party libraries
+                                    may expose methods such as
+                                    <strong>makePayment()</strong>,
+                                    <strong>sendMoney()</strong>, or require different parameters.
+
+                                    <br><br>
+
+                                    Modifying all existing application code to handle these
+                                    differences would make the application tightly coupled and
+                                    difficult to maintain.
+
+                                    <br><br>
+
+                                    Instead, we create an
+                                    <strong>Adapter</strong> that implements our application's
+                                    expected interface
+                                    (<strong>PaymentGateway</strong>) and internally translates
+                                    the call to the third-party library.
+
+                                    <br><br>
+
+                                    This allows the rest of the application to continue using a
+                                    consistent interface without knowing anything about
+                                    <strong>PayPal</strong>,
+                                    <strong>Paytm</strong>,
+                                    <strong>Stripe</strong>,
+                                    or any other provider.
+
+                                </p>
+
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div
+                                style="flex:1 1 350px; min-width:260px; background:rgba(255,255,255,.82); border:1px solid rgba(16,185,129,.18); border-radius:14px; padding:clamp(1rem,3vw,1.5rem); box-sizing:border-box;">
+
+                                <h3
+                                    style="margin-top:0; margin-bottom:1rem; color:#059669; font-size:clamp(1.15rem,2vw,1.35rem);">
+
+                                    🌉 In Simple Terms
+
+                                </h3>
+
+                                <p
+                                    style="margin:0; color:var(--color-text-secondary); line-height:1.9; font-size:clamp(.98rem,1.2vw,1.08rem); overflow-wrap:anywhere; word-break:break-word;">
+
+                                    An <strong>Adapter</strong> acts as a
+                                    <strong>translator</strong> between two incompatible
+                                    interfaces.
+
+                                    <br><br>
+
+                                    Whenever a new library, legacy system, external API, or
+                                    third-party service has a different interface than what
+                                    your application expects, an Adapter bridges the gap
+                                    without changing the client code.
+
+                                    <br><br>
+
+                                    This keeps the system
+                                    <strong>loosely coupled</strong>,
+                                    makes future integrations much easier, and follows the
+                                    <strong>Open/Closed Principle</strong> because new providers
+                                    can be added by creating new adapters rather than modifying
+                                    existing business logic.
+
+                                </p>
+
+                                <div
+                                    style="margin-top:1.5rem; background:rgba(16,185,129,.08); border-left:5px solid #10b981; border-radius:10px; padding:1rem; overflow-wrap:anywhere; word-break:break-word;">
+
+                                    <strong style="color:#059669;">
+                                        💡 Key Takeaway
+                                    </strong>
+
+                                    <p
+                                        style="margin:.75rem 0 0; color:var(--color-text-secondary); line-height:1.8; font-size:clamp(.95rem,1.1vw,1.05rem);">
+
+                                        If two systems perform the same task but expose
+                                        different interfaces, place an
+                                        <strong>Adapter</strong> between them so they can work
+                                        together without changing either side.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Practice Exercise -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Adapter Design Pattern
+                                    :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/adapter-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Adapter Pattern</strong> is a <strong>Structural Design Pattern</strong> that allows
+                            incompatible interfaces to work together by introducing an adapter class.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            It acts as a <strong>translator</strong> between the client and an existing class whose
+                            interface does not
+                            match what the client
+                            expects.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Adapter</strong> is commonly used when integrating legacy code, third-party
+                            libraries, external APIs,
+                            or SDKs
+                            without modifying their original implementation.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Adapter_Img4.png" alt="Adapter Pattern Summary"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Adapter_Img5.png" alt="Adapter Pattern Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Green/Teal Theme -->
+                <style>
+                    .next-topic-link {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 2rem;
+                        padding: 2rem;
+                    }
+
+                    .next-topic-content {
+                        display: flex;
+                        align-items: center;
+                        gap: 1.5rem;
+                        flex: 1;
+                        min-width: 0;
+                    }
+
+                    .next-topic-icon {
+                        width: 70px;
+                        height: 70px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 2rem;
+                        flex-shrink: 0;
+                    }
+
+                    .next-topic-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        flex-shrink: 0;
+                    }
+
+                    .next-topic-arrow {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.5rem;
+                    }
+
+                    .bottom-navigation {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .bottom-nav-btn {
+                        display: flex;
+                        align-items: center;
+                        gap: .5rem;
+                        padding: .75rem 1.5rem;
+                    }
+
+                    @media (max-width:900px) {
+
+                        .next-topic-link {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            padding: 1.5rem;
+                            gap: 1.5rem;
+                        }
+
+                        .next-topic-action {
+                            width: 100%;
+                            justify-content: space-between;
+                        }
+
+                    }
+
+                    @media (max-width:600px) {
+
+                        .next-topic-link {
+                            padding: 1.2rem;
+                        }
+
+                        .next-topic-content {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 1rem;
+                        }
+
+                        .next-topic-icon {
+                            width: 58px;
+                            height: 58px;
+                            font-size: 1.6rem;
+                        }
+
+                        .next-topic-arrow {
+                            width: 46px;
+                            height: 46px;
+                            font-size: 1.2rem;
+                        }
+
+                        .bottom-navigation {
+                            flex-direction: column;
+                        }
+
+                        .bottom-nav-btn {
+                            width: 100%;
+                            justify-content: center;
+                            box-sizing: border-box;
+                        }
+
+                    }
+
+                    @media (max-width:420px) {
+
+                        .next-topic-content {
+                            align-items: center;
+                            text-align: center;
+                        }
+
+                        .next-topic-action {
+                            flex-direction: column;
+                            gap: .8rem;
+                        }
+
+                    }
+                </style>
+
+                <div class="next-topic-section"
+                    style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(20, 184, 166, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(16, 185, 129, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);">
+
+                        <a href="LLD_Structural_Decorator_Design.html" class="next-topic-link"
+                            style="text-decoration:none; color:var(--color-text);">
+
+                            <div class="next-topic-content">
+
+                                <div class="next-topic-icon"
+                                    style="background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%); box-shadow: 0 4px 15px rgba(16,185,129,.4);">
+                                    🎨
+                                </div>
+
+                                <div>
+
+                                    <div
+                                        style="font-size:.9rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;">
+                                        Continue Learning
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem);font-weight:700;color:#10b981;line-height:1.3;">
+                                        Decorator Design Pattern
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem;color:var(--color-text-secondary);line-height:1.6;font-size:clamp(.85rem,1.5vw,1rem);">
+                                        Learn how the Decorator pattern adds new functionality to objects dynamically
+                                        without modifying their structure.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color:#10b981;font-weight:600;white-space:nowrap;">
+                                    Next Topic
+                                </span>
+
+                                <div class="next-topic-arrow"
+                                    style="background:#10b981; color:white; box-shadow:0 4px 15px rgba(16,185,129,.4);">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="bottom-navigation" style="margin-top:2rem;">
+
+                        <a href="LLD_Create_Abstract_Factory_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);border:1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Abstract Factory Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Decorator_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);border:1px solid var(--glass-border);">
+
+                            <span>Next: Decorator Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Adapter Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

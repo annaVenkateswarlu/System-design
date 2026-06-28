@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Composite Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .next-topic-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .next-topic-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .next-topic-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .bottom-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+        }
+
+        @media (max-width:900px) {
+
+            .next-topic-link {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .next-topic-action {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        }
+
+        @media (max-width:600px) {
+
+            .next-topic-link {
+                padding: 1.2rem;
+            }
+
+            .next-topic-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .next-topic-icon {
+                width: 58px;
+                height: 58px;
+                font-size: 1.6rem;
+            }
+
+            .next-topic-arrow {
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
+            }
+
+            .bottom-navigation {
+                flex-direction: column;
+            }
+
+            .bottom-nav-btn {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+        }
+
+        @media (max-width:420px) {
+
+            .next-topic-content {
+                align-items: center;
+                text-align: center;
+            }
+
+            .next-topic-action {
+                flex-direction: column;
+                gap: .8rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Composite Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Composite Design Pattern</span>
+                </nav>
+
+                <!-- Composite Pattern Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Composite Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Composite
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+
+                            Composite Design Pattern Compose objects into tree structures so that individual objects and
+                            groups of objects can be treated in same way.
+                        </p>
+                    </div>
+
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Simple Meaning</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It allows you to build
+                        <strong>tree-like structures</strong> (e.g., file systems, UI hierarchies, organizational
+                        charts)
+                        where clients can work with both single elements and groups of elements using the same
+                        interface.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It's particularly useful in
+                        situations where:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">You need to represent <strong>part-whole
+                                hierarchies</strong>.
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">You want to perform operations on both <strong>leaf
+                                nodes</strong>
+                            and <strong>composite nodes</strong> in a consistent way.</li>
+                        <li style="margin-bottom: 0.5rem;">You want to avoid writing special-case logic to distinguish
+                            between "single" and "grouped" objects.</li>
+                    </ul>
+                </div>
+
+                <!-- Example -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Example</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Imagine you are building a
+                        <strong>file explorer application</strong> (like Finder on macOS or File Explorer on Windows).
+                        The
+                        system needs to represent:
+                    </p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Files</strong> that have a name and a size.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Folders</strong> that can hold files and other
+                            folders,
+                            nested to any depth.</li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Your goal is to support
+                        operations such as:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>getSize()</strong>: returns the total size of a file
+                            or
+                            folder (sum of all contents for folders).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>printStructure()</strong>: prints the name of the
+                            item
+                            with indentation to show hierarchy.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>delete()</strong>: deletes a file or a folder and
+                            everything inside it.</li>
+                    </ul>
+                </div>
+
+                <!-- The Naive Approach -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">The Naive Approach</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A straightforward solution
+                        uses two separate classes <strong>File</strong> and <strong>Folder</strong> with no shared
+                        interface.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Means:</strong>
+                        <ul style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9;">
+
+                            <li style="margin-bottom:0.6rem; margin-top:0.6rem">
+                                <strong>Handle Files separately</strong>
+                            </li>
+
+                            <li>
+                                <strong>Handle Folders separately.</strong>
+                            </li>
+
+                        </ul>
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">File class</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">File</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">size</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Deleting file: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Folder class (with type checks)</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Folder</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">Object</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">contents</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">&lt;&gt;();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Object</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #9cdcfe;">contents</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Object</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">contents</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">+=</span> <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">();</span>
+            <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">+=</span> <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">();</span>
+            <span style="color: #ffd700;">}</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">total</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"/"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Object</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">contents</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"  "</span><span style="color: #ffd700;">);</span>
+            <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"  "</span><span style="color: #ffd700;">);</span>
+            <span style="color: #ffd700;">}</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Object</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">contents</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">();</span>
+            <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span> <span style="color: #c586c0;">instanceof</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+                <span style="color: #ffd700;">((</span><span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">)</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">).</span><span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">();</span>
+            <span style="color: #ffd700;">}</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Deleting folder: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">What's Wrong With This Approach?</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>1. Repetitive Type Checks</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Every operation (<code
+                                style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">getSize()</code>,
+                            <code
+                                style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">printStructure()</code>,
+                            <code
+                                style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">delete()</code>)
+                            requires instanceof checks and downcasting. This logic is duplicated across every method
+                            that touches the tree.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>2. Violation of Open/Closed Principle</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            To add new item types (say, Shortcut or CompressedFolder), you must modify the type-checking
+                            logic in every existing method. Each new type means touching every operation in the Folder
+                            class.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>3. Fragile recursive logic</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Computing sizes or deleting deeply nested structures becomes a tangled mess of nested
+                            conditionals and type-specific recursive calls. One missed type check and an item silently
+                            disappears from the total.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Solution</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Composite
+                            pattern</strong> is a structural pattern that composes objects into tree structures and lets
+                        clients treat individual objects and compositions uniformly.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Two characteristics define
+                        the pattern:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Uniform interface:</strong> Both leaf objects (no
+                            children)
+                            and composite objects (contain children) implement the same interface. The client calls the
+                            same methods regardless of which type it is working with.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Recursive composition:</strong> A composite holds a
+                            collection of components, which can themselves be composites. This creates tree structures
+                            of arbitrary depth without any special handling.</li>
+                    </ul>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 1: Define the Component Interface</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">This is the shared
+                        contract.
+                        Both files (leaves) and folders (composites) implement it.</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">);</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 2: Create the Leaf Class (File)</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A file is a leaf node. It
+                        implements the Component interface directly, returning its own values without delegating to
+                        children.</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">File</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">size</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">size</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"- "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">size</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" KB)"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Deleting file: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Each <strong>File</strong>
+                        is a leaf
+                        node. It has no children and no delegation. It just returns its own data.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 3: Create the Composite Class (Folder)</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A folder is a composite. It
+                        holds a list of <strong>FileSystemItem</strong> children and implements each operation by
+                        delegating
+                        to them</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Folder</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">FileSystemItem</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">children</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">&lt;&gt;();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">children</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">removeItem</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">children</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">remove</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">0</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">children</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">total</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"+ "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"/"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">children</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"  "</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">item</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">children</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">item</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Deleting folder: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Notice the difference from
+                        the
+                        naive approach. There are no instanceof checks anywhere. The Folder simply calls <code
+                            style="background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">getSize()</code>
+                        on each child. Polymorphism handles the rest. Whether a child is a File or another Folder, the
+                        correct implementation runs automatically.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 4: Client Code</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">FileExplorerApp</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">file1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"readme.txt"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">5</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">file2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"photo.jpg"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">1500</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">FileSystemItem</span> <span style="color: #9cdcfe;">file3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">File</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"data.csv"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Folder</span> <span style="color: #9cdcfe;">folder1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"folder1"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">file1</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">file3</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Folder</span> <span style="color: #9cdcfe;">folder2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"folder2"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">file2</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Folder</span> <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Folder</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"folder3"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">folder1</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addItem</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">folder2</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"---- File Structure ----"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printStructure</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">""</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\nTotal Size: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSize</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" KB"</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n---- Deleting All ----"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">folder3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">delete</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            ---- File Structure ----
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            + folder3/
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            + folder1/
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            - readme.txt (5 KB)
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            - data.csv (300 KB)
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            + folder2/
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            - photo.jpg (1500 KB)
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Total Size: 1805 KB
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            ---- Deleting All ----
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Deleting file: readme.txt
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Deleting file: data.csv
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Deleting folder: folder1
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Deleting file: photo.jpg
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Deleting folder: folder2
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-family: monospace;">
+                            Deleting folder: folder3
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>What We Achieved with Composite?</strong>
+                        </p>
+                        <ul style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9;">
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Unified treatment:</strong> Files and folders share a common interface, allowing
+                                polymorphism
+                            </li>
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Clean recursion:</strong> No instanceof, no casting — just delegation
+                            </li>
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Scalability:</strong> Easily supports deeply nested structures
+                            </li>
+                            <li>
+                                <strong>Maintainability:</strong> Adding new file types (e.g., Shortcut,
+                                CompressedFolder) is easy
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Example 2: Organization Hierarchy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Example 2 : Organization Hierarchy</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">An
+                        <strong>OrgComponent</strong>
+                        interface is shared by <strong>Employee</strong> (leaf) and <strong>Manager</strong>
+                        (composite).
+                        Managers can contain employees and other managers, forming a tree that represents the company
+                        structure.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The system supports three
+                        operations: <strong>getSalary()</strong> computes the total salary for a node and everything
+                        below it,
+                        <strong>getHeadcount()</strong> counts all people in the subtree, and
+                        <strong>printHierarchy()</strong>
+                        displays the org chart with indentation.
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.*</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">();</span>
+    <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printHierarchy</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Employee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">title</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">salary</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printHierarchy</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"- "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">title</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">salary</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Manager</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">List</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">OrgComponent</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">members</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ArrayList</span><span style="color: #ffd700;">&lt;&gt;();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Manager</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">name</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">title</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">title</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">salary</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #9cdcfe;">members</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">add</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">removeMember</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #9cdcfe;">members</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">remove</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">salary</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #9cdcfe;">member</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">members</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">total</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">total</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">count</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">1</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #9cdcfe;">member</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">members</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">count</span> <span style="color: #ffd700;">+=</span> <span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">count</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">printHierarchy</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">indent</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"+ "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">name</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">title</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">salary</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">for</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">OrgComponent</span> <span style="color: #9cdcfe;">member</span> <span style="color: #ffd700;">:</span> <span style="color: #9cdcfe;">members</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">member</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printHierarchy</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">indent</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"  "</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">OrgApp</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">dev1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Alice"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Senior Engineer"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">120000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">dev2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Bob"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Engineer"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">95000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">dev3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Charlie"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Engineer"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">90000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Employee</span> <span style="color: #9cdcfe;">designer</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Employee</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Diana"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Designer"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">100000</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Manager</span> <span style="color: #9cdcfe;">techLead</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Manager</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Eve"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Tech Lead"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">140000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">techLead</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">dev1</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">techLead</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">dev2</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Manager</span> <span style="color: #9cdcfe;">vpEng</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Manager</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Frank"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"VP Engineering"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">200000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">vpEng</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">techLead</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">vpEng</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">dev3</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Manager</span> <span style="color: #9cdcfe;">vpProduct</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Manager</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Grace"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"VP Product"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">190000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">vpProduct</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">designer</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">Manager</span> <span style="color: #9cdcfe;">ceo</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Manager</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hank"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"CEO"</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">300000</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">ceo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">vpEng</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">ceo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">addMember</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">vpProduct</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"---- Organization Chart ----"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">ceo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printHierarchy</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">""</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\nTotal Payroll: $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">ceo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Total Headcount: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">ceo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\nEngineering Payroll: $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">vpEng</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getSalary</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Engineering Headcount: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">vpEng</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getHeadcount</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Composite_Img1.png" alt="Composite Organization Hierarchy"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Composite
+                                    Design
+                                    Pattern :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/composite-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structural Design Patterns Comparison -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🔥 Structural Design Patterns Comparison</h2>
+
+                    <div
+                        style="background:linear-gradient(135deg,rgba(59,130,246,0.12) 0%,rgba(96,165,250,0.08) 100%); border:1px solid rgba(59,130,246,0.3); border-radius:var(--radius-lg); padding:clamp(1rem,3vw,2rem); margin:2rem 0; overflow-x:auto;">
+
+                        <table
+                            style="width:100%; min-width:700px; border-collapse:collapse; font-size:clamp(0.95rem,1.5vw,1rem);">
+
+                            <thead>
+
+                                <tr style="background:rgba(59,130,246,0.12);">
+
+                                    <th
+                                        style="padding:1rem; text-align:left; border-bottom:2px solid rgba(59,130,246,0.25); color:#2563eb; white-space:nowrap;">
+                                        Pattern
+                                    </th>
+
+                                    <th
+                                        style="padding:1rem; text-align:left; border-bottom:2px solid rgba(59,130,246,0.25); color:#2563eb;">
+                                        Description
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); white-space:nowrap;">
+                                        <strong>Adapter</strong>
+                                    </td>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); color:var(--color-text-secondary); line-height:1.8;">
+
+                                        Converts the interface of an existing class into another interface that the
+                                        client expects, allowing incompatible classes to work together.
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); white-space:nowrap;">
+                                        <strong>Decorator</strong>
+                                    </td>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); color:var(--color-text-secondary); line-height:1.8;">
+
+                                        Dynamically adds new responsibilities or functionality to an object without
+                                        modifying its existing code or creating many subclasses.
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); white-space:nowrap;">
+                                        <strong>Facade</strong>
+                                    </td>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); color:var(--color-text-secondary); line-height:1.8;">
+
+                                        Provides a simple and unified interface to a complex subsystem, hiding internal
+                                        complexity from the client.
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); white-space:nowrap;">
+                                        <strong>Proxy</strong>
+                                    </td>
+
+                                    <td
+                                        style="padding:1rem; border-bottom:1px solid rgba(59,130,246,0.12); color:var(--color-text-secondary); line-height:1.8;">
+
+                                        Provides a placeholder or representative object that controls access to another
+                                        object for security, caching, logging, lazy loading, or remote access.
+
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td style="padding:1rem; white-space:nowrap;">
+                                        <strong>Composite</strong>
+                                    </td>
+
+                                    <td style="padding:1rem; color:var(--color-text-secondary); line-height:1.8;">
+
+                                        Composes objects into tree structures and allows clients to treat individual
+                                        objects and groups of objects uniformly.
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Composite Pattern</strong> is a <strong>Structural Design Pattern</strong> that lets
+                            you
+                            compose objects into tree structures and treat individual objects and groups of objects
+                            uniformly.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            It introduces a common component interface that is implemented by both leaf objects and
+                            composite
+                            objects.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            This allows clients to interact with both through the same interface without caring whether
+                            they
+                            are dealing with a single object or an entire hierarchy.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Composite_Img2.png" alt="Composite Pattern Summary"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA -->
+                <div class="next-topic-section"
+                    style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(59, 130, 246, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(99, 102, 241, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);">
+
+                        <a href="LLD_Structural_Bridge_Design.html" class="next-topic-link"
+                            style="text-decoration:none; color:var(--color-text);">
+
+                            <div class="next-topic-content">
+
+                                <div class="next-topic-icon"
+                                    style="background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%); box-shadow: 0 4px 15px rgba(99,102,241,.4);">
+
+                                    🌉
+
+                                </div>
+
+                                <div>
+
+                                    <div
+                                        style="font-size:.9rem; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:.4rem;">
+
+                                        Continue Learning
+
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:#6366f1; line-height:1.3;">
+
+                                        Bridge Design Pattern
+
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem; color:var(--color-text-secondary); line-height:1.6; font-size:clamp(.85rem,1.5vw,1rem);">
+
+                                        Learn how to separate abstraction from implementation using the Bridge Pattern.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color:#6366f1;font-weight:600;white-space:nowrap;">
+
+                                    Next Topic
+
+                                </span>
+
+                                <div class="next-topic-arrow"
+                                    style="background:#6366f1; color:white; box-shadow:0 4px 15px rgba(99,102,241,.4);">
+
+                                    →
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="bottom-navigation" style="margin-top:2rem;">
+
+                        <a href="LLD_Structural_Proxy_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Proxy Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Bridge_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>Next: Bridge Design Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Composite Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

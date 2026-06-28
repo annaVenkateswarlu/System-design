@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Proxy Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Proxy Design Pattern</span>
+                </nav>
+
+                <!-- Header -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(245, 158, 11, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.22); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: 2rem; margin: 2rem 0;">
+                    <h1
+                        style="margin: 0 0 1rem 0; font-size: clamp(2rem, 4vw, 2.8rem); background: linear-gradient(135deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        🔷 Proxy Design Pattern
+                    </h1>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(1rem, 2vw, 1.25rem);">
+                        Learn how to provide a placeholder to control access to an object
+                    </p>
+                </div>
+
+                <!-- Proxy Design Pattern Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Proxy Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Proxy
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>It states:</strong><br>
+                            It provides a <strong>placeholder (middleman)</strong> for another object and
+                            <strong>controls
+                                access</strong> to that object.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>In simple words:</strong><br>
+                            Instead of talking directly to the real object, you talk to a <strong>Proxy</strong>.
+                        </p>
+                    </div>
+
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Simple Meaning</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A <strong>Proxy</strong>
+                        sits
+                        in front of a real object.</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Proxy_Img1.png" alt="Proxy Simple Meaning"
+                            style="max-width: 70%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A proxy helps when you want
+                        to:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Delay creation or loading</strong> until it's
+                            actually
+                            needed (lazy access).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Restrict or control access</strong> (authentication,
+                            authorization, rate limiting).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Add cross-cutting behavior</strong> like logging,
+                            caching, retries, or monitoring without changing the original class.</li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            The proxy sits between the <strong>client</strong> and the <strong>real object</strong>,
+                            intercepting calls and deciding whether to forward them as-is, block them, or wrap them with
+                            extra behavior.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🚨 Problem</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose we have a video
+                        service.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Real Object</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Video</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RealVideo</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Video</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">RealVideo</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">fileName</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">;</span>
+       <span style="color: #dcdcaa;">loadVideo</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">loadVideo</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Loading video: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Playing video: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Without Proxy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">Video</span> <span style="color: #9cdcfe;">video</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RealVideo</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"movie.mp4"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #9cdcfe;">video</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Loading video: movie.mp4
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Playing video: movie.mp4
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Video loads immediately.
+                    </p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Problem Explanation:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Before the user even clicks Play, the system immediately:
+                        </p>
+                        <ul style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9;">
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Loads the video file</strong>
+                            </li>
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Allocates memory</strong>
+                            </li>
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Opens resources</strong>
+                            </li>
+
+                            <li>
+                                <strong>Performs initialization</strong>
+                            </li>
+
+                        </ul>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top:1rem;">
+                            Even if the user never watches the video, the heavy object is already created.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ❌ <strong>Expensive objects created even when not needed</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- With Proxy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">✅ With Proxy</h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Video</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Proxy Class</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">VideoProxy</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Video</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">RealVideo</span> <span style="color: #9cdcfe;">realVideo</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">VideoProxy</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">fileName</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">if</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">realVideo</span> <span style="color: #ffd700;">==</span> <span style="color: #569cd6;">null</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+           <span style="color: #9cdcfe;">realVideo</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RealVideo</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">fileName</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span>
+
+       <span style="color: #9cdcfe;">realVideo</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Client</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">Video</span> <span style="color: #9cdcfe;">video</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">VideoProxy</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"movie.mp4"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Video object created"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #9cdcfe;">video</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">video</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Video object created
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Loading video: movie.mp4
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Playing video: movie.mp4
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Playing video: movie.mp4
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Proxy_Img2.png" alt="Proxy Pattern Solution"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Types of Proxy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Types of Proxy</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">1️⃣ Protection Proxy</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Controls access to data
+                        based on roles.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Example:</strong>
+                        </p>
+                        <ul style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9;">
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Admin</strong>
+                            </li>
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Guest</strong>
+                            </li>
+
+                            <li>
+                                <strong>Manager</strong>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Check the diagram for other
+                        types of proxy</p>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Proxy_Img3.png" alt="Types of Proxy"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Example 2: Protection Proxy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Example 2 : Protection Proxy</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The application contains a
+                        <strong>Database</strong> that stores important employee and business information.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Requirements:</strong>
+                        </p>
+
+                        <ul style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9;">
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>ADMIN</strong> users can access the database.
+                            </li>
+
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>GUEST</strong> users should not access the database.
+                            </li>
+
+                            <li>
+                                Client code should not directly interact with the real database and perform permission
+                                checks everywhere.
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 1: Common Interface</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Database</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">accessDatabase</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 2: Real Object (Real Database)</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RealDatabase</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Database</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">accessDatabase</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Accessing Database"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 3: Proxy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">DatabaseProxy</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Database</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">role</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">RealDatabase</span> <span style="color: #9cdcfe;">database</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">DatabaseProxy</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">role</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">role</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">role</span><span style="color: #ffd700;">;</span>
+       <span style="color: #9cdcfe;">database</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RealDatabase</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">accessDatabase</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">if</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">role</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">equals</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"ADMIN"</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+           <span style="color: #9cdcfe;">database</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">accessDatabase</span><span style="color: #ffd700;">();</span>
+       <span style="color: #ffd700;">}</span> 
+       <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+              <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Access Denied"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #ffd700;">}</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Client</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">Database</span> <span style="color: #9cdcfe;">db</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">DatabaseProxy</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"ADMIN"</span><span style="color: #ffd700;">);</span>
+       <span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">accessDatabase</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Accessing Database
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">If:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 2rem 0;">
+                        <pre
+                            style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #4ec9b0;">Database</span> <span style="color: #9cdcfe;">db</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">DatabaseProxy</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"GUEST"</span><span style="color: #ffd700;">);</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Access Denied
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Explanation:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Protection Proxy</strong> is used when you want to control access to a real object
+                            based on <strong>permissions</strong>, <strong>roles</strong>,
+                            <strong>authentication</strong>,
+                            or <strong>authorization</strong> rules.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin-top:1rem;">
+                            Instead of putting security checks everywhere, the
+                            proxy
+                            centralizes access control in one place.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example 3: Caching Proxy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Example 3 : Caching Proxy</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Database Query
+                            Caching
+                            Proxy</strong></p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The interface defines a
+                        simple query operation. The real implementation simulates a slow database. The caching proxy
+                        stores results and returns cached values for repeated queries.</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.HashMap</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.Map</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">DatabaseService</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RealDatabaseService</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">DatabaseService</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"RealDatabase: Executing query: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">try</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">Thread</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">sleep</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">100</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">catch</span> <span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">InterruptedException</span> <span style="color: #9cdcfe;">e</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">Thread</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">currentThread</span><span style="color: #ffd700;">().</span><span style="color: #dcdcaa;">interrupt</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Result for ["</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">sql</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"]"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CachingDatabaseProxy</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">DatabaseService</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">RealDatabaseService</span> <span style="color: #9cdcfe;">realService</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">cache</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">CachingDatabaseProxy</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">realService</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RealDatabaseService</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">cache</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">containsKey</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">))</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CachingProxy: Cache HIT for: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+            <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">cache</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">get</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+        <span style="color: #ffd700;">}</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CachingProxy: Cache MISS for: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">result</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">realService</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">cache</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">put</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">sql</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">result</span><span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">result</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">clearCache</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CachingProxy: Cache cleared."</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">cache</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clear</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">DatabaseCacheDemo</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">CachingDatabaseProxy</span> <span style="color: #9cdcfe;">db</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CachingDatabaseProxy</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"--- First query (cache miss) ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"SELECT * FROM users"</span><span style="color: #ffd700;">));</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Same query again (cache hit) ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"SELECT * FROM users"</span><span style="color: #ffd700;">));</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Different query (cache miss) ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"SELECT * FROM orders WHERE status = 'pending'"</span><span style="color: #ffd700;">));</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Clear cache and retry ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">clearCache</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">db</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">query</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"SELECT * FROM users"</span><span style="color: #ffd700;">));</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Explanation:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            The first query takes <strong>a full 100 milliseconds</strong> (simulated database latency).
+                            The identical second query returns <strong>instantly from cache</strong>.
+                            After <strong>clearing the cache</strong>, the same query hits the database again.
+                            The client code uses the same <strong>DatabaseService</strong> interface throughout,
+                            unaware that <strong>caching is happening behind the scenes</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">4. When To Use</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Use Proxy when:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>1. Access Control Needed</strong>
+                        <ul
+                            style="margin:0; padding-left:3rem; color:var(--color-text-secondary); line-height:1.9; font-size:medium;">
+
+                            <li style="margin-bottom:0.3rem; margin-top:0.3rem;">
+                                Admin Permissions
+                            </li>
+                            <li>
+                                Authorization
+                            </li>
+                        </ul>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>2. Expensive Object Creation</strong>
+                        <ul
+                            style="margin:0; padding-left:3rem; color:var(--color-text-secondary); line-height:1.9; font-size:medium;">
+
+                            <li style="margin-bottom:0.3rem; margin-top:0.3rem;">
+                                Large Files
+                            </li>
+                            <li>
+                                Large Images
+                            </li>
+                        </ul>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>3. Caching Needed</strong>
+                        <ul
+                            style="margin:0; padding-left:3rem; color:var(--color-text-secondary); line-height:1.9; font-size:medium;">
+
+                            <li style="margin-bottom:0.3rem; margin-top:0.3rem;">
+                                API Responses
+                            </li>
+                            <li>
+                                Database
+                            </li>
+                        </ul>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>4. Logging / Monitoring Needed</strong>
+                        <ul
+                            style="margin:0; padding-left:3rem; color:var(--color-text-secondary); line-height:1.9; font-size:medium;">
+
+                            <li style="margin-bottom:0.3rem; margin-top:0.3rem;">
+                                Audit Logs
+                            </li>
+                            <li>
+                                Tracking
+                            </li>
+                        </ul>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>5. Remote Objects</strong>
+                        <ul
+                            style="margin:0; padding-left:3rem; color:var(--color-text-secondary); line-height:1.9; font-size:medium;">
+
+                            <li style="margin-bottom:0.3rem; margin-top:0.3rem;">
+                                Remote Server
+                            </li>
+                            <li>
+                                Microservices
+                            </li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- When NOT To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5. When NOT To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ No access control needed.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ No logging/caching/security required.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ Direct access to object is acceptable.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ❌ Don't use Proxy in Small Applications<br>
+                            Adding proxy becomes unnecessary complexity.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real World Examples -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">6. Real World Examples</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">Spring AOP</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Many features in Spring
+                        Framework use proxies.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Example:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 2rem 0;">
+                        <pre
+                            style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #c586c0;">@Transactional</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Internally Spring creates a
+                        proxy.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Hibernate</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Lazy loading entities.</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 2rem 0;">
+                        <pre
+                            style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #4ec9b0;">User</span> <span style="color: #9cdcfe;">user</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">repository</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">findById</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">1</span><span style="color: #ffd700;">);</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Data may load later through
+                        a proxy.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">API Gateway</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; text-align:center;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Client
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ↓
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            API Gateway
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ↓
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Microservices
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">API Gateway acts like a
+                        proxy.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Security Systems</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0; text-align:center;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            User
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ↓
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Authentication Layer
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ↓
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Resource
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Classic proxy.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <h4 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--color-text); font-weight: 600;">
+                            Memory Trick
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>The easiest way to remember:</strong><br>
+                            <strong>Decorator</strong> = Add new functionality<br>
+                            <strong>Proxy</strong> = Control access to functionality
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For practice check out
+                        this:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Proxy Design
+                                    Pattern:
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/proxy-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Proxy Pattern</strong> is a <strong>Structural Design Pattern</strong> that provides
+                            a
+                            placeholder for another object to control access to it.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            The proxy implements the same
+                            interface as the real object and can add security, logging, caching, lazy initialization, or
+                            remote access behavior before delegating requests to the actual object.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            It is widely used in
+                            Spring AOP, Hibernate lazy loading, security systems, caching layers, and API gateways.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Proxy_Img4.png" alt="Proxy Pattern Summary"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Purple/Pink Theme -->
+                <style>
+                    @media (max-width:768px) {
+
+                        a[href="LLD_Structural_Composite_Design.html"] {
+                            text-align: center;
+                        }
+
+                        a[href="LLD_Structural_Composite_Design.html"]>div:first-child {
+                            justify-content: center;
+                        }
+
+                        a[href="LLD_Structural_Composite_Design.html"]>div:last-child {
+                            width: 100%;
+                            justify-content: center;
+                            margin-top: .5rem;
+                        }
+
+                    }
+                </style>
+
+                <div style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background:linear-gradient(135deg,rgba(168,85,247,.15) 0%,rgba(236,72,153,.10) 100%); border-radius:var(--radius-xl); border:2px solid rgba(168,85,247,.4); overflow:hidden; box-shadow:0 10px 40px rgba(168,85,247,.2);">
+
+                        <a href="LLD_Structural_Composite_Design.html"
+                            style="display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; padding:clamp(1.25rem,3vw,2rem); text-decoration:none; color:var(--color-text);">
+
+                            <div
+                                style="display:flex; align-items:center; gap:1.25rem; flex:1; min-width:260px; flex-wrap:wrap;">
+
+                                <div
+                                    style="width:clamp(60px,8vw,70px); height:clamp(60px,8vw,70px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:clamp(1.6rem,3vw,2rem); background:linear-gradient(135deg,#a855f7 0%,#ec4899 100%); box-shadow:0 4px 15px rgba(168,85,247,.4);">
+
+                                    🌳
+
+                                </div>
+
+                                <div style="flex:1; min-width:220px;">
+
+                                    <div
+                                        style="font-size:0.9rem; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:.4rem;">
+
+                                        Continue Learning
+
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:#a855f7; line-height:1.3;">
+
+                                        Composite Design Pattern
+
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem; color:var(--color-text-secondary); line-height:1.7; font-size:clamp(.9rem,1.5vw,1rem);">
+
+                                        Learn how the Composite pattern lets you compose objects into tree structures
+                                        to represent part-whole hierarchies.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div style="display:flex; align-items:center; gap:1rem; flex-shrink:0;">
+
+                                <span style="color:#a855f7; font-weight:600; white-space:nowrap;">
+
+                                    Next Topic
+
+                                </span>
+
+                                <div
+                                    style="width:52px; height:52px; border-radius:50%; background:#a855f7; color:white; display:flex; align-items:center; justify-content:center; font-size:1.5rem; box-shadow:0 4px 15px rgba(168,85,247,.4);">
+
+                                    →
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div
+                        style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+
+                        <a href="LLD_Structural_Facade_Design.html"
+                            style="flex:0 1 240px; max-width:260px; display:flex; justify-content:center; align-items:center; gap:.5rem; padding:.65rem 1.2rem; background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border); font-size:0.95rem;">
+
+                            <span>←</span>
+                            <span>Back to Facade Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Composite_Design.html"
+                            style="flex:0 1 240px; max-width:260px; display:flex; justify-content:center; align-items:center; gap:.5rem; padding:.65rem 1.2rem; background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border); font-size:0.95rem;">
+                            <span>Next : Composite Pattern</span>
+                            <span>→</span>
+
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Proxy Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

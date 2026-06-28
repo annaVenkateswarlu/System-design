@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facade Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Facade Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Facade Design Pattern</span>
+                </nav>
+
+                <!-- Header -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(245, 158, 11, 0.1) 100%); border: 1px solid rgba(59, 130, 246, 0.22); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); padding: 2rem; margin: 2rem 0;">
+                    <h1
+                        style="margin: 0 0 1rem 0; font-size: clamp(2rem, 4vw, 2.8rem); background: linear-gradient(135deg, #3b82f6 0%, #10b981 50%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        🔷 Facade Design Pattern
+                    </h1>
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(1rem, 2vw, 1.25rem);">
+                        Learn how to provide a simplified interface to a complex subsystem
+                    </p>
+                </div>
+
+                <!-- Facade Design Pattern Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Facade Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Facade
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>It states:</strong><br>
+                            Provide a simple, unified interface to a complex subsystem. Instead of forcing clients to
+                            coordinate many moving parts, a facade hides the internal complexity and exposes a clean,
+                            easy-to-use entry point.
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It's particularly useful in
+                        situations where:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">Your system contains many interdependent classes or low-level
+                            APIs.</li>
+                        <li style="margin-bottom: 0.5rem;">The client doesn't need to know how those parts work
+                            internally.
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">You want to reduce coupling and make the system easier to
+                            learn
+                            and use.</li>
+                    </ul>
+                </div>
+
+                <!-- Real-Life Analogy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Real-Life Analogy</h2>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Facade_Img1.png" alt="Facade Real World Analogy"
+                            style="max-width: 70%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- 1. Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">1. Problem</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose you're building a
+                        Computer.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">To start a computer, many
+                        components are involved:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>CPU</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Memory</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Hard Disk</strong>
+                        </p>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A beginner may expose all
+                        these
+                        classes directly to the client.</p>
+                </div>
+
+                <!-- 2. Bad Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">2. Bad Code</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">CPU</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">CPU Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CPU</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CPU Started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Memory</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Memory Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Memory</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Memory Loaded"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">HardDisk</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">HardDisk Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HardDisk</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hard Disk Read"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Client</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Main Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #4ec9b0;">CPU</span> <span style="color: #9cdcfe;">cpu</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CPU</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">Memory</span> <span style="color: #9cdcfe;">memory</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Memory</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">HardDisk</span> <span style="color: #9cdcfe;">hardDisk</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HardDisk</span><span style="color: #ffd700;">();</span>
+
+       <span style="color: #9cdcfe;">cpu</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">memory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">hardDisk</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">();</span>
+
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            CPU Started
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Memory Loaded
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Hard Disk Read
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. Issues -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">3. Issues</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">Issue 1: Client Knows Too Much</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Clients must know: <strong>CPU</strong>, <strong>Memory</strong>, <strong>HardDisk</strong>
+                            and
+                            their sequence.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Issue 2: Complex Usage</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Every client writes:
+                        </p>
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 1rem 0;">
+                            <pre
+                                style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #9cdcfe;">cpu</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+<span style="color: #9cdcfe;">memory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">();</span>
+<span style="color: #9cdcfe;">hardDisk</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">();</span></code></pre>
+                        </div>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-top: 1rem;">
+                            again and again.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Issue 3: Tight Coupling</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            If tomorrow startup sequence changes:
+                        </p>
+                        <div
+                            style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 1rem 0;">
+                            <pre
+                                style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #9cdcfe;">cpu</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+<span style="color: #9cdcfe;">memory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">();</span>
+<span style="color: #9cdcfe;">network</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">connect</span><span style="color: #ffd700;">();</span>
+<span style="color: #9cdcfe;">hardDisk</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">();</span></code></pre>
+                        </div>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-top: 1rem;">
+                            Every client must change.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Facade_Img2.png" alt="Facade Issues"
+                            style="max-width: 70%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- 4. Pattern Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">4. Pattern Solution</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Create a Facade class.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Complete Code</h3>
+
+                    <h4 style="margin-bottom: 1.5rem;">CPU</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">CPU Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CPU</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"CPU Started"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1.5rem;">Memory</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Memory Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Memory</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Memory Loaded"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1.5rem;">HardDisk</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">HardDisk Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HardDisk</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Hard Disk Read"</span><span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1.5rem;">Facade</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">ComputerFacade Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ComputerFacade</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">CPU</span> <span style="color: #9cdcfe;">cpu</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Memory</span> <span style="color: #9cdcfe;">memory</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">HardDisk</span> <span style="color: #9cdcfe;">hardDisk</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">ComputerFacade</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #9cdcfe;">cpu</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">CPU</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">memory</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Memory</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">hardDisk</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HardDisk</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">startComputer</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+
+       <span style="color: #9cdcfe;">cpu</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">start</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">memory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">load</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">hardDisk</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">read</span><span style="color: #ffd700;">();</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Computer Started Successfully"</span> <span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1.5rem;">Client</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Main Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">ComputerFacade</span> <span style="color: #9cdcfe;">computer</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ComputerFacade</span><span style="color: #ffd700;">();</span>
+       <span style="color: #9cdcfe;">computer</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">startComputer</span><span style="color: #ffd700;">();</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            CPU Started
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Memory Loaded
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Hard Disk Read
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Computer Started Successfully
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Facade_Img3.png" alt="Facade Pattern Solution"
+                            style="max-width: 80%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Practical Example: Home Theater System -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Practical Example: Home Theater System</h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        Imagine you have a <strong>home theater</strong> with multiple components:
+                        <strong>an amplifier</strong>, <strong>a DVD player</strong>, <strong>a projector</strong>,
+                        <strong>a streaming service</strong>, and <strong>smart lights</strong>.
+                        Watching a movie requires <strong>turning on the projector</strong>,
+                        <strong>dimming the lights</strong>, <strong>powering up the amplifier</strong>,
+                        <strong>setting the volume</strong>, and <strong>starting the movie</strong>.
+                        That is <strong>five subsystems</strong> with specific sequencing requirements.
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        Without a <strong>Facade</strong>, every part of your application that wants to
+                        <strong>play a movie</strong> (a <strong>remote control app</strong>,
+                        a <strong>voice assistant integration</strong>, a
+                        <strong>scheduled movie night feature</strong>) needs to know all those steps.
+                        A <strong>HomeTheaterFacade</strong> wraps them into
+                        <strong>watchMovie()</strong> and <strong>endMovie()</strong>.
+                    </p>
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Home Theater System</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// --- Subsystems ---</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Amplifier</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Amplifier: Powering on."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">off</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Amplifier: Shutting down."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">level</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Amplifier: Volume set to "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">level</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">DvdPlayer</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"DVD Player: Powering on."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">off</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"DVD Player: Shutting down."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">play</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">movie</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"DVD Player: Playing '"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">movie</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"'."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">stop</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"DVD Player: Stopped."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Projector</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Projector: Warming up."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">off</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Projector: Cooling down."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">wideScreenMode</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Projector: Widescreen mode enabled."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SmartLights</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">dim</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">level</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Lights: Dimmed to "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">level</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"%."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Lights: Full brightness."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">StreamingService</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">connect</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Streaming: Connected to service."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">disconnect</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Streaming: Disconnected."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">stream</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">movie</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span> <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Streaming: Now streaming '"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">movie</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"'."</span><span style="color: #ffd700;">);</span> <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// --- Facade ---</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HomeTheaterFacade</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Amplifier</span> <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">DvdPlayer</span> <span style="color: #9cdcfe;">dvd</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">Projector</span> <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">SmartLights</span> <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">StreamingService</span> <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">HomeTheaterFacade</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Amplifier</span> <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">DvdPlayer</span> <span style="color: #9cdcfe;">dvd</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Projector</span> <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">,</span>
+                             <span style="color: #4ec9b0;">SmartLights</span> <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">StreamingService</span> <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">amp</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">dvd</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">dvd</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">projector</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">lights</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">streaming</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">watchMovie</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">movie</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Preparing to watch: "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">movie</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">dim</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">15</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">wideScreenMode</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">20</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">connect</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">stream</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">movie</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"--- Enjoy the movie! ---\n"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">endMovie</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Shutting down home theater ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">disconnect</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">off</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">off</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">on</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"--- Home theater off ---\n"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// --- Client ---</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">HomeTheaterApp</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #4ec9b0;">Amplifier</span> <span style="color: #9cdcfe;">amp</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Amplifier</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">DvdPlayer</span> <span style="color: #9cdcfe;">dvd</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">DvdPlayer</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Projector</span> <span style="color: #9cdcfe;">projector</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Projector</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">SmartLights</span> <span style="color: #9cdcfe;">lights</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SmartLights</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">StreamingService</span> <span style="color: #9cdcfe;">streaming</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">StreamingService</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">HomeTheaterFacade</span> <span style="color: #9cdcfe;">theater</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HomeTheaterFacade</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">amp</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">dvd</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">projector</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">lights</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">streaming</span><span style="color: #ffd700;">);</span>
+
+        <span style="color: #9cdcfe;">theater</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">watchMovie</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Interstellar"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">theater</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">endMovie</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Notice how the client does not care about the order of operations, which devices to power on
+                            first, or how to properly shut everything down. The facade handles all of that. If you later
+                            add
+                            a subwoofer or a screen, you update the facade and every client automatically gets the new
+                            behavior.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 5. When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5. When To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Complex subsystem exists</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Client should not know internal details</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Want a simple API</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ✅ <strong>Reduce coupling</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 6 When NOT To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">6. When NOT To Use</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Don't use Facade when:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>1. System Is Already Simple</strong><br>
+                            Adding a facade may be unnecessary.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>2. Client Needs Full Control</strong><br>
+                            If clients must directly access subsystem features.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>3. Tiny Applications</strong><br>
+                            Can become over-engineering.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 7. Real World Examples -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">7. Real World Examples</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">Spring Framework</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">You often use:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-md); border: 1px solid var(--glass-border); padding: 1rem; margin: 2rem 0;">
+                        <pre
+                            style="margin: 0; padding: 0; overflow-x: auto;"><code><span style="color: #c586c0;">@RestController</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">without knowing all
+                        internal
+                        components.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Spring provides facades
+                        over
+                        complex internals.</p>
+                </div>
+
+                <!-- Advantages and Disadvantages -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Advantages</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Simplifies client code</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Reduces coupling</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Hides subsystem complexity</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Improves readability</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ✅ <strong>Easier maintenance</strong>
+                        </p>
+                    </div>
+
+                    <h2 style="margin-bottom: 1.5rem;">Disadvantages</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ <strong>Can become a God Class if it grows too much</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ <strong>May hide useful subsystem functionality</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ❌ <strong>Additional layer to maintain</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Facade
+                                    Design
+                                    Pattern :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/facade-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Facade Pattern</strong> is a <strong>Structural Design Pattern</strong> that
+                            provides a
+                            simplified interface to a complex subsystem. Instead of interacting with multiple classes
+                            directly, clients communicate with a single facade object, which coordinates the underlying
+                            components.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Facade reduces coupling, hides complexity, improves usability, and is widely used in service
+                            layers, SDKs, banking systems, and e-commerce applications.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Facade_Img4.png" alt="Facade Pattern Summary"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                </div>
+
+                <!-- Next Topic CTA - Green/Teal Theme -->
+                <style>
+                    @media (max-width:768px) {
+
+                        a[href="LLD_Structural_Proxy_Design.html"] {
+                            text-align: center;
+                        }
+
+                        a[href="LLD_Structural_Proxy_Design.html"]>div:first-child {
+                            justify-content: center;
+                        }
+
+                        a[href="LLD_Structural_Proxy_Design.html"]>div:last-child {
+                            width: 100%;
+                            justify-content: center;
+                            margin-top: .5rem;
+                        }
+
+                    }
+                </style>
+
+                <div style="margin-top:2rem; padding:1.5rem 0; border-top:1px solid var(--glass-border);">
+
+                    <div style="background:linear-gradient(135deg,rgba(16,185,129,.15) 0%,rgba(6,182,212,.10) 100%); border-radius:var(--radius-xl); border:2px solid rgba(16,185,129,.4); overflow:hidden; box-shadow:0 10px 40px rgba(16,185,129,.2);">
+
+                        <a href="LLD_Structural_Proxy_Design.html" style="display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; padding:clamp(1.25rem,3vw,2rem); text-decoration:none; color:var(--color-text);">
+
+                            <div style="display:flex; align-items:center; gap:1.25rem; flex:1; min-width:260px; flex-wrap:wrap;">
+
+                                <div style="width:clamp(60px,8vw,70px); height:clamp(60px,8vw,70px); border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:clamp(1.6rem,3vw,2rem); background:linear-gradient(135deg,#10b981 0%,#06b6d4 100%); box-shadow:0 4px 15px rgba(16,185,129,.4);">
+
+                                    🛡️
+
+                                </div>
+
+                                <div style="flex:1; min-width:220px;">
+
+                                    <div style="font-size:0.9rem; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:.4rem;">
+
+                                        Continue Learning
+
+                                    </div>
+
+                                    <div style="font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:#10b981; line-height:1.3;">
+
+                                        Proxy Design Pattern
+
+                                    </div>
+
+                                    <div style="margin-top:.5rem; color:var(--color-text-secondary); line-height:1.7; font-size:clamp(.9rem,1.5vw,1rem);">
+
+                                        Learn how the Proxy pattern provides a surrogate or placeholder to control
+                                        access to
+                                        an object.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div style="display:flex; align-items:center; gap:1rem; flex-shrink:0;">
+
+                                <span style="color:#10b981; font-weight:600; white-space:nowrap;">
+
+                                    Next Topic
+
+                                </span>
+
+                                <div style="width:52px; height:52px; border-radius:50%; background:#10b981; color:white; display:flex; align-items:center; justify-content:center; font-size:1.5rem; box-shadow:0 4px 15px rgba(16,185,129,.4);">
+
+                                    →
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
+
+                        <a href="LLD_Structural_Decorator_Design.html" style="flex:0 1 240px; max-width:260px; display:flex; justify-content:center; align-items:center; gap:.5rem; padding:.65rem 1.2rem; background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border); font-size:0.95rem;">
+
+                            <span>←</span>
+                            <span>Back to Decorator Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Proxy_Design.html" style="flex:0 1 240px; max-width:260px; display:flex; justify-content:center; align-items:center; gap:.5rem; padding:.65rem 1.2rem; background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border); font-size:0.95rem;">
+                            <span>Next : Proxy Pattern</span>
+                            <span>→</span>
+
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Facade Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

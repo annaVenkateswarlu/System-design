@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridge Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .next-topic-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .next-topic-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .next-topic-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .bottom-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+        }
+
+        @media (max-width:900px) {
+
+            .next-topic-link {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .next-topic-action {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        }
+
+        @media (max-width:600px) {
+
+            .next-topic-link {
+                padding: 1.2rem;
+            }
+
+            .next-topic-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .next-topic-icon {
+                width: 58px;
+                height: 58px;
+                font-size: 1.6rem;
+            }
+
+            .next-topic-arrow {
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
+            }
+
+            .bottom-navigation {
+                flex-direction: column;
+            }
+
+            .bottom-nav-btn {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+        }
+
+        @media (max-width:420px) {
+
+            .next-topic-content {
+                align-items: center;
+                text-align: center;
+            }
+
+            .next-topic-action {
+                flex-direction: column;
+                gap: .8rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Bridge Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Bridge Design Pattern</span>
+                </nav>
+
+                <!-- Bridge Pattern Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Bridge Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Bridge
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+
+                            Separate an <strong>abstraction</strong> from its <strong>implementation</strong> so that
+                            both can vary independently
+                        </p>
+                    </div>
+
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Detailed terms</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Bridge Design
+                            Pattern</strong> lets you split a class into two separate hierarchies:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">one for the <strong>abstraction</strong></li>
+                        <li style="margin-bottom: 0.5rem;">another for the <strong>implementation</strong></li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">so that they can evolve
+                        independently.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Two characteristics define
+                        the pattern:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Independent variation:</strong> The abstraction
+                            hierarchy
+                            (shapes) and the implementation hierarchy (renderers) can grow without affecting each other.
+                            Adding a new shape does not require touching any renderer. Adding a new renderer does not
+                            require touching any shape.</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Composition over inheritance:</strong> The
+                            abstraction
+                            holds a reference to an implementor object and delegates work to it at runtime, rather than
+                            inheriting implementation behavior. This keeps both hierarchies shallow and flexible.</li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">It's particularly useful
+                        in situations where:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;">You have classes that can be extended in multiple orthogonal
+                            dimensions (e.g., shape vs. rendering technology, UI control vs. platform).</li>
+                        <li style="margin-bottom: 0.5rem;">You want to avoid a deep inheritance hierarchy that
+                            multiplies
+                            combinations of features.</li>
+                        <li style="margin-bottom: 0.5rem;">You need to combine multiple variations of behavior or
+                            implementation at runtime.</li>
+                    </ul>
+                </div>
+
+                <!-- The Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">1. The Problem</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">❌ Bad Design (Without Bridge Pattern)</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose we have <strong>2
+                            Shapes</strong>: ( Abstraction )</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Circle</strong></li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Rectangle</strong></li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">And <strong>2
+                            Colors</strong>:
+                        ( Implementation )</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Red</strong></li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Blue</strong></li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A beginner often creates a
+                        separate class for every combination.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Beginners code</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RedCircle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Drawing Red Circle"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">BlueCircle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Drawing Blue Circle"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RedRectangle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Drawing Red Rectangle"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">BlueRectangle</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Drawing Blue Rectangle"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #4ec9b0;">RedCircle</span> <span style="color: #9cdcfe;">redCircle</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RedCircle</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">redCircle</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">BlueRectangle</span> <span style="color: #9cdcfe;">blueRectangle</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">BlueRectangle</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">blueRectangle</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Drawing Red Circle
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-family: monospace;">
+                            Drawing Blue Rectangle
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">🚨 Issue</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Current Classes</p>
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>RedCircle</strong>, <strong>BlueCircle</strong>,
+                            <strong>RedRectangle</strong>, <strong>BlueRectangle</strong>
+                        </li>
+                    </ul>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Total - <strong>4
+                            classes</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">If Add New Color then we
+                        need
+                        <strong>GreenCircle</strong>, <strong>GreenRectangle</strong>
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now total <strong>6
+                            classes</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Next, If Add New Shape then
+                        we
+                        need <strong>RedTriangle</strong>, <strong>BlueTriangle</strong>, <strong>GreenTriangle</strong>
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now total <strong>9
+                            classes</strong>.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>So, this is leads to Class Explosion</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-top: 1rem;">
+                            Because :
+                            <strong>Shapes × Colors</strong><br>
+                            creates too many classes.
+                        </p>
+                    </div>
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Bridge_Img1.png" alt="Bridge Pattern Problem"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Bridge Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">3️⃣ Bridge Solution</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 1: Implementation Hierarchy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Color</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">applyColor</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RedColor</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Color</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">applyColor</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Applying Red Color"</span> <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">BlueColor</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Color</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">applyColor</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Applying Blue Color"</span> <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Step 2: Abstraction Hierarchy</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">abstract</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Shape</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">Color</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+    
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Shape</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Color</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+    
+    <span style="color: #c586c0;">abstract</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Circle</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Shape</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Circle</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Color</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">print</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Drawing Circle : "</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">applyColor</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Rectangle</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Shape</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Rectangle</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Color</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">print</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Drawing Rectangle : "</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">applyColor</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">Shape</span> <span style="color: #9cdcfe;">circle</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Circle</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">RedColor</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Shape</span> <span style="color: #9cdcfe;">rectangle</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Rectangle</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">BlueColor</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">circle</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">rectangle</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">draw</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem; font-family: monospace;">
+                            Drawing Circle : Applying Red Color
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-family: monospace;">
+                            Drawing Rectangle : Applying Blue Color
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Explanation</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Now:</strong>
+                        </p>
+                        <ul
+                            style="margin:0; padding-left:1.5rem; color:var(--color-text-secondary); line-height:1.9; margin-top: 1rem;">
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Add a new Shape</strong> → Create 1 new class.
+                            </li>
+                            <li style="margin-bottom:0.6rem;">
+                                <strong>Add a new Color</strong> → Create 1 new class.
+                            </li>
+                            <li>
+                                <strong>No more multiplication of classes.</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Real world examples</h3>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Bridge_Img2.png" alt="Bridge Pattern Real World Examples"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Example 2: Remote Control and Devices -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Example 2 : Remote Control and Devices</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The
+                        <strong>abstraction</strong>
+                        is the remote (basic remote, advanced remote), and the <strong>implementation</strong> is the
+                        device (TV, radio).
+                    </p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A basic remote can toggle
+                        power and adjust volume. An advanced remote adds a mute button. Both remotes work with any
+                        device.
+                    </p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Implementation</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                            <span style="color: #d4d4d4; font-size: 0.9rem;">Java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255,255,255,0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='rgba(255,255,255,0.2)'"
+                                onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fas fa-copy"></i>
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Implementor</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Device</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">isEnabled</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">enable</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">disable</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">int</span> <span style="color: #dcdcaa;">getVolume</span><span style="color: #ffd700;">();</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #6a9955;">// ConcreteImplementor: TV</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">TV</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Device</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">boolean</span> <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">false</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">volume</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">30</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">isEnabled</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">enabled</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">enable</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"TV: Turned ON"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">disable</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"TV: Turned OFF"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getVolume</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">volume</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">Math</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">max</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">0</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Math</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">min</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">100</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">));</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"TV: Volume set to "</span> <span style="color: #ffd700;">+</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+
+<span style="color: #6a9955;">// ConcreteImplementor: Radio</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Radio</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Device</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">boolean</span> <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">false</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">volume</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">20</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">boolean</span> <span style="color: #dcdcaa;">isEnabled</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">enabled</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">enable</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">true</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Radio: Turned ON"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">disable</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">enabled</span> <span style="color: #ffd700;">=</span> <span style="color: #b5cea8;">false</span><span style="color: #ffd700;">;</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Radio: Turned OFF"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getVolume</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span> <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">;</span> <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">volume</span> <span style="color: #ffd700;">=</span> <span style="color: #4ec9b0;">Math</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">max</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">0</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">Math</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">min</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">100</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">));</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Radio: Volume set to "</span> <span style="color: #ffd700;">+</span> <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">volume</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Abstraction</span>
+<span style="color: #c586c0;">abstract</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Remote</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">protected</span> <span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Remote</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">device</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">togglePower</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">if</span> <span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">isEnabled</span><span style="color: #ffd700;">())</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">disable</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span> <span style="color: #c586c0;">else</span> <span style="color: #ffd700;">{</span>
+            <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">enable</span><span style="color: #ffd700;">();</span>
+        <span style="color: #ffd700;">}</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">volumeUp</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getVolume</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #b5cea8;">10</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">volumeDown</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getVolume</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">-</span> <span style="color: #b5cea8;">10</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// RefinedAbstraction: BasicRemote</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">BasicRemote</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Remote</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">BasicRemote</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// RefinedAbstraction: AdvancedRemote</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">AdvancedRemote</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">Remote</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">AdvancedRemote</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">mute</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">device</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">setVolume</span><span style="color: #ffd700;">(</span><span style="color: #b5cea8;">0</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"AdvancedRemote: Muted"</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">RemoteDemo</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"--- Basic Remote with TV ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">tv</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">TV</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Remote</span> <span style="color: #9cdcfe;">basicRemote</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">BasicRemote</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">tv</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">basicRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">togglePower</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">basicRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">volumeUp</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">basicRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">volumeUp</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">basicRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">volumeDown</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Advanced Remote with Radio ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Device</span> <span style="color: #9cdcfe;">radio</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Radio</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">AdvancedRemote</span> <span style="color: #9cdcfe;">advancedRemote</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">AdvancedRemote</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">radio</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">advancedRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">togglePower</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">advancedRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">volumeUp</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">advancedRemote</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">mute</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"\n--- Advanced Remote with TV ---"</span><span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">AdvancedRemote</span> <span style="color: #9cdcfe;">tvAdvanced</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">AdvancedRemote</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">tv</span><span style="color: #ffd700;">);</span>
+        <span style="color: #9cdcfe;">tvAdvanced</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">volumeUp</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">tvAdvanced</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">mute</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Notice how the same
+                        <strong>TV
+                            object</strong> is used with both the basic remote and the advanced remote. The remote
+                        hierarchy
+                        and the device hierarchy vary independently. Adding a Speaker device means writing one new
+                        class.
+                        Adding a VoiceRemote means writing one new class. Neither side knows about the others.
+                    </p>
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">4️⃣ When To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Use Bridge when:</strong>
+                        </p>
+                        <ul style="margin:0; padding-left:0rem; color:var(--color-text-secondary); line-height:1.9;">
+                            <h5 style="margin-bottom:0.6rem; margin-left:0rem;">
+                                <strong>1. Two Independent Dimensions Exist</strong>
+                            </h5>
+                            <p style="margin-bottom:0.6rem;">
+                                Example:
+                            </p>
+                            <li style="margin-bottom:0.6rem; margin-left: 2.5rem;">
+                                Shape + Color
+                            </li>
+                            <li style="margin-bottom:0.6rem; margin-left: 2.5rem;">
+                                Remote + Device
+                            </li>
+                            <li style="margin-bottom:0.6rem; margin-left: 2.5rem;">
+                                Notification + Channel
+                            </li>
+                            <h5 style="margin-bottom:0.6rem; margin-top:1.5rem;">
+                                <strong>2. Class Explosion Is Happening</strong>
+                            </h5>
+                            <p style="margin-bottom:0.6rem;">
+                                Many combinations.
+                            </p>
+                            <h5 style="margin-bottom:0.6rem; margin-top:1.5rem;">
+                                <strong>3. Both Hierarchies Change Independently</strong>
+                            </h5>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- When NOT To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5️⃣ When NOT To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Don't use Bridge when:</strong>
+                        </p>
+                        <ul style="margin:0; padding-left:0rem; color:var(--color-text-secondary); line-height:1.9;">
+                            <h5 style="margin-bottom:0.6rem; margin-top:1.5rem;">
+                                <strong>1. Only One Dimension Exists</strong>
+                            </h5>
+                            <p style="margin-bottom:0.6rem;">
+                                Example:
+                            </p>
+                            <li style="margin-bottom:0.6rem; margin-left: 2.5rem;">
+                                Only Shapes
+                            </li>
+                            <h5 style="margin-bottom:0.6rem; margin-top:1.5rem;">
+                                <strong>2. Very Small Systems</strong>
+                            </h5>
+                            <p>
+                                Adds unnecessary complexity.
+                            </p>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Bridge Design Pattern
+                                    :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/bridge-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Bridge Pattern</strong> is a <strong>Structural Design Pattern</strong> that
+                            separates
+                            an abstraction from its implementation so that both can vary independently.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            It solves the problem of <strong>class explosion</strong> caused by combining multiple
+                            dimensions (such as Shape × Color or Remote × Device) through inheritance.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Instead of creating subclasses for every combination, Bridge uses
+                            <strong>composition</strong>
+                            to connect two independent hierarchies.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Bridge_Img3.png" alt="Bridge Pattern Summary"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA -->
+
+                <div class="next-topic-section"
+                    style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(34, 197, 94, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(16, 185, 129, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);">
+
+                        <a href="LLD_Structural_Flyweight_Design.html" class="next-topic-link"
+                            style="text-decoration:none; color:var(--color-text);">
+
+                            <div class="next-topic-content">
+
+                                <div class="next-topic-icon"
+                                    style="background: linear-gradient(135deg, #10b981 0%, #22c55e 100%); box-shadow: 0 4px 15px rgba(16,185,129,.4);">
+
+                                    🍃
+
+                                </div>
+
+                                <div>
+
+                                    <div
+                                        style="font-size:.9rem; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:.4rem;">
+
+                                        Continue Learning
+
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:#10b981; line-height:1.3;">
+
+                                        Flyweight Design Pattern
+
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem; color:var(--color-text-secondary); line-height:1.6; font-size:clamp(.85rem,1.5vw,1rem);">
+
+                                        Learn how to reduce memory usage by sharing common parts of objects.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color:#10b981; font-weight:600; white-space:nowrap;">
+
+                                    Next Topic
+
+                                </span>
+
+                                <div class="next-topic-arrow"
+                                    style="background:#10b981; color:white; box-shadow:0 4px 15px rgba(16,185,129,.4);">
+
+                                    →
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="bottom-navigation" style="margin-top:2rem;">
+
+                        <a href="LLD_Structural_Composite_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Composite Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Flyweight_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>Next: Flyweight Design Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Bridge Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

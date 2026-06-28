@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flyweight Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .next-topic-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .next-topic-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .next-topic-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .bottom-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+        }
+
+        @media (max-width:900px) {
+
+            .next-topic-link {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .next-topic-action {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        }
+
+        @media (max-width:600px) {
+
+            .next-topic-link {
+                padding: 1.2rem;
+            }
+
+            .next-topic-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .next-topic-icon {
+                width: 58px;
+                height: 58px;
+                font-size: 1.6rem;
+            }
+
+            .next-topic-arrow {
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
+            }
+
+            .bottom-navigation {
+                flex-direction: column;
+            }
+
+            .bottom-nav-btn {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+        }
+
+        @media (max-width:420px) {
+
+            .next-topic-content {
+                align-items: center;
+                text-align: center;
+            }
+
+            .next-topic-action {
+                flex-direction: column;
+                gap: .8rem;
+            }
+
+        }
+
+        /* Flyweight Introduction */
+
+        .flyweight-definition {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .flyweight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .flyweight-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .flyweight-card-icon {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width:768px) {
+
+            .flyweight-definition {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .flyweight-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width:480px) {
+
+            .flyweight-icon {
+                width: 46px;
+                height: 46px;
+                min-width: 46px;
+                font-size: 1.2rem;
+            }
+
+            .flyweight-card-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                font-size: 1rem;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Flyweight Design Pattern</h1>
+                <p>Flyweight Pattern - Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Flyweight Design Pattern</span>
+                </nav>
+
+                <!-- Introduction -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <!-- Flyweight Introduction -->
+                    <div style="margin-bottom:0; padding:1rem 0;">
+
+                        <h2 style="margin-bottom:1.5rem;">
+                            🔷 Flyweight Design Pattern
+                        </h2>
+
+                        <p style="line-height:1.9; margin-bottom:1.5rem; font-size:clamp(1rem,2vw,1.125rem);">
+
+                            The <strong>Flyweight Pattern</strong> is a
+                            <strong>Structural Design Pattern</strong>.
+
+                        </p>
+
+                        <!-- Definition -->
+
+                        <div class="flyweight-definition"
+                            style="background:linear-gradient(135deg, rgba(59,130,246,.12) 0%, rgba(96,165,250,.08) 100%); border:1px solid rgba(59,130,246,.30); border-radius:var(--radius-lg); padding:clamp(1.25rem,3vw,2rem); margin:2rem 0;">
+                            <div class="flyweight-icon"
+                                style="background:#3b82f6; color:white; box-shadow:0 4px 12px rgba(59,130,246,.35);">
+
+                                🪶
+
+                            </div>
+
+                            <div style="min-width:0;">
+
+                                <h3 style="margin:0 0 .75rem 0; color:#2563eb; font-size:clamp(1.05rem,2vw,1.25rem);">
+
+                                    Definition
+
+                                </h3>
+
+                                <p
+                                    style="margin:0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Separate an <strong>abstraction</strong> from its
+                                    <strong>implementation</strong> so that both can vary independently
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <h3 style="margin-bottom:1.5rem; font-size:clamp(1.15rem,2vw,1.4rem);">
+
+                            In Detailed terms:
+
+                        </h3>
+
+                        <div
+                            style="background:rgba(59,130,246,.05); border-left:5px solid #3b82f6; border-radius:12px; padding:clamp(1.2rem,3vw,1.8rem); margin-bottom:2rem;">
+
+                            <p
+                                style="margin:0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                The Flyweight pattern is a structural design pattern that
+                                <strong>minimizes memory usage</strong> by sharing common state
+                                across a large number of similar objects instead of storing that
+                                state in each object individually.
+
+                            </p>
+
+                        </div>
+
+                        <p style="line-height:1.9; margin-bottom:1.5rem; font-size:clamp(1rem,2vw,1.125rem);">
+
+                            Two characteristics define the Flyweight pattern and set it apart from other structural
+                            patterns:
+
+                        </p>
+
+                        <!-- Characteristics -->
+
+                        <div class="flyweight-grid">
+
+                            <!-- Card 1 -->
+
+                            <div
+                                style="background:linear-gradient(135deg,rgba(16,185,129,.12) 0%,rgba(52,211,153,.08) 100%); border:1px solid rgba(16,185,129,.25); border-radius:var(--radius-lg); padding:clamp(1.2rem,3vw,1.8rem);">
+
+                                <div style="display:flex; align-items:center; gap:.8rem; margin-bottom:1rem;">
+
+                                    <div class="flyweight-card-icon" style="background:#10b981; color:white;">
+
+                                        🔄
+
+                                    </div>
+
+                                    <h3 style="margin:0; color:#059669; font-size:clamp(1rem,2vw,1.2rem);">
+
+                                        Intrinsic / Extrinsic State
+
+                                    </h3>
+
+                                </div>
+
+                                <p
+                                    style="margin:0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.02rem);">
+
+                                    <strong>Intrinsic/extrinsic state separation:</strong>
+                                    The pattern divides object state into two parts.
+                                    <strong>Intrinsic state</strong> is shared and immutable,
+                                    stored inside the flyweight.
+                                    <strong>Extrinsic state</strong> is context-dependent and unique,
+                                    stored outside the flyweight and passed in when needed.
+                                    This separation is what makes sharing possible.
+
+                                </p>
+
+                            </div>
+
+                            <!-- Card 2 -->
+
+                            <div
+                                style="background:linear-gradient(135deg,rgba(245,158,11,.12) 0%, rgba(251,191,36,.08) 100%); border:1px solid rgba(245,158,11,.25); border-radius:var(--radius-lg); padding:clamp(1.2rem,3vw,1.8rem);">
+
+                                <div style="display:flex; align-items:center; gap:.8rem; margin-bottom:1rem;">
+
+                                    <div class="flyweight-card-icon" style="background:#f59e0b; color:white;">
+
+                                        🏭
+
+                                    </div>
+
+                                    <h3 style="margin:0; color:#d97706; font-size:clamp(1rem,2vw,1.2rem);">
+
+                                        Factory-Managed Caching
+
+                                    </h3>
+
+                                </div>
+
+                                <p
+                                    style="margin:0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.02rem);">
+
+                                    <strong>Factory-managed caching:</strong>
+                                    A dedicated factory object controls the creation and reuse of flyweights.
+                                    Clients never instantiate flyweights directly.
+                                    They go through the factory, which maintains a cache and ensures that identical
+                                    flyweights are shared rather than duplicated.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Problem -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Problem</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Imagine a game with:</p>
+
+                    <ul
+                        style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>1000 Trees</strong></li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Every tree has:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <pre
+                            style="margin: 0; color: var(--color-text-secondary); line-height: 1.8; font-family: monospace;">Tree
+├── Image
+├── Color
+├── X Position
+└── Y Position</pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">A beginner creates 1000
+                        Tree
+                        objects, each storing the same image and color.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Results in <strong>Huge
+                            memory waste</strong>.</p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Bad code: (Beginners Code)</h3>
+
+                    <h4 style="margin-bottom: 1rem;">Tree Class</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Tree.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Tree</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">;</span>
+   <span style="color: #c586c0;">private</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">;</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">image</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">;</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">x</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">;</span>
+       <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">y</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">image</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">x</span> <span style="color: #ffd700;">+</span>  <span style="color: #ce9178;">","</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">y</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span> <span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem;">Client</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Main.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">10</span><span style="color: #ffd700;">,</span>  <span style="color: #b5cea8;">20</span> <span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span><span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">30</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">40</span> <span style="color: #ffd700;">);</span>
+       <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span> <span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">50</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">60</span> <span style="color: #ffd700;">);</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>🚨 Issues</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Every object stores:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Image</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Color</strong></li>
+                        </ul>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            again and again.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            For: <strong>1000 Trees</strong><br>
+                            Huge duplication.
+                        </p>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>🎯 What's Common?</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Every tree has: <strong>Image</strong>, <strong>Color</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            These never change.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            These are called: <strong>Intrinsic State</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>What's Different?</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Each tree has: <strong>X Position</strong>, <strong>Y Position</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            These are unique.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            So they Called: <strong>Extrinsic State</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Flyweight Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Flyweight solution</h2>
+
+                    <h4 style="margin-bottom: 1rem;">// Flyweight</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">TreeType.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Flyweight</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">TreeType</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">);</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The flyweight interface
+                        declares a
+                        single method, <strong>display(x, y)</strong>, where x and y represent extrinsic state. The
+                        flyweight itself does not store position. Instead, the caller passes position in at render time.
+                    </p>
+
+                    <h4 style="margin-bottom: 1rem;">// Concrete Flyweight</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">ConcreteTreeType.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Concrete Flyweight</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">ConcreteTreeType</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">TreeType</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">ConcreteTreeType</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">image</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">image</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">color</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" ("</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">x</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">y</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">")"</span> <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The concrete flyweight
+                        stores
+                        intrinsic state only. The <strong>display()</strong> method combines the stored intrinsic state
+                        with the extrinsic position parameters to render the character.</p>
+
+                    <h4 style="margin-bottom: 1rem;">// Flyweight Factory</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">TreeFactory.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Flyweight Factory</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.HashMap</span><span style="color: #ffd700;">;</span>
+<span style="color: #c586c0;">import</span> <span style="color: #4ec9b0;">java.util.Map</span><span style="color: #ffd700;">;</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">TreeFactory</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">Map</span><span style="color: #ffd700;">&lt;</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">TreeType</span><span style="color: #ffd700;">&gt;</span> <span style="color: #9cdcfe;">treeTypes</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">HashMap</span><span style="color: #ffd700;">&lt;&gt;();</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">TreeType</span> <span style="color: #dcdcaa;">getTreeType</span><span style="color: #ffd700;">(</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">String</span> <span style="color: #9cdcfe;">key</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">image</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">"_"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">;</span>
+        <span style="color: #9cdcfe;">treeTypes</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">putIfAbsent</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">,</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">ConcreteTreeType</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">image</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">color</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">treeTypes</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">get</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">key</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">int</span> <span style="color: #dcdcaa;">getTreeTypeCount</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">treeTypes</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">size</span><span style="color: #ffd700;">();</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                    <div style="
+    background: linear-gradient(135deg, rgba(59,130,246,0.12) 0%, rgba(96,165,250,0.08) 100%);
+    padding: clamp(1.25rem,3vw,2rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(59,130,246,0.3);
+    margin: 2rem 0;">
+
+                        <p
+                            style="margin:0 0 1rem 0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+                            <strong>Maintains a Map:</strong>
+                            It maintains a map of already-created flyweights, keyed by a string that concatenates all
+                            intrinsic fields.
+                        </p>
+
+                        <p
+                            style="margin:0 0 1rem 0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+                            <strong>Checks the Cache First:</strong>
+                            When a client requests a flyweight, the factory checks the map first.
+                        </p>
+
+                        <p
+                            style="margin:0 0 1rem 0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+                            <strong>If Already Exists:</strong>
+                            If a matching flyweight exists, it returns the cached instance.
+                        </p>
+
+                        <p
+                            style="margin:0 0 1rem 0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+                            <strong>If Not Found:</strong>
+                            If not, it creates a new one, stores it, and returns it.
+                        </p>
+
+                        <p
+                            style="margin:0; line-height:1.9; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+                            <strong>Guarantee:</strong>
+                            This guarantees that identical combinations of intrinsic state are never duplicated.
+                        </p>
+
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem;">// Context (Extrinsic State)</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Tree.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Context (Extrinsic State)</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Tree</span> <span style="color: #ffd700;">{</span>
+
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">TreeType</span> <span style="color: #9cdcfe;">treeType</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">;</span>
+    <span style="color: #c586c0;">private</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span> <span style="color: #4ec9b0;">TreeType</span> <span style="color: #9cdcfe;">treeType</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">,</span> <span style="color: #4ec9b0;">int</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">treeType</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">treeType</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">x</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">;</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">y</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #9cdcfe;">treeType</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">x</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">y</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem;">// Client</h4>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1.5rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden;">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Main.java</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                <i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Client</span>
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">Main</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+
+        <span style="color: #4ec9b0;">TreeFactory</span> <span style="color: #9cdcfe;">factory</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">TreeFactory</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTreeType</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">),</span> <span style="color: #b5cea8;">10</span><span style="color: #ffd700;">,</span><span style="color: #b5cea8;">20</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTreeType</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">),</span> <span style="color: #b5cea8;">30</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">40</span> <span style="color: #ffd700;">);</span>
+        <span style="color: #4ec9b0;">Tree</span> <span style="color: #9cdcfe;">t3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">Tree</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTreeType</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Tree.png"</span><span style="color: #ffd700;">,</span> <span style="color: #ce9178;">"Green"</span><span style="color: #ffd700;">),</span> <span style="color: #b5cea8;">50</span><span style="color: #ffd700;">,</span> <span style="color: #b5cea8;">60</span> <span style="color: #ffd700;">);</span>
+
+        <span style="color: #9cdcfe;">t1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">t2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">();</span>
+        <span style="color: #9cdcfe;">t3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">display</span><span style="color: #ffd700;">();</span>
+
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span>  <span style="color: #ce9178;">"\nUnique Tree Types : "</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">factory</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getTreeTypeCount</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-bottom: 1rem;">Output</h4>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: clamp(1rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+
+                        <pre
+                            style="margin:0; min-width:max-content; white-space:pre; color:var(--color-text-secondary); line-height:1.8; font-family:monospace; font-size:clamp(.85rem,1.5vw,1rem);">Tree.png Green (10, 20)
+Tree.png Green (30, 40)
+Tree.png Green (50, 60)
+
+Unique Tree Types : 1</pre>
+
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Explanation</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>HOW IT WORKS</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Client requests a tree with (image, color).</li>
+                            <li style="margin-bottom: 0.5rem;">Factory checks if that combination already exists.</li>
+                            <li style="margin-bottom: 0.5rem;">If yes, return the existing TreeType (shared).</li>
+                            <li style="margin-bottom: 0.5rem;">Client creates a new Tree with its own X, Y.</li>
+                            <li style="margin-bottom: 0.5rem;">All trees share the same TreeType object.</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Flyweight_Img1.png" alt="Flyweight Pattern"
+                            style="max-width: 90%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">When To Use</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>✅ Use Flyweight when:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Huge number of similar objects.</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Memory usage is high.</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Many objects share common state.</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>❌ Don't use Flyweight when:</strong>
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Few objects exist.</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Objects don't share common data.</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Memory isn't a concern.</strong></li>
+                        </ul>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Adding Flyweight would make the design unnecessarily complex.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Real World Examples -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <div style="margin-bottom:0; padding:1rem 0;">
+
+                        <h2 style="margin-bottom:1.5rem;">
+                            Real World Examples
+                        </h2>
+
+                        <div
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
+
+                            <!-- Text Editor -->
+
+                            <div
+                                style="background:linear-gradient(135deg,rgba(59,130,246,.12) 0%, rgba(96,165,250,.08) 100%); border:1px solid rgba(59,130,246,.25); border-radius:var(--radius-lg); padding:clamp(1.2rem,3vw,2rem); display:flex; flex-direction:column; gap:1rem;">
+
+                                <div style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div
+                                        style="width:55px; height:55px; border-radius:50%; background:#3b82f6; color:white; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0;">
+
+                                        📝
+
+                                    </div>
+
+                                    <h3 style="margin:0; color:#3b82f6; font-size:clamp(1.1rem,2vw,1.35rem);">
+
+                                        Text Editor
+
+                                    </h3>
+
+                                </div>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Document:
+                                    <strong>Hello World</strong>
+
+                                </p>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Instead of creating separate font objects for every character,
+                                    editors share font information.
+
+                                </p>
+
+                            </div>
+
+                            <!-- Chess -->
+
+                            <div
+                                style="background:linear-gradient(135deg, rgba(139,92,246,.12) 0%, rgba(168,85,247,.08) 100%); border:1px solid rgba(139,92,246,.25); border-radius:var(--radius-lg); padding:clamp(1.2rem,3vw,2rem); display:flex; flex-direction:column; gap:1rem;">
+
+                                <div style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div
+                                        style="width:55px; height:55px; border-radius:50%; background:#8b5cf6; color:white; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0;">
+
+                                        ♟️
+
+                                    </div>
+
+                                    <h3 style="margin:0; color:#8b5cf6; font-size:clamp(1.1rem,2vw,1.35rem);">
+
+                                        Chess Game
+
+                                    </h3>
+
+                                </div>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Thousands of games may reuse the same:
+                                    <strong>Black Pawn</strong>,
+                                    <strong>White Pawn</strong>
+
+                                </p>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    definitions while storing only each piece's position separately.
+
+                                </p>
+
+                            </div>
+
+                            <!-- Maps -->
+
+                            <div
+                                style="background:linear-gradient(135deg,rgba(16,185,129,.12) 0%, rgba(52,211,153,.08) 100%); border:1px solid rgba(16,185,129,.25); border-radius:var(--radius-lg); padding:clamp(1.2rem,3vw,2rem); display:flex; flex-direction:column; gap:1rem;">
+
+                                <div style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div
+                                        style="width:55px; height:55px; border-radius:50%; background:#10b981; color:white; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0;">
+
+                                        🗺️
+
+                                    </div>
+
+                                    <h3 style="margin:0; color:#10b981; font-size:clamp(1.1rem,2vw,1.35rem);">
+
+                                        Maps
+
+                                    </h3>
+
+                                </div>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Map applications reuse:
+                                    <strong>Tree Icon</strong>,
+                                    <strong>Restaurant Icon</strong>,
+                                    <strong>Hospital Icon</strong>
+
+                                </p>
+
+                                <p
+                                    style="line-height:1.8; margin:0; color:var(--color-text-secondary); font-size:clamp(.95rem,1.5vw,1.05rem);">
+
+                                    Instead of creating new icon objects for every marker.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Flyweight Design
+                                    Pattern
+                                    :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/flyweight-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Creational Differences Link -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">📚 Understand the Differences Between Structural Patterns</h2>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(244, 114, 182, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(236, 72, 153, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Check out this comparison guide to understand their differences, use cases, and when each
+                            pattern should be applied.
+                        <div style="margin-top: 1.5rem;">
+                            <a href="LLD_Structural_diff.html" target="_blank"
+                                style=" display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1.4rem; background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white; text-decoration: none; font-weight: 600; border-radius: 12px; box-shadow: 0 6px 18px rgba(236, 72, 153, 0.3);">
+                                📖 View Structural Pattern Comparison →
+                            </a>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">🎯</span> Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(245, 158, 11, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Flyweight Pattern</strong> is a <strong>Structural Design Pattern</strong> that
+                            minimizes
+                            memory usage by sharing common, immutable data (intrinsic state) among many objects while
+                            keeping
+                            unique data (extrinsic state) separate.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Instead of creating duplicate objects containing the same information, Flyweight stores
+                            shared
+                            state once and reuses it across multiple objects.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            It is commonly used in game engines, text editors, browsers, icon libraries, and rendering
+                            systems where thousands or millions of similar objects exist.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA -->
+
+                <div class="next-topic-section"
+                    style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(139, 92, 246, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(168, 85, 247, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(168, 85, 247, 0.2);">
+
+                        <a href="LLD_Behaviour_Observer_Design.html" class="next-topic-link"
+                            style="text-decoration:none; color:var(--color-text);">
+
+                            <div class="next-topic-content">
+
+                                <div class="next-topic-icon"
+                                    style="background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%); box-shadow: 0 4px 15px rgba(168,85,247,.4);">
+
+                                    👀
+
+                                </div>
+
+                                <div>
+
+                                    <div
+                                        style="font-size:.9rem; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:.4rem;">
+
+                                        Continue Learning
+
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem); font-weight:700; color:#a855f7; line-height:1.3;">
+
+                                        Observer Design Pattern
+
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem; color:var(--color-text-secondary); line-height:1.6; font-size:clamp(.85rem,1.5vw,1rem);">
+
+                                        Learn how to establish one-to-many dependencies between objects.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color:#a855f7;font-weight:600;white-space:nowrap;">
+
+                                    Next Topic
+
+                                </span>
+
+                                <div class="next-topic-arrow"
+                                    style="background:#a855f7; color:white; box-shadow:0 4px 15px rgba(168,85,247,.4);">
+
+                                    →
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="bottom-navigation" style="margin-top:2rem;">
+
+                        <a href="LLD_Structural_Bridge_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Bridge Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Behaviour_Observer_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg); border-radius:var(--radius-md); text-decoration:none; color:var(--color-text); border:1px solid var(--glass-border);">
+
+                            <span>Next: Observer Design Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Flyweight Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLD vs LLD - System Design Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+    <!-- Skip to Content Link -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- Page Loader -->
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="computer-networks.html">🌐 Computer Networks</a></li>
+            <li><a href="cloud-computing.html">☁️ Cloud Computing</a></li>
+            <li><a href="system-design.html">📐 System Design Basics</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+            <li><a href="caching.html">💾 Caching</a></li>
+            <li><a href="load-balancing.html">⚖️ Load Balancing</a></li>
+            <li><a href="traffic.html">📊 Traffic</a></li>
+            <li><a href="rate-limiting.html">🚦 Rate Limiting</a></li>
+            <li><a href="cdn.html">🌐 CDN & Edge Computing</a></li>
+            <li><a href="scalability.html">🚀 Scalability</a></li>
+            <li><a href="latency-throughput.html">⚡ Latency vs Throughput</a></li>
+            <li><a href="availability.html">📈 Availability, Reliability & Maintainability</a></li>
+            <li><a href="data-sharding.html">🔀 Data Sharding</a></li>
+            <li><a href="cap-theorem.html">⚖️ CAP Theorem</a></li>
+            <li><a href="pacelc-theorem.html">⚖️ PACELC Theorem</a></li>
+            <li><a href="acid-vs-base.html">🔄 ACID vs BASE</a></li>
+            <li><a href="message-queues.html">📬 Message Queues</a></li>
+            <li><a href="databases.html">🗄️ Databases</a></li>
+            <li><a href="bloom-filter.html">✨ Bloom Filter</a></li>
+            <li><a href="consistent-hashing.html">🔄 Consistent Hashing</a></li>
+            <li><a href="gossip-protocol.html">💬 Gossip Protocol</a></li>
+            <li><a href="replication.html">📂 Replication</a></li>
+            <li><a href="redundancy.html">🔁 Redundancy</a></li>
+            <li><a href="dataIndexing.html">🗂️ Data Indexing</a></li>
+            <li><a href="checksum.html">🔐 Checksum</a></li>
+            <li><a href="forwardProxyVSreverseProxy.html">🔄 Forward Proxy vs Reverse Proxy</a></li>
+            <li><a href="idempotent.html">🔁 Idempotency</a></li>
+            <li><a href="apiGateway.html">🚪 API Gateway</a></li>
+            <li><a href="Concurrency_VS_Parallelism.html">⚡ Concurrency vs Parallelism</a></li>
+            <li><a href="BatchProcessing_VS_StreamProcessing.html">📦 Batch Processing vs Stream Processing</a></li>
+            <li><a href="Stateless_VS_StatefulArchitecture.html">🧠 Stateless vs Stateful Architecture</a></li>
+            <li><a href="Partitioning_VS_Sharding.html">🧩 Partitioning vs Sharding</a></li>
+            <li><a href="Fault_Tolerance.html">🛡️ Fault Tolerance</a></li>
+            <li><a href="Polling.html">🔄 Polling</a></li>
+            <li><a href="API_Architecture_Styles.html">🌐 API Architecture Styles</a></li>
+            <li><a href="Service_Mesh.html">🕸️ Service Mesh</a></li>
+            <li><a href="Service_Discovery.html">🔎 Service Discovery</a></li>
+            <li><a href="Client_Server_Architecture.html">🖥️ Client–Server Architecture</a></li>
+            <li><a href="Event_Driven_Architecture.html">⚡ Event Driven Architecture</a></li>
+            <li><a href="Serverless_Architecture.html">☁️ Serverless Architecture</a></li>
+            <li><a href="Peer_to_Peer_Architecture.html">🔗 Peer to Peer Architecture</a></li>
+            <li><a href="Microservices_Architecture.html">🧩 Microservices Architecture</a></li>
+            <li><a href="Monolithic_vs_Microservices.html">🏗️ Monolithic vs Microservices</a></li>
+            <li><a href="saga-pattern.html">🔄 Saga Pattern</a></li>
+            <li><a href="circuit-breaker.html">⚡ Circuit Breaker</a></li>
+            <li><a href="Normalization_vs_Denormalization.html">🧾 Normalization vs Denormalization</a></li>
+            <li><a href="RateLimiting_vs_Throttling.html">⏱️ Rate Limiting vs Throttling</a></li>
+            <li><a href="Connection_Pooling.html">🔗 Connection Pooling</a></li>
+            <li><a href="Synchronous_vs_Asynchronous.html">🔄 Synchronous vs Asynchronous</a></li>
+            <li><a href="CQRS.html">📖 CQRS</a></li>
+            <li><a href="Observability.html">📊 Observability</a></li>
+            <li><a href="Security.html">🛡️ Security</a></li>
+            <li><a href="Interview_Tips.html">💡 Interview Tips</a></li>
+            <li><a href="Storage_Cost_Estimation.html">💾 Storage Cost Estimation</a></li>
+            <li><a href="Speaking_in_HLD_Interviews.html">🎤 HLD Interview Presentation</a></li>
+            <li><a href="design-problems.html">🎯 HLD, LLD Design Problems & Case Studies</a></li>
+            <li><a href="URL_Shortener.html">🔗 URL Shortener</a></li>
+            <li><a href="real-world-scenarios.html">🎯 Real World Scenarios</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <!-- Header -->
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>🔄 HLD vs LLD</h1>
+                <p> Understanding the difference between High-Level Design and Low-Level Design</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="system-design.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to System Design Basics">System Design Basics</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">HLD vs LLD</span>
+                </nav>
+
+                <!-- HLD Section -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 2rem 0;">
+
+                    <h2 style="color: #2563eb; font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1.5rem;">
+                        🏛️ What is High-Level Design (HLD)?
+                    </h2>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        <strong>High-Level Design (HLD)</strong> defines the <strong>architecture of the
+                            system</strong>.
+                    </p>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        It answers the question:
+                    </p>
+
+                    <div
+                        style="background: rgba(59, 130, 246, 0.1); border-left: 5px solid #3b82f6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <p
+                            style="color: #1e40af; font-weight: 600; font-size: clamp(1.1rem, 2.5vw, 1.3rem); margin: 0;">
+                            "How should the system be structured, and how will its major components interact?"
+                        </p>
+                    </div>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        The focus here is on the <strong>what</strong>, not the <strong>how</strong>.
+                    </p>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        It answers questions like:
+                    </p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; margin: 2rem 0;">
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🏗️</span>
+                                <h3 style="color: #2563eb; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Components
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What are the <strong>major components or microservices</strong>? (e.g., <strong>User
+                                    Service</strong>, <strong>Payment Service</strong>, <strong>Notification
+                                    Service</strong>,
+                                <strong>Product Catalog</strong>).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">📡</span>
+                                <h3 style="color: #2563eb; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">
+                                    Communication</h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                How will these components <strong>communicate</strong>? (e.g., via <strong>REST
+                                    APIs</strong>,
+                                <strong>gRPC</strong>, or a <strong>message queue</strong> like
+                                <strong>RabbitMQ</strong> or
+                                <strong>Kafka</strong>).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🛠️</span>
+                                <h3 style="color: #2563eb; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Tech Stack
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What <strong>technology stack</strong> will be used? (e.g., <strong>Java vs.
+                                    Python</strong>,
+                                <strong>SQL vs. NoSQL</strong> database).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">📈</span>
+                                <h3 style="color: #2563eb; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Scalability
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                How will the system handle <strong>scalability, reliability, and availability</strong>?
+                                (e.g.,
+                                using <strong>load balancers</strong>, <strong>database replication</strong>,
+                                <strong>CDNs</strong>).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🔌</span>
+                                <h3 style="color: #2563eb; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">
+                                    Integrations</h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What are the <strong>third-party integrations</strong>? (e.g., <strong>Stripe</strong>
+                                for
+                                payments, <strong>AWS S3</strong> for storage).
+                            </p>
+                        </div>
+                    </div>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        The output of HLD is a set of <strong>architectural diagrams</strong>, <strong>data flow
+                            diagrams</strong>, and <strong>technology choices</strong> that define the system's
+                        skeleton.
+                    </p>
+                </div>
+
+                <!-- HLD Example -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 2rem 0;">
+
+                    <h2 style="color: #059669; font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1.5rem;">
+                        🚕 Example: HLD of a Ride-Hailing App
+                    </h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin: 2rem 0;">
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🧩</span>
+                                <h3 style="color: #059669; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">Services
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                <strong>Passenger Service</strong>, <strong>Driver Service</strong>, <strong>Matching
+                                    Service</strong>, <strong>Billing Service</strong>.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">💬</span>
+                                <h3 style="color: #059669; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">
+                                    Communication
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                <strong>Matching Service</strong> uses a <strong>message queue</strong> to broadcast
+                                ride
+                                requests. <strong>Passenger</strong> and <strong>Driver</strong> services communicate
+                                via
+                                <strong>WebSockets</strong> for real-time location updates.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🗄️</span>
+                                <h3 style="color: #059669; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">Database
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                A <strong>NoSQL database</strong> for location data and a <strong>relational SQL
+                                    database</strong> for user and billing information.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🏗️</span>
+                                <h3 style="color: #059669; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">
+                                    Infrastructure
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                <strong>Load balancers</strong> to distribute traffic, with services deployed as
+                                <strong>containers on Kubernetes</strong> for scalability.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LLD Section -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.12) 0%, rgba(192, 132, 252, 0.08) 100%); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 2rem 0;">
+
+                    <h2 style="color: #7c3aed; font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1.5rem;">
+                        🔧 What is Low-Level Design (LLD)?
+                    </h2>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        <strong>LLD</strong> zooms in on a <strong>single component or module</strong> and translates
+                        the
+                        abstract architectural concepts into <strong>concrete, implementable details</strong> that
+                        developers
+                        can code directly.
+                    </p>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        It's where you decide the <strong>internal structure of a service</strong> — the
+                        <strong>classes</strong>, <strong>methods</strong>, <strong>data models</strong>, <strong>design
+                            patterns</strong>, and <strong>relationships</strong>.
+                    </p>
+
+                    <p
+                        style="color: var(--color-text-secondary); line-height: 1.9; margin-bottom: 1.5rem; font-size: clamp(1rem, 2vw, 1.125rem);">
+                        For a single module, it answers questions like:
+                    </p>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; margin: 2rem 0;">
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">📦</span>
+                                <h3 style="color: #7c3aed; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Classes
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What are the <strong>specific classes</strong>, and what are their
+                                <strong>responsibilities</strong>?
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">⚙️</span>
+                                <h3 style="color: #7c3aed; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Methods
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What are the <strong>attributes and methods</strong> of each class?
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🔗</span>
+                                <h3 style="color: #7c3aed; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">
+                                    Relationships</h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                How do these classes <strong>relate to each other</strong> (inheritance, composition)?
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">🎨</span>
+                                <h3 style="color: #7c3aed; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Design
+                                    Patterns
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What <strong>design patterns</strong> are most suitable (e.g., <strong>Factory</strong>,
+                                <strong>Singleton</strong>, <strong>Strategy</strong>)?
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.5rem;">📝</span>
+                                <h3 style="color: #7c3aed; margin: 0; font-size: clamp(1rem, 2vw, 1.15rem);">Signatures
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                What are the <strong>specific method signatures</strong>, including
+                                <strong>parameters</strong>,
+                                <strong>return types</strong>, and <strong>exceptions</strong>?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LLD Example -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(251, 191, 36, 0.08) 100%); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 2rem 0;">
+
+                    <h2 style="color: #d97706; font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1.5rem;">
+                        💳 Example: LLD of the Billing Service from the Ride-Hailing App
+                    </h2>
+
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin: 2rem 0;">
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">📦</span>
+                                <h3 style="color: #d97706; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">Classes
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                <strong>Ride</strong>, <strong>Invoice</strong>, <strong>PaymentStrategy</strong>,
+                                <strong>CreditCardPayment</strong>, <strong>WalletPayment</strong>.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🔌</span>
+                                <h3 style="color: #d97706; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">
+                                    Interfaces</h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                An interface <strong>IPaymentStrategy</strong> with a method
+                                <strong>processPayment(amount)</strong>. <strong>CreditCardPayment</strong> and
+                                <strong>WalletPayment</strong> would implement this interface.
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🔗</span>
+                                <h3 style="color: #d97706; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">
+                                    Relationships
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                The <strong>Invoice</strong> class <strong>"has-a"</strong> <strong>Ride</strong> object
+                                (<strong>Composition</strong>).
+                            </p>
+                        </div>
+
+                        <div
+                            style="background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 14px; padding: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem;">🎨</span>
+                                <h3 style="color: #d97706; margin: 0; font-size: clamp(1.1rem, 2vw, 1.25rem);">Design
+                                    Pattern
+                                </h3>
+                            </div>
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                The <strong>Strategy Pattern</strong> is used to allow the user to switch between
+                                different
+                                payment methods seamlessly.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Differences Table -->
+                <div
+                    style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.12) 0%, rgba(244, 114, 182, 0.08) 100%); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: var(--radius-xl); padding: clamp(1.5rem, 4vw, 2.5rem); margin: 2rem 0;">
+
+                    <h2 style="color: #db2777; font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1.5rem;">
+                        ⚡ Key Differences: HLD vs. LLD at a Glance
+                    </h2>
+
+                    <div style="overflow-x: auto; margin: 2rem 0;">
+                        <table
+                            style="width: 100%; min-width: 600px; border-collapse: collapse; background: rgba(255, 255, 255, 0.9); border-radius: 12px; overflow: hidden;">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);">
+                                    <th
+                                        style="padding: 1.25rem; text-align: left; color: white; font-weight: 700; font-size: clamp(1rem, 2vw, 1.15rem); border-bottom: none;">
+                                        Aspect
+                                    </th>
+                                    <th
+                                        style="padding: 1.25rem; text-align: left; color: white; font-weight: 700; font-size: clamp(1rem, 2vw, 1.15rem); border-bottom: none;">
+                                        High-Level Design (HLD)
+                                    </th>
+                                    <th
+                                        style="padding: 1.25rem; text-align: left; color: white; font-weight: 700; font-size: clamp(1rem, 2vw, 1.15rem); border-bottom: none;">
+                                        Low-Level Design (LLD)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(236, 72, 153, 0.15);">
+                                    <td
+                                        style="padding: 1.25rem; font-weight: 600; color: #db2777; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Focus
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        What components exist
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        How each component is built
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(236, 72, 153, 0.15);">
+                                    <td
+                                        style="padding: 1.25rem; font-weight: 600; color: #db2777; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Audience
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Architects, stakeholders
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Engineers, developers
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(236, 72, 153, 0.15);">
+                                    <td
+                                        style="padding: 1.25rem; font-weight: 600; color: #db2777; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Abstraction
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        System-level
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Module/class-level
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(236, 72, 153, 0.15);">
+                                    <td
+                                        style="padding: 1.25rem; font-weight: 600; color: #db2777; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Artifacts
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        System architecture diagrams, tech stack choices
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Class diagrams, interaction diagrams, method definitions
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        style="padding: 1.25rem; font-weight: 600; color: #db2777; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        Example
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        "We'll use a microservices architecture with services for users, orders, and
+                                        payments"
+                                    </td>
+                                    <td
+                                        style="padding: 1.25rem; color: var(--color-text-secondary); line-height: 1.8; font-size: clamp(0.95rem, 1.8vw, 1.05rem);">
+                                        "The OrderService will use a PaymentProcessor interface with two
+                                        implementations":
+                                        <br><br>
+                                        <strong>StripeProcessor</strong>
+                                        <br>
+                                        <strong>RazorpayProcessor</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Back to System Design -->
+                <div
+                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top: 3rem; margin-bottom:1rem; text-align: center;">
+                    <a href="system-design.html"
+                        style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; transition: transform 0.2s, box-shadow 0.2s;">
+                        <span>←</span>
+                        <span>Back to System Design Basics</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 System Design Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        ↑
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: HLD vs LLD 💬', 'success');
+        });
+    </script>
+</body>
+
+</html>

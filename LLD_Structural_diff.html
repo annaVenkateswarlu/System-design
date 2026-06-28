@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structural Design Patterns - Comparison</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        .structural-hero {
+            background: linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.12) 0%,
+                    rgba(16, 185, 129, 0.12) 50%,
+                    rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.24);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .structural-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(59, 130, 246, 0.14);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem 4rem;
+            margin: 2rem 0;
+        }
+
+        .structural-card h2,
+        .structural-card h3 {
+            margin-top: 0;
+        }
+
+        .structural-patterns-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .structural-pattern-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(16, 185, 129, 0.16);
+            border-radius: var(--radius-lg);
+            padding: 1.35rem;
+        }
+
+        .structural-pattern-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin: 0;
+            color: var(--color-text);
+        }
+
+        .structural-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 3.2rem;
+            padding: 0.35rem 0.65rem;
+            border-radius: var(--radius-md);
+            background: rgba(59, 130, 246, 0.12);
+            color: #2563eb;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .structural-block {
+            border-left: 4px solid rgba(59, 130, 246, 0.55);
+            padding-left: 1rem;
+            margin: 0.5rem;
+        }
+
+        .structural-block strong {
+            color: var(--color-text);
+        }
+
+        .structural-label {
+            display: block;
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        .structural-card p,
+        .structural-pattern-card p,
+        .structural-card li {
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .structural-code-line {
+            overflow-x: auto;
+            white-space: pre;
+            margin-top: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            background: #1e1e2e;
+            color: #d4d4d4;
+            font-family: monospace;
+            line-height: 1.7;
+            display: block;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .structural-code-line code {
+            font-family: inherit;
+        }
+
+        .structural-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .structural-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 760px;
+        }
+
+        .structural-table th,
+        .structural-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        .structural-table th {
+            color: var(--color-primary);
+            font-weight: 700;
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .structural-table td {
+            color: var(--color-text-secondary);
+        }
+
+        .structural-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .structural-bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            flex-wrap: wrap;
+        }
+
+        .structural-bottom-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text);
+            border: 1px solid var(--glass-border);
+        }
+
+        .structural-bottom-link:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        @media (max-width: 768px) {
+
+            .structural-hero,
+            .structural-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .structural-pattern-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .structural-hero,
+            .structural-card {
+                padding: 1.35rem 1.25rem;
+            }
+
+            .structural-pattern-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .structural-card {
+                padding: 1.25rem;
+            }
+
+            .structural-pattern-card {
+                width: 100%;
+            }
+
+            .structural-card ul,
+            .structural-pattern-card ul {
+                padding-left: 1.25rem !important;
+            }
+
+            .structural-card li,
+            .structural-pattern-card li {
+                word-break: break-word;
+            }
+
+            .structural-code-line {
+                font-size: 0.85rem;
+                padding: 0.75rem;
+            }
+        }
+
+        .sidebar-heading {
+            padding: 0.9rem 1rem;
+            margin-top: 1rem;
+            font-weight: 700;
+            color: #3b82f6;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Structural Design Patterns</h1>
+                <p>Quick Comparison & Reference</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Structural Patterns</span>
+                </nav>
+
+                <div class="structural-hero">
+                    <h2 style="margin-top: 0;">🧩 Structural Design Patterns</h2>
+                    <p>
+                        The purpose of all <strong>Structural Design Patterns</strong> is : <br><br><strong
+                            style="text-decoration:underline;">To organize classes and objects into larger structures
+                            while
+                            keeping them flexible and efficient.</strong>
+                    </p>
+
+                </div>
+
+                <!-- Problem & Solution Table -->
+                <div class="structural-card">
+                    <h2>🔥 Structural Design Patterns - Differences (Problem & Solution)</h2>
+                    <div class="structural-table-wrap">
+                        <table class="structural-table">
+                            <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Problem</th>
+                                    <th>Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Adapter</strong></td>
+                                    <td>Two classes have incompatible interfaces and cannot work together directly.</td>
+                                    <td>Converts one interface into another expected by the client, allowing
+                                        incompatible classes to collaborate.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decorator</strong></td>
+                                    <td>Need to add new features to an object dynamically without creating many
+                                        subclasses or modifying existing code.</td>
+                                    <td>Wraps the original object with decorator objects that add new behavior while
+                                        keeping the same interface.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Facade</strong></td>
+                                    <td>A subsystem contains many classes and interactions, making it difficult for
+                                        clients to use.</td>
+                                    <td>Provides a single simplified interface that hides the complexity of the
+                                        underlying subsystem.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Proxy</strong></td>
+                                    <td>Direct access to an object needs to be controlled for security, logging,
+                                        caching, lazy loading, or remote access.</td>
+                                    <td>Places a proxy object in front of the real object to control access before
+                                        forwarding requests.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Composite</strong></td>
+                                    <td>Individual objects and groups of objects (tree structures) must be handled
+                                        differently, making client code complex.</td>
+                                    <td>Provides a common interface so clients can treat both single objects and groups
+                                        uniformly.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bridge</strong></td>
+                                    <td>Two independent dimensions (e.g., Remote × TV) lead to a large number of
+                                        subclasses due to combinations.</td>
+                                    <td>Separates abstraction from implementation so both hierarchies can evolve
+                                        independently without class explosion.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flyweight</strong></td>
+                                    <td>A huge number of similar objects consume excessive memory because they store
+                                        duplicate data.</td>
+                                    <td>Shares common (intrinsic) state between objects while keeping only unique
+                                        (extrinsic) state in each object.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- What Is It & When To Use Table -->
+                <div class="structural-card">
+                    <h2>📚 Structural Design Patterns - What Is It & When To Use</h2>
+                    <div class="structural-table-wrap">
+                        <table class="structural-table">
+                            <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>What Is It?</th>
+                                    <th>When To Use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Adapter</strong></td>
+                                    <td>A pattern that converts the interface of an existing class into another
+                                        interface
+                                        expected by the client.</td>
+                                    <td>When integrating third-party libraries, legacy systems, or external APIs whose
+                                        interfaces don't match your application's interface.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decorator</strong></td>
+                                    <td>A pattern that dynamically adds new behavior or responsibilities to an object by
+                                        wrapping it.</td>
+                                    <td>When features need to be added dynamically at runtime without modifying existing
+                                        classes or creating many subclasses.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Facade</strong></td>
+                                    <td>A pattern that provides a single, simplified interface to a complex subsystem.
+                                    </td>
+                                    <td>When a subsystem has many classes and clients should interact through one simple
+                                        entry point.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Proxy</strong></td>
+                                    <td>A pattern that provides a representative object to control access to another
+                                        object.</td>
+                                    <td>When access to an object needs authentication, authorization, caching, logging,
+                                        lazy loading, or remote communication.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Composite</strong></td>
+                                    <td>A pattern that organizes objects into tree structures and lets clients treat
+                                        individual and grouped objects uniformly.</td>
+                                    <td>When modeling hierarchical structures such as file systems, organization charts,
+                                        menus, or UI component trees.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bridge</strong></td>
+                                    <td>A pattern that separates abstraction from implementation so they can change
+                                        independently.</td>
+                                    <td>When a class has multiple independent dimensions of variation and inheritance
+                                        would create too many subclasses.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flyweight</strong></td>
+                                    <td>A pattern that shares common object state among many objects to reduce memory
+                                        usage.</td>
+                                    <td>When an application creates a very large number of similar objects that share
+                                        common data and memory optimization is important.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- One-Line Difference Table -->
+                <div class="structural-card">
+                    <h2>🎯 One-Line Difference Between All Structural Patterns</h2>
+                    <div class="structural-table-wrap">
+                        <table class="structural-table">
+                            <thead>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>One-Line Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Adapter</strong></td>
+                                    <td>Makes incompatible interfaces work together. <br><strong>( Translator )</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Decorator</strong></td>
+                                    <td>Adds new functionality to an object dynamically. <br><strong>( Feature Adder
+                                            )</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Facade</strong></td>
+                                    <td>Hides the complexity of a subsystem behind a simple interface. <br><strong>(
+                                            Receptionist )</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Proxy</strong></td>
+                                    <td>Controls or manages access to an object. <br><strong>( Security Guard )</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Composite</strong></td>
+                                    <td>Treats individual objects and groups of objects in the same way. <br><strong>(
+                                            Tree Builder )</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bridge</strong></td>
+                                    <td>Separates abstraction and implementation to avoid class explosion. <br><strong>(
+                                            Class Explosion Preventer )</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Flyweight</strong></td>
+                                    <td>Shares common object data to reduce memory usage. <br><strong>( Memory Saver
+                                            )</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bottom Navigation -->
+                <div class="structural-bottom-nav">
+                    <a href="LLD_Structural_Flyweight_Design.html" class="structural-bottom-link">
+                        <span>←</span>
+                        <span>Back to Flyweight Pattern</span>
+                    </a>
+                    <a href="LLD_Behaviour_Observer_Design.html" class="structural-bottom-link">
+                        <span>Next: Observer Pattern</span>
+                        <span>→</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+        <footer>
+            <div class="container">
+                <p>&copy; 2026 System Design Notes. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Structural Design Patterns Quick Revision', 'success');
+        });
+    </script>
+</body>
+
+</html>

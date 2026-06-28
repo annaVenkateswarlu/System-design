@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decorator Design Pattern - LLD Mastery</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <style>
+        @media (max-width:768px) {
+
+            .decorator-wrapper {
+                padding: 1rem !important;
+            }
+
+            .decorator-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            .decorator-card {
+                padding: 1.15rem !important;
+            }
+
+            .decorator-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.75rem !important;
+            }
+
+            .decorator-icon {
+                width: 46px !important;
+                height: 46px !important;
+                font-size: 1.2rem !important;
+            }
+
+            .decorator-title {
+                font-size: 1.1rem !important;
+            }
+
+            .decorator-subtitle {
+                font-size: 0.85rem !important;
+            }
+
+            .decorator-content {
+                padding: 0.9rem !important;
+                font-size: 0.98rem !important;
+                line-height: 1.8 !important;
+            }
+        }
+
+        @media (max-width:480px) {
+
+            .decorator-wrapper {
+                padding: 0.9rem !important;
+            }
+
+            .decorator-card {
+                padding: 1rem !important;
+            }
+
+            .decorator-content {
+                padding: 0.8rem !important;
+            }
+
+            .decorator-title {
+                font-size: 1rem !important;
+            }
+
+            .decorator-subtitle {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        .next-topic-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .next-topic-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .next-topic-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-action {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .next-topic-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .bottom-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+        }
+
+        @media (max-width:900px) {
+
+            .next-topic-link {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .next-topic-action {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+        }
+
+        @media (max-width:600px) {
+
+            .next-topic-link {
+                padding: 1.2rem;
+            }
+
+            .next-topic-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .next-topic-icon {
+                width: 58px;
+                height: 58px;
+                font-size: 1.6rem;
+            }
+
+            .next-topic-arrow {
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
+            }
+
+            .bottom-navigation {
+                flex-direction: column;
+            }
+
+            .bottom-nav-btn {
+                width: 100%;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+        }
+
+        @media (max-width:420px) {
+
+            .next-topic-content {
+                align-items: center;
+                text-align: center;
+            }
+
+            .next-topic-action {
+                flex-direction: column;
+                gap: .8rem;
+            }
+
+        }
+    </style>
+</head>
+
+
+<body>
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+
+    <div id="progress-bar" class="progress-bar"></div>
+
+    <div class="aurora-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+        <h2>Topics</h2>
+        <ul>
+
+            <li><a href="index.html">🏠 Home</a></li>
+            <li><a href="LLD.html">📐 Low-Level Design (LLD)</a></li>
+
+            <li class="sidebar-heading">🏗️ Creational Design Patterns</li>
+            <li><a href="LLD_Creational_Patterns.html">1️⃣ Singleton Design Pattern</a></li>
+            <li><a href="LLD_Create_Factory_Design.html">2️⃣ Factory Design Pattern</a></li>
+            <li><a href="LLD_Create_Builder_Design.html">3️⃣ Builder Design Pattern</a></li>
+            <li><a href="LLD_Create_Prototype_Design.html">4️⃣ Prototype Design Pattern</a></li>
+            <li><a href="LLD_Create_Abstract_Factory_Design.html">5️⃣ Abstract Factory Design Pattern</a></li>
+            <li><a href="LLD_Creational_diff.html">⚖️ Creational Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🧩 Structural Design Patterns</li>
+            <li><a href="LLD_Structural_Adapter_Design.html">1️⃣ Adapter Pattern</a></li>
+            <li><a href="LLD_Structural_Decorator_Design.html">2️⃣ Decorator Pattern</a></li>
+            <li><a href="LLD_Structural_Facade_Design.html">3️⃣ Facade Pattern</a></li>
+            <li><a href="LLD_Structural_Proxy_Design.html">4️⃣ Proxy Pattern</a></li>
+            <li><a href="LLD_Structural_Composite_Design.html">5️⃣ Composite Pattern</a></li>
+            <li><a href="LLD_Structural_Bridge_Design.html">6️⃣ Bridge Pattern</a></li>
+            <li><a href="LLD_Structural_Flyweight_Design.html">7️⃣ Flyweight Pattern</a></li>
+            <li><a href="LLD_Structural_diff.html">⚖️ Structural Pattern Differences</a></li>
+
+            <li class="sidebar-heading">🎯 Behavioral Design Patterns</li>
+            <li><a href="LLD_Behaviour_Observer_Design.html">1️⃣ Observer Pattern</a></li>
+            <li><a href="LLD_Behaviour_Strategy_Design.html">2️⃣ Strategy Pattern</a></li>
+            <li><a href="LLD_Behaviour_Command_Design.html">3️⃣ Command Pattern</a></li>
+            <li><a href="LLD_Behaviour_Iterator_Design.html">4️⃣ Iterator Pattern</a></li>
+            <li><a href="LLD_Behaviour_State_Design.html">5️⃣ State Pattern</a></li>
+            <li><a href="LLD_Behaviour_diff.html">⚖️ Behaviour Pattern Differences</a></li>
+
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">&#9776;</button>
+            <div class="header-content">
+                <h1>Decorator Design Pattern</h1>
+                <p>Structural Design Pattern</p>
+            </div>
+        </header>
+
+        <section class="topic-content" id="main-content">
+            <div class="container">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html" aria-label="Go to Home page" class="tooltip-trigger"
+                        data-tooltip="Click here to move to home">Home</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD.html">LLD</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <a href="LLD_Design_Pattern.html">Design Patterns</a>
+                    <span class="breadcrumb-separator" aria-hidden="true">/</span>
+                    <span class="breadcrumb-current" aria-current="page">Decorator Design Pattern</span>
+                </nav>
+
+                <!-- Decorator Design Pattern -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2>🔷 Decorator Design Pattern</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The <strong>Decorator
+                            Pattern</strong> is a
+                        <strong>Structural Design Pattern</strong>.
+                    </p>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(250, 112, 53, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Add new functionality to an object dynamically without modifying its existing
+                                code.</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Instead of extending a class through inheritance, it wraps the original object inside
+                            another object
+                            that adds the new behavior.
+                        </p>
+                    </div>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            It's particularly useful in situations where:
+                        </p>
+                        <ul
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin-top:1rem; margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.125rem;">
+                            <li style="margin-bottom: 0.5rem;">You want to extend the functionality of a class without
+                                subclassing it.</li>
+                            <li style="margin-bottom: 0.5rem;">You need to compose behaviors at runtime, in various
+                                combinations.</li>
+                            <li style="margin-bottom: 0.5rem;">You want to avoid bloated classes filled with if-else
+                                logic for
+                                optional features.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Real-World Analogy -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Real-World Analogy</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Think of a plain coffee.
+                        Now add
+                        milk. Now add sugar. Each addition enhances the original but doesn't change the base.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The Decorator Pattern works
+                        the
+                        same way: <strong>stacking behaviors while keeping the core intact</strong>.</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>💡 Key Insight:</strong> Just like you can add milk, sugar, whipped cream, caramel,
+                            or any
+                            other topping to coffee in any combination, the Decorator Pattern lets you add features to
+                            objects
+                            in any combination at runtime.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practical Example: Coffee Shop Order System -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Practical Example: Coffee Shop Order System</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">The interface tracks both
+                        the
+                        cost and the description of a coffee order.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose the coffee shop
+                        supports:
+                    </p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Simple Coffee</strong> = $1.00
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Milk</strong> = +$0.50
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            <strong>Sugar</strong> = +$0.20
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>Whipped Cream</strong> = +$1.00
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Initially:</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Simple Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SimpleCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants milk then
+                        Beginner creates: <strong>MilkCoffee</strong> Class</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Milk Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants sugar
+                        then
+                        Beginner creates: <strong>SugarCoffee</strong> Class</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Sugar Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SugarCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants whipped
+                        Cream then
+                        Beginner creates: <strong>WhippedCreamCoffee</strong> Class </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Whipped Cream Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WhippedCreamCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Everything still looks
+                        okay.</p>
+                </div>
+
+                <!-- Then Requirements Grow -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Then Requirements Grow</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"> if Customer wants:
+                        <strong>Coffee + Milk + Sugar</strong> then Beginner creates:
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Milk Sugar Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkSugarCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants:
+                        <strong>Coffee + Milk +
+                            Whipped
+                            Cream then Beginner creates: </strong>
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Milk Whipped Cream Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkWhippedCreamCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants:
+                        <strong>Coffee + Sugar +
+                            Whipped Cream</strong> then Beginner creates:
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Sugar Whipped Cream Coffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SugarWhippedCreamCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants:
+                        <strong>Coffee + Milk +
+                            Sugar + Whipped
+                            Cream</strong> then Beginner creates:
+                    </p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Milk Sugar Whipped Cream Coffee
+                                Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkSugarWhippedCreamCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Beginner Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Beginner Code</h2>
+
+                    <h4 style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; font-weight:500;">
+                        <strong>Interface Coffee</strong>
+                    </h4>
+
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Coffee Interface</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+   <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">();</span>
+   <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Simple Coffee</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">SimpleCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SimpleCoffee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1.00</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Simple Coffee"</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Milk Coffee</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">MilkCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkCoffee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1.50</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Coffee with Milk"</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Sugar Coffee</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">SugarCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SugarCoffee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1.20</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Coffee with Sugar"</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Milk + Sugar Coffee</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">MilkSugarCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkSugarCoffee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1.70</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Coffee with Milk and Sugar"</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Milk + Sugar + Whipped Cream</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">MilkSugarWhippedCreamCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkSugarWhippedCreamCoffee</span>
+       <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">2.70</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+
+   <span style="color: #569cd6;">@Override</span>
+   <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+       <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Coffee with Milk, Sugar and Whipped Cream"</span><span style="color: #ffd700;">;</span>
+   <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">……</p>
+                </div>
+
+                <!-- Client Code -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Client Code</h2>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">CoffeeShopDemo Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CoffeeShopDemo</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SimpleCoffee</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkCoffee</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkSugarCoffee</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order4</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkSugarWhippedCreamCoffee</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" : $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" : $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">order3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" : $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">order3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">println</span><span style="color: #ffd700;">(</span> <span style="color: #9cdcfe;">order4</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">" : $"</span> <span style="color: #ffd700;">+</span> <span style="color: #9cdcfe;">order4</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Output:</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(96, 165, 250, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(59, 130, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Simple Coffee : $1.0
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Coffee with Milk : $1.5
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            Coffee with Milk and Sugar : $1.7
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Coffee with Milk, Sugar and Whipped Cream : $2.7
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Problems With Beginner Approach -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Problems With Beginner Approach</h2>
+
+                    <h3 style="margin-bottom: 1.5rem;">Problem 1: Class Explosion</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For 3 toppings:</p>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <div style="overflow-x:auto;">
+                            <div
+                                style="min-width: 420px; line-height: 2; color: var(--color-text-secondary); font-size: clamp(1rem,2vw,1.1rem);">
+                                <strong>MilkCoffee</strong><br>
+                                <strong>SugarCoffee</strong><br>
+                                <strong>WhippedCreamCoffee</strong><br>
+                                <strong>MilkSugarCoffee</strong><br>
+                                <strong>MilkWhippedCreamCoffee</strong><br>
+                                <strong>SugarWhippedCreamCoffee</strong><br>
+                                <strong>MilkSugarWhippedCreamCoffee</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Already <strong>7
+                            classes</strong>.</p>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose tomorrow we add:
+                        <strong>Caramel</strong>
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Now combinations explode.
+                    </p>
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <div style="overflow-x:auto;">
+                            <div
+                                style="min-width: 420px; line-height: 2; color: var(--color-text-secondary); font-size: clamp(1rem,2vw,1.1rem);">
+
+                                <strong>MilkCaramelCoffee</strong><br>
+                                <strong>SugarCaramelCoffee</strong><br>
+                                <strong>MilkSugarCaramelCoffee</strong><br>
+                                <strong>WhippedCreamCaramelCoffee</strong><br>
+                                <strong>...</strong><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;"><strong>Dozens of
+                            classes.</strong></p>
+
+                    <h3 style="margin-bottom: 1.5rem;">Problem 2: Violates Open/Closed Principle</h3>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            Every new topping requires creating new classes.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Problem 3: Not Dynamic</h3>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">if Customer wants:
+                        <strong>Milk + Milk +
+                            Sugar</strong>
+                    </p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Need another class:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">DoubleMilkSugarCoffee Class</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">DoubleMilkSugarCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Again more classes.</p>
+                </div>
+
+                <!-- Decorator Solution -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Decorator Solution</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Instead of:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Bad Approach</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkSugarWhippedCreamCoffee</span> <span style="color: #ffd700;">{</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">we do:</p>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0,0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Decorator Approach</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre
+                            style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">coffee</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WhippedCreamDecorator</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SugarDecorator</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkDecorator</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SimpleCoffee</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">)</span> <span style="color: #ffd700;">)</span> <span style="color: #ffd700;">);</span></code></pre>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_design_Decorator_Img1.png" alt="Decorator Pattern Diagram"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            <strong>💡 Key Insight:</strong> With Decorator, we wrap objects layer by layer. Each
+                            decorator adds
+                            its own behavior and delegates to the wrapped object. This gives us infinite combinations
+                            with
+                            just a few classes.
+                        </p>
+                    </div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Complete Decorator Implementation</h3>
+
+                    <div
+                        style="background: #1e1e2e; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 2rem 0; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+                        <div
+                            style="background: rgba(255, 255, 255, 0.05); padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                            <span style="color: #9cdcfe; font-size: 0.9rem;">Complete Decorator Implementation</span>
+                            <button onclick="copyCode(this)"
+                                style="background: rgba(255, 255, 255, 0.1); border: none; color: #d4d4d4; padding: 0.5rem 1rem; border-radius: var(--radius-md); cursor: pointer; font-size: 0.85rem; transition: all 0.3s ease;">
+                                Copy</button>
+                        </div>
+                        <pre style="margin: 0; padding: 1.5rem; overflow-x: auto;"><code><span style="color: #6a9955;">// Component interface</span>
+<span style="color: #c586c0;">interface</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">();</span>
+    <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">();</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Concrete component</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SimpleCoffee</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #b5cea8;">1.00</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Simple coffee"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Abstract decorator</span>
+<span style="color: #c586c0;">abstract</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CoffeeDecorator</span> <span style="color: #c586c0;">implements</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">protected</span> <span style="color: #c586c0;">final</span> <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">;</span>
+
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">CoffeeDecorator</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">this</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">inner</span> <span style="color: #ffd700;">=</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Concrete decorators</span>
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">MilkDecorator</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">CoffeeDecorator</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">MilkDecorator</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #b5cea8;">0.50</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", milk"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">SugarDecorator</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">CoffeeDecorator</span> <span style="color: #ffd700;">{</span>
+    
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">SugarDecorator</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #b5cea8;">0.20</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", sugar"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">WhippedCreamDecorator</span> <span style="color: #c586c0;">extends</span> <span style="color: #4ec9b0;">CoffeeDecorator</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">WhippedCreamDecorator</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">super</span><span style="color: #ffd700;">(</span><span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">);</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">double</span> <span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #b5cea8;">1.00</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+
+    <span style="color: #569cd6;">@Override</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #4ec9b0;">String</span> <span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">{</span>
+        <span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">inner</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span> <span style="color: #ffd700;">+</span> <span style="color: #ce9178;">", whipped cream"</span><span style="color: #ffd700;">;</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span>
+
+<span style="color: #6a9955;">// Client</span>
+<span style="color: #c586c0;">public</span> <span style="color: #c586c0;">class</span> <span style="color: #4ec9b0;">CoffeeShopDemo</span> <span style="color: #ffd700;">{</span>
+    <span style="color: #c586c0;">public</span> <span style="color: #c586c0;">static</span> <span style="color: #c586c0;">void</span> <span style="color: #dcdcaa;">main</span><span style="color: #ffd700;">(</span><span style="color: #4ec9b0;">String</span><span style="color: #ffd700;">[]</span> <span style="color: #9cdcfe;">args</span><span style="color: #ffd700;">)</span> <span style="color: #ffd700;">{</span>
+        
+        <span style="color: #6a9955;">// Order 1: Simple coffee</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order1</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SimpleCoffee</span><span style="color: #ffd700;">();</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order 1: %s | $%.2f%n"</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order1</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+
+        <span style="color: #6a9955;">// Order 2: Coffee with milk and sugar</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order2</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SugarDecorator</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkDecorator</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SimpleCoffee</span><span style="color: #ffd700;">()));</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order 2: %s | $%.2f%n"</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order2</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+
+        <span style="color: #6a9955;">// Order 3: Coffee with double milk, sugar, and whipped cream</span>
+        <span style="color: #4ec9b0;">Coffee</span> <span style="color: #9cdcfe;">order3</span> <span style="color: #ffd700;">=</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">WhippedCreamDecorator</span><span style="color: #ffd700;">(</span> <span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SugarDecorator</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkDecorator</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">MilkDecorator</span><span style="color: #ffd700;">(</span><span style="color: #c586c0;">new</span> <span style="color: #4ec9b0;">SimpleCoffee</span><span style="color: #ffd700;">()))));</span>
+        <span style="color: #4ec9b0;">System</span><span style="color: #ffd700;">.</span><span style="color: #9cdcfe;">out</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">printf</span><span style="color: #ffd700;">(</span><span style="color: #ce9178;">"Order 3: %s | $%.2f%n"</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getDescription</span><span style="color: #ffd700;">()</span><span style="color: #ffd700;">,</span> <span style="color: #9cdcfe;">order3</span><span style="color: #ffd700;">.</span><span style="color: #dcdcaa;">getCost</span><span style="color: #ffd700;">());</span>
+    <span style="color: #ffd700;">}</span>
+<span style="color: #ffd700;">}</span></code></pre>
+                    </div>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Notice how <strong>MilkDecorator</strong> is applied twice in Order 3. This is perfectly
+                            valid. Each
+                            decorator is independent, and stacking the same one multiple times adds its cost again.
+                        </p>
+
+                        <div style="overflow-x:auto; margin-top:0.5rem;">
+                            <p
+                                style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; min-width: fit-content; white-space: nowrap;">
+                                With inheritance, you would need a separate
+                                <strong>DoubleMilkSugarWhippedCreamCoffee</strong>
+                                class. With Decorator, you just wrap it twice.
+                            </p>
+                        </div>
+
+                    </div>
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Decorator_Img1.png" alt="Decorator Real World Example"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Real World Example -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🧠 Real World Example</h2>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Suppose notifications.</p>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">
+                        <strong>Base : Notification</strong>
+                    </p>
+
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem; text-decoration:underline;">
+                        <strong>Need:</strong>
+                    </p>
+
+                    <ul
+                        style="line-height: 1.8; margin: 0 0 1.5rem 1.5rem; padding: 0; font-size:1.125rem; color:var(--color-text-secondary);">
+                        <li style="margin-bottom: 0.75rem;">
+                            Email Notification
+                        </li>
+
+                        <li style="margin-bottom: 0.75rem;">
+                            Email + SMS
+                        </li>
+
+                        <li>
+                            Email + SMS + WhatsApp
+                        </li>
+                    </ul>
+
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">Decorator can wrap
+                        notifications and add channels dynamically.</p>
+
+                </div>
+
+                <!-- When To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">4️⃣ When To Use</h2>
+
+                    <div class="decorator-wrapper"
+                        style="background:linear-gradient(135deg,rgba(59,130,246,.12) 0%, rgba(16,185,129,.08) 100%); border:1px solid rgba(59,130,246,.3); border-radius:var(--radius-lg); padding:clamp(1.25rem,3vw,2rem); margin:2rem 0;">
+
+                        <div class="decorator-grid"
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem;">
+
+                            <!-- Card 1 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(59,130,246,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#2563eb; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        ✅
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#2563eb; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Need to Add Features Dynamically
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(59,130,246,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    <strong>Example:</strong><br>
+                                    Coffee toppings<br>
+                                    Notification channels<br>
+                                    Logging
+
+                                </div>
+
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(16,185,129,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#10b981; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        🎯
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#059669; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Many Feature Combinations Exist
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(16,185,129,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    Decorator prevents class explosion.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(245,158,11,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#f59e0b; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        🔓
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#d97706; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Open for Extension
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(245,158,11,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    Need new functionality without changing existing classes.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- When NOT To Use -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">5️⃣ When NOT To Use</h2>
+
+                    <div class="decorator-wrapper"
+                        style="background:linear-gradient(135deg,rgba(239,68,68,.12) 0%,rgba(248,113,113,.08) 100%); border:1px solid rgba(239,68,68,.3); border-radius:var(--radius-lg); padding:clamp(1.25rem,3vw,2rem); margin:2rem 0;">
+
+                        <div class="decorator-grid"
+                            style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem;">
+
+                            <!-- Card 1 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(239,68,68,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#dc2626; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        ⚠️
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#dc2626; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Only One or Two Variations Exist
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(239,68,68,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    Simple inheritance is enough.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(239,68,68,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#dc2626; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        🔍
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#dc2626; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Object Structure Must Remain Simple
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(239,68,68,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    Too many decorators can become hard to debug.
+
+                                </div>
+
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="decorator-card"
+                                style="background:rgba(255,255,255,.75); border:1px solid rgba(239,68,68,.18); border-radius:14px; padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+
+                                <div class="decorator-header" style="display:flex; align-items:center; gap:1rem;">
+
+                                    <div class="decorator-icon"
+                                        style="width:52px; height:52px; border-radius:50%; background:#dc2626; color:white; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+                                        ⚡
+                                    </div>
+
+                                    <div>
+
+                                        <h3 class="decorator-title"
+                                            style="margin:0; color:#dc2626; font-size:clamp(1.15rem,2vw,1.3rem);">
+
+                                            Performance Is Extremely Critical
+
+                                        </h3>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="decorator-content"
+                                    style="background:rgba(239,68,68,.08); border-radius:10px; padding:1rem; line-height:1.85; color:var(--color-text-secondary);">
+
+                                    Multiple wrappers add extra calls.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Advantages and Disadvantages -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">Advantages</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(16, 185, 129, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Add functionality dynamically</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Avoid class explosion</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Supports OCP</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ✅ <strong>Flexible combinations</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ✅ <strong>Reusable decorators</strong>
+                        </p>
+                    </div>
+
+                    <h2 style="margin-bottom: 1.5rem;">Disadvantages</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(248, 113, 113, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(239, 68, 68, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ <strong>Many small classes</strong>
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 0.5rem;">
+                            ❌ <strong>Debugging becomes harder</strong>
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            ❌ <strong>Object structure becomes deeper</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Practice Exercise -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;"><span style="margin-right: 0.75rem;">💪</span> Practice Exercise
+                    </h2>
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem; font-size: 1.125rem;">For Practice check out this
+                        page:
+                    </p>
+                    <div class="practice-card">
+                        <div class="practice-content">
+
+                            <div class="practice-icon">🚀</div>
+
+                            <div class="practice-text">
+                                <p class="practice-description">
+                                    <strong>Ready to practice?</strong>
+                                    Try this hands-on exercise to reinforce your understanding of Decorator
+                                    Design
+                                    Pattern :
+                                </p>
+
+                                <a href="https://algomaster.io/learn/lld/decorator-exercise" target="_blank"
+                                    class="practice-btn">
+
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Start Exercise on AlgoMaster</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div style="margin-bottom: 0rem; padding: 1rem 0;">
+                    <h2 style="margin-bottom: 1.5rem;">🎯 Summary</h2>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid rgba(139, 92, 246, 0.3); margin: 2rem 0;">
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            <strong>Decorator Pattern</strong> is a <strong>Structural Design Pattern</strong> that
+                            allows
+                            behavior to be added to an object dynamically by wrapping it inside decorator objects.
+                        </p>
+                        <p
+                            style="color: var(--color-text-secondary); line-height: 1.8; margin: 0; margin-bottom: 1rem;">
+                            Instead of creating many subclasses for every possible feature combination, decorators add
+                            functionality incrementally while keeping the original class unchanged.
+                        </p>
+                        <p style="color: var(--color-text-secondary); line-height: 1.8; margin: 0;">
+                            This pattern is particularly useful when you need to extend functionality without modifying
+                            existing
+                            code, avoid class explosion, and support flexible feature combinations at runtime.
+                        </p>
+                    </div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <img src="Images_LLD/LLD_Structural_Decorator_Img2.png" alt="Decorator Pattern Summary"
+                            style="max-width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin: 1rem 0;">
+                    </div>
+                </div>
+
+                <!-- Next Topic CTA - Orange/Yellow Theme -->
+                <div class="next-topic-section"
+                    style="margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--glass-border);">
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(234, 179, 8, 0.10) 100%); border-radius: var(--radius-xl); border: 2px solid rgba(249, 115, 22, 0.4); overflow: hidden; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2);">
+
+                        <a href="LLD_Structural_Facade_Design.html" class="next-topic-link"
+                            style="text-decoration:none; color:var(--color-text);">
+
+                            <div class="next-topic-content">
+
+                                <div class="next-topic-icon"
+                                    style="background: linear-gradient(135deg, #f97316 0%, #eab308 100%); box-shadow: 0 4px 15px rgba(249,115,22,.4);">
+                                    🏛️
+                                </div>
+
+                                <div>
+
+                                    <div
+                                        style="font-size:.9rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:.4rem;">
+                                        Continue Learning
+                                    </div>
+
+                                    <div
+                                        style="font-size:clamp(1.2rem,2vw,1.6rem);font-weight:700;color:#f97316;line-height:1.3;">
+                                        Facade Design Pattern
+                                    </div>
+
+                                    <div
+                                        style="margin-top:.5rem;color:var(--color-text-secondary);line-height:1.6;font-size:clamp(.85rem,1.5vw,1rem);">
+                                        Learn how the Facade pattern provides a simplified interface to a complex
+                                        subsystem,
+                                        making it easier to use.
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="next-topic-action">
+
+                                <span style="color:#f97316;font-weight:600;white-space:nowrap;">
+                                    Next Topic
+                                </span>
+
+                                <div class="next-topic-arrow"
+                                    style="background:#f97316; color:white; box-shadow:0 4px 15px rgba(249,115,22,.4);">
+                                    →
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="bottom-navigation" style="margin-top:2rem;">
+
+                        <a href="LLD_Structural_Adapter_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);border:1px solid var(--glass-border);">
+
+                            <span>←</span>
+                            <span>Back to Adapter Pattern</span>
+
+                        </a>
+
+                        <a href="LLD_Structural_Facade_Design.html" class="bottom-nav-btn"
+                            style="background:var(--glass-bg);border-radius:var(--radius-md);text-decoration:none;color:var(--color-text);border:1px solid var(--glass-border);">
+
+                            <span>Next: Facade Pattern</span>
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+            <p>&copy; 2026 LLD Mastery. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Back to top">
+        ↑
+    </button>
+
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+    <script src="index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            showToast('Loaded: Decorator Design Pattern', 'success');
+        });
+
+        function copyCode(button) {
+            const codeBlock = button.closest('div[style*="#1e1e2e"]')?.querySelector('code');
+            const originalText = button.innerHTML;
+            const originalBackground = button.style.background;
+
+            if (!codeBlock) {
+                showToast('Code block not found', 'error');
+                return;
+            }
+
+            const markCopied = () => {
+                showToast('Code copied to clipboard!', 'success');
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.style.background = 'rgba(16, 185, 129, 0.3)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = originalBackground || 'rgba(255,255,255,0.1)';
+                }, 2000);
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(codeBlock.innerText).then(markCopied).catch(() => {
+                    showToast('Failed to copy code', 'error');
+                });
+                return;
+            }
+
+            const textarea = document.createElement('textarea');
+            textarea.value = codeBlock.innerText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                markCopied();
+            } catch (error) {
+                showToast('Failed to copy code', 'error');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -8,6 +8,136 @@
     <link rel="stylesheet" href="index.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        .info-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: clamp(1.2rem, 3vw, 2rem);
+            margin: 2rem 0;
+            transition: all .3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
+        }
+
+        .info-card h3 {
+            margin: 0 0 1rem;
+            color: var(--color-primary);
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+        }
+
+        .info-card p {
+            margin: 0 0 1.5rem;
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+            font-size: clamp(.95rem, 1.5vw, 1.05rem);
+        }
+
+        .info-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            text-decoration: none;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 1rem 1.2rem;
+            background: rgba(255, 255, 255, .05);
+            transition: all .3s ease;
+        }
+
+        .info-link:hover {
+            transform: translateX(4px);
+            border-color: var(--color-primary);
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .info-link-left {
+            display: flex;
+            align-items: center;
+            gap: .9rem;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .info-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, var(--color-primary), #4f46e5);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, .3);
+        }
+
+        .info-title {
+            font-weight: 700;
+            color: var(--color-text);
+            font-size: clamp(1rem, 1.8vw, 1.15rem);
+        }
+
+        .info-subtitle {
+            color: var(--color-text-secondary);
+            font-size: .9rem;
+            margin-top: 3px;
+        }
+
+        .info-arrow {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary);
+            color: #fff;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        @media(max-width:768px) {
+
+            .info-card {
+                padding: 1.25rem;
+            }
+
+            .info-link {
+                padding: 1rem;
+            }
+
+            .info-icon {
+                width: 46px;
+                height: 46px;
+                font-size: 1.2rem;
+            }
+
+        }
+
+        @media(max-width:520px) {
+
+            .info-link {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .info-link-left {
+                width: 100%;
+            }
+
+            .info-arrow {
+                align-self: flex-end;
+            }
+
+        }
+    </style>
 </head>
 
 <body>
@@ -333,6 +463,46 @@
                     </p>
                 </div>
 
+                <!-- HLD vs LLD Link -->
+
+                <div class="info-card">
+
+                    <h3>🔄 HLD vs LLD Deep Dive</h3>
+
+                    <p>
+                        Want a more detailed explanation of the differences between
+                        High-Level Design and Low-Level Design?
+                    </p>
+
+                    <a href="HLD_vs_LLD.html" class="info-link">
+
+                        <div class="info-link-left">
+
+                            <div class="info-icon">
+                                🔄
+                            </div>
+
+                            <div>
+
+                                <div class="info-title">
+                                    HLD vs LLD
+                                </div>
+
+                                <div class="info-subtitle">
+                                    Check out this page
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="info-arrow">
+                            →
+                        </div>
+
+                    </a>
+
+                </div>
                 <!-- Summary Section -->
                 <div
                     style="margin-top: 3rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid rgba(16, 185, 129, 0.2);">
@@ -365,20 +535,45 @@
                     </p>
                 </div>
 
-                <div
-                    style="background: var(--glass-bg); padding: 2rem; border-radius: var(--radius-xl); border: 1px solid var(--glass-border); margin-top:2rem; margin-bottom: 3rem; color:black;">
-                    <h3 style="color: var(--color-primary); margin-bottom: 1rem;">🧠 Interview Tips</h3>
-                    <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 1.25rem;">
-                        Use a structured checklist during interviews to capture requirements, explain tradeoffs, and
-                        design for reliability.
+                <div class="info-card">
+
+                    <h3>🧠 Interview Tips</h3>
+
+                    <p>
+                        Use a structured checklist during interviews to capture requirements,
+                        explain tradeoffs, and design for reliability.
                     </p>
-                    <a href="Interview_Tips.html" class="next-topic-link1">
-                        <span class="next-topic-text">Check out this page</span>
-                        <span class="next-topic-arrow">→</span>
-                        <span class="next-topic-title">🧠 Interview Tips</span>
+
+                    <a href="Interview_Tips.html" class="info-link">
+
+                        <div class="info-link-left">
+
+                            <div class="info-icon">
+                                🧠
+                            </div>
+
+                            <div>
+
+                                <div class="info-title">
+                                    Interview Tips
+                                </div>
+
+                                <div class="info-subtitle">
+                                    Check out this page
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="info-arrow">
+                            →
+                        </div>
+
                     </a>
+
                 </div>
-                
+
                 <div class="next-topic-card">
 
                     <div class="cta-container caching-cta">
